@@ -1,5 +1,5 @@
 use std::fmt::{Display, Formatter};
-use std::io::{BufReader, BufRead};
+use std::io::BufRead;
 use crate::commandline::Arguments;
 use std::ops::Add;
 
@@ -21,7 +21,7 @@ impl Stats {
         let stats = reader
             .lines()
             .map(|x| x.unwrap())
-            .fold(Stats::new(), |mut stats,new| {
+            .fold(Stats::new(), |mut stats,_new| {
                 stats.lines = stats.lines + 1;
                 stats
             });
@@ -40,19 +40,19 @@ impl Stats {
         let mut changes = false;
         let mut string = String::new();
 
-        if lines {
+        if args.allows_lines() {
             changes = true;
             string = format!("{}\t{}", string, self.lines)
         }
-        if words {
+        if args.allows_words() {
             changes = true;
             string = format!("{}\t{}", string, self.words)
         }
-        if characters {
+        if args.allows_characters() {
             changes = true;
             string = format!("{}\t{}", string, self.characters)
         }
-        if bytes {
+        if args.allows_bytes() {
             changes = true;
             string = format!("{}\t{}", string, self.bytes)
         }

@@ -14,7 +14,7 @@ fn main() {
 
     // Program arguments
     let files = matches.values_of("files");
-    let args = Arguments::get_args(matches);
+    let args = Arguments::get_args(&matches);
 
     let exitcode =
     if let Some(files) = files {

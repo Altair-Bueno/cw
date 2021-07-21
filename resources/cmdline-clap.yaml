@@ -18,10 +18,10 @@ args:
       about: Counts the number of characteres on the file
       short: c
       long: chars
-  words:
-    about: Counts the number of words on the file
-    short: w
-    long: words
+  - words:
+      about: Counts the number of words on the file
+      short: w
+      long: words
 
   #  - word:
   #      about: Counts the number of words, using the given regrex. If no regrex
