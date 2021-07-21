@@ -1,3 +1,3 @@
 mod arguments;
 
-pub use arguments::Arguments as Arguments;
+pub use arguments::Cwargs as Cwargs;

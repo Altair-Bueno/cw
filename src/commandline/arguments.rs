@@ -1,22 +1,21 @@
 use clap::ArgMatches;
 
 #[derive(Debug,Default)]
-pub struct Arguments {
+pub struct Cwargs {
     lines:bool,
     words:bool,
     characters:bool,
     bytes:bool,
 }
 
-impl Arguments {
-    pub fn get_args(args:&ArgMatches) -> Arguments {
-        // TODO complete
+impl Cwargs {
+    pub fn get_args(args:&ArgMatches) -> Cwargs {
         let lines = args.is_present("lines");
-        let words = false;
-        let characters = false;
-        let bytes = false;
+        let words = args.is_present("words");
+        let characters = args.is_present("characters");
+        let bytes = args.is_present("bytes");
 
-        Arguments {
+        Cwargs {
             lines,
             words,
             characters,

@@ -22,14 +22,7 @@ args:
       about: Counts the number of words on the file
       short: w
       long: words
-
-  #  - word:
-  #      about: Counts the number of words, using the given regrex. If no regrex
-  #        is provided, it uses the default
-  #      short: w
-  #      long: word
-  #      takes_value: true
-
-  #- characters:
-  #- bytes:
-  #- colums:
+  - bytes:
+      about: Counts the number of bytes on the file
+      short: b
+      long: bytes

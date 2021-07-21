@@ -1,6 +1,6 @@
 use std::fmt::{Display, Formatter};
 use std::io::BufRead;
-use crate::commandline::Arguments;
+use crate::commandline::Cwargs;
 use std::ops::Add;
 
 #[derive(Debug,Default)]
@@ -36,7 +36,7 @@ impl Stats {
             bytes: self.bytes + s.bytes,
         }
     }
-    pub fn show(&self, args : &Arguments) -> String {
+    pub fn show(&self, args : &Cwargs) -> String {
         let mut changes = false;
         let mut string = String::new();
 

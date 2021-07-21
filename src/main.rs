@@ -5,7 +5,7 @@ use clap::{App, load_yaml};
 use std::io::BufReader;
 use std::fs::File;
 use stats::Stats;
-use crate::commandline::Arguments;
+use crate::commandline::Cwargs;
 
 fn main() {
     // Load clap for commandline utilities
@@ -14,7 +14,7 @@ fn main() {
 
     // Program arguments
     let files = matches.values_of("files");
-    let args = Arguments::get_args(&matches);
+    let args = Cwargs::get_args(&matches);
 
     let exitcode =
     if let Some(files) = files {
