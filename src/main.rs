@@ -1,9 +1,11 @@
 mod stats;
+mod commandline;
 
 use clap::{App, load_yaml};
 use std::io::BufReader;
 use std::fs::File;
 use stats::Stats;
+use crate::commandline::Arguments;
 
 fn main() {
     // Load clap for commandline utilities
@@ -12,31 +14,31 @@ fn main() {
 
     // Program arguments
     let files = matches.values_of("files");
-    let lines = matches.is_present("lines");
-    let words = false;
-    let characters = false;
-    let bytes = false;
+    let args = Arguments::get_args(matches);
 
     let exitcode =
     if let Some(files) = files {
-        files.fold(0,|code,file | {
-            match use_file(file) {
-                Ok(stats) => {
-                    let show = stats.show(lines,words,characters,bytes);
-                    println!("{}:{}",show,file);
-                    code
+        let (code, merged) = files
+            .fold((0,Stats::new()),|(code,acc),file | {
+                match use_file(file) {
+                    Ok(stats) => {
+                        let show = stats.show(&args);
+                        println!("{} {}",show,file);
+                        (code,acc.combine(&stats))
+                    }
+                    Err(err) => {
+                        println!("{}",err);
+                        (code + 1,acc)
+                    }
                 }
-                Err(err) => {
-                    println!("{}",err);
-                    code + 1
-                }
-            }
-        })
+            });
+        println!("{}", merged.show(&args));
+        code
     } else {
         let stats_stdio = use_stdio();
         match stats_stdio {
             Ok(stats) => {
-                let show = stats.show(lines,words,characters,bytes);
+                let show = stats.show(&args);
                 println!("{}",show);
                 0
             }

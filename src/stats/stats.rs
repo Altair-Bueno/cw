@@ -1,5 +1,7 @@
 use std::fmt::{Display, Formatter};
 use std::io::{BufReader, BufRead};
+use crate::commandline::Arguments;
+use std::ops::Add;
 
 #[derive(Debug,Default)]
 pub struct Stats {
@@ -26,14 +28,15 @@ impl Stats {
 
         Ok(stats)
     }
-    pub fn show(
-        &self,
-        lines: bool,
-        words: bool,
-        characters: bool,
-        bytes: bool,
-        //columns: bool,
-    ) -> String {
+    pub fn combine (&self , s:&Stats) -> Stats {
+        Stats {
+            lines: self.lines + s.lines,
+            words: self.words + s.words,
+            characters: self.characters + s.characters,
+            bytes: self.bytes + s.bytes,
+        }
+    }
+    pub fn show(&self, args : &Arguments) -> String {
         let mut changes = false;
         let mut string = String::new();
 
@@ -75,5 +78,13 @@ impl Display for Stats {
             self.characters,
             self.bytes
         )
+    }
+}
+
+impl Add for Stats {
+    type Output = Stats;
+
+    fn add(self, rhs: Self) -> Self::Output {
+        self.combine(&rhs)
     }
 }
