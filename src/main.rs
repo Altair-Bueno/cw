@@ -17,10 +17,10 @@ fn main() {
     let args = Cwargs::new(&matches);
 
     let exitcode = if let Some(files) = files {
-        let (code, merged) = files.fold((0, Stats::new()), |(code, acc), file| {
+        let (code, merged) = files.fold((0, Stats::default()), |(code, acc), file| {
             match use_file(file) {
                 Ok(stats) => {
-                    let show = stats.show(&args);
+                    let show = stats.pretty_print(&args);
                     println!("{} {}", show, file);
                     (code, acc + stats)
                 }
@@ -30,13 +30,13 @@ fn main() {
                 }
             }
         });
-        println!("{}", merged.show(&args));
+        println!("{}", merged.pretty_print(&args));
         code
     } else {
         let stats_stdio = use_stdio();
         match stats_stdio {
             Ok(stats) => {
-                let show = stats.show(&args);
+                let show = stats.pretty_print(&args);
                 println!("{}", show);
                 0
             }
