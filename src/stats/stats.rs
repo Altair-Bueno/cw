@@ -2,11 +2,14 @@ use crate::commandline::Cwargs;
 use std::fmt::{Display, Formatter};
 use std::io::{BufRead, Read};
 use std::ops::Add;
-use crate::stats::analizer::PartialResponse;
+use crate::stats::automata::PartialResponse;
 use crate::stats::Automata;
 
+
+const BUFFER_SIZE :usize = 2048;
+
 /// Represents Stats for a file
-#[derive(Debug, Default)]
+#[derive(Debug, Default,Eq, PartialEq)]
 pub struct Stats {
     pub lines: u32,
     pub words: u32,
@@ -29,8 +32,8 @@ impl Stats {
     pub fn from_file(mut reader: Box<dyn BufRead>) -> std::io::Result<Stats> {
         // TODO not completly done
         let mut state = PartialResponse::initial_state();
+        let mut buff = [0; BUFFER_SIZE];
         loop {
-            let mut buff = [0; 1024];
             let read = reader.read(&mut buff)?;
             if read == 0 {
                 return Ok(state.result());

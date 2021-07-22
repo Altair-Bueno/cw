@@ -1,6 +1,6 @@
 mod stats;
-mod analizer;
+mod automata;
 
 pub use stats::Stats;
-pub use analizer::Automata as Automata;
-pub use analizer::PartialResponse as PartialResponse;
+pub use automata::Automata as Automata;
+pub use automata::PartialResponse as PartialResponse;

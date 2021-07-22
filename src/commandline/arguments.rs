@@ -1,5 +1,6 @@
 use clap::ArgMatches;
 
+/// Convenience struct for showing the solution
 #[derive(Debug, Default)]
 pub struct Cwargs {
     lines: bool,
