@@ -1,10 +1,9 @@
+use crate::commandline::Cwargs;
 use std::fmt::{Display, Formatter};
 use std::io::{BufRead, Read};
-use crate::commandline::Cwargs;
 use std::ops::Add;
-use crate::stats::analizer::automata;
 
-#[derive(Debug,Default)]
+#[derive(Debug, Default)]
 pub struct Stats {
     pub lines: u32,
     pub words: u32,
@@ -17,16 +16,15 @@ impl Stats {
     pub fn new() -> Stats {
         Stats::default()
     }
-    pub fn from_file(mut reader : Box<dyn BufRead>) -> std::io::Result<Stats> {
+    pub fn from_file(mut reader: Box<dyn BufRead>) -> std::io::Result<Stats> {
         // TODO not completly done
-        let mut stats = Stats::new();
+        let stats = Stats::new();
         loop {
-            let mut buff= [0;1024];
+            let mut buff = [0; 1024];
             let read = reader.read(&mut buff)?;
-
         }
     }
-    pub fn combine (&self , s:&Stats) -> Stats {
+    pub fn combine(&self, s: &Stats) -> Stats {
         Stats {
             lines: self.lines + s.lines,
             words: self.words + s.words,
@@ -34,7 +32,7 @@ impl Stats {
             bytes: self.bytes + s.bytes,
         }
     }
-    pub fn show(&self, args : &Cwargs) -> String {
+    pub fn show(&self, args: &Cwargs) -> String {
         let mut changes = false;
         let mut string = String::new();
 
@@ -61,7 +59,7 @@ impl Stats {
         }
         */
         if !changes {
-            format!("{}",self)
+            format!("{}", self)
         } else {
             string
         }
@@ -70,11 +68,9 @@ impl Stats {
 impl Display for Stats {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         write!(
-            f,"{}\t{}\t{}\t{}",
-            self.lines,
-            self.words,
-            self.characters,
-            self.bytes
+            f,
+            "{}\t{}\t{}\t{}",
+            self.lines, self.words, self.characters, self.bytes
         )
     }
 }

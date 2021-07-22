@@ -1,11 +1,11 @@
-mod stats;
 mod commandline;
+mod stats;
 
-use clap::{App, load_yaml};
-use std::io::BufReader;
-use std::fs::File;
-use stats::Stats;
 use crate::commandline::Cwargs;
+use clap::{load_yaml, App};
+use stats::Stats;
+use std::fs::File;
+use std::io::BufReader;
 
 fn main() {
     // Load clap for commandline utilities
@@ -16,22 +16,20 @@ fn main() {
     let files = matches.values_of("files");
     let args = Cwargs::new(&matches);
 
-    let exitcode =
-    if let Some(files) = files {
-        let (code, merged) = files
-            .fold((0,Stats::new()),|(code,acc),file | {
-                match use_file(file) {
-                    Ok(stats) => {
-                        let show = stats.show(&args);
-                        println!("{} {}",show,file);
-                        (code,acc + stats)
-                    }
-                    Err(err) => {
-                        println!("{}",err);
-                        (code + 1,acc)
-                    }
+    let exitcode = if let Some(files) = files {
+        let (code, merged) = files.fold((0, Stats::new()), |(code, acc), file| {
+            match use_file(file) {
+                Ok(stats) => {
+                    let show = stats.show(&args);
+                    println!("{} {}", show, file);
+                    (code, acc + stats)
                 }
-            });
+                Err(err) => {
+                    println!("{}", err);
+                    (code + 1, acc)
+                }
+            }
+        });
         println!("{}", merged.show(&args));
         code
     } else {
@@ -39,11 +37,11 @@ fn main() {
         match stats_stdio {
             Ok(stats) => {
                 let show = stats.show(&args);
-                println!("{}",show);
+                println!("{}", show);
                 0
             }
             Err(err) => {
-                println!("{}",err);
+                println!("{}", err);
                 -1
             }
         }
@@ -51,10 +49,8 @@ fn main() {
 
     std::process::exit(exitcode);
 }
-fn use_file(f:&str) -> std::io::Result<Stats> {
-    let reader = BufReader::new(
-        File::open(f)?
-    );
+fn use_file(f: &str) -> std::io::Result<Stats> {
+    let reader = BufReader::new(File::open(f)?);
     let stats = Stats::from_file(Box::new(reader));
 
     stats

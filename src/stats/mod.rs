@@ -1,4 +1,4 @@
-mod stats;
 mod analizer;
+mod stats;
 
-pub use stats::Stats as Stats;
+pub use stats::Stats;
