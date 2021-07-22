@@ -2,6 +2,7 @@ use crate::commandline::Cwargs;
 use std::fmt::{Display, Formatter};
 use std::io::{BufRead, Read};
 use std::ops::Add;
+use crate::stats::analizer::{PartialResponse, automata};
 
 #[derive(Debug, Default)]
 pub struct Stats {
@@ -18,10 +19,14 @@ impl Stats {
     }
     pub fn from_file(mut reader: Box<dyn BufRead>) -> std::io::Result<Stats> {
         // TODO not completly done
-        let stats = Stats::new();
+        let mut state = PartialResponse::new();
         loop {
             let mut buff = [0; 1024];
             let read = reader.read(&mut buff)?;
+            if read == 0 {
+                return Ok(state.result());
+            }
+            state = automata(state,&buff[0..read]);
         }
     }
     pub fn combine(&self, s: &Stats) -> Stats {

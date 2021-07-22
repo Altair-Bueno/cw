@@ -18,10 +18,14 @@ impl Default for State {
     }
 }
 
+#[derive(Default)]
 pub struct PartialResponse(State, Stats);
 
 impl PartialResponse {
-    fn result(self) -> Stats {
+    pub fn new ()->PartialResponse {
+        PartialResponse::default()
+    }
+    pub fn result(self) -> Stats {
         let PartialResponse(state, mut stats) = self;
         match state {
             Carriage => {
