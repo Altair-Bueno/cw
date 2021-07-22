@@ -21,14 +21,12 @@ impl Default for State{
 
 
 
-pub type PartialResponse = (State, Stats);
+pub struct  PartialResponse (State, Stats);
 
 
-impl End for PartialResponse {
-    type Yield = Stats;
-
-    fn result(self) -> self::Yield {
-        let (mut state, mut stats) = self;
+impl PartialResponse {
+    fn result(mut self) -> Stats {
+        let PartialResponse(mut state,mut stats) = self;
         match state {
             Carriage => {
                 stats.lines+=1;
@@ -63,9 +61,9 @@ pub fn automata(
         s
     }
 
-    tape
+    let result :(State,Stats) = tape
         .iter()
-        .fold(partial, |s, c| {
+        .fold((partial.0,partial.1), |s, c| {
             let (state,stats) = s;
             match state {
                 State::Nil =>{
@@ -103,5 +101,10 @@ pub fn automata(
                     }
                 },
             }
-        })
+        });
+
+    PartialResponse{
+        0: result.0,
+        1: result.1
+    }
 }
