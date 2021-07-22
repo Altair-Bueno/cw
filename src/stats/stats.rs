@@ -6,7 +6,7 @@ use crate::stats::automata::PartialResponse;
 use crate::stats::Automata;
 
 
-const BUFFER_SIZE :usize = 2048;
+const BUFFER_SIZE :usize = 524_288; // 512KB
 
 /// Represents Stats for a file
 #[derive(Debug, Default,Eq, PartialEq)]
@@ -30,8 +30,8 @@ impl Stats {
     }
     /// Calculates stats for a file
     pub fn from_file(mut reader: Box<dyn BufRead>) -> std::io::Result<Stats> {
-        // TODO not completly done
         let mut state = PartialResponse::initial_state();
+        // TODO use a single buffer for all operations instead
         let mut buff = [0; BUFFER_SIZE];
         loop {
             let read = reader.read(&mut buff)?;
