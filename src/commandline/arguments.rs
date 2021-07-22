@@ -9,7 +9,7 @@ pub struct Cwargs {
 }
 
 impl Cwargs {
-    pub fn get_args(args:&ArgMatches) -> Cwargs {
+    pub fn new(args:&ArgMatches) -> Cwargs {
         let lines = args.is_present("lines");
         let words = args.is_present("words");
         let characters = args.is_present("characters");

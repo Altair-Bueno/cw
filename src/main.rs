@@ -14,7 +14,7 @@ fn main() {
 
     // Program arguments
     let files = matches.values_of("files");
-    let args = Cwargs::get_args(&matches);
+    let args = Cwargs::new(&matches);
 
     let exitcode =
     if let Some(files) = files {
@@ -24,7 +24,7 @@ fn main() {
                     Ok(stats) => {
                         let show = stats.show(&args);
                         println!("{} {}",show,file);
-                        (code,acc.combine(&stats))
+                        (code,acc + stats)
                     }
                     Err(err) => {
                         println!("{}",err);

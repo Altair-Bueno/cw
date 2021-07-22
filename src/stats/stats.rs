@@ -1,14 +1,15 @@
 use std::fmt::{Display, Formatter};
-use std::io::BufRead;
+use std::io::{BufRead, Read};
 use crate::commandline::Cwargs;
 use std::ops::Add;
+use crate::stats::analizer::automata;
 
 #[derive(Debug,Default)]
 pub struct Stats {
-    lines: u32,
-    words: u32,
-    characters: u32,
-    bytes: u32,
+    pub lines: u32,
+    pub words: u32,
+    pub characters: u32,
+    pub bytes: u32,
     //colums: Colums,
 }
 
@@ -16,17 +17,14 @@ impl Stats {
     pub fn new() -> Stats {
         Stats::default()
     }
-    pub fn from_file(reader : Box<dyn BufRead>) -> std::io::Result<Stats> {
+    pub fn from_file(mut reader : Box<dyn BufRead>) -> std::io::Result<Stats> {
         // TODO not completly done
-        let stats = reader
-            .lines()
-            .map(|x| x.unwrap())
-            .fold(Stats::new(), |mut stats,_new| {
-                stats.lines = stats.lines + 1;
-                stats
-            });
+        let mut stats = Stats::new();
+        loop {
+            let mut buff= [0;1024];
+            let read = reader.read(&mut buff)?;
 
-        Ok(stats)
+        }
     }
     pub fn combine (&self , s:&Stats) -> Stats {
         Stats {
