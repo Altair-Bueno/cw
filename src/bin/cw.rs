@@ -1,8 +1,6 @@
-use clap::{load_yaml, App};
-use cw::stats::Stats;
-use std::fs::File;
-use std::io::BufReader;
-use cw::commandline::Cwargs;
+use clap::{load_yaml, App, Values};
+use cw::{commandline::Cwargs, stats::Stats};
+use std::{fs::File, io::BufReader};
 
 fn main() {
     // Load clap for commandline utilities
@@ -12,48 +10,68 @@ fn main() {
     // Program arguments
     let files = matches.values_of("files");
     let args = Cwargs::new(&matches);
+    // u8 unsigned.
+    let threading: usize = matches
+        .value_of("threads")
+        .map(|x| x.parse().unwrap_or(1))
+        .unwrap();
 
-    let exitcode = if let Some(files) = files {
-        let (code, merged) = files.fold((0, Stats::default()), |(code, acc), file| {
-            match use_file(file) {
-                Ok(stats) => {
-                    let show = stats.pretty_print(&args);
-                    println!("{} {}", show, file);
-                    (code, acc + stats)
-                }
-                Err(err) => {
-                    println!("{}", err);
-                    (code + 1, acc)
-                }
-            }
-        });
-        println!("{} total", merged.pretty_print(&args));
-        code
+    if let Some(files) = files {
+        if threading == 1 {
+            singlethread_files(files, args);
+        } else {
+            multithread(files, args, threading);
+        }
     } else {
-        let stats_stdio = use_stdio();
-        match stats_stdio {
+        singlethread_stdio(args);
+    }
+}
+fn multithread(files: Values, args: Cwargs, threads: usize) -> ! {
+    todo!()
+}
+fn singlethread_stdio(args: Cwargs) -> ! {
+    let stats_stdio = from_stdio();
+    let code = match stats_stdio {
+        Ok(stats) => {
+            let show = stats.pretty_print(&args);
+            println!("{}", show);
+            0
+        }
+        Err(err) => {
+            println!("{}", err);
+            -1
+        }
+    };
+    std::process::exit(code);
+}
+
+fn singlethread_files(files: Values, args: Cwargs) -> ! {
+    let (code, merged) = files.fold((0, Stats::default()), |(code, acc), file| {
+        match from_file(file) {
             Ok(stats) => {
                 let show = stats.pretty_print(&args);
-                println!("{}", show);
-                0
+                println!("{} {}", show, file);
+                (code, acc + stats)
             }
             Err(err) => {
                 println!("{}", err);
-                -1
+                (code + 1, acc)
             }
         }
-    };
+    });
 
-    std::process::exit(exitcode);
+    println!("{} total", merged.pretty_print(&args));
+    std::process::exit(code)
 }
-fn use_file(f: &str) -> std::io::Result<Stats> {
+
+fn from_file(f: &str) -> std::io::Result<Stats> {
     let reader = BufReader::new(File::open(f)?);
     let stats = Stats::from_file(Box::new(reader));
 
     stats
 }
 
-fn use_stdio() -> std::io::Result<Stats> {
+fn from_stdio() -> std::io::Result<Stats> {
     let reader = BufReader::new(std::io::stdin());
     let stats = Stats::from_file(Box::new(reader));
 

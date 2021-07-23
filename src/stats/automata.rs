@@ -5,11 +5,11 @@ use crate::stats::Stats;
 /// studied on .github/desing/Automata.drawio. The automata allows partial
 /// computation by providing a `PartialResponse` instance
 enum State {
-    Nil,       // Espacios y nodo inicial
-    NewLine,   // se encuentra un \n
-    Carriage,  // Se encuentra un \r
-    Word,      // Se encuentra algún carácter válido
-    // utf
+    Nil,      // Espacios y nodo inicial
+    NewLine,  // se encuentra un \n
+    Carriage, // Se encuentra un \r
+    Word,     // Se encuentra algún carácter válido
+              // utf
 }
 impl Default for State {
     /// Initial node
@@ -25,7 +25,7 @@ pub struct PartialResponse(State, Stats);
 
 impl PartialResponse {
     /// Initial state for the automata
-    pub fn initial_state () -> PartialResponse {
+    pub fn initial_state() -> PartialResponse {
         PartialResponse::default()
     }
     /// Transforms a `PartialResponse` into `Stats`
@@ -104,5 +104,4 @@ impl Automata {
             1: result.1,
         }
     }
-
 }

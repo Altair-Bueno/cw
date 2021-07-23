@@ -1,15 +1,14 @@
 use crate::commandline::Cwargs;
+use crate::stats::automata::PartialResponse;
+use crate::stats::Automata;
 use std::fmt::{Display, Formatter};
 use std::io::{BufRead, Read};
 use std::ops::Add;
-use crate::stats::automata::PartialResponse;
-use crate::stats::Automata;
 
-
-const BUFFER_SIZE :usize = 16*1024; // 16KB
+const BUFFER_SIZE: usize = 16 * 1024; // 16KB
 
 /// Represents Stats for a file
-#[derive(Debug, Default,Eq, PartialEq)]
+#[derive(Debug, Default, Eq, PartialEq)]
 pub struct Stats {
     pub lines: u32,
     pub words: u32,
@@ -20,12 +19,12 @@ pub struct Stats {
 
 impl Stats {
     /// Creates a new Stats struct using the given parameters
-    pub fn new(lines:u32,words:u32,characters:u32,bytes:u32) -> Stats {
-        Stats{
+    pub fn new(lines: u32, words: u32, characters: u32, bytes: u32) -> Stats {
+        Stats {
             lines,
             words,
             characters,
-            bytes
+            bytes,
         }
     }
     /// Calculates stats for a file
@@ -38,7 +37,7 @@ impl Stats {
             if read == 0 {
                 return Ok(state.result());
             }
-            state = Automata::run(state,&buff[0..read]);
+            state = Automata::run(state, &buff[0..read]);
         }
     }
     /// Combines two stats. Usefull when buffering a file
@@ -56,7 +55,7 @@ impl Stats {
         let mut changes = false;
         let mut string = String::new();
 
-        if args.lines{
+        if args.lines {
             changes = true;
             string = format!("{}\t{}", string, self.lines)
         }

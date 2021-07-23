@@ -9,20 +9,38 @@ args:
       multiple: true
       takes_value: true
       index: 1
+
   - lines:
-      about: Counts the number of lines. A line is defined as a String that
-             ends on `\r\n`,`\r` or `\n`
+      about: Counts the number of lines. A line is defined as a String that ends on `\r\n`,`\r` or `\n`
       short: l
       long: lines
+      required: false
+      takes_value: false
+
   - characters:
       about: Counts the number of characteres on the file
       short: c
       long: chars
+      required: false
+      takes_value: false
+
   - words:
       about: Counts the number of words on the file
       short: w
       long: words
+      required: false
+      takes_value: false
+
   - bytes:
       about: Counts the number of bytes on the file
       short: b
       long: bytes
+      required: false
+      takes_value: false
+
+  - threads:
+      about: Number of threads used to process all files. Its only usefull when provided multiple files. Using this option with `stdio` won't turn multithreading on
+      short: t
+      long: threads
+      required: false
+      takes_value: true
