@@ -3,10 +3,10 @@ use clap::ArgMatches;
 /// Convenience struct for showing the solution
 #[derive(Debug, Default)]
 pub struct Cwargs {
-    lines: bool,
-    words: bool,
-    characters: bool,
-    bytes: bool,
+    pub lines: bool,
+    pub words: bool,
+    pub characters: bool,
+    pub bytes: bool,
 }
 
 impl Cwargs {
@@ -22,17 +22,5 @@ impl Cwargs {
             characters,
             bytes,
         }
-    }
-    pub fn allows_lines(&self) -> bool {
-        self.lines
-    }
-    pub fn allows_words(&self) -> bool {
-        self.words
-    }
-    pub fn allows_characters(&self) -> bool {
-        self.characters
-    }
-    pub fn allows_bytes(&self) -> bool {
-        self.bytes
     }
 }

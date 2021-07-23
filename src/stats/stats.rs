@@ -6,7 +6,7 @@ use crate::stats::automata::PartialResponse;
 use crate::stats::Automata;
 
 
-const BUFFER_SIZE :usize = 524_288; // 512KB
+const BUFFER_SIZE :usize = 16*1024; // 16KB
 
 /// Represents Stats for a file
 #[derive(Debug, Default,Eq, PartialEq)]
@@ -56,19 +56,19 @@ impl Stats {
         let mut changes = false;
         let mut string = String::new();
 
-        if args.allows_lines() {
+        if args.lines{
             changes = true;
             string = format!("{}\t{}", string, self.lines)
         }
-        if args.allows_words() {
+        if args.words {
             changes = true;
             string = format!("{}\t{}", string, self.words)
         }
-        if args.allows_characters() {
+        if args.characters {
             changes = true;
             string = format!("{}\t{}", string, self.characters)
         }
-        if args.allows_bytes() {
+        if args.bytes {
             changes = true;
             string = format!("{}\t{}", string, self.bytes)
         }

@@ -27,7 +27,7 @@ fn main() {
                 }
             }
         });
-        println!("{}", merged.pretty_print(&args));
+        println!("{} total", merged.pretty_print(&args));
         code
     } else {
         let stats_stdio = use_stdio();
