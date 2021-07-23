@@ -9,8 +9,9 @@ fn main() {
 
     // Program arguments
     let files = matches.values_of("files");
-    let args = Cwargs::new(&matches);
+    let args = Cwargs::from_clap(&matches);
     // u8 unsigned.
+    // TODO threading could be 0
     let threading: usize = matches
         .value_of("threads")
         .map(|x| x.parse().unwrap_or(1))
@@ -33,7 +34,7 @@ fn singlethread_stdio(args: Cwargs) -> ! {
     let stats_stdio = from_stdio();
     let code = match stats_stdio {
         Ok(stats) => {
-            let show = stats.pretty_print(&args);
+            let show = args.pretty_print_stats(&stats);
             println!("{}", show);
             0
         }
@@ -49,7 +50,7 @@ fn singlethread_files(files: Values, args: Cwargs) -> ! {
     let (code, merged) = files.fold((0, Stats::default()), |(code, acc), file| {
         match from_file(file) {
             Ok(stats) => {
-                let show = stats.pretty_print(&args);
+                let show = args.pretty_print_stats(&stats);
                 println!("{} {}", show, file);
                 (code, acc + stats)
             }
@@ -60,7 +61,7 @@ fn singlethread_files(files: Values, args: Cwargs) -> ! {
         }
     });
 
-    println!("{} total", merged.pretty_print(&args));
+    println!("{} total", args.pretty_print_stats(&merged));
     std::process::exit(code)
 }
 

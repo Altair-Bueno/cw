@@ -49,34 +49,7 @@ impl Stats {
             bytes: self.bytes + s.bytes,
         }
     }
-    /// Returns a String representation of this struct, but only includes the
-    /// requested information
-    pub fn pretty_print(&self, args: &Cwargs) -> String {
-        let mut changes = false;
-        let mut string = String::new();
 
-        if args.lines {
-            changes = true;
-            string = format!("{}\t{}", string, self.lines)
-        }
-        if args.words {
-            changes = true;
-            string = format!("{}\t{}", string, self.words)
-        }
-        if args.characters {
-            changes = true;
-            string = format!("{}\t{}", string, self.characters)
-        }
-        if args.bytes {
-            changes = true;
-            string = format!("{}\t{}", string, self.bytes)
-        }
-        if !changes {
-            format!("{}", self)
-        } else {
-            string
-        }
-    }
 }
 
 impl Display for Stats {
