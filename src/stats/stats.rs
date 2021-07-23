@@ -48,7 +48,6 @@ impl Stats {
             bytes: self.bytes + s.bytes,
         }
     }
-
 }
 
 impl Display for Stats {

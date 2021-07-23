@@ -1,7 +1,7 @@
 use clap::Values;
 
-use std::io::BufReader;
 use std::fs::File;
+use std::io::BufReader;
 
 use crate::commandline::Cwargs;
 use crate::stats::Stats;
@@ -36,13 +36,13 @@ pub fn singlethread_files(files: Values, args: Cwargs) -> ! {
                 (code, acc + stats)
             }
             Err(err) => {
-                println!("{}", err);
+                println!("{}: {}", file, err);
                 (code + 1, acc)
             }
         }
     });
 
-    if size >1 {
+    if size > 1 {
         println!("{}\ttotal", args.pretty_print_stats(&merged));
     }
     std::process::exit(code)

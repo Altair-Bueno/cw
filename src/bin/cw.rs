@@ -11,16 +11,14 @@ fn main() {
     // Program arguments
     let files = matches.values_of("files");
     let args = Cwargs::from_clap(&matches);
-    // u8 unsigned.
-    // TODO threading could be 0
 
     if let Some(files) = files {
-        match matches.value_of("threads").map(|x|x.parse()) {
-            None => singlethread_files(files,args),
-            Some(Ok(x)) if x >  1 => multithread(files,args,x),
-            Some(Ok(x)) if x == 1 => singlethread_files(files,args),
-            Some(Ok(x)) => println!("{} is not a valid number. Must be >=1",x),
-            Some(Err(err)) => println!("{}",err),
+        match matches.value_of("threads").map(|x| x.parse()) {
+            None => singlethread_files(files, args),
+            Some(Ok(x)) if x > 1 => multithread(files, args, x),
+            Some(Ok(x)) if x == 1 => singlethread_files(files, args),
+            Some(Ok(x)) => println!("{} is not a valid number. Must be >=1", x),
+            Some(Err(err)) => println!("{}", err),
         };
         std::process::exit(-1);
     } else {
