@@ -1,4 +1,4 @@
-use clap::Values;
+use clap::{Values, ErrorKind};
 
 use std::fs::File;
 use std::io::BufReader;
@@ -19,8 +19,9 @@ pub fn singlethread_stdio(args: Cwargs) -> ! {
             0
         }
         Err(err) => {
-            eprintln!("{}", err);
-            -1
+            clap::Error::with_description(err.to_string(),ErrorKind::Io)
+                .exit()
+
         }
     };
     std::process::exit(code);
