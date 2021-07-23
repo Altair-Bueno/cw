@@ -1,3 +1,5 @@
+# Cargo build
 /target
+# IntelliJ IDEA
 .idea
 cw.iml

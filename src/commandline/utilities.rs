@@ -27,6 +27,7 @@ pub fn singlethread_stdio(args: Cwargs) -> ! {
 }
 
 pub fn singlethread_files(files: Values, args: Cwargs) -> ! {
+    let size = files.len();
     let (code, merged) = files.fold((0, Stats::default()), |(code, acc), file| {
         match from_file(file) {
             Ok(stats) => {
@@ -41,7 +42,9 @@ pub fn singlethread_files(files: Values, args: Cwargs) -> ! {
         }
     });
 
-    println!("{} total", args.pretty_print_stats(&merged));
+    if size >1 {
+        println!("{}\ttotal", args.pretty_print_stats(&merged));
+    }
     std::process::exit(code)
 }
 

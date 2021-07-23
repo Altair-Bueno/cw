@@ -13,17 +13,16 @@ fn main() {
     let args = Cwargs::from_clap(&matches);
     // u8 unsigned.
     // TODO threading could be 0
-    let threading: usize = matches
-        .value_of("threads")
-        .map(|x| x.parse().unwrap_or(1))
-        .unwrap_or(1);
 
     if let Some(files) = files {
-        if threading == 1 {
-            singlethread_files(files, args);
-        } else {
-            multithread(files, args, threading);
-        }
+        match matches.value_of("threads").map(|x|x.parse()) {
+            None => singlethread_files(files,args),
+            Some(Ok(x)) if x >  1 => multithread(files,args,x),
+            Some(Ok(x)) if x == 1 => singlethread_files(files,args),
+            Some(Ok(x)) => println!("{} is not a valid number. Must be >=1",x),
+            Some(Err(err)) => println!("{}",err),
+        };
+        std::process::exit(-1);
     } else {
         singlethread_stdio(args);
     }
