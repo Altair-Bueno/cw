@@ -30,6 +30,7 @@ impl PartialResponse {
     }
     /// Transforms a `PartialResponse` into `Stats`
     pub fn result(self) -> Stats {
+        // TODO add utf support
         let PartialResponse(state, mut stats) = self;
         match state {
             Carriage => {
@@ -44,10 +45,13 @@ impl PartialResponse {
         }
     }
 }
+/// Represents a Finite Deterministic Automata which fetchs it's input from a
+/// given tape
 pub struct Automata;
 impl Automata {
     /// Runs the automata over the given tape, generating a partial response
     pub fn run(partial: PartialResponse, tape: &[u8]) -> PartialResponse {
+        // TODO doest work as expected
         fn newline(mut s: Stats) -> Stats {
             s.lines += 1;
             s.bytes += 1;
