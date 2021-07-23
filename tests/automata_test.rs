@@ -53,3 +53,9 @@ fn small() {
     let expected = Stats::new(1, 3, 18, 18);
     assert_eq!(out, expected)
 }
+#[test]
+fn empty() {
+    let out = proccess_file_test("tests/resources/empty.txt");
+    let expected = Stats::new(0, 0, 0, 0);
+    assert_eq!(out, expected)
+}
