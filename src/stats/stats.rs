@@ -1,4 +1,3 @@
-use crate::commandline::Cwargs;
 use crate::stats::automata::PartialResponse;
 use crate::stats::Automata;
 use std::fmt::{Display, Formatter};

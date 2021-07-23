@@ -15,7 +15,7 @@ fn main() {
     let threading: usize = matches
         .value_of("threads")
         .map(|x| x.parse().unwrap_or(1))
-        .unwrap();
+        .unwrap_or(1);
 
     if let Some(files) = files {
         if threading == 1 {
@@ -51,7 +51,7 @@ fn singlethread_files(files: Values, args: Cwargs) -> ! {
         match from_file(file) {
             Ok(stats) => {
                 let show = args.pretty_print_stats(&stats);
-                println!("{} {}", show, file);
+                println!("{}\t{}", show, file);
                 (code, acc + stats)
             }
             Err(err) => {
@@ -66,7 +66,8 @@ fn singlethread_files(files: Values, args: Cwargs) -> ! {
 }
 
 fn from_file(f: &str) -> std::io::Result<Stats> {
-    let reader = BufReader::new(File::open(f)?);
+    let file = File::open(f)?;
+    let reader = BufReader::new(file);
     let stats = Stats::from_file(Box::new(reader));
 
     stats
