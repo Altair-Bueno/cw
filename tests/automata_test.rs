@@ -4,7 +4,7 @@ use std::io::BufReader;
 
 fn proccess_file_test(f: &str) -> Stats {
     let reader = BufReader::new(File::open(f).unwrap());
-    let stats = Stats::from_file(Box::new(reader)).unwrap();
+    let stats = Stats::from_bufread(Box::new(reader)).unwrap();
 
     stats
 }

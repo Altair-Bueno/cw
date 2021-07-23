@@ -19,7 +19,7 @@ pub fn singlethread_stdio(args: Cwargs) -> ! {
             0
         }
         Err(err) => {
-            println!("{}", err);
+            eprintln!("{}", err);
             -1
         }
     };
@@ -36,7 +36,7 @@ pub fn singlethread_files(files: Values, args: Cwargs) -> ! {
                 (code, acc + stats)
             }
             Err(err) => {
-                println!("{}: {}", file, err);
+                eprintln!("{}: {}", file, err);
                 (code + 1, acc)
             }
         }
@@ -51,14 +51,14 @@ pub fn singlethread_files(files: Values, args: Cwargs) -> ! {
 fn from_file(f: &str) -> std::io::Result<Stats> {
     let file = File::open(f)?;
     let reader = BufReader::new(file);
-    let stats = Stats::from_file(Box::new(reader));
+    let stats = Stats::from_bufread(Box::new(reader));
 
     stats
 }
 
 fn from_stdio() -> std::io::Result<Stats> {
     let reader = BufReader::new(std::io::stdin());
-    let stats = Stats::from_file(Box::new(reader));
+    let stats = Stats::from_bufread(Box::new(reader));
 
     stats
 }

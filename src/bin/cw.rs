@@ -17,8 +17,8 @@ fn main() {
             None => singlethread_files(files, args),
             Some(Ok(x)) if x > 1 => multithread(files, args, x),
             Some(Ok(x)) if x == 1 => singlethread_files(files, args),
-            Some(Ok(x)) => println!("{} is not a valid number. Must be >=1", x),
-            Some(Err(err)) => println!("{}", err),
+            Some(Ok(x)) => eprintln!("{} is not a valid number. Must be >=1", x),
+            Some(Err(err)) => eprintln!("{}", err),
         };
         std::process::exit(-1);
     } else {

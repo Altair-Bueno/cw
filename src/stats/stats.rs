@@ -27,7 +27,7 @@ impl Stats {
         }
     }
     /// Calculates stats for a file
-    pub fn from_file(mut reader: Box<dyn BufRead>) -> std::io::Result<Stats> {
+    pub fn from_bufread(mut reader: Box<dyn BufRead>) -> std::io::Result<Stats> {
         let mut state = PartialResponse::initial_state();
         // TODO use a single buffer for all operations instead
         let mut buff = [0; BUFFER_SIZE];
