@@ -1,6 +1,6 @@
 use crate::stats::Stats;
 
-pub trait Response {
+pub trait PartialResponse {
     fn initial_state() -> Self;
     /// Transforms a `PartialResponse` into `Stats`
     fn result(self) -> Stats ;

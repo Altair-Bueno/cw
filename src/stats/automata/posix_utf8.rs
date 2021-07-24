@@ -1,119 +1,80 @@
-
 use crate::stats::Stats;
-use crate::stats::automata::response::Response;
-use crate::stats::automata::posix_utf8::State::{Carriage, NewLine, Nil, Word};
+use crate::stats::automata::partial_response::PartialResponse;
 
-/// Represents a node on the automata. The current automata desing can be
-/// studied on .github/desing/Automata.drawio. The automata allows partial
-/// computation by providing a `PartialResponse` instance
-enum State {
-    Nil,      // Espacios y nodo inicial
-    NewLine,  // se encuentra un \n
-    Carriage, // Se encuentra un \r
-    Word,     // Se encuentra algún carácter válido
-              // utf
+/// UTF char uses 4 bytes at most
+type UTFCharBuff = [u8;4];
+
+// If we are on a word or not
+type OnWord = bool;
+
+enum UTFSize {
+    One,
+    Two,
+    Three,
+    Four,
 }
-impl Default for State {
-    /// Initial node
+impl Default for UTFSize {
     fn default() -> Self {
-        State::Nil
+        UTFSize::One
+    }
+}
+
+impl UTFSize {
+    pub fn utf_size(byte:u8) -> UTFSize{
+        let four = 0b11110000;
+        let three = 0b11100000;
+        let two = 0b11000000;
+
+        if byte &  four == four {
+            UTFSize::Four
+        } else if byte & three == three {
+            UTFSize::Three
+        } else if byte & two == two {
+            UTFSize::Two
+        } else {
+            UTFSize::One
+        }
     }
 }
 
 /// Represents progress for a finite automata. Can be converted into a final
 /// result by using the `result()` function
-// TODO add buffer for u32 conversion into unicode char
 #[derive(Default)]
-pub struct PartialResponse(State, Stats);
+pub struct PosixPartialState(UTFSize, OnWord, Stats, UTFCharBuff);
 
-impl Response for PartialResponse{
+impl PartialResponse for PosixPartialState {
     /// Initial state for the automata
-    fn initial_state() -> PartialResponse {
-        PartialResponse::default()
+    fn initial_state() -> PosixPartialState {
+        PosixPartialState::default()
     }
-    /// Transforms a `PartialResponse` into `Stats`
+    /// Transforms a `PosixPartialState` into `Stats`
     fn result(self) -> Stats {
-        // TODO add utf support
-        let PartialResponse(state, mut stats) = self;
-        match state {
-            Carriage => {
-                stats.lines += 1;
-                stats
-            }
-            Word => {
-                stats.words += 1;
-                stats
-            }
-            _ => stats,
-        }
+        todo!()
     }
 }
+
 /// Represents a Finite Deterministic Automata which fetchs it's input from a
 /// given tape
-pub struct Posix;
-impl Posix {
+pub struct PosixUTF8;
+impl PosixUTF8 {
     /// Runs the automata over the given tape, generating a partial response
-    pub fn run(partial: PartialResponse, tape: &[u8]) -> PartialResponse {
+    pub fn run(partial: PosixPartialState, tape: &[u8]) -> PosixPartialState {
+        tape.iter().fold(partial, PosixUTF8::compute)
+    }
+
+    fn compute(partial:PosixPartialState,char:&u8) -> PosixPartialState {
         // TODO doest work as expected
         // Bytes: works
         // Characters: No
         // Words: No
         // Lines: No
-        fn newline(mut s: Stats) -> Stats {
-            s.lines += 1;
-            s
-        }
-        fn newword(mut s: Stats) -> Stats {
-            s.words += 1;
-            s
-        }
-        fn newchar(mut s :Stats)-> Stats {
-            s.characters+=1;
-            s
-        }
 
-        let result: (State, Stats) = tape.iter().fold((partial.0, partial.1), |s, c| {
-            let (state, mut stats) = s;
-            // One byte read
-            stats.bytes+=1;
-            match state {
-                State::Nil => match c {
-                    b'\r' => (Carriage, stats),
-                    b'\n' => (NewLine, newline(stats)),
-                    b' ' => (Nil, stats),
-                    _ => (Word, newchar(stats)),
-                },
-                State::Carriage => {
-                    let temp = newline(stats);
-                    match c {
-                        b'\r' => (Carriage, temp),
-                        b'\n' => (NewLine, temp),
-                        b' ' => (Nil, temp),
-                        _ => (Word, newchar(temp)),
-                    }
-                }
-                State::NewLine => {
-                    let temp = newline(stats);
-                    match c {
-                        b'\r' => (Carriage, temp),
-                        b'\n' => (NewLine, temp),
-                        b' ' => (Nil, temp),
-                        _ => (Word, newchar(temp)),
-                    }
-                }
-                State::Word => match c {
-                    b'\r' => (Carriage, newword(stats)),
-                    b'\n' => (NewLine, newword(newline(stats))),
-                    b' ' => (Nil, stats),
-                    _ => (Word, newchar(stats)),
-                },
-            }
-        });
-
-        PartialResponse {
-            0: result.0,
-            1: result.1,
-        }
+        let PosixPartialState(expect, onword, mut stats, mut buff) = partial;
+        // New byte. Update
+        stats.bytes+=1;
+        let onword_next = todo!();
+        let expect_next = todo!();
+        PosixPartialState(expect_next,onword_next,stats,buff)
     }
 }
 
