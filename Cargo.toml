@@ -7,5 +7,4 @@ edition = "2018"
 
 [dependencies]
 clap = {version = "3.0.0-beta.2", features = ["yaml"]}
-regex = "1.5.4"
 unicode-general-category = "0.4.0"

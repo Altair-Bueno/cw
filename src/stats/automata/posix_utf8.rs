@@ -22,6 +22,7 @@ impl Default for State {
 
 /// Represents progress for a finite automata. Can be converted into a final
 /// result by using the `result()` function
+// TODO add buffer for u32 conversion into unicode char
 #[derive(Default)]
 pub struct PartialResponse(State, Stats);
 
