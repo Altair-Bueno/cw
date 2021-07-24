@@ -73,6 +73,7 @@ version = "0.1.0"
 dependencies = [
  "clap",
  "regex",
+ "unicode-general-category",
 ]
 
 [[package]]
@@ -232,6 +233,12 @@ checksum = "203008d98caf094106cfaba70acfed15e18ed3ddb7d94e49baec153a2b462789"
 dependencies = [
  "unicode-width",
 ]
+
+[[package]]
+name = "unicode-general-category"
+version = "0.4.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "07547e3ee45e28326cc23faac56d44f58f16ab23e413db526debce3b0bfd2742"
 
 [[package]]
 name = "unicode-segmentation"

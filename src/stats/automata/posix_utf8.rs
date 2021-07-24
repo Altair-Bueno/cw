@@ -1,7 +1,7 @@
 
 use crate::stats::Stats;
 use crate::stats::automata::response::Response;
-use crate::stats::automata::posix::State::{Carriage, NewLine, Nil, Word};
+use crate::stats::automata::posix_utf8::State::{Carriage, NewLine, Nil, Word};
 
 /// Represents a node on the automata. The current automata desing can be
 /// studied on .github/desing/Automata.drawio. The automata allows partial
