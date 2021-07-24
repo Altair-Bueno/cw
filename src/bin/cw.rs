@@ -1,4 +1,4 @@
-use clap::{load_yaml, App, Error, ErrorKind};
+use clap::{load_yaml, App, ErrorKind};
 
 use cw::commandline::utilities::*;
 use cw::commandline::Cwargs;
