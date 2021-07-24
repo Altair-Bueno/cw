@@ -127,4 +127,11 @@ mod utils {
     pub fn isalpha (char :u8) ->bool {
         (char >= 0x41 && char <=0x5A) || (char>=0x61 && char <= 0x7A)
     }
+
+    // Macro?
+    macro_rules! isspace {
+        ($char:expr) => {
+            ($char == 0x9 ) || ($char == 0x20) || ($char >= 0xA && $char <=0xD)
+        }
+    }
 }
