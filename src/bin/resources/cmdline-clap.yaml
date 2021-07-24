@@ -44,3 +44,13 @@ args:
       long: threads
       required: false
       takes_value: true
+  - break:
+      about: By default using POSIX LF
+      short: n
+      long: newline
+      required: false
+      takes_value: true
+      possible_values:
+        - LF
+        - CRLF
+        - CR

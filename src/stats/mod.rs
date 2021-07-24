@@ -1,6 +1,4 @@
-mod automata;
 mod stats;
+pub mod automata;
 
-pub use automata::Automata;
-pub use automata::PartialResponse;
 pub use stats::Stats;

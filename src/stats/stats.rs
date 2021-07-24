@@ -1,8 +1,8 @@
-use crate::stats::automata::PartialResponse;
-use crate::stats::Automata;
 use std::fmt::{Display, Formatter};
 use std::io::{BufRead, Read};
 use std::ops::Add;
+use crate::stats::automata::posix::{PartialResponse, Posix};
+use crate::stats::automata::response::Response;
 
 const BUFFER_SIZE: usize = 16 * 1024; // 16KB
 
@@ -36,7 +36,7 @@ impl Stats {
             if read == 0 {
                 return Ok(state.result());
             }
-            state = Automata::run(state, &buff[0..read]);
+            state = Posix::run(state, &buff[0..read]);
         }
     }
     /// Combines two stats. Usefull when buffering a file

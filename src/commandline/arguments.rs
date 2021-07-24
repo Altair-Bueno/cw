@@ -8,6 +8,7 @@ pub struct Cwargs {
     pub words: bool,
     pub characters: bool,
     pub bytes: bool,
+    // TODO linebreak Option<Enum>
 }
 
 impl Cwargs {
