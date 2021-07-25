@@ -1,7 +1,7 @@
-use clap::{Values, ErrorKind};
-
 use std::fs::File;
 use std::io::BufReader;
+
+use clap::{ErrorKind, Values};
 
 use crate::commandline::Cwargs;
 use crate::stats::Stats;
@@ -18,11 +18,7 @@ pub fn singlethread_stdio(args: Cwargs) -> ! {
             println!("{}", show);
             0
         }
-        Err(err) => {
-            clap::Error::with_description(err.to_string(),ErrorKind::Io)
-                .exit()
-
-        }
+        Err(err) => clap::Error::with_description(err.to_string(), ErrorKind::Io).exit(),
     };
     std::process::exit(code);
 }

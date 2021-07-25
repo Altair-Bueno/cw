@@ -1,5 +1,6 @@
-mod arguments;
-pub mod utilities;
-mod mode;
-
 pub use arguments::Cwargs;
+
+mod arguments;
+mod mode;
+pub mod utilities;
+

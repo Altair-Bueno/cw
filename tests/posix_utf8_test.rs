@@ -1,6 +1,7 @@
-use cw::stats::Stats;
 use std::fs::File;
 use std::io::BufReader;
+
+use cw::stats::Stats;
 
 fn proccess_file_test(f: &str) -> Stats {
     let reader = BufReader::new(File::open(f).unwrap());

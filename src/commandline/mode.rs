@@ -1,4 +1,3 @@
-
 pub enum Encoding {
     UTF8,
     ASCII,
@@ -10,11 +9,14 @@ pub enum LineBreak {
 
 pub struct Mode {
     encoding: Encoding,
-    line_break:LineBreak,
+    line_break: LineBreak,
 }
 
 impl Mode {
-    pub fn new (encoding:Encoding,line_break:LineBreak) -> Mode {
-        Mode { encoding, line_break }
+    pub fn new(encoding: Encoding, line_break: LineBreak) -> Mode {
+        Mode {
+            encoding,
+            line_break,
+        }
     }
 }

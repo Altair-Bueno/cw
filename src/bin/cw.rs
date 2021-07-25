@@ -1,7 +1,7 @@
-use clap::{load_yaml, App, ErrorKind};
+use clap::{App, ErrorKind, load_yaml};
 
-use cw::commandline::utilities::*;
 use cw::commandline::Cwargs;
+use cw::commandline::utilities::*;
 
 fn main() {
     // Load clap for commandline utilities
@@ -20,9 +20,11 @@ fn main() {
             Some(Ok(x)) if x > 1 => multithread(files, args, x),
             Some(Ok(x)) if x == 1 => singlethread_files(files, args),
             Some(_) => {
-                let message = format!("{} is not a valid number. Must be >=1",
-                                      num_threads.unwrap());
-                clap::Error::with_description(message,ErrorKind::InvalidValue).exit()
+                let message = format!(
+                    "{} is not a valid number. Must be >=1",
+                    num_threads.unwrap()
+                );
+                clap::Error::with_description(message, ErrorKind::InvalidValue).exit()
             }
         };
     } else {

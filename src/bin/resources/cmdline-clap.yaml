@@ -55,4 +55,12 @@ args:
         - LF
         - CRLF
         - CR
-  # Different encodings
+  - encoding:
+      about: UTF8 or ASCII. By default uses ASCII
+      short: e
+      long: encoding
+      takes_value: true
+      required: false
+      possible_values:
+        - UTF8
+        - ASCII

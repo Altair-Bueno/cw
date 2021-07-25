@@ -1,13 +1,12 @@
-use crate::stats::Stats;
-use crate::stats::automata::partial_response::PartialState;
-use unicode_general_category::get_general_category;
 use unicode_general_category::GeneralCategory::*;
+use unicode_general_category::get_general_category;
+
 use crate::stats::automata::OnWord;
+use crate::stats::automata::partial_response::PartialState;
+use crate::stats::Stats;
 
 /// UTF char uses 4 bytes at most
-type UTFCharBuff = [u8;4];
-
-
+type UTFCharBuff = [u8; 4];
 
 enum State {
     New,
@@ -23,10 +22,10 @@ impl Default for State {
 }
 
 impl State {
-    pub fn decode(byte:&u8) -> State {
-        let four = 0b11110000;      // 11110uuu 10uuzzzz 10yyyyyy 10xxxxxx
-        let three = 0b11100000;     // 1110zzzz 10yyyyyy 10xxxxxx
-        let two = 0b11000000;       // 110yyyyy 10xxxxxx
+    pub fn decode(byte: &u8) -> State {
+        let four = 0b11110000; // 11110uuu 10uuzzzz 10yyyyyy 10xxxxxx
+        let three = 0b11100000; // 1110zzzz 10yyyyyy 10xxxxxx
+        let two = 0b11000000; // 110yyyyy 10xxxxxx
 
         if byte & four == four {
             State::Four
@@ -54,7 +53,7 @@ impl PartialState for PosixUTF8PartialState {
     fn result(self) -> Stats {
         let PosixUTF8PartialState(state, onword, mut stats, buff) = self;
         if onword {
-            stats.words+=1;
+            stats.words += 1;
         }
         stats
     }
@@ -69,23 +68,24 @@ impl PosixUTF8 {
         tape.iter().fold(partial, PosixUTF8::compute)
     }
 
-    fn compute(partial: PosixUTF8PartialState, char:&u8) -> PosixUTF8PartialState {
+    fn compute(partial: PosixUTF8PartialState, char: &u8) -> PosixUTF8PartialState {
         // TODO doest work as expected
         // Bytes: works
         // Characters: No
         // Words: No
         // Lines: Works
-        let PosixUTF8PartialState(mut expect, mut onword, mut stats, mut buff) =
-            partial;
+        let PosixUTF8PartialState(mut expect, mut onword, mut stats, mut buff) = partial;
         match expect {
-            State::New => { // -> One,Two,Three,Four
+            State::New => {
+                // -> One,Two,Three,Four
                 // Done
                 expect = State::decode(char);
                 let state = PosixUTF8PartialState(expect, onword, stats, buff);
-                PosixUTF8::compute(state,char)
+                PosixUTF8::compute(state, char)
             }
-            State::One => { // -> New
-                stats.bytes+=1;
+            State::One => {
+                // -> New
+                stats.bytes += 1;
                 buff[0] = *char;
                 expect = State::New;
 
@@ -95,31 +95,28 @@ impl PosixUTF8 {
                 // - Reset buffer to empty
                 // - Write on buff [0]
                 // update stats
-                let opt_character= char::from_u32(u32::from_le_bytes(buff));
+                let opt_character = char::from_u32(u32::from_le_bytes(buff));
                 if let Some(char) = opt_character {
-                    stats.characters+=1;
+                    stats.characters += 1;
                     match char {
                         '\n' => {
-                            stats.lines+=1;
+                            stats.lines += 1;
                             if onword {
-                                stats.words+=1;
+                                stats.words += 1;
                             }
                             onword = false;
                         }
-                        x=> {
-                            match get_general_category(x) {
-                                LowercaseLetter | UppercaseLetter | ModifierLetter |
-                                TitlecaseLetter | OtherLetter => {
-                                    onword = true;
-                                },
-                                otherwise=>{
-                                    onword = false;
-                                    stats.words+=1;
-                                }
+                        x => match get_general_category(x) {
+                            LowercaseLetter | UppercaseLetter | ModifierLetter
+                            | TitlecaseLetter | OtherLetter => {
+                                onword = true;
                             }
-                        }
+                            otherwise => {
+                                onword = false;
+                                stats.words += 1;
+                            }
+                        },
                     }
-
 
                     // Character read
                     // update onword
@@ -137,20 +134,19 @@ impl PosixUTF8 {
                 PosixUTF8PartialState(expect, onword, stats, buff)
             }
             State::Two => {
-                stats.bytes+=1;
+                stats.bytes += 1;
                 buff[1] = *char;
                 expect = State::One;
                 PosixUTF8PartialState(expect, onword, stats, buff)
-
             }
             State::Three => {
-                stats.bytes+=1;
+                stats.bytes += 1;
                 buff[2] = *char;
                 expect = State::Two;
                 PosixUTF8PartialState(expect, onword, stats, buff)
             }
             State::Four => {
-                stats.bytes+=1;
+                stats.bytes += 1;
                 buff[3] = *char;
                 expect = State::Three;
                 PosixUTF8PartialState(expect, onword, stats, buff)
