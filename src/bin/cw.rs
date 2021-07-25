@@ -1,8 +1,8 @@
-use clap::{App, ErrorKind, load_yaml};
+use clap::{load_yaml, App, ErrorKind};
 
-use cw::commandline::PrettyPrint;
 use cw::commandline::exec_jobs::*;
-use cw::stats::mode::Mode;
+use cw::commandline::PrettyPrint;
+use cw::stats::automata::Mode;
 
 fn main() {
     // Load clap for commandline utilities
@@ -16,23 +16,22 @@ fn main() {
     let mode = Mode::new(
         matches
             .value_of("encoding")
-            .map(|x|x.parse().unwrap_or_default())
+            .map(|x| x.parse().unwrap_or_default())
             .unwrap_or_default(),
         matches
             .value_of("break")
             .map(|x| x.parse().unwrap_or_default())
-            .unwrap_or_default()
+            .unwrap_or_default(),
     );
     // TODO better message
-    println!("MODE: {}",mode);
-
+    println!("MODE: {}", mode);
 
     if let Some(files) = files {
         let num_threads = matches.value_of("threads");
         match num_threads.map(|x| x.parse()) {
-            None => singlethread_files(files, args,&mode),
-            Some(Ok(x)) if x > 1 => multithread(files, args, x,&mode),
-            Some(Ok(x)) if x == 1 => singlethread_files(files, args,&mode),
+            None => singlethread_files(files, args, &mode),
+            Some(Ok(x)) if x > 1 => multithread(files, args, x, &mode),
+            Some(Ok(x)) if x == 1 => singlethread_files(files, args, &mode),
             Some(_) => {
                 let message = format!(
                     "{} is not a valid number. Must be >=1",
@@ -42,6 +41,6 @@ fn main() {
             }
         };
     } else {
-        singlethread_stdio(args,&mode);
+        singlethread_stdio(args, &mode);
     }
 }

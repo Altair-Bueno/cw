@@ -1,6 +1,5 @@
-
-use crate::stats::automata::{OnWord, Automata};
 use crate::stats::automata::partial_state::PartialState;
+use crate::stats::automata::{Automata, OnWord};
 use crate::stats::Stats;
 
 #[macro_use]
@@ -53,7 +52,6 @@ impl Automata for PosixASCII {
 }
 
 impl PosixASCII {
-
     fn compute(partial: PosixASCIIPartialState, char: &u8) -> PosixASCIIPartialState {
         let PosixASCIIPartialState(mut onword, mut stats) = partial;
         stats.characters += 1;

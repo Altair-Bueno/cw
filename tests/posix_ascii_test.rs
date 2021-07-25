@@ -1,8 +1,8 @@
-use cw::stats::Stats;
-use std::io::BufReader;
-use std::fs::File;
 use cw::stats::automata::posix_ascii::PosixASCII;
 use cw::stats::automata::Automata;
+use cw::stats::Stats;
+use std::fs::File;
+use std::io::BufReader;
 
 fn proccess_file_test(f: &str) -> Stats {
     let reader = BufReader::new(File::open(f).unwrap());
@@ -61,4 +61,3 @@ fn empty() {
     let expected = Stats::new(0, 0, 0, 0);
     assert_eq!(out, expected)
 }
-

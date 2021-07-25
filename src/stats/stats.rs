@@ -1,8 +1,6 @@
 use std::fmt::{Display, Formatter};
 use std::ops::Add;
 
-
-
 /// Represents Stats for a file
 #[derive(Debug, Default, Eq, PartialEq)]
 pub struct Stats {

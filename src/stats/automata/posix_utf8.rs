@@ -1,10 +1,10 @@
-use unicode_general_category::GeneralCategory::*;
 use unicode_general_category::get_general_category;
+use unicode_general_category::GeneralCategory::*;
 
-use crate::stats::automata::OnWord;
+use crate::stats::automata::automata_trait::Automata;
 use crate::stats::automata::partial_state::PartialState;
+use crate::stats::automata::OnWord;
 use crate::stats::Stats;
-use crate::stats::automata::automata::Automata;
 
 /// UTF char uses 4 bytes at most
 type UTFCharBuff = [u8; 4];
@@ -67,7 +67,7 @@ pub struct PosixUTF8;
 impl Automata for PosixUTF8 {
     type State = PosixUTF8PartialState;
 
-    fn run(&self,partial: Self::State, tape: &[u8]) -> Self::State {
+    fn run(&self, partial: Self::State, tape: &[u8]) -> Self::State {
         tape.iter().fold(partial, PosixUTF8::compute)
     }
 }
