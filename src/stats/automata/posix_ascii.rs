@@ -1,6 +1,6 @@
 
 use crate::stats::automata::OnWord;
-use crate::stats::automata::partial_response::PartialState;
+use crate::stats::automata::partial_state::PartialState;
 use crate::stats::Stats;
 
 #[macro_use]

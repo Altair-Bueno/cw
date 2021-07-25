@@ -2,8 +2,9 @@ use unicode_general_category::GeneralCategory::*;
 use unicode_general_category::get_general_category;
 
 use crate::stats::automata::OnWord;
-use crate::stats::automata::partial_response::PartialState;
+use crate::stats::automata::partial_state::PartialState;
 use crate::stats::Stats;
+use crate::stats::automata::automata::Automata;
 
 /// UTF char uses 4 bytes at most
 type UTFCharBuff = [u8; 4];
@@ -62,6 +63,15 @@ impl PartialState for PosixUTF8PartialState {
 /// Represents a Finite Deterministic Automata which fetchs it's input from a
 /// given tape
 pub struct PosixUTF8;
+
+impl Automata for PosixUTF8 {
+    type State = PosixUTF8PartialState;
+
+    fn run(&self,partial: Self::State, tape: &[u8]) -> Self::State {
+        PosixUTF8::run(partial,tape)
+    }
+}
+
 impl PosixUTF8 {
     /// Runs the automata over the given tape, generating a partial response
     pub fn run(partial: PosixUTF8PartialState, tape: &[u8]) -> PosixUTF8PartialState {

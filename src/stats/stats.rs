@@ -2,8 +2,9 @@ use std::fmt::{Display, Formatter};
 use std::io::{BufRead, Read};
 use std::ops::Add;
 
-use crate::stats::automata::partial_response::PartialState;
+use crate::stats::automata::partial_state::PartialState;
 use crate::stats::automata::posix_utf8::{PosixUTF8, PosixUTF8PartialState};
+use crate::stats::automata::Automata;
 
 const BUFFER_SIZE: usize = 16 * 1024; // 16KB
 
