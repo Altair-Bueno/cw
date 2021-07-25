@@ -93,7 +93,6 @@ impl PosixUTF8 {
                 // -> New
                 stats.bytes += 1;
                 buff[0] = *char;
-                expect = State::New;
 
                 // If end we need to add one char to the count (it represents
                 // before we had a char). The program does not count the last
@@ -117,7 +116,7 @@ impl PosixUTF8 {
                             | TitlecaseLetter | OtherLetter => {
                                 onword = true;
                             }
-                            otherwise => {
+                            _ => {
                                 onword = false;
                                 stats.words += 1;
                             }

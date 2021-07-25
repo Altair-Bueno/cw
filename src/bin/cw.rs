@@ -1,8 +1,8 @@
 use clap::{App, ErrorKind, load_yaml};
 
-use cw::commandline::Cwargs;
-use cw::commandline::utilities::*;
-use cw::stats::automata::mode::Mode;
+use cw::commandline::PrettyPrint;
+use cw::commandline::exec_jobs::*;
+use cw::stats::mode::Mode;
 
 fn main() {
     // Load clap for commandline utilities
@@ -12,7 +12,7 @@ fn main() {
 
     // Program arguments
     let files = matches.values_of("files");
-    let args = Cwargs::from_clap(&matches);
+    let args = PrettyPrint::from_clap(&matches);
     let mode = Mode::new(
         matches
             .value_of("encoding")

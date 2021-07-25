@@ -3,20 +3,20 @@ use std::io::BufReader;
 
 use clap::{ErrorKind, Values};
 
-use crate::commandline::Cwargs;
+use crate::commandline::PrettyPrint;
 use crate::stats::Stats;
-use crate::stats::automata::mode::Mode;
+use crate::stats::mode::Mode;
 
-pub fn multithread(files: Values, args: Cwargs, threads: usize,mode:&Mode) ->
+pub fn multithread(files: Values, args: PrettyPrint, threads: usize, mode:&Mode) ->
                                                                            ! {
     todo!()
 }
 
-pub fn singlethread_stdio(args: Cwargs,mode:&Mode) -> ! {
+pub fn singlethread_stdio(args: PrettyPrint, mode:&Mode) -> ! {
     let stats_stdio = from_stdio(mode);
     let code = match stats_stdio {
         Ok(stats) => {
-            let show = args.pretty_print_stats(&stats);
+            let show = args.format_stats(&stats);
             println!("{}", show);
             0
         }
@@ -25,13 +25,13 @@ pub fn singlethread_stdio(args: Cwargs,mode:&Mode) -> ! {
     std::process::exit(code);
 }
 
-pub fn singlethread_files(files: Values, args: Cwargs,mode:&Mode) -> ! {
+pub fn singlethread_files(files: Values, args: PrettyPrint, mode:&Mode) -> ! {
     let size = files.len();
     let (code, merged) = files.fold((0, Stats::default()), |(code, acc),
                                     file| {
         match from_file(file,mode) {
             Ok(stats) => {
-                let show = args.pretty_print_stats(&stats);
+                let show = args.format_stats(&stats);
                 println!("{}\t{}", show, file);
                 (code, acc + stats)
             }
@@ -43,7 +43,7 @@ pub fn singlethread_files(files: Values, args: Cwargs,mode:&Mode) -> ! {
     });
 
     if size > 1 {
-        println!("{}\ttotal", args.pretty_print_stats(&merged));
+        println!("{}\ttotal", args.format_stats(&merged));
     }
     std::process::exit(code)
 }

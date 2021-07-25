@@ -8,8 +8,8 @@ use std::str::FromStr;
 use crate::stats::automata::posix_ascii::PosixASCII;
 use std::fmt::{Display, Formatter};
 
-const utf8 : &str = "UTF8";
-const ascii : &str = "ASCII";
+const STR_UTF8: &str = "UTF8";
+const STR_ASCII: &str = "ASCII";
 
 pub enum Encoding {
     UTF8,
@@ -18,8 +18,8 @@ pub enum Encoding {
 impl Display for Encoding {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let w = match self {
-            UTF8 => utf8,
-            ASCII => ascii,
+            UTF8 => STR_UTF8,
+            ASCII => STR_ASCII,
         };
         write!(f,"{}",w)
     }
@@ -35,15 +35,15 @@ impl FromStr for Encoding {
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         match s {
-            utf8 => Ok(UTF8),
-            ascii => Ok(ASCII),
+            STR_UTF8 => Ok(UTF8),
+            STR_ASCII => Ok(ASCII),
             _=> Err("Invalid encoding".to_string())
         }
     }
 }
 
-const crlf : &str = "CRLF";
-const lf : &str = "LF";
+const STR_CRLF: &str = "CRLF";
+const STR_LF: &str = "LF";
 pub enum LineBreak {
     CRLF,
     LF,
@@ -52,8 +52,8 @@ pub enum LineBreak {
 impl Display for LineBreak {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let w = match self {
-            CRLF => crlf,
-            LF => lf,
+            CRLF => STR_CRLF,
+            LF => STR_LF,
         };
         write!(f,"{}",w)
     }
@@ -70,8 +70,8 @@ impl FromStr for LineBreak {
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         match s {
-            lf=> Ok(LF),
-            crlf=> Ok(CRLF),
+            STR_LF => Ok(LF),
+            STR_CRLF => Ok(CRLF),
             _ => Err("Invalid line break type".to_string())
         }
     }

@@ -1,12 +1,7 @@
 use std::fmt::{Display, Formatter};
-use std::io::{BufRead, Read};
 use std::ops::Add;
 
-use crate::stats::automata::partial_state::PartialState;
-use crate::stats::automata::posix_utf8::{PosixUTF8, PosixUTF8PartialState};
-use crate::stats::automata::Automata;
 
-const BUFFER_SIZE: usize = 16 * 1024; // 16KB
 
 /// Represents Stats for a file
 #[derive(Debug, Default, Eq, PartialEq)]
@@ -26,19 +21,6 @@ impl Stats {
             words,
             characters,
             bytes,
-        }
-    }
-    /// Calculates stats for a file
-    pub fn from_bufread(mut reader: Box<dyn BufRead>) -> std::io::Result<Stats> {
-        let mut state = PosixUTF8PartialState::initial_state();
-        // TODO use a single buffer for all operations instead
-        let mut buff = [0; BUFFER_SIZE];
-        loop {
-            let read = reader.read(&mut buff)?;
-            if read == 0 {
-                return Ok(state.result());
-            }
-            //state = PosixUTF8::run(state, &buff[0..read]);
         }
     }
     /// Combines two stats. Usefull when buffering a file

@@ -4,7 +4,7 @@ use crate::stats::Stats;
 
 /// Convenience struct and functions for pretty printing Stats
 #[derive(Debug, Default)]
-pub struct Cwargs {
+pub struct PrettyPrint {
     pub lines: bool,
     pub words: bool,
     pub characters: bool,
@@ -12,15 +12,15 @@ pub struct Cwargs {
     // TODO linebreak Option<Enum>
 }
 
-impl Cwargs {
-    /// Generates a conditional Cwargs instance used for pretty printing Stats
-    pub fn from_clap(args: &ArgMatches) -> Cwargs {
+impl PrettyPrint {
+    /// Generates a conditional PrettyPrint instance used for pretty printing Stats
+    pub fn from_clap(args: &ArgMatches) -> PrettyPrint {
         let lines = args.is_present("lines");
         let words = args.is_present("words");
         let characters = args.is_present("characters");
         let bytes = args.is_present("bytes");
 
-        Cwargs {
+        PrettyPrint {
             lines,
             words,
             characters,
@@ -29,7 +29,7 @@ impl Cwargs {
     }
     /// Returns a String representation of the given Stats struct, but only
     /// includes the requested information
-    pub fn pretty_print_stats(&self, stats: &Stats) -> String {
+    pub fn format_stats(&self, stats: &Stats) -> String {
         let mut changes = false;
         let mut string = String::new();
 
