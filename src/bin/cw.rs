@@ -1,4 +1,4 @@
-use clap::{load_yaml, App, ErrorKind};
+use clap::{load_yaml, App};
 
 use cw::commandline::exec_jobs::*;
 use cw::commandline::PrettyPrint;

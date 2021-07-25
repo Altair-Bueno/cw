@@ -1,6 +1,5 @@
 use std::fmt::{Display, Formatter};
 use std::io::BufRead;
-use std::str::FromStr;
 
 use Encoding::*;
 use LineBreak::*;
