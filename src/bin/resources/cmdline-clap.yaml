@@ -54,7 +54,6 @@ args:
       possible_values:
         - LF
         - CRLF
-        - CR
   - encoding:
       about: UTF8 or ASCII. By default uses ASCII
       short: e

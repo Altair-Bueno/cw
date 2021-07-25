@@ -2,10 +2,12 @@ use std::fs::File;
 use std::io::BufReader;
 
 use cw::stats::Stats;
+use cw::stats::automata::posix_utf8::PosixUTF8;
+use cw::stats::automata::Automata;
 
 fn proccess_file_test(f: &str) -> Stats {
     let reader = BufReader::new(File::open(f).unwrap());
-    let stats = Stats::from_bufread(Box::new(reader)).unwrap();
+    let stats = PosixUTF8.stats_from_bufread(Box::new(reader)).unwrap();
 
     stats
 }

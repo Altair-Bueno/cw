@@ -38,7 +38,7 @@ impl Stats {
             if read == 0 {
                 return Ok(state.result());
             }
-            state = PosixUTF8::run(state, &buff[0..read]);
+            //state = PosixUTF8::run(state, &buff[0..read]);
         }
     }
     /// Combines two stats. Usefull when buffering a file

@@ -5,13 +5,15 @@ use clap::{ErrorKind, Values};
 
 use crate::commandline::Cwargs;
 use crate::stats::Stats;
+use crate::stats::automata::mode::Mode;
 
-pub fn multithread(files: Values, args: Cwargs, threads: usize) -> ! {
+pub fn multithread(files: Values, args: Cwargs, threads: usize,mode:&Mode) ->
+                                                                           ! {
     todo!()
 }
 
-pub fn singlethread_stdio(args: Cwargs) -> ! {
-    let stats_stdio = from_stdio();
+pub fn singlethread_stdio(args: Cwargs,mode:&Mode) -> ! {
+    let stats_stdio = from_stdio(mode);
     let code = match stats_stdio {
         Ok(stats) => {
             let show = args.pretty_print_stats(&stats);
@@ -23,10 +25,11 @@ pub fn singlethread_stdio(args: Cwargs) -> ! {
     std::process::exit(code);
 }
 
-pub fn singlethread_files(files: Values, args: Cwargs) -> ! {
+pub fn singlethread_files(files: Values, args: Cwargs,mode:&Mode) -> ! {
     let size = files.len();
-    let (code, merged) = files.fold((0, Stats::default()), |(code, acc), file| {
-        match from_file(file) {
+    let (code, merged) = files.fold((0, Stats::default()), |(code, acc),
+                                    file| {
+        match from_file(file,mode) {
             Ok(stats) => {
                 let show = args.pretty_print_stats(&stats);
                 println!("{}\t{}", show, file);
@@ -45,17 +48,17 @@ pub fn singlethread_files(files: Values, args: Cwargs) -> ! {
     std::process::exit(code)
 }
 
-fn from_file(f: &str) -> std::io::Result<Stats> {
+fn from_file(f: &str,mode:&Mode) -> std::io::Result<Stats> {
     let file = File::open(f)?;
     let reader = BufReader::new(file);
-    let stats = Stats::from_bufread(Box::new(reader));
+    let stats = mode.proccess(Box::new(reader));
 
     stats
 }
 
-fn from_stdio() -> std::io::Result<Stats> {
+fn from_stdio(mode:&Mode) -> std::io::Result<Stats> {
     let reader = BufReader::new(std::io::stdin());
-    let stats = Stats::from_bufread(Box::new(reader));
+    let stats = mode.proccess(Box::new(reader));
 
     stats
 }

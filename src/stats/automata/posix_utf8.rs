@@ -68,16 +68,12 @@ impl Automata for PosixUTF8 {
     type State = PosixUTF8PartialState;
 
     fn run(&self,partial: Self::State, tape: &[u8]) -> Self::State {
-        PosixUTF8::run(partial,tape)
+        tape.iter().fold(partial, PosixUTF8::compute)
     }
 }
 
 impl PosixUTF8 {
     /// Runs the automata over the given tape, generating a partial response
-    pub fn run(partial: PosixUTF8PartialState, tape: &[u8]) -> PosixUTF8PartialState {
-        tape.iter().fold(partial, PosixUTF8::compute)
-    }
-
     fn compute(partial: PosixUTF8PartialState, char: &u8) -> PosixUTF8PartialState {
         // TODO doest work as expected
         // Bytes: works
