@@ -1,13 +1,13 @@
 use crate::stats::Stats;
-use crate::stats::automata::partial_response::PartialResponse;
+use crate::stats::automata::partial_response::PartialState;
 use unicode_general_category::get_general_category;
 use unicode_general_category::GeneralCategory::*;
+use crate::stats::automata::OnWord;
 
 /// UTF char uses 4 bytes at most
 type UTFCharBuff = [u8;4];
 
-// If we are on a word or not
-type OnWord = bool;
+
 
 enum State {
     New,
@@ -43,16 +43,16 @@ impl State {
 /// Represents progress for a finite automata. Can be converted into a final
 /// result by using the `result()` function
 #[derive(Default)]
-pub struct PosixPartialState(State, OnWord, Stats, UTFCharBuff);
+pub struct PosixUTF8PartialState(State, OnWord, Stats, UTFCharBuff);
 
-impl PartialResponse for PosixPartialState {
+impl PartialState for PosixUTF8PartialState {
     /// Initial state for the automata
-    fn initial_state() -> PosixPartialState {
-        PosixPartialState::default()
+    fn initial_state() -> PosixUTF8PartialState {
+        PosixUTF8PartialState::default()
     }
-    /// Transforms a `PosixPartialState` into `Stats`
+    /// Transforms a `PosixUTF8PartialState` into `Stats`
     fn result(self) -> Stats {
-        let PosixPartialState(state,onword,mut stats,buff) = self;
+        let PosixUTF8PartialState(state, onword, mut stats, buff) = self;
         if onword {
             stats.words+=1;
         }
@@ -65,23 +65,23 @@ impl PartialResponse for PosixPartialState {
 pub struct PosixUTF8;
 impl PosixUTF8 {
     /// Runs the automata over the given tape, generating a partial response
-    pub fn run(partial: PosixPartialState, tape: &[u8]) -> PosixPartialState {
+    pub fn run(partial: PosixUTF8PartialState, tape: &[u8]) -> PosixUTF8PartialState {
         tape.iter().fold(partial, PosixUTF8::compute)
     }
 
-    fn compute(partial:PosixPartialState,char:&u8) -> PosixPartialState {
+    fn compute(partial: PosixUTF8PartialState, char:&u8) -> PosixUTF8PartialState {
         // TODO doest work as expected
         // Bytes: works
         // Characters: No
         // Words: No
         // Lines: Works
-        let PosixPartialState(mut expect, mut onword, mut stats, mut buff) =
+        let PosixUTF8PartialState(mut expect, mut onword, mut stats, mut buff) =
             partial;
         match expect {
             State::New => { // -> One,Two,Three,Four
                 // Done
                 expect = State::decode(char);
-                let state = PosixPartialState(expect,onword,stats,buff);
+                let state = PosixUTF8PartialState(expect, onword, stats, buff);
                 PosixUTF8::compute(state,char)
             }
             State::One => { // -> New
@@ -134,47 +134,27 @@ impl PosixUTF8 {
                 buff.fill(0);
                 expect = State::New;
 
-                PosixPartialState(expect,onword,stats,buff)
+                PosixUTF8PartialState(expect, onword, stats, buff)
             }
             State::Two => {
                 stats.bytes+=1;
                 buff[1] = *char;
                 expect = State::One;
-                PosixPartialState(expect,onword,stats,buff)
+                PosixUTF8PartialState(expect, onword, stats, buff)
 
             }
             State::Three => {
                 stats.bytes+=1;
                 buff[2] = *char;
                 expect = State::Two;
-                PosixPartialState(expect,onword,stats,buff)
+                PosixUTF8PartialState(expect, onword, stats, buff)
             }
             State::Four => {
                 stats.bytes+=1;
                 buff[3] = *char;
                 expect = State::Three;
-                PosixPartialState(expect,onword,stats,buff)
+                PosixUTF8PartialState(expect, onword, stats, buff)
             }
-        }
-    }
-}
-
-mod utils {
-    /// Defined on C95: wctype.h
-    /// https://en.cppreference.com/w/c/string/wide/iswspace
-    pub fn isspace(char:u8) -> bool {
-        (char == 0x9 ) || (char == 0x20) || (char >= 0xA && char <= 0xD)
-    }
-    /// Defined on C95: wctype.h
-    /// https://en.cppreference.com/w/c/string/wide/iswspace
-    pub fn isalpha (char :u8) ->bool {
-        (char >= 0x41 && char <=0x5A) || (char>=0x61 && char <= 0x7A)
-    }
-
-    // Macro?
-    macro_rules! isspace {
-        ($char:expr) => {
-            ($char == 0x9 ) || ($char == 0x20) || ($char >= 0xA && $char <=0xD)
         }
     }
 }

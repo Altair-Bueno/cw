@@ -1,7 +1,7 @@
 use crate::stats::Stats;
 
-pub trait PartialResponse {
+pub trait PartialState {
     fn initial_state() -> Self;
-    /// Transforms a `PartialResponse` into `Stats`
+    /// Transforms a `PartialState` into `Stats`
     fn result(self) -> Stats ;
 }

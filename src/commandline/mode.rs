@@ -1,9 +1,9 @@
 
-enum Encoding {
+pub enum Encoding {
     UTF8,
     ASCII,
 }
-enum LineBreak {
+pub enum LineBreak {
     CRLF,
     LF,
 }
