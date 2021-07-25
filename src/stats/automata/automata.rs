@@ -1,35 +1,23 @@
-use std::fmt::{Display, Formatter};
+use crate::stats::automata::partial_state::PartialState;
+use crate::stats::Stats;
 use std::io::BufRead;
 
-use Encoding::*;
-use LineBreak::*;
+const BUFFER_SIZE: usize = 16 * 1024; // 16KB
+pub trait Automata {
+    type State: PartialState + Sized;
 
-use crate::stats::automata::ascii::posix_ascii::PosixASCII;
-use crate::stats::automata::automata_trait::Automata;
-use crate::stats::automata::encoding::Encoding;
-use crate::stats::automata::line_break::LineBreak;
-use crate::stats::automata::utf8::posix_utf8::PosixUTF8;
-use crate::stats::Stats;
+    fn run(&self, partial: Self::State, tape: &[u8]) -> Self::State;
 
-#[derive(Default, Clone)]
-pub struct Mode(Encoding, LineBreak);
-
-impl Mode {
-    pub fn new(encoding: Encoding, line_break: LineBreak) -> Mode {
-        Mode(encoding, line_break)
-    }
-
-    pub fn proccess(&self, read: Box<dyn BufRead>) -> std::io::Result<Stats> {
-        match self {
-            Mode(UTF8, LF) => PosixUTF8.stats_from_bufread(read),
-            Mode(ASCII, LF) => PosixASCII.stats_from_bufread(read),
-            _ => todo!(),
+    fn stats_from_bufread(&self, mut reader: Box<dyn BufRead>) -> std::io::Result<Stats> {
+        let mut state = Self::State::initial_state();
+        // TODO use a single buffer for all operations instead
+        let mut buff = [0; BUFFER_SIZE];
+        loop {
+            let read = reader.read(&mut buff)?;
+            if read == 0 {
+                return Ok(state.result());
+            }
+            state = self.run(state, &buff[0..read]);
         }
-    }
-}
-
-impl Display for Mode {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{} {}", self.0, self.1)
     }
 }

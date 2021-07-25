@@ -1,0 +1,35 @@
+use std::fmt::{Display, Formatter};
+use std::io::BufRead;
+
+use Encoding::*;
+use LineBreak::*;
+
+use crate::stats::automata::ascii::posix_ascii::PosixASCII;
+use crate::stats::automata::automata::Automata;
+use crate::stats::automata::encoding::Encoding;
+use crate::stats::automata::line_break::LineBreak;
+use crate::stats::automata::utf8::posix_utf8::PosixUTF8;
+use crate::stats::Stats;
+
+#[derive(Default, Clone)]
+pub struct FileStyle(Encoding, LineBreak);
+
+impl FileStyle {
+    pub fn new(encoding: Encoding, line_break: LineBreak) -> FileStyle {
+        FileStyle(encoding, line_break)
+    }
+
+    pub fn proccess(&self, read: Box<dyn BufRead>) -> std::io::Result<Stats> {
+        match self {
+            FileStyle(UTF8, LF) => PosixUTF8.stats_from_bufread(read),
+            FileStyle(ASCII, LF) => PosixASCII.stats_from_bufread(read),
+            _ => todo!(),
+        }
+    }
+}
+
+impl Display for FileStyle {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{} {}", self.0, self.1)
+    }
+}

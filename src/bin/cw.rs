@@ -2,7 +2,7 @@ use clap::{load_yaml, App};
 
 use cw::commandline::exec_jobs::*;
 use cw::commandline::PrettyPrint;
-use cw::stats::automata::automata::Mode;
+use cw::stats::automata::file_style::FileStyle;
 
 fn main() {
     // Load clap for commandline utilities
@@ -13,7 +13,7 @@ fn main() {
     // Program arguments
     let files = matches.values_of("files");
     let args = PrettyPrint::from_clap(&matches);
-    let mode = Mode::new(
+    let mode = FileStyle::new(
         matches
             .value_of("encoding")
             .map(|x| x.parse().unwrap_or_default())

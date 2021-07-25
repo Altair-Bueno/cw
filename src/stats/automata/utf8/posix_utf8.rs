@@ -1,7 +1,7 @@
 use unicode_general_category::get_general_category;
 use unicode_general_category::GeneralCategory::*;
 
-use crate::stats::automata::automata_trait::Automata;
+use crate::stats::automata::automata::Automata;
 use crate::stats::automata::partial_state::PartialState;
 use crate::stats::automata::OnWord;
 use crate::stats::Stats;

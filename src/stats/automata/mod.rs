@@ -1,6 +1,6 @@
 pub mod ascii;
+pub mod file_style;
 pub mod automata;
-pub mod automata_trait;
 mod encoding;
 mod line_break;
 pub(crate) mod partial_state;
