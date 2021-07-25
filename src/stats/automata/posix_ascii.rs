@@ -6,11 +6,13 @@ use crate::stats::Stats;
 mod utils {
     /// Defined on C95: wctype.h
     /// https://en.cppreference.com/w/c/string/wide/iswspace
+    #[cfg(unused)]
     pub fn isspace(char: u8) -> bool {
         (char == 0x9) || (char == 0x20) || (char >= 0xA && char <= 0xD)
     }
     /// Defined on C95: wctype.h
     /// https://en.cppreference.com/w/c/string/wide/iswspace
+    #[cfg(unused)]
     pub fn isalpha(char: u8) -> bool {
         (char >= 0x41 && char <= 0x5A) || (char >= 0x61 && char <= 0x7A)
     }
@@ -70,9 +72,7 @@ impl PosixASCII {
                     onword = false;
                 }
             }
-            x => {
-                onword = true;
-            }
+            _ => onword = true,
         }
         PosixASCIIPartialState(onword, stats)
     }

@@ -1,5 +1,5 @@
 use std::fs::File;
-use std::io::{BufReader, Error};
+use std::io::BufReader;
 
 use clap::{ErrorKind, Values};
 
@@ -27,29 +27,10 @@ pub fn multithread(files: Values, args: PrettyPrint, threads: usize, mode: &Mode
         });
         //eprintln!("{:?}",e)
     }
-    /*
-    let mut acc = Stats::default();
-    let mut code = 0;
-    let mut iterator = reciver.iter();
-    let range = [0..size];
-    for _ in range.iter() {
-        let (file,result) = iterator.next().unwrap();
-        match result {
-            Ok(stats)=> {
-                let show = args.format_stats(&stats);
-                println!("{}\t{}", show, file);
-                acc.combine(&stats);
-            },
-            Err(err) => {
-                eprintln!("{}: {}", file, err);
-                code+=1;
-            }
-        }
-    }*/
 
     let (code, acc) = (0..size).into_iter().zip(reciver.iter()).fold(
         (0, Stats::default()),
-        |(code, acc), (_x, (file, result))| match result {
+        |(code, acc), (_, (file, result))| match result {
             Ok(stats) => {
                 let show = args.format_stats(&stats);
                 println!("{}\t{}", show, file);
