@@ -59,3 +59,10 @@ fn empty() {
     let expected = Stats::new(0, 0, 0, 0);
     assert_eq!(out, expected)
 }
+
+#[test]
+fn arabic() {
+    let out = proccess_file_test("tests/resources/arabic.txt");
+    let expected = Stats::new(0, 10, 58, 105);
+    assert_eq!(out, expected)
+}
