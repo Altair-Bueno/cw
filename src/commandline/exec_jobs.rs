@@ -4,11 +4,12 @@ use std::io::BufReader;
 use clap::{ErrorKind, Values};
 
 use crate::commandline::PrettyPrint;
-use crate::stats::automata::Mode;
+use crate::stats::automata::automata::Mode;
 use crate::stats::Stats;
 use std::result::Result::Ok;
 use threads_pool::ThreadPool;
 
+/// Multithread cw. Parses each file on individual files
 pub fn multithread(files: Values, args: PrettyPrint, threads: usize, mode: &Mode) -> ! {
     // One thread for stdout
     let size = files.len();
@@ -34,7 +35,7 @@ pub fn multithread(files: Values, args: PrettyPrint, threads: usize, mode: &Mode
             Ok(stats) => {
                 let show = args.format_stats(&stats);
                 println!("{}\t{}", show, file);
-                (code, acc + stats)
+                (code, acc.combine(stats))
             }
             Err(err) => {
                 eprintln!("{}: {}", file, err);
@@ -49,6 +50,8 @@ pub fn multithread(files: Values, args: PrettyPrint, threads: usize, mode: &Mode
     std::process::exit(code)
 }
 
+/// Proccess stdio using one single thread. Because stdio has an internal
+/// lock, using more than one thread could impact performance
 pub fn singlethread_stdio(args: PrettyPrint, mode: &Mode) -> ! {
     let stats_stdio = from_stdio(mode);
     let code = match stats_stdio {
@@ -62,6 +65,9 @@ pub fn singlethread_stdio(args: PrettyPrint, mode: &Mode) -> ! {
     std::process::exit(code);
 }
 
+/// Single thread proccess each file sequentialy. It does not instanciate a
+/// thread pool, so startup is faster. Usefull when only reading one or two
+/// files
 pub fn singlethread_files(files: Values, args: PrettyPrint, mode: &Mode) -> ! {
     let size = files.len();
     let (code, merged) = files.fold((0, Stats::default()), |(code, acc), file| {
@@ -69,7 +75,7 @@ pub fn singlethread_files(files: Values, args: PrettyPrint, mode: &Mode) -> ! {
             Ok(stats) => {
                 let show = args.format_stats(&stats);
                 println!("{}\t{}", show, file);
-                (code, acc + stats)
+                (code, acc.combine(stats))
             }
             Err(err) => {
                 eprintln!("{}: {}", file, err);

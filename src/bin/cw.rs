@@ -2,7 +2,7 @@ use clap::{load_yaml, App, ErrorKind};
 
 use cw::commandline::exec_jobs::*;
 use cw::commandline::PrettyPrint;
-use cw::stats::automata::Mode;
+use cw::stats::automata::automata::Mode;
 
 fn main() {
     // Load clap for commandline utilities
@@ -27,19 +27,15 @@ fn main() {
     println!("MODE: {}", mode);
 
     if let Some(files) = files {
-        let num_threads = matches.value_of("threads");
-        match num_threads.map(|x| x.parse()) {
-            None => singlethread_files(files, args, &mode),
-            Some(Ok(x)) if x > 1 => multithread(files, args, x, &mode),
-            Some(Ok(x)) if x == 1 => singlethread_files(files, args, &mode),
-            Some(_) => {
-                let message = format!(
-                    "{} is not a valid number. Must be >=1",
-                    num_threads.unwrap()
-                );
-                clap::Error::with_description(message, ErrorKind::InvalidValue).exit()
-            }
-        };
+        let num_threads = matches
+            .value_of("threads")
+            .map(|x| x.parse().unwrap_or(1))
+            .unwrap_or(1);
+        if num_threads == 1 {
+            singlethread_files(files, args, &mode)
+        } else if num_threads > 1 {
+            multithread(files, args, num_threads, &mode)
+        }
     } else {
         singlethread_stdio(args, &mode);
     }

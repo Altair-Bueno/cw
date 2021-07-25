@@ -1,5 +1,4 @@
 use std::fmt::{Display, Formatter};
-use std::ops::Add;
 
 /// Represents Stats for a file
 #[derive(Debug, Default, Eq, PartialEq)]
@@ -21,14 +20,15 @@ impl Stats {
             bytes,
         }
     }
-    /// Combines two stats. Usefull when buffering a file
-    pub fn combine(&self, s: &Stats) -> Stats {
-        Stats {
-            lines: self.lines + s.lines,
-            words: self.words + s.words,
-            characters: self.characters + s.characters,
-            bytes: self.bytes + s.bytes,
-        }
+    /// Combines two stats. Usefull when buffering a file. Consumes both
+    /// arguments for improved performance. There is no need to
+    /// de-referenciate or alloc more memory
+    pub fn combine(mut self, s: Stats) -> Stats {
+        self.lines += s.lines;
+        self.words += s.words;
+        self.characters += s.characters;
+        self.bytes += s.bytes;
+        self
     }
 }
 
@@ -39,13 +39,5 @@ impl Display for Stats {
             "{}\t{}\t{}\t{}",
             self.lines, self.words, self.characters, self.bytes
         )
-    }
-}
-
-impl Add for Stats {
-    type Output = Stats;
-
-    fn add(self, rhs: Self) -> Self::Output {
-        self.combine(&rhs)
     }
 }

@@ -1,5 +1,6 @@
+use crate::stats::automata::automata_trait::Automata;
 use crate::stats::automata::partial_state::PartialState;
-use crate::stats::automata::{Automata, OnWord};
+use crate::stats::automata::OnWord;
 use crate::stats::Stats;
 
 #[macro_use]
