@@ -20,6 +20,7 @@ type OnWord = bool;
 const STR_UTF8: &str = "UTF8";
 const STR_ASCII: &str = "ASCII";
 
+#[derive(Clone)]
 pub enum Encoding {
     UTF8,
     ASCII,
@@ -53,6 +54,7 @@ impl FromStr for Encoding {
 
 const STR_CRLF: &str = "CRLF";
 const STR_LF: &str = "LF";
+#[derive(Clone)]
 pub enum LineBreak {
     CRLF,
     LF,
@@ -86,7 +88,7 @@ impl FromStr for LineBreak {
     }
 }
 
-#[derive(Default)]
+#[derive(Default,Clone)]
 pub struct Mode(Encoding, LineBreak);
 
 impl Mode {
