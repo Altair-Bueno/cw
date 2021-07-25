@@ -17,5 +17,4 @@ impl Mode {
     pub fn new (encoding:Encoding,line_break:LineBreak) -> Mode {
         Mode { encoding, line_break }
     }
-    //pub fn automata(&self) ->
 }
