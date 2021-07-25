@@ -88,7 +88,7 @@ impl FromStr for LineBreak {
     }
 }
 
-#[derive(Default,Clone)]
+#[derive(Default, Clone)]
 pub struct Mode(Encoding, LineBreak);
 
 impl Mode {
