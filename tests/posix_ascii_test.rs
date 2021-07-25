@@ -1,12 +1,13 @@
 use cw::stats::Stats;
 use std::io::BufReader;
 use std::fs::File;
+use cw::stats::automata::posix_ascii::PosixASCII;
+use cw::stats::automata::Automata;
 
 fn proccess_file_test(f: &str) -> Stats {
     let reader = BufReader::new(File::open(f).unwrap());
-    let stats = Stats::from_bufread(Box::new(reader)).unwrap();
-    // TODO use different encoding
-    todo!();
+    let stats = PosixASCII.stats_from_bufread(Box::new(reader)).unwrap();
+
     stats
 }
 

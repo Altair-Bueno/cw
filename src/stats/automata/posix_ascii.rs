@@ -1,5 +1,5 @@
 
-use crate::stats::automata::OnWord;
+use crate::stats::automata::{OnWord, Automata};
 use crate::stats::automata::partial_state::PartialState;
 use crate::stats::Stats;
 
@@ -44,10 +44,15 @@ impl PartialState for PosixASCIIPartialState {
 
 pub struct PosixASCII;
 
-impl PosixASCII {
-    pub fn run(partial: PosixASCIIPartialState, tape: &[u8]) -> PosixASCIIPartialState {
+impl Automata for PosixASCII {
+    type State = PosixASCIIPartialState;
+
+    fn run(&self, partial: Self::State, tape: &[u8]) -> Self::State {
         tape.iter().fold(partial, PosixASCII::compute)
     }
+}
+
+impl PosixASCII {
 
     fn compute(partial: PosixASCIIPartialState, char: &u8) -> PosixASCIIPartialState {
         let PosixASCIIPartialState(mut onword, mut stats) = partial;

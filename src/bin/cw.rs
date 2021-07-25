@@ -23,6 +23,8 @@ fn main() {
             .map(|x| x.parse().unwrap_or_default())
             .unwrap_or_default()
     );
+    // TODO better message
+    println!("MODE: {}",mode);
 
 
     if let Some(files) = files {
