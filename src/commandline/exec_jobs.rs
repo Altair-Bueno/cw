@@ -13,9 +13,10 @@ use threads_pool::ThreadPool;
 pub fn multithread(files: Values, args: PrettyPrint, threads: usize, mode: &AutomataConfig) -> ! {
     // One thread for stdout
     let size = files.len();
-
     let pool = ThreadPool::new(threads);
     let (sender, reciver) = std::sync::mpsc::channel();
+
+    // TODO use static references instead to avoid copy
     for f in files {
         let copy = sender.clone();
         let fclone = f.to_string();
@@ -54,15 +55,16 @@ pub fn multithread(files: Values, args: PrettyPrint, threads: usize, mode: &Auto
 /// lock, using more than one thread could impact performance
 pub fn singlethread_stdio(args: PrettyPrint, mode: &AutomataConfig) -> ! {
     let stats_stdio = from_stdio(mode);
-    let code = match stats_stdio {
+     match stats_stdio {
         Ok(stats) => {
             let show = args.format_stats(&stats);
             println!("{}", show);
-            0
+            std::process::exit(0);
         }
-        Err(err) => clap::Error::with_description(err.to_string(), ErrorKind::Io).exit(),
-    };
-    std::process::exit(code);
+        Err(err) => clap::Error::with_description(err.to_string(),
+                                                  ErrorKind::Io).exit(),
+        // Todo too big. Use eprint instead
+    }
 }
 
 /// Single thread proccess each file sequentialy. It does not instanciate a
@@ -70,7 +72,9 @@ pub fn singlethread_stdio(args: PrettyPrint, mode: &AutomataConfig) -> ! {
 /// files
 pub fn singlethread_files(files: Values, args: PrettyPrint, mode: &AutomataConfig) -> ! {
     let size = files.len();
-    let (code, merged) = files.fold((0, Stats::default()), |(code, acc), file| {
+    let init = (0, Stats::default());
+
+    let (code, merged) = files.fold(init, |(code, acc), file| {
         match from_file(file, mode) {
             Ok(stats) => {
                 let show = args.format_stats(&stats);
@@ -85,7 +89,8 @@ pub fn singlethread_files(files: Values, args: PrettyPrint, mode: &AutomataConfi
     });
 
     if size > 1 {
-        println!("{}\ttotal", args.format_stats(&merged));
+        // Total files
+        println!("\n{}\ttotal", args.format_stats(&merged));
     }
     std::process::exit(code)
 }

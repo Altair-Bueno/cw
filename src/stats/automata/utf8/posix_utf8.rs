@@ -51,7 +51,7 @@ impl PartialState for PosixUTF8PartialState {
     }
     /// Transforms a `PosixUTF8PartialState` into `Stats`
     fn result(self) -> Stats {
-        let PosixUTF8PartialState(state, onword, mut stats, buff) = self;
+        let PosixUTF8PartialState(_, onword, mut stats, _) = self;
         if onword {
             stats.words += 1;
         }

@@ -23,21 +23,12 @@ impl Stats {
     /// Combines two stats. Usefull when buffering a file. Consumes both
     /// arguments for improved performance. There is no need to
     /// de-referenciate or alloc more memory
-    pub fn combine(mut self, s: Stats) -> Stats {
-        self.lines += s.lines;
-        self.words += s.words;
-        self.characters += s.characters;
-        self.bytes += s.bytes;
-        self
-    }
-}
-
-impl Display for Stats {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "{}\t{}\t{}\t{}",
-            self.lines, self.words, self.characters, self.bytes
-        )
+    pub fn combine(self, s: Stats) -> Stats {
+        Stats {
+            lines: self.lines + s.lines,
+            words: self.words + s.words,
+            characters: self.characters + s.characters,
+            bytes: self.bytes + s.bytes
+        }
     }
 }
