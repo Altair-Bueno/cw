@@ -89,33 +89,30 @@ impl AutomataUTF8 {
                 // - Reset buffer to empty
                 // - Write on buff [0]
                 // update stats
-                let opt_character = char::from_u32(u32::from_le_bytes(buff));
-                if let Some(char) = opt_character {
-                    stats.characters += 1;
-                    match char {
-                        '\n' => {
-                            stats.lines += 1;
-                            if onword {
-                                stats.words += 1;
-                            }
-                            onword = false;
+                let asnum = u32::from_le_bytes(buff);
+                let opt_character = char::from_u32(asnum);
+
+                match opt_character {
+                    Some('\n')=>{
+                        stats.characters+=1;
+                        stats.lines += 1;
+                        if onword {
+                            stats.words += 1;
                         }
-                        x if isspace!(x as u32) => {
+                        onword = false;
+                    },
+                    Some(x) => {
+                        stats.characters+=1;
+                        if isspace!(x as u32) {
                             if onword {
                                 stats.words += 1;
                                 onword = false;
                             }
+                        } else {
+                            onword = true;
                         }
-                        _ => onword = true,
-                    }
-                    // Character read
-                    // update onword
-                    // update stats
-                } else {
-                    // Something went wrong
-                    // update onword
-                    // update stats
-                    onword = false;
+                    },
+                    None => onword = false,
                 }
                 buff.fill(0);
                 expect = State::New;
