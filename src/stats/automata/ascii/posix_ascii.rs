@@ -2,8 +2,9 @@ use crate::stats::automata::automata::Automata;
 use crate::stats::automata::partial_state::PartialState;
 use crate::stats::automata::OnWord;
 use crate::stats::Stats;
+use crate::isspace;
 
-#[macro_use]
+
 mod utils {
     /// Defined on C95: wctype.h
     /// https://en.cppreference.com/w/c/string/wide/iswspace
@@ -18,12 +19,7 @@ mod utils {
         (char >= 0x41 && char <= 0x5A) || (char >= 0x61 && char <= 0x7A)
     }
 
-    // Macro?
-    macro_rules! isspace {
-        ($char:expr) => {
-            ($char == 0x9) || ($char == 0x20) || ($char >= 0xA && $char <= 0xD)
-        };
-    }
+
 }
 
 #[derive(Default)]
@@ -55,11 +51,12 @@ impl Automata for PosixASCII {
 }
 
 impl PosixASCII {
-    fn compute(partial: PosixASCIIPartialState, char: &u8) -> PosixASCIIPartialState {
+    fn compute(partial: PosixASCIIPartialState, byte: &u8) ->
+                                                        PosixASCIIPartialState {
         let PosixASCIIPartialState(mut onword, mut stats) = partial;
         stats.characters += 1;
         stats.bytes += 1;
-        match char {
+        match byte {
             b'\n' => {
                 if onword {
                     stats.words += 1;

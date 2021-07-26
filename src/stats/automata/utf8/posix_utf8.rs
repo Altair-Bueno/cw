@@ -1,10 +1,9 @@
-use unicode_general_category::get_general_category;
-use unicode_general_category::GeneralCategory::*;
 
 use crate::stats::automata::automata::Automata;
 use crate::stats::automata::partial_state::PartialState;
 use crate::stats::automata::OnWord;
 use crate::stats::Stats;
+use crate::isspace;
 
 /// UTF char uses 4 bytes at most
 type UTFCharBuff = [u8; 4];
@@ -111,18 +110,14 @@ impl PosixUTF8 {
                             }
                             onword = false;
                         }
-                        x => match get_general_category(x) {
-                            LowercaseLetter | UppercaseLetter | ModifierLetter
-                            | TitlecaseLetter | OtherLetter => {
-                                onword = true;
-                            }
-                            _ => {
-                                onword = false;
+                        x if isspace!(x as u32) => {
+                            if onword {
                                 stats.words += 1;
+                                onword = false;
                             }
-                        },
+                        }
+                        _ => onword = true,
                     }
-
                     // Character read
                     // update onword
                     // update stats
