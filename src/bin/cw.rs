@@ -2,7 +2,7 @@ use clap::{load_yaml, App};
 
 use cw::commandline::exec_jobs::*;
 use cw::commandline::pretty_print::PrettyPrint;
-use cw::stats::automata::automata_config::AutomataConfig;
+use cw::stats::parser::Parser;
 
 fn main() {
     // Load clap for commandline utilities
@@ -13,7 +13,7 @@ fn main() {
     // Program arguments
     let files = matches.values_of("files");
     let pretty_print = PrettyPrint::from_clap(&matches);
-    let parser_config = AutomataConfig::from_clap(&matches);
+    let parser_config = Parser::from_clap(&matches);
 
     // TODO better message
     println!("MODE: {}", parser_config);

@@ -4,13 +4,13 @@ use std::io::BufReader;
 use clap::{ErrorKind, Values};
 
 use crate::commandline::pretty_print::PrettyPrint;
-use crate::stats::automata::automata_config::AutomataConfig;
+use crate::stats::parser::Parser;
 use crate::stats::stats::Stats;
 use std::result::Result::Ok;
 use threads_pool::ThreadPool;
 
 /// Multithread cw. Parses each file on individual files
-pub fn multithread(files: Values, args: PrettyPrint, threads: usize, mode: &AutomataConfig) -> ! {
+pub fn multithread(files: Values, args: PrettyPrint, threads: usize, mode: &Parser) -> ! {
     // One thread for stdout
     let size = files.len();
     let pool = ThreadPool::new(threads);
@@ -20,7 +20,7 @@ pub fn multithread(files: Values, args: PrettyPrint, threads: usize, mode: &Auto
     for f in files {
         let copy = sender.clone();
         let fclone = f.to_string();
-        let modeclone: AutomataConfig = (*mode).clone();
+        let modeclone: Parser = (*mode).clone();
 
         let _e = pool.execute(move || {
             let stats = from_file(fclone.as_str(), &modeclone);
@@ -53,7 +53,7 @@ pub fn multithread(files: Values, args: PrettyPrint, threads: usize, mode: &Auto
 
 /// Proccess stdio using one single thread. Because stdio has an internal
 /// lock, using more than one thread could impact performance
-pub fn singlethread_stdio(args: PrettyPrint, mode: &AutomataConfig) -> ! {
+pub fn singlethread_stdio(args: PrettyPrint, mode: &Parser) -> ! {
     let stats_stdio = from_stdio(mode);
     match stats_stdio {
         Ok(stats) => {
@@ -69,7 +69,7 @@ pub fn singlethread_stdio(args: PrettyPrint, mode: &AutomataConfig) -> ! {
 /// Single thread proccess each file sequentialy. It does not instanciate a
 /// thread pool, so startup is faster. Usefull when only reading one or two
 /// files
-pub fn singlethread_files(files: Values, args: PrettyPrint, mode: &AutomataConfig) -> ! {
+pub fn singlethread_files(files: Values, args: PrettyPrint, mode: &Parser) -> ! {
     let size = files.len();
     let init = (0, Stats::default());
 
@@ -92,7 +92,7 @@ pub fn singlethread_files(files: Values, args: PrettyPrint, mode: &AutomataConfi
     std::process::exit(code)
 }
 
-fn from_file(f: &str, mode: &AutomataConfig) -> std::io::Result<Stats> {
+fn from_file(f: &str, mode: &Parser) -> std::io::Result<Stats> {
     let file = File::open(f)?;
     let reader = BufReader::new(file);
     let stats = mode.proccess(Box::new(reader));
@@ -100,7 +100,7 @@ fn from_file(f: &str, mode: &AutomataConfig) -> std::io::Result<Stats> {
     stats
 }
 
-fn from_stdio(mode: &AutomataConfig) -> std::io::Result<Stats> {
+fn from_stdio(mode: &Parser) -> std::io::Result<Stats> {
     let reader = BufReader::new(std::io::stdin());
     let stats = mode.proccess(Box::new(reader));
 

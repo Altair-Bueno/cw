@@ -1,4 +1,4 @@
-use crate::stats::automata::encoding::Encoding::{ASCII, UTF8};
+use crate::stats::parser_config::encoding::Encoding::{ASCII, UTF8};
 use std::fmt::{Display, Formatter};
 use std::str::FromStr;
 

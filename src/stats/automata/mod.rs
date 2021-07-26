@@ -1,13 +1,8 @@
 // Private members
-mod automata_utf8;
-mod encoding;
-mod line_break;
-mod posix_ascii;
-mod trait_automata;
-mod trait_partial_state;
-
-// Public API
-pub mod automata_config;
+pub mod automata_utf8;
+pub mod posix_ascii;
+pub mod trait_automata;
+pub mod trait_partial_state;
 
 // Private types and def
 // If we are on a word or not

@@ -1,4 +1,4 @@
-use crate::stats::automata::line_break::LineBreak::{CRLF, LF};
+use crate::stats::parser_config::line_break::LineBreak::{CRLF, LF};
 use std::fmt::{Display, Formatter};
 use std::str::FromStr;
 
