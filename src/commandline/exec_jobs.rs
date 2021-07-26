@@ -3,9 +3,9 @@ use std::io::BufReader;
 
 use clap::{ErrorKind, Values};
 
-use crate::commandline::PrettyPrint;
+use crate::commandline::pretty_print::PrettyPrint;
 use crate::stats::automata::automata_config::AutomataConfig;
-use crate::stats::Stats;
+use crate::stats::stats::Stats;
 use std::result::Result::Ok;
 use threads_pool::ThreadPool;
 
@@ -46,7 +46,7 @@ pub fn multithread(files: Values, args: PrettyPrint, threads: usize, mode: &Auto
     );
 
     if size > 1 {
-        println!("{}", args.print(&acc,"total"));
+        println!("{}", args.print(&acc, "total"));
     }
     std::process::exit(code)
 }
@@ -55,14 +55,13 @@ pub fn multithread(files: Values, args: PrettyPrint, threads: usize, mode: &Auto
 /// lock, using more than one thread could impact performance
 pub fn singlethread_stdio(args: PrettyPrint, mode: &AutomataConfig) -> ! {
     let stats_stdio = from_stdio(mode);
-     match stats_stdio {
+    match stats_stdio {
         Ok(stats) => {
-            let show = args.print(&stats,"");
+            let show = args.print(&stats, "");
             println!("{}", show);
             std::process::exit(0);
         }
-        Err(err) => clap::Error::with_description(err.to_string(),
-                                                  ErrorKind::Io).exit(),
+        Err(err) => clap::Error::with_description(err.to_string(), ErrorKind::Io).exit(),
         // Todo too big. Use eprint instead
     }
 }
@@ -74,23 +73,21 @@ pub fn singlethread_files(files: Values, args: PrettyPrint, mode: &AutomataConfi
     let size = files.len();
     let init = (0, Stats::default());
 
-    let (code, merged) = files.fold(init, |(code, acc), file| {
-        match from_file(file, mode) {
-            Ok(stats) => {
-                let show = args.print(&stats,file);
-                println!("{}", show);
-                (code, acc.combine(stats))
-            }
-            Err(err) => {
-                eprintln!("{}: {}", file, err);
-                (code + 1, acc)
-            }
+    let (code, merged) = files.fold(init, |(code, acc), file| match from_file(file, mode) {
+        Ok(stats) => {
+            let show = args.print(&stats, file);
+            println!("{}", show);
+            (code, acc.combine(stats))
+        }
+        Err(err) => {
+            eprintln!("{}: {}", file, err);
+            (code + 1, acc)
         }
     });
 
     if size > 1 {
         // Total files
-        println!("\n{}", args.print(&merged,"total"));
+        println!("\n{}", args.print(&merged, "total"));
     }
     std::process::exit(code)
 }

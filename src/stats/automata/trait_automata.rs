@@ -1,5 +1,5 @@
 use crate::stats::automata::trait_partial_state::PartialState;
-use crate::stats::Stats;
+use crate::stats::stats::Stats;
 use std::io::BufRead;
 
 const BUFFER_SIZE: usize = 16 * 1024; // 16KB

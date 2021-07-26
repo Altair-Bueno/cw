@@ -1,15 +1,18 @@
-pub mod ascii;
-pub mod automata_config;
-pub mod trait_automata;
+// Private members
+mod automata_utf8;
 mod encoding;
 mod line_break;
-pub(crate) mod trait_partial_state;
-pub mod utf8;
+mod posix_ascii;
+mod trait_automata;
+mod trait_partial_state;
 
+// Public API
+pub mod automata_config;
+
+// Private types and def
 // If we are on a word or not
 type OnWord = bool;
 // Macro?
-
 #[macro_export]
 macro_rules! isspace {
     ($char:expr) => {

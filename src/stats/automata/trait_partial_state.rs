@@ -1,4 +1,4 @@
-use crate::stats::Stats;
+use crate::stats::stats::Stats;
 
 pub trait PartialState {
     fn initial_state() -> Self;

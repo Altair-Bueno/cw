@@ -1,7 +1,7 @@
 use clap::{load_yaml, App};
 
 use cw::commandline::exec_jobs::*;
-use cw::commandline::PrettyPrint;
+use cw::commandline::pretty_print::PrettyPrint;
 use cw::stats::automata::automata_config::AutomataConfig;
 
 fn main() {

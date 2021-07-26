@@ -1,4 +1,3 @@
-
 /// Represents Stats for a file
 #[derive(Debug, Default, Eq, PartialEq)]
 pub struct Stats {
@@ -27,7 +26,7 @@ impl Stats {
             lines: self.lines + s.lines,
             words: self.words + s.words,
             characters: self.characters + s.characters,
-            bytes: self.bytes + s.bytes
+            bytes: self.bytes + s.bytes,
         }
     }
 }

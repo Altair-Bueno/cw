@@ -1,6 +1,6 @@
 use clap::ArgMatches;
 
-use crate::stats::Stats;
+use crate::stats::stats::Stats;
 
 /// Convenience struct and functions for pretty printing Stats
 #[derive(Debug, Default)]
@@ -29,7 +29,7 @@ impl PrettyPrint {
     }
     /// Returns a String representation of the given Stats struct, but only
     /// includes the requested information
-    pub fn print(&self, stats: &Stats,file:&str) -> String {
+    pub fn print(&self, stats: &Stats, file: &str) -> String {
         let mut string = String::new();
 
         if self.lines {
@@ -47,12 +47,9 @@ impl PrettyPrint {
         if string.len() == 0 {
             string = format!(
                 "{}\t{}\t{}\t{}",
-                stats.lines,
-                stats.words,
-                stats.characters,
-                stats.bytes
+                stats.lines, stats.words, stats.characters, stats.bytes
             )
         }
-        format!("{}\t{}",string,file)
+        format!("{}\t{}", string, file)
     }
 }

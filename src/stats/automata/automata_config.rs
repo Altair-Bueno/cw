@@ -4,12 +4,12 @@ use std::io::BufRead;
 use Encoding::*;
 use LineBreak::*;
 
-use crate::stats::automata::ascii::posix_ascii::PosixASCII;
-use crate::stats::automata::trait_automata::Automata;
+use crate::stats::automata::automata_utf8::AutomataUTF8;
 use crate::stats::automata::encoding::Encoding;
 use crate::stats::automata::line_break::LineBreak;
-use crate::stats::automata::utf8::posix_utf8::PosixUTF8;
-use crate::stats::Stats;
+use crate::stats::automata::posix_ascii::PosixASCII;
+use crate::stats::automata::trait_automata::Automata;
+use crate::stats::stats::Stats;
 use clap::ArgMatches;
 
 #[derive(Default, Clone)]
@@ -34,7 +34,7 @@ impl AutomataConfig {
 
     pub fn proccess(&self, read: Box<dyn BufRead>) -> std::io::Result<Stats> {
         match self {
-            AutomataConfig(UTF8, LF) => PosixUTF8.stats_from_bufread(read),
+            AutomataConfig(UTF8, LF) => AutomataUTF8.stats_from_bufread(read),
             AutomataConfig(ASCII, LF) => PosixASCII.stats_from_bufread(read),
             _ => todo!(),
         }
