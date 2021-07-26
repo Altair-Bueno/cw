@@ -34,8 +34,8 @@ pub fn multithread(files: Values, args: PrettyPrint, threads: usize, mode: &Auto
         (0, Stats::default()),
         |(code, acc), (_, (file, result))| match result {
             Ok(stats) => {
-                let show = args.format_stats(&stats);
-                println!("{}\t{}", show, file);
+                let show = args.print(&stats, &file[..]);
+                println!("{}", show);
                 (code, acc.combine(stats))
             }
             Err(err) => {
@@ -46,7 +46,7 @@ pub fn multithread(files: Values, args: PrettyPrint, threads: usize, mode: &Auto
     );
 
     if size > 1 {
-        println!("{}\ttotal", args.format_stats(&acc));
+        println!("{}", args.print(&acc,"total"));
     }
     std::process::exit(code)
 }
@@ -57,7 +57,7 @@ pub fn singlethread_stdio(args: PrettyPrint, mode: &AutomataConfig) -> ! {
     let stats_stdio = from_stdio(mode);
      match stats_stdio {
         Ok(stats) => {
-            let show = args.format_stats(&stats);
+            let show = args.print(&stats,"");
             println!("{}", show);
             std::process::exit(0);
         }
@@ -77,8 +77,8 @@ pub fn singlethread_files(files: Values, args: PrettyPrint, mode: &AutomataConfi
     let (code, merged) = files.fold(init, |(code, acc), file| {
         match from_file(file, mode) {
             Ok(stats) => {
-                let show = args.format_stats(&stats);
-                println!("{}\t{}", show, file);
+                let show = args.print(&stats,file);
+                println!("{}", show);
                 (code, acc.combine(stats))
             }
             Err(err) => {
@@ -90,7 +90,7 @@ pub fn singlethread_files(files: Values, args: PrettyPrint, mode: &AutomataConfi
 
     if size > 1 {
         // Total files
-        println!("\n{}\ttotal", args.format_stats(&merged));
+        println!("\n{}", args.print(&merged,"total"));
     }
     std::process::exit(code)
 }

@@ -29,7 +29,7 @@ impl PrettyPrint {
     }
     /// Returns a String representation of the given Stats struct, but only
     /// includes the requested information
-    pub fn format_stats(&self, stats: &Stats) -> String {
+    pub fn print(&self, stats: &Stats,file:&str) -> String {
         let mut string = String::new();
 
         if self.lines {
@@ -45,15 +45,14 @@ impl PrettyPrint {
             string = format!("{}\t{}", string, stats.bytes)
         }
         if string.len() == 0 {
-            format!(
+            string = format!(
                 "{}\t{}\t{}\t{}",
                 stats.lines,
                 stats.words,
                 stats.characters,
                 stats.bytes
             )
-        } else {
-            string
         }
+        format!("{}\t{}",string,file)
     }
 }
