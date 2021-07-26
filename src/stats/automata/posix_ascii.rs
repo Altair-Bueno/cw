@@ -22,10 +22,6 @@ mod utils {
 pub struct PosixASCIIPartialState(OnWord, Stats);
 
 impl PartialState for PosixASCIIPartialState {
-    fn initial_state() -> Self {
-        PosixASCIIPartialState::default()
-    }
-
     fn result(self) -> Stats {
         let PosixASCIIPartialState(onword, mut stats) = self;
 
@@ -75,9 +71,9 @@ impl PosixASCII {
 mod test {
     use crate::stats::automata::posix_ascii::PosixASCII;
     use crate::stats::automata::trait_automata::Automata;
-    use crate::stats::Stats;
     use std::fs::File;
     use std::io::BufReader;
+    use crate::stats::stats::Stats;
 
     fn proccess_file_test(f: &str) -> Stats {
         let reader = BufReader::new(File::open(f).unwrap());

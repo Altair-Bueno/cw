@@ -44,10 +44,6 @@ impl State {
 pub struct UTF8PartialState(State, OnWord, Stats, UTFCharBuff);
 
 impl PartialState for UTF8PartialState {
-    /// Initial state for the automata
-    fn initial_state() -> UTF8PartialState {
-        UTF8PartialState::default()
-    }
     /// Transforms a `UTF8PartialState` into `Stats`
     fn result(self) -> Stats {
         let UTF8PartialState(_, onword, mut stats, _) = self;
@@ -73,22 +69,17 @@ impl Automata for AutomataUTF8 {
 impl AutomataUTF8 {
     /// Runs the automata over the given tape, generating a partial response
     fn compute(partial: UTF8PartialState, char: &u8) -> UTF8PartialState {
-        // TODO doest work as expected
-        // Bytes: works
-        // Characters: No
-        // Words: No
-        // Lines: Works
+        // TODO improve performance lol
         let UTF8PartialState(mut expect, mut onword, mut stats, mut buff) = partial;
         match expect {
+            // We are not expecting any character at all. expect and proccess
+            // on recursive call instead
             State::New => {
-                // -> One,Two,Three,Four
-                // Done
                 expect = State::decode(char);
                 let state = UTF8PartialState(expect, onword, stats, buff);
                 AutomataUTF8::compute(state, char)
             }
             State::One => {
-                // -> New
                 stats.bytes += 1;
                 buff[0] = *char;
 
@@ -126,7 +117,6 @@ impl AutomataUTF8 {
                     // update stats
                     onword = false;
                 }
-
                 buff.fill(0);
                 expect = State::New;
 
@@ -160,7 +150,7 @@ mod test {
 
     use crate::stats::automata::automata_utf8::AutomataUTF8;
     use crate::stats::automata::trait_automata::Automata;
-    use crate::stats::Stats;
+    use crate::stats::stats::Stats;
 
     fn proccess_file_test(f: &str) -> Stats {
         let reader = BufReader::new(File::open(f).unwrap());
