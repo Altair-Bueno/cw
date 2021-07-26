@@ -5,7 +5,7 @@ use Encoding::*;
 use LineBreak::*;
 
 use crate::stats::automata::ascii::posix_ascii::PosixASCII;
-use crate::stats::automata::automata::Automata;
+use crate::stats::automata::trait_automata::Automata;
 use crate::stats::automata::encoding::Encoding;
 use crate::stats::automata::line_break::LineBreak;
 use crate::stats::automata::utf8::posix_utf8::PosixUTF8;

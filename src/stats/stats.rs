@@ -1,4 +1,3 @@
-use std::fmt::{Display, Formatter};
 
 /// Represents Stats for a file
 #[derive(Debug, Default, Eq, PartialEq)]

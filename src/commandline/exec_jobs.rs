@@ -4,7 +4,7 @@ use std::io::BufReader;
 use clap::{ErrorKind, Values};
 
 use crate::commandline::PrettyPrint;
-use crate::stats::automata::parser_config::AutomataConfig;
+use crate::stats::automata::automata_config::AutomataConfig;
 use crate::stats::Stats;
 use std::result::Result::Ok;
 use threads_pool::ThreadPool;

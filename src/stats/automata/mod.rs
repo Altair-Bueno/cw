@@ -1,9 +1,9 @@
 pub mod ascii;
-pub mod parser_config;
-pub mod automata;
+pub mod automata_config;
+pub mod trait_automata;
 mod encoding;
 mod line_break;
-pub(crate) mod partial_state;
+pub(crate) mod trait_partial_state;
 pub mod utf8;
 
 // If we are on a word or not

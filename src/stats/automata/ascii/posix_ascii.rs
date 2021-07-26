@@ -1,5 +1,5 @@
-use crate::stats::automata::automata::Automata;
-use crate::stats::automata::partial_state::PartialState;
+use crate::stats::automata::trait_automata::Automata;
+use crate::stats::automata::trait_partial_state::PartialState;
 use crate::stats::automata::OnWord;
 use crate::stats::Stats;
 use crate::isspace;

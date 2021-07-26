@@ -1,5 +1,5 @@
 use cw::stats::automata::ascii::posix_ascii::PosixASCII;
-use cw::stats::automata::automata::Automata;
+use cw::stats::automata::trait_automata::Automata;
 use cw::stats::Stats;
 use std::fs::File;
 use std::io::BufReader;

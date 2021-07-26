@@ -1,4 +1,4 @@
-use crate::stats::automata::partial_state::PartialState;
+use crate::stats::automata::trait_partial_state::PartialState;
 use crate::stats::Stats;
 use std::io::BufRead;
 

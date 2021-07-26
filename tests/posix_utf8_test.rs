@@ -1,7 +1,7 @@
 use std::fs::File;
 use std::io::BufReader;
 
-use cw::stats::automata::automata::Automata;
+use cw::stats::automata::trait_automata::Automata;
 use cw::stats::automata::utf8::posix_utf8::PosixUTF8;
 use cw::stats::Stats;
 

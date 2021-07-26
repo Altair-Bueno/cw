@@ -2,7 +2,7 @@ use clap::{load_yaml, App};
 
 use cw::commandline::exec_jobs::*;
 use cw::commandline::PrettyPrint;
-use cw::stats::automata::parser_config::AutomataConfig;
+use cw::stats::automata::automata_config::AutomataConfig;
 
 fn main() {
     // Load clap for commandline utilities
