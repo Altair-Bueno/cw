@@ -69,3 +69,16 @@ fn arabic() {
     let expected = Stats::new(0, 10, 58, 105);
     assert_eq!(out, expected)
 }
+#[test]
+fn spanish() {
+    let out = proccess_file_test("tests/resources/spanish.txt");
+    let expected = Stats::new(1, 3, 19, 22);
+    assert_eq!(out, expected)
+}
+
+#[test]
+fn french() {
+    let out = proccess_file_test("tests/resources/french.txt");
+    let expected = Stats::new(0, 10, 57, 61);
+    assert_eq!(out, expected)
+}
