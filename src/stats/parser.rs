@@ -31,7 +31,6 @@ impl Parser {
             .unwrap_or_default();
         Parser(encoding, breakk)
     }
-
     pub fn proccess(&self, read: Box<dyn BufRead>) -> std::io::Result<Stats> {
         match self {
             Parser(UTF8, LF) => AutomataUTF8.stats_from_bufread(read),
