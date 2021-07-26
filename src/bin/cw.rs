@@ -2,7 +2,7 @@ use clap::{load_yaml, App};
 
 use cw::commandline::exec_jobs::*;
 use cw::commandline::PrettyPrint;
-use cw::stats::automata::file_style::FileStyle;
+use cw::stats::automata::parser_config::AutomataConfig;
 
 fn main() {
     // Load clap for commandline utilities
@@ -12,19 +12,11 @@ fn main() {
 
     // Program arguments
     let files = matches.values_of("files");
-    let args = PrettyPrint::from_clap(&matches);
-    let mode = FileStyle::new(
-        matches
-            .value_of("encoding")
-            .map(|x| x.parse().unwrap_or_default())
-            .unwrap_or_default(),
-        matches
-            .value_of("break")
-            .map(|x| x.parse().unwrap_or_default())
-            .unwrap_or_default(),
-    );
+    let pretty_print = PrettyPrint::from_clap(&matches);
+    let parser_config = AutomataConfig::from_clap(&matches);
+
     // TODO better message
-    println!("MODE: {}", mode);
+    println!("MODE: {}", parser_config);
 
     if let Some(files) = files {
         let num_threads = matches
@@ -32,11 +24,11 @@ fn main() {
             .map(|x| x.parse().unwrap_or(1))
             .unwrap_or(1);
         if num_threads == 1 {
-            singlethread_files(files, args, &mode)
+            singlethread_files(files, pretty_print, &parser_config)
         } else if num_threads > 1 {
-            multithread(files, args, num_threads, &mode)
+            multithread(files, pretty_print, num_threads, &parser_config)
         }
     } else {
-        singlethread_stdio(args, &mode);
+        singlethread_stdio(pretty_print, &parser_config);
     }
 }

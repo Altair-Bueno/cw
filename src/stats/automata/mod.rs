@@ -1,5 +1,5 @@
 pub mod ascii;
-pub mod file_style;
+pub mod parser_config;
 pub mod automata;
 mod encoding;
 mod line_break;
