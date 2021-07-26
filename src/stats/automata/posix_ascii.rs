@@ -37,18 +37,20 @@ pub struct PosixASCII;
 impl Automata for PosixASCII {
     type State = PosixASCIIPartialState;
 
-    fn run(&self, partial: Self::State, tape: &[u8]) -> Self::State {
-        tape.iter().fold(partial, PosixASCII::compute)
+    fn run(&self, partial: Self::State, tape: &[u8],linebreak:char) ->
+                                                                 Self::State {
+        tape.iter().fold(partial,|acc,n| PosixASCII::compute(acc,n,linebreak))
     }
 }
 
 impl PosixASCII {
-    fn compute(partial: PosixASCIIPartialState, byte: &u8) -> PosixASCIIPartialState {
+    fn compute(partial: PosixASCIIPartialState, byte: &u8,linebreak:char) ->
+                                                            PosixASCIIPartialState {
         let PosixASCIIPartialState(mut onword, mut stats) = partial;
         stats.characters += 1;
         stats.bytes += 1;
         match byte {
-            b'\n' => {
+            x if *x as char == linebreak => {
                 if onword {
                     stats.words += 1;
                     onword = false;
@@ -77,7 +79,8 @@ mod test {
 
     fn proccess_file_test(f: &str) -> Stats {
         let reader = BufReader::new(File::open(f).unwrap());
-        let stats = PosixASCII.stats_from_bufread(Box::new(reader)).unwrap();
+        let stats = PosixASCII.stats_from_bufread(Box::new(reader),'\n')
+            .unwrap();
 
         stats
     }

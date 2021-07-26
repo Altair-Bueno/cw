@@ -61,81 +61,86 @@ pub struct AutomataUTF8;
 impl Automata for AutomataUTF8 {
     type State = UTF8PartialState;
 
-    fn run(&self, partial: Self::State, tape: &[u8]) -> Self::State {
-        tape.iter().fold(partial, AutomataUTF8::compute)
+    fn run(&self, partial: Self::State, tape: &[u8],linebreak:char) ->
+                                                                 Self::State {
+        tape.iter().fold(partial,|acc,n| {
+            AutomataUTF8::compute(acc,n,linebreak)
+        }
+        )
     }
 }
 
 impl AutomataUTF8 {
     /// Runs the automata over the given tape, generating a partial response
-    fn compute(partial: UTF8PartialState, char: &u8) -> UTF8PartialState {
+    fn compute(partial: UTF8PartialState, char: &u8,linebreak:char) ->
+                                                            UTF8PartialState {
         // TODO improve performance lol
         let UTF8PartialState(mut expect, mut onword, mut stats, mut buff) = partial;
-        match expect {
-            // We are not expecting any character at all. expect and proccess
-            // on recursive call instead
-            State::New => {
-                expect = State::decode(char);
-                let state = UTF8PartialState(expect, onword, stats, buff);
-                AutomataUTF8::compute(state, char)
-            }
-            State::One => {
-                stats.bytes += 1;
-                buff[0] = *char;
+        loop {
+            match expect {
+                // We are not expecting any character at all. expect and proccess
+                // on recursive call instead
+                State::New => {
+                    expect = State::decode(char);
+                }
+                State::One => {
+                    stats.bytes += 1;
+                    buff[0] = *char;
 
-                // If end we need to add one char to the count (it represents
-                // before we had a char). The program does not count the last
-                // char. Instead, it counts from zero
-                // - Reset buffer to empty
-                // - Write on buff [0]
-                // update stats
-                let asnum = u32::from_le_bytes(buff);
-                let opt_character = char::from_u32(asnum);
+                    // If end we need to add one char to the count (it represents
+                    // before we had a char). The program does not count the last
+                    // char. Instead, it counts from zero
+                    // - Reset buffer to empty
+                    // - Write on buff [0]
+                    // update stats
+                    let asnum = u32::from_le_bytes(buff);
+                    let opt_character = char::from_u32(asnum);
 
-                match opt_character {
-                    Some('\n')=>{
-                        stats.characters+=1;
-                        stats.lines += 1;
-                        if onword {
-                            stats.words += 1;
-                        }
-                        onword = false;
-                    },
-                    Some(x) => {
-                        stats.characters+=1;
-                        if isspace!(x as u32) {
+                    match opt_character {
+                        Some('\n') => {
+                            stats.characters += 1;
+                            stats.lines += 1;
                             if onword {
                                 stats.words += 1;
-                                onword = false;
                             }
-                        } else {
-                            onword = true;
-                        }
-                    },
-                    None => onword = false,
-                }
-                buff.fill(0);
-                expect = State::New;
+                            onword = false;
+                        },
+                        Some(x) => {
+                            stats.characters += 1;
+                            if isspace!(x as u32) {
+                                if onword {
+                                    stats.words += 1;
+                                    onword = false;
+                                }
+                            } else {
+                                onword = true;
+                            }
+                        },
+                        None => onword = false,
+                    }
+                    buff.fill(0);
+                    expect = State::New;
 
-                UTF8PartialState(expect, onword, stats, buff)
-            }
-            State::Two => {
-                stats.bytes += 1;
-                buff[1] = *char;
-                expect = State::One;
-                UTF8PartialState(expect, onword, stats, buff)
-            }
-            State::Three => {
-                stats.bytes += 1;
-                buff[2] = *char;
-                expect = State::Two;
-                UTF8PartialState(expect, onword, stats, buff)
-            }
-            State::Four => {
-                stats.bytes += 1;
-                buff[3] = *char;
-                expect = State::Three;
-                UTF8PartialState(expect, onword, stats, buff)
+                    return UTF8PartialState(expect, onword, stats, buff);
+                }
+                State::Two => {
+                    stats.bytes += 1;
+                    buff[1] = *char;
+                    expect = State::One;
+                    return UTF8PartialState(expect, onword, stats, buff);
+                }
+                State::Three => {
+                    stats.bytes += 1;
+                    buff[2] = *char;
+                    expect = State::Two;
+                    return UTF8PartialState(expect, onword, stats, buff);
+                }
+                State::Four => {
+                    stats.bytes += 1;
+                    buff[3] = *char;
+                    expect = State::Three;
+                    return UTF8PartialState(expect, onword, stats, buff);
+                }
             }
         }
     }
@@ -151,7 +156,8 @@ mod test {
 
     fn proccess_file_test(f: &str) -> Stats {
         let reader = BufReader::new(File::open(f).unwrap());
-        let stats = AutomataUTF8.stats_from_bufread(Box::new(reader)).unwrap();
+        let stats = AutomataUTF8.stats_from_bufread(Box::new(reader),'\n')
+        .unwrap();
 
         stats
     }
