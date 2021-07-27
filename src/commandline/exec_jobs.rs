@@ -1,7 +1,7 @@
 use std::fs::File;
 use std::io::BufReader;
 
-use clap::{ErrorKind, Values};
+use clap::Values;
 
 use crate::commandline::pretty_print::PrettyPrint;
 use crate::stats::parser::Parser;
