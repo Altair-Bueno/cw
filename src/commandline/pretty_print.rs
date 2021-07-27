@@ -1,6 +1,7 @@
 use clap::ArgMatches;
 
 use crate::stats::stats::Stats;
+use std::fmt::{Display, Formatter};
 
 /// Convenience struct and functions for pretty printing Stats
 #[derive(Debug, Default)]
@@ -9,7 +10,7 @@ pub struct PrettyPrint {
     pub words: bool,
     pub characters: bool,
     pub bytes: bool,
-    // TODO max colum size
+    pub legth:bool,
 }
 
 impl PrettyPrint {
@@ -19,19 +20,20 @@ impl PrettyPrint {
         let words = args.is_present("words");
         let characters = args.is_present("characters");
         let bytes = args.is_present("bytes");
+        let legth = args.is_present("line_length");
 
         PrettyPrint {
             lines,
             words,
             characters,
             bytes,
+            legth,
         }
     }
     /// Returns a String representation of the given Stats struct, but only
     /// includes the requested information
     pub fn print(&self, stats: &Stats, file: &str) -> String {
         let mut string = String::new();
-
         if self.lines {
             string = format!("{}\t{}", string, stats.lines)
         }
@@ -44,10 +46,13 @@ impl PrettyPrint {
         if self.bytes {
             string = format!("{}\t{}", string, stats.bytes)
         }
+        if self.legth {
+            string = format!("{}\t{}", string, stats.legth)
+        }
         if string.len() == 0 {
             string = format!(
-                "{}\t{}\t{}\t{}",
-                stats.lines, stats.words, stats.characters, stats.bytes
+                "{}\t{}\t{}\t{}\t{}",
+                stats.lines, stats.words, stats.characters, stats.bytes, stats.legth,
             )
         }
         format!("{}\t{}", string, file)

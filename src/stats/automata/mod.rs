@@ -1,6 +1,5 @@
 // Private members
 pub mod automata_utf8;
-pub mod posix_ascii;
 pub mod trait_automata;
 pub mod trait_partial_state;
 

@@ -7,16 +7,14 @@ use cw::stats::parser::Parser;
 fn main() {
     // Load clap for commandline utilities
     let yaml = load_yaml!("resources/cmdline-clap.yaml");
-    let app = App::from(yaml);
+    let app = App::from(yaml).term_width(0);
     let matches = app.get_matches();
 
     // Program arguments
-    let files = matches.values_of("files");
+    let files = matches.values_of("FILES");
     let pretty_print = PrettyPrint::from_clap(&matches);
     let parser_config = Parser::from_clap(&matches);
 
-    // TODO better message
-    println!("MODE: {}", parser_config);
 
     if let Some(files) = files {
         let num_threads = matches
@@ -27,6 +25,8 @@ fn main() {
             singlethread_files(files, pretty_print, &parser_config)
         } else if num_threads > 1 {
             multithread(files, pretty_print, num_threads, &parser_config)
+        } else {
+            eprintln!("Invalid threadcount");
         }
     } else {
         singlethread_stdio(pretty_print, &parser_config);
