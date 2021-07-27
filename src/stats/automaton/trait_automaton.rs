@@ -1,18 +1,19 @@
-use crate::stats::automata::trait_partial_state::PartialState;
+use crate::stats::automaton::trait_partial_state::PartialState;
 use crate::stats::stats::Stats;
 use std::io::BufRead;
 
 const BUFFER_SIZE: usize = 16 * 1024; // 16KB
+
+/// A deterministic finite automaton that transtions using the given bufread as
+/// input. It will parse each byte individually and produce stats
 pub trait Automata {
     type State: PartialState + Sized;
 
-    fn run(&self, partial: Self::State, tape: &[u8],linebreak:char) ->
-                                                                  Self::State;
+    fn run(&self, partial: Self::State, tape: &[u8],linebreak:char) -> Self::State;
 
-    fn stats_from_bufread(&self, mut reader: Box<dyn BufRead>,linebreak:char)
-        -> std::io::Result<Stats> {
+    /// Produces stats the given reader.
+    fn stats_from_bufread<R : BufRead + Sized >(&self, mut reader: R,linebreak:char) -> std::io::Result<Stats> {
         let mut state = Self::State::initial_state();
-        // TODO use a single buffer for all operations instead
         let mut buff = [0; BUFFER_SIZE];
         loop {
             let read = reader.read(&mut buff)?;

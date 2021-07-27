@@ -9,7 +9,7 @@ use crate::stats::stats::Stats;
 use std::result::Result::Ok;
 use threads_pool::ThreadPool;
 
-/// Multithread cw. Parses each file on individual files
+/// Multithread cw. Parses each file using a threadpool
 pub fn multithread(files: Values, args: PrettyPrint, threads: usize, mode: &Parser) -> ! {
     // One thread for stdout
     let size = files.len();
@@ -25,9 +25,9 @@ pub fn multithread(files: Values, args: PrettyPrint, threads: usize, mode: &Pars
         let _e = pool.execute(move || {
             let stats = from_file(fclone.as_str(), &modeclone);
             let _r = copy.send((fclone, stats));
-            // eprintln!("{:?}",r)
+            // eprintln!("{:?}",_r)
         });
-        //eprintln!("{:?}",e)
+        //eprintln!("{:?}",_e)
     }
 
     let (code, acc) = (0..size).into_iter().zip(reciver.iter()).fold(
@@ -51,24 +51,24 @@ pub fn multithread(files: Values, args: PrettyPrint, threads: usize, mode: &Pars
     std::process::exit(code)
 }
 
-/// Proccess stdio using one single thread. Because stdio has an internal
-/// lock, using more than one thread could impact performance
-pub fn singlethread_stdio(args: PrettyPrint, mode: &Parser) -> ! {
-    let stats_stdio = from_stdio(mode);
-    match stats_stdio {
+/// Singlethread for STDIN
+pub fn singlethread_stdin(args: PrettyPrint, mode: &Parser) -> ! {
+    let stats_stdio = from_stdin(mode);
+    let code = match stats_stdio {
         Ok(stats) => {
             let show = args.print(&stats, "");
             println!("{}", show);
-
+            0
         }
-        Err(err) =>eprintln!("{}",err),
-    }
-    std::process::exit(0);
+        Err(err) =>{
+            eprintln!("{}",err);
+            1
+        },
+    };
+    std::process::exit(code);
 }
 
-/// Single thread proccess each file sequentialy. It does not instanciate a
-/// thread pool, so startup is faster. Usefull when only reading one or two
-/// files
+/// Single thread for FILES
 pub fn singlethread_files(files: Values, args: PrettyPrint, mode: &Parser) -> ! {
     let size = files.len();
     let init = (0, Stats::default());
@@ -92,17 +92,16 @@ pub fn singlethread_files(files: Values, args: PrettyPrint, mode: &Parser) -> ! 
     std::process::exit(code)
 }
 
+// Convenience functions
 fn from_file(f: &str, mode: &Parser) -> std::io::Result<Stats> {
     let file = File::open(f)?;
     let reader = BufReader::new(file);
-    let stats = mode.proccess(Box::new(reader));
 
-    stats
+    mode.proccess(reader)
 }
 
-fn from_stdio(mode: &Parser) -> std::io::Result<Stats> {
+fn from_stdin(mode: &Parser) -> std::io::Result<Stats> {
     let reader = BufReader::new(std::io::stdin());
-    let stats = mode.proccess(Box::new(reader));
 
-    stats
+    mode.proccess(reader)
 }

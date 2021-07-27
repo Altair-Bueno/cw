@@ -1,49 +1,51 @@
 use crate::isspace;
-use crate::stats::automata::trait_automata::Automata;
-use crate::stats::automata::trait_partial_state::PartialState;
-use crate::stats::automata::OnWord;
+use crate::stats::automaton::trait_automaton::Automata;
+use crate::stats::automaton::trait_partial_state::PartialState;
+use crate::stats::automaton::OnWord;
 use crate::stats::stats::Stats;
 use std::cmp::max;
 
-/// UTF char uses 4 bytes at most
+// UTF8 encoded char uses 4 bytes at most
 type UTFCharBuff = [u8; 4];
 type CurrentLength = u32;
 
-enum State {
+// What the UTF8 automaton expects next
+enum Expect {
     New,
     One,
     Two,
     Three,
     Four,
 }
-impl Default for State {
+impl Default for Expect {
     fn default() -> Self {
-        State::New
+        Expect::New
     }
 }
 
-impl State {
-    pub fn decode(byte: &u8) -> State {
-        let four = 0b11110000; // 11110uuu 10uuzzzz 10yyyyyy 10xxxxxx
+impl Expect {
+    pub fn decode(byte: u8) -> Expect {
+        let four = 0b11110000;  // 11110uuu 10uuzzzz 10yyyyyy 10xxxxxx
         let three = 0b11100000; // 1110zzzz 10yyyyyy 10xxxxxx
-        let two = 0b11000000; // 110yyyyy 10xxxxxx
+        let two = 0b11000000;   // 110yyyyy 10xxxxxx
+        // one (any)                // xxxxxxxx
 
         if byte & four == four {
-            State::Four
+            Expect::Four
         } else if byte & three == three {
-            State::Three
+            Expect::Three
         } else if byte & two == two {
-            State::Two
+            Expect::Two
         } else {
-            State::One
+            Expect::One
         }
     }
 }
 
-/// Represents progress for a finite automata. Can be converted into a final
+/// Represents progress for a finite automaton. Can be converted into a final
 /// result by using the `result()` function
 #[derive(Default)]
-pub struct UTF8PartialState(State, OnWord ,CurrentLength , Stats, UTFCharBuff);
+pub struct UTF8PartialState(Expect, OnWord, CurrentLength, Stats, UTFCharBuff);
 
 impl PartialState for UTF8PartialState {
     /// Transforms a `UTF8PartialState` into `Stats`
@@ -59,42 +61,31 @@ impl PartialState for UTF8PartialState {
 
 /// Represents a Finite Deterministic Automata which fetchs it's input from a
 /// given tape
-pub struct AutomataUTF8;
+pub struct AutomatonUTF8;
 
-impl Automata for AutomataUTF8 {
+impl Automata for AutomatonUTF8 {
     type State = UTF8PartialState;
 
-    fn run(&self, partial: Self::State, tape: &[u8],linebreak:char) ->
-                                                                 Self::State {
+    /// Runs the automaton over the given tape, generating a partial response
+    fn run(&self, partial: Self::State, tape: &[u8],linebreak:char) -> Self::State {
         tape.iter().fold(partial,|acc,n| {
-            AutomataUTF8::compute(acc,n,linebreak)
-        }
-        )
+            AutomatonUTF8::compute(acc, *n, linebreak)
+        })
     }
 }
 
-impl AutomataUTF8 {
-    /// Runs the automata over the given tape, generating a partial response
-    fn compute(partial: UTF8PartialState, char: &u8,linebreak:char) -> UTF8PartialState {
-        // TODO improve performance lol
+impl AutomatonUTF8 {
+    /// Transition the automaton's state using the given imput
+    fn compute(partial: UTF8PartialState, char: u8,linebreak:char) -> UTF8PartialState {
         let UTF8PartialState(mut expect, mut onword, mut legth, mut stats, mut buff) = partial;
         loop {
             match expect {
-                // We are not expecting any character at all. expect and proccess
-                // on recursive call instead
-                State::New => {
-                    expect = State::decode(char);
+                Expect::New => {
+                    expect = Expect::decode(char);
                 }
-                State::One => {
+                Expect::One => {
                     stats.bytes += 1;
-                    buff[0] = *char;
-
-                    // If end we need to add one char to the count (it represents
-                    // before we had a char). The program does not count the last
-                    // char. Instead, it counts from zero
-                    // - Reset buffer to empty
-                    // - Write on buff [0]
-                    // update stats
+                    buff[0] = char;
                     let asnum = u32::from_le_bytes(buff);
                     let opt_character = char::from_u32(asnum);
 
@@ -124,26 +115,26 @@ impl AutomataUTF8 {
                         None => onword = false,
                     }
                     buff.fill(0);
-                    expect = State::New;
+                    expect = Expect::New;
 
                     return UTF8PartialState(expect, onword,legth, stats, buff);
                 }
-                State::Two => {
+                Expect::Two => {
                     stats.bytes += 1;
-                    buff[1] = *char;
-                    expect = State::One;
+                    buff[1] = char;
+                    expect = Expect::One;
                     return UTF8PartialState(expect, onword,legth, stats, buff);
                 }
-                State::Three => {
+                Expect::Three => {
                     stats.bytes += 1;
-                    buff[2] = *char;
-                    expect = State::Two;
+                    buff[2] = char;
+                    expect = Expect::Two;
                     return UTF8PartialState(expect, onword,legth, stats, buff);
                 }
-                State::Four => {
+                Expect::Four => {
                     stats.bytes += 1;
-                    buff[3] = *char;
-                    expect = State::Three;
+                    buff[3] = char;
+                    expect = Expect::Three;
                     return UTF8PartialState(expect, onword,legth, stats, buff);
                 }
             }
@@ -155,13 +146,13 @@ mod test {
     use std::fs::File;
     use std::io::BufReader;
 
-    use crate::stats::automata::automata_utf8::AutomataUTF8;
-    use crate::stats::automata::trait_automata::Automata;
+    use crate::stats::automaton::automaton_utf8::AutomatonUTF8;
+    use crate::stats::automaton::trait_automaton::Automata;
     use crate::stats::stats::Stats;
 
     fn proccess_file_test(f: &str) -> Stats {
         let reader = BufReader::new(File::open(f).unwrap());
-        let stats = AutomataUTF8.stats_from_bufread(Box::new(reader),'\n')
+        let stats = AutomatonUTF8.stats_from_bufread(reader, '\n')
         .unwrap();
 
         stats

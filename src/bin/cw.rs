@@ -27,8 +27,9 @@ fn main() {
             multithread(files, pretty_print, num_threads, &parser_config)
         } else {
             eprintln!("Invalid threadcount");
+            std::process::exit(1);
         }
     } else {
-        singlethread_stdio(pretty_print, &parser_config);
+        singlethread_stdin(pretty_print, &parser_config);
     }
 }

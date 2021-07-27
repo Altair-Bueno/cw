@@ -1,7 +1,6 @@
 use clap::ArgMatches;
 
 use crate::stats::stats::Stats;
-use std::fmt::{Display, Formatter};
 
 /// Convenience struct and functions for pretty printing Stats
 #[derive(Debug, Default)]
