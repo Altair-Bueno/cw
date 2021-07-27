@@ -48,7 +48,7 @@ impl PrettyPrint {
         if self.legth {
             string = format!("{}\t{}", string, stats.legth)
         }
-        if string.len() == 0 {
+        if string.is_empty() {
             string = format!(
                 "{}\t{}\t{}\t{}\t{}",
                 stats.lines, stats.words, stats.characters, stats.bytes, stats.legth,

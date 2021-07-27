@@ -31,8 +31,7 @@ impl Parser {
         match self {
             Parser(Encoding::UTF8, LineBreak::LF) => AutomatonUTF8.stats_from_bufread(read, '\n'),
             Parser(Encoding::UTF8, LineBreak::CR) => AutomatonUTF8.stats_from_bufread(read, '\r'),
-            // Parser(ASCII, LF) => PosixASCII.stats_from_bufread(read),
-            _ => todo!(),
+            _ => todo!(), // UTF16
         }
     }
 }

@@ -212,11 +212,12 @@ mod test {
         assert_eq!(out, expected)
     }
 
-    // TODO this test is weird AF
     #[test]
     #[ignore]
     fn arabic() {
-        todo!(); // Legth isn't 0
+        // - Legth isn't 0
+        // - test weird
+        todo!();
         let out = proccess_file_test("tests/resources/arabic.txt");
         let expected = Stats::new(0, 10, 58, 105, 0);
         assert_eq!(out, expected)
