@@ -176,6 +176,7 @@ mod test {
         assert_eq!(out, expected)
     }
     #[test]
+    #[ignore]
     fn bible() {
         let out = proccess_file_test("tests/resources/bible.txt");
         let expected = Stats::new(100182, 824036, 4451368, 4451368);
