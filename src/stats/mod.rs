@@ -1,5 +1,5 @@
 mod automaton;
-pub mod stats;
+mod parser_config;
 // Public API
 pub mod parser;
-pub mod parser_config;
+pub mod stats;

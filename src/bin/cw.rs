@@ -1,8 +1,6 @@
 use clap::{load_yaml, App};
+use cw::*;
 
-use cw::commandline::exec_jobs::*;
-use cw::commandline::pretty_print::PrettyPrint;
-use cw::stats::parser::Parser;
 
 fn main() {
     // Load clap for commandline utilities
