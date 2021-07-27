@@ -59,11 +59,11 @@ pub fn singlethread_stdio(args: PrettyPrint, mode: &Parser) -> ! {
         Ok(stats) => {
             let show = args.print(&stats, "");
             println!("{}", show);
-            std::process::exit(0);
+
         }
-        Err(err) => clap::Error::with_description(err.to_string(), ErrorKind::Io).exit(),
-        // Todo too big. Use eprint instead
+        Err(err) =>eprintln!("{}",err),
     }
+    std::process::exit(0);
 }
 
 /// Single thread proccess each file sequentialy. It does not instanciate a
