@@ -7,19 +7,19 @@ pub struct Stats {
     pub words: u32,
     pub characters: u32,
     pub bytes: u32,
-    pub legth:u32,
+    pub legth: u32,
     //colums: Colums,
 }
 
 impl Stats {
     /// Creates a new Stats struct using the given parameters
-    pub fn new(lines: u32, words: u32, characters: u32, bytes: u32,legth:u32) -> Stats {
+    pub fn new(lines: u32, words: u32, characters: u32, bytes: u32, legth: u32) -> Stats {
         Stats {
             lines,
             words,
             characters,
             bytes,
-            legth
+            legth,
         }
     }
     /// Combines two stats. Usefull when buffering a file. Consumes both
@@ -31,7 +31,7 @@ impl Stats {
             words: self.words + s.words,
             characters: self.characters + s.characters,
             bytes: self.bytes + s.bytes,
-            legth: max(self.legth,s.legth),
+            legth: max(self.legth, s.legth),
         }
     }
 }

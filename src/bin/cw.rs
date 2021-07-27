@@ -1,7 +1,6 @@
 use clap::{load_yaml, App};
 use cw::*;
 
-
 fn main() {
     // Load clap for commandline utilities
     let yaml = load_yaml!("resources/cmdline-clap.yaml");
@@ -12,7 +11,6 @@ fn main() {
     let files = matches.values_of("FILES");
     let pretty_print = PrettyPrint::from_clap(&matches);
     let parser_config = Parser::from_clap(&matches);
-
 
     if let Some(files) = files {
         let num_threads = matches

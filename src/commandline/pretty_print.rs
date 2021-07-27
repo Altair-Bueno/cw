@@ -9,7 +9,7 @@ pub struct PrettyPrint {
     pub words: bool,
     pub characters: bool,
     pub bytes: bool,
-    pub legth:bool,
+    pub legth: bool,
 }
 
 impl PrettyPrint {

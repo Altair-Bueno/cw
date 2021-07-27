@@ -9,10 +9,14 @@ const BUFFER_SIZE: usize = 16 * 1024; // 16KB
 pub trait Automata {
     type State: PartialState + Sized;
 
-    fn run(&self, partial: Self::State, tape: &[u8],linebreak:char) -> Self::State;
+    fn run(&self, partial: Self::State, tape: &[u8], linebreak: char) -> Self::State;
 
     /// Produces stats the given reader.
-    fn stats_from_bufread<R : BufRead + Sized >(&self, mut reader: R,linebreak:char) -> std::io::Result<Stats> {
+    fn stats_from_bufread<R: BufRead + Sized>(
+        &self,
+        mut reader: R,
+        linebreak: char,
+    ) -> std::io::Result<Stats> {
         let mut state = Self::State::initial_state();
         let mut buff = [0; BUFFER_SIZE];
         loop {
@@ -20,7 +24,7 @@ pub trait Automata {
             if read == 0 {
                 return Ok(state.result());
             }
-            state = self.run(state, &buff[0..read],linebreak);
+            state = self.run(state, &buff[0..read], linebreak);
         }
     }
 }

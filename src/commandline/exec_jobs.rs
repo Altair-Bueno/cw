@@ -60,10 +60,10 @@ pub fn singlethread_stdin(args: PrettyPrint, mode: &Parser) -> ! {
             println!("{}", show);
             0
         }
-        Err(err) =>{
-            eprintln!("{}",err);
+        Err(err) => {
+            eprintln!("{}", err);
             1
-        },
+        }
     };
     std::process::exit(code);
 }
