@@ -11,21 +11,24 @@ args:
       index: 1
 
   - lines:
-      about: Counts the number of lines. A line is defined as a String that ends on `\r\n`,`\r` or `\n`
+      about: Counts the number of lines. A line is defined using a newline
+        character
       short: l
       long: lines
       required: false
       takes_value: false
 
   - characters:
-      about: Counts the number of characteres on the file
+      about: Counts the number of characteres on the file. Notice that byte
+        and character count may not be equal
       short: c
       long: chars
       required: false
       takes_value: false
 
   - words:
-      about: Counts the number of words on the file
+      about: Counts the number of words on the file. A word is a series of
+        characters separated by white spaces.
       short: w
       long: words
       required: false
@@ -39,27 +42,28 @@ args:
       takes_value: false
 
   - threads:
-      about: Number of threads used to process all files. Its only usefull when provided multiple files. Using this option with `stdio` won't turn multithreading on
+      about: Number of threads used to process all files. Its only usefull
+        when provided multiple files. Using this option with `stdio` won't turn
+        multithreading on
       short: t
       long: threads
       required: false
       takes_value: true
 
   - break:
-      about: By default using POSIX LF
+      about: By default using POSIX LF (aka `\n`). For CRLF use LF
       short: n
       long: newline
       required: false
       takes_value: true
       possible_values:
         - LF
-        - CRLF
+        - CR
   - encoding:
-      about: UTF8 or ASCII. By default uses ASCII
+      about: UTF8 # todo
       short: e
       long: encoding
       takes_value: true
       required: false
       possible_values:
         - UTF8
-        - ASCII

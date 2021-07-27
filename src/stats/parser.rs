@@ -1,16 +1,14 @@
 use std::fmt::{Display, Formatter};
 use std::io::BufRead;
 
-use Encoding::*;
 use LineBreak::*;
 
 use crate::stats::automata::automata_utf8::AutomataUTF8;
 use crate::stats::parser_config::encoding::Encoding;
 use crate::stats::parser_config::line_break::LineBreak;
-use crate::stats::automata::posix_ascii::PosixASCII;
-use crate::stats::automata::trait_automata::Automata;
 use crate::stats::stats::Stats;
 use clap::ArgMatches;
+use crate::stats::automata::trait_automata::Automata;
 
 #[derive(Default, Clone)]
 pub struct Parser(Encoding, LineBreak);
@@ -34,6 +32,7 @@ impl Parser {
     pub fn proccess(&self, read: Box<dyn BufRead>) -> std::io::Result<Stats> {
         match self {
             Parser(_, LF) => AutomataUTF8.stats_from_bufread(read,'\n'),
+            Parser(_,CR) => AutomataUTF8.stats_from_bufread(read,'\r'),
             // Parser(ASCII, LF) => PosixASCII.stats_from_bufread(read),
             _ => todo!(),
         }

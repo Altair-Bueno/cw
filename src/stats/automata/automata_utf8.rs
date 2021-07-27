@@ -97,7 +97,7 @@ impl AutomataUTF8 {
                     let opt_character = char::from_u32(asnum);
 
                     match opt_character {
-                        Some('\n') => {
+                        Some(x) if x == linebreak=> {
                             stats.characters += 1;
                             stats.lines += 1;
                             if onword {
