@@ -9,6 +9,9 @@ use crate::cw_lib::stats::Stats;
 use std::io::Write;
 use std::result::Result::Ok;
 use threads_pool::ThreadPool;
+use colored::Colorize;
+
+const TOTAL : &str = "total";
 
 /// Multithread cw. Parses each file using a threadpool
 pub fn multithread(files: Values, args: PrettyPrint, threads: usize, mode: &Parser) -> ! {
@@ -54,7 +57,7 @@ pub fn multithread(files: Values, args: PrettyPrint, threads: usize, mode: &Pars
         );
 
         if size > 1 {
-            let _ = writeln!(buff_stdout, "{}", args.print(&acc, "total"));
+            let _ = writeln!(buff_stdout, "{}{}", args.print(&acc, ""), TOTAL.red());
         }
         code
     }; // Drop locks and flush buffers
@@ -116,7 +119,7 @@ pub fn singlethread_files(files: Values, args: PrettyPrint, mode: &Parser) -> ! 
 
         if size > 1 {
             // Total files
-            let _ = writeln!(buff_stdout, "{}", args.print(&merged, "total"));
+            let _ = writeln!(buff_stdout, "{}{}", args.print(&merged, ""), TOTAL.red());
         }
         code
     }; // Drop locks and flush buffers
