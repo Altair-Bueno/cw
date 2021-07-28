@@ -1,5 +1,5 @@
 use std::fs::File;
-use std::io::BufReader;
+use std::io::{BufReader, BufWriter};
 
 use clap::Values;
 
@@ -8,6 +8,7 @@ use crate::stats::parser::Parser;
 use crate::stats::stats::Stats;
 use std::result::Result::Ok;
 use threads_pool::ThreadPool;
+use std::io::Write;
 
 /// Multithread cw. Parses each file using a threadpool
 pub fn multithread(files: Values, args: PrettyPrint, threads: usize, mode: &Parser) -> ! {
@@ -29,43 +30,63 @@ pub fn multithread(files: Values, args: PrettyPrint, threads: usize, mode: &Pars
         });
         //eprintln!("{:?}",_e)
     }
+    let exit_code = {
+        let stdout = std::io::stdout();
+        let stderr = std::io::stderr();
+        let mut lock_stdout = stdout.lock();
+        let mut lock_stderr = stderr.lock();
+        let mut buff_stdout = BufWriter::new(lock_stdout);
+        let mut buff_stderr = BufWriter::new(lock_stderr);
 
-    let (code, acc) = (0..size).into_iter().zip(reciver.iter()).fold(
-        (0, Stats::default()),
-        |(code, acc), (_, (file, result))| match result {
-            Ok(stats) => {
-                let show = args.print(&stats, &file[..]);
-                println!("{}", show);
-                (code, acc.combine(stats))
-            }
-            Err(err) => {
-                eprintln!("{}: {}", file, err);
-                (code + 1, acc)
-            }
-        },
-    );
+        let (code, acc) = (0..size).into_iter().zip(reciver.iter()).fold(
+            (0, Stats::default()),
+            |(code, acc), (_, (file, result))| match result {
+                Ok(stats) => {
+                    let show = args.print(&stats, &file[..]);
+                    writeln!(buff_stdout, "{}", show);
+                    (code, acc.combine(stats))
+                }
+                Err(err) => {
+                    writeln!(buff_stderr, "{}: {}", file, err);
+                    (code + 1, acc)
+                }
+            },
+        );
 
-    if size > 1 {
-        println!("{}", args.print(&acc, "total"));
-    }
-    std::process::exit(code)
+        if size > 1 {
+            writeln!(buff_stdout, "{}", args.print(&acc, "total"));
+        }
+        code
+    }; // Drop locks and flush buffers
+    std::process::exit(exit_code)
 }
 
 /// Singlethread for STDIN
 pub fn singlethread_stdin(args: PrettyPrint, mode: &Parser) -> ! {
     let stats_stdio = from_stdin(mode);
-    let code = match stats_stdio {
-        Ok(stats) => {
-            let show = args.print(&stats, "");
-            println!("{}", show);
-            0
-        }
-        Err(err) => {
-            eprintln!("{}", err);
-            1
-        }
-    };
-    std::process::exit(code);
+
+    let exit_code = {
+        let stdout = std::io::stdout();
+        let stderr = std::io::stderr();
+        let mut lock_stdout = stdout.lock();
+        let mut lock_stderr = stderr.lock();
+        let mut buff_stdout = BufWriter::new(lock_stdout);
+        let mut buff_stderr = BufWriter::new(lock_stderr);
+
+        let code = match stats_stdio {
+            Ok(stats) => {
+                let show = args.print(&stats, "");
+                writeln!(buff_stdout, "{}", show);
+                0
+            }
+            Err(err) => {
+                writeln!(buff_stderr, "{}", err);
+                1
+            }
+        };
+        code
+    }; // Drop locks and flush buffers
+    std::process::exit(exit_code);
 }
 
 /// Single thread for FILES
@@ -73,23 +94,33 @@ pub fn singlethread_files(files: Values, args: PrettyPrint, mode: &Parser) -> ! 
     let size = files.len();
     let init = (0, Stats::default());
 
-    let (code, merged) = files.fold(init, |(code, acc), file| match from_file(file, mode) {
-        Ok(stats) => {
-            let show = args.print(&stats, file);
-            println!("{}", show);
-            (code, acc.combine(stats))
-        }
-        Err(err) => {
-            eprintln!("{}: {}", file, err);
-            (code + 1, acc)
-        }
-    });
+    let exit_code = {
+        let stdout = std::io::stdout();
+        let stderr = std::io::stderr();
+        let mut lock_stdout = stdout.lock();
+        let mut lock_stderr = stderr.lock();
+        let mut buff_stdout = BufWriter::new(lock_stdout);
+        let mut buff_stderr = BufWriter::new(lock_stderr);
 
-    if size > 1 {
-        // Total files
-        println!("\n{}", args.print(&merged, "total"));
-    }
-    std::process::exit(code)
+        let (code, merged) = files.fold(init, |(code, acc), file| match from_file(file, mode) {
+            Ok(stats) => {
+                let show = args.print(&stats, file);
+                writeln!(buff_stdout, "{}", show);
+                (code, acc.combine(stats))
+            }
+            Err(err) => {
+                writeln!(buff_stderr, "{}: {}", file, err);
+                (code + 1, acc)
+            }
+        });
+
+        if size > 1 {
+            // Total files
+            writeln!(buff_stdout, "\n{}", args.print(&merged, "total"));
+        }
+        code
+    }; // Drop locks and flush buffers
+    std::process::exit(exit_code)
 }
 
 // Convenience functions

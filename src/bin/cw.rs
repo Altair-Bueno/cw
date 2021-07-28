@@ -15,15 +15,16 @@ fn main() {
     if let Some(files) = files {
         let num_threads = matches
             .value_of("threads")
-            .map(|x| x.parse().unwrap_or(1))
+            .map(|x| x.parse())
+            .unwrap_or(Ok(1))
             .unwrap_or(1);
-        if num_threads == 1 {
-            singlethread_files(files, pretty_print, &parser_config)
-        } else if num_threads > 1 {
-            multithread(files, pretty_print, num_threads, &parser_config)
-        } else {
-            eprintln!("Invalid threadcount");
-            std::process::exit(1);
+        match num_threads {
+            1 =>singlethread_files(files, pretty_print, &parser_config),
+            x if x> 1 => multithread(files, pretty_print, x, &parser_config),
+            _ => {
+                eprintln!("Invalid threadcount");
+                std::process::exit(1);
+            }
         }
     } else {
         singlethread_stdin(pretty_print, &parser_config);

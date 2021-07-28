@@ -76,6 +76,7 @@ impl AutomatonUTF8 {
     /// Transition the automaton's state using the given imput
     fn compute(partial: UTF8PartialState, char: u8, linebreak: char) -> UTF8PartialState {
         let UTF8PartialState(mut expect, mut onword, mut legth, mut stats, mut buff) = partial;
+        assert!(buff.len() <=4);
         loop {
             match expect {
                 Expect::New => {
