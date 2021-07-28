@@ -3,3 +3,5 @@
 # IntelliJ IDEA
 .idea
 cw.iml
+# Perf flamegraph
+*.svg
