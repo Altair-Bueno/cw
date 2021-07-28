@@ -42,8 +42,8 @@ You can choose another any other combination if you need it
 
 # Why?
 - I'm learning Rust
-- My macOS wc cannot count UTF-8 encoded characters correctly, or at least i 
-  don't know how to use it correctly
+- My macOS version of wc cannot count UTF-8 encoded characters correctly, or 
+  at least i don't know how to use it correctly
 - Set up using enviroment variables is painfull if you just want to read one
   single UTF-8 file
 - Because i can
