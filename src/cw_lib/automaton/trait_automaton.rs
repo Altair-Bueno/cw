@@ -2,7 +2,7 @@ use crate::cw_lib::automaton::trait_partial_state::PartialState;
 use crate::cw_lib::stats::Stats;
 use std::io::BufRead;
 
-const BUFFER_SIZE: usize = 16 * 1024; // 16KB
+const BUFFER_SIZE: usize = 8 * 1024; // 4KB
 
 /// A deterministic finite automaton that transtions using the given bufread as
 /// input. It will parse each byte individually and produce stats

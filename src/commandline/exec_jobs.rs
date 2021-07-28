@@ -6,9 +6,9 @@ use clap::Values;
 use crate::commandline::pretty_print::PrettyPrint;
 use crate::cw_lib::parser::Parser;
 use crate::cw_lib::stats::Stats;
+use std::io::Write;
 use std::result::Result::Ok;
 use threads_pool::ThreadPool;
-use std::io::Write;
 
 /// Multithread cw. Parses each file using a threadpool
 pub fn multithread(files: Values, args: PrettyPrint, threads: usize, mode: &Parser) -> ! {
@@ -116,7 +116,7 @@ pub fn singlethread_files(files: Values, args: PrettyPrint, mode: &Parser) -> ! 
 
         if size > 1 {
             // Total files
-            let _ = writeln!(buff_stdout, "\n{}", args.print(&merged, "total"));
+            let _ = writeln!(buff_stdout, "{}", args.print(&merged, "total"));
         }
         code
     }; // Drop locks and flush buffers
@@ -127,7 +127,7 @@ pub fn singlethread_files(files: Values, args: PrettyPrint, mode: &Parser) -> ! 
 #[inline(always)]
 fn from_file(f: &str, mode: &Parser) -> std::io::Result<Stats> {
     let file = File::open(f)?;
-    let reader = BufReader::new(file);
+    let reader = BufReader::with_capacity(1024*32,file);
     mode.proccess(reader)
 }
 
