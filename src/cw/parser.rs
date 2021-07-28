@@ -29,8 +29,8 @@ impl Parser {
     }
     pub fn proccess<R: BufRead + Sized>(&self, read: R) -> std::io::Result<Stats> {
         match self {
-            Parser(Encoding::UTF8, LineBreak::LF) => AutomatonUTF8.stats_from_bufread(read, '\n'),
-            Parser(Encoding::UTF8, LineBreak::CR) => AutomatonUTF8.stats_from_bufread(read, '\r'),
+            Parser(Encoding::UTF8, LineBreak::LF) => AutomatonUTF8.stats_from_bufread(read, b'\n'),
+            Parser(Encoding::UTF8, LineBreak::CR) => AutomatonUTF8.stats_from_bufread(read, b'\r'),
             _ => todo!(), // UTF16
         }
     }

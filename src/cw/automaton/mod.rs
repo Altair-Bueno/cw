@@ -14,6 +14,6 @@ macro_rules! isspace {
     };
 }*/
 #[inline(always)]
-fn isspace(char :u32) -> bool {
+fn isspace(char :u8) -> bool {
     (char == 0x9) || (char == 0x20) || (0xA..=0xD).contains(&char)
 }

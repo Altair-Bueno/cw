@@ -5,10 +5,11 @@ use crate::cw::stats::Stats;
 use std::cmp::max;
 
 // UTF8 encoded char uses 4 bytes at most
-type UTFCharBuff = [u8; 4];
+type UTFClass = Expect;
 type CurrentLength = u32;
 
 // What the UTF8 automaton expects next
+#[derive(Copy, Clone)]
 enum Expect {
     New,
     One,
@@ -44,7 +45,7 @@ impl Expect {
 /// Represents progress for a finite automaton. Can be converted into a final
 /// result by using the `result()` function
 #[derive(Default)]
-pub struct UTF8PartialState(Expect, OnWord, CurrentLength, Stats, UTFCharBuff);
+pub struct UTF8PartialState(Expect, OnWord, CurrentLength, Stats, UTFClass);
 
 impl PartialState for UTF8PartialState {
     /// Transforms a `UTF8PartialState` into `Stats`
@@ -66,7 +67,7 @@ impl Automata for AutomatonUTF8 {
     type State = UTF8PartialState;
 
     /// Runs the automaton over the given tape, generating a partial response
-    fn run(&self, partial: Self::State, tape: &[u8], linebreak: char) -> Self::State {
+    fn run(&self, partial: Self::State, tape: &[u8], linebreak: u8) -> Self::State {
         tape.iter()
             .fold(partial, |acc, n| AutomatonUTF8::compute(acc, *n, linebreak))
     }
@@ -74,20 +75,44 @@ impl Automata for AutomatonUTF8 {
 
 impl AutomatonUTF8 {
     /// Transition the automaton's state using the given imput
-    fn compute(partial: UTF8PartialState, char: u8, linebreak: char) -> UTF8PartialState {
-        let UTF8PartialState(mut expect, mut onword, mut legth, mut stats, mut buff) = partial;
-        assert!(buff.len() <=4);
+    fn compute(partial: UTF8PartialState, char: u8, linebreak: u8) -> UTF8PartialState {
+        let UTF8PartialState(mut expect, mut onword, mut legth, mut stats, mut class) = partial;
         loop {
             match expect {
                 Expect::New => {
                     expect = Expect::decode(char);
+                    class = expect;
                 }
                 Expect::One => {
                     stats.bytes += 1;
-                    buff[0] = char;
-                    let asnum = u32::from_le_bytes(buff);
-                    let opt_character = char::from_u32(asnum);
 
+                    match (class,char) {
+                        (UTFClass::One, x) if x == linebreak => {
+                            stats.characters += 1;
+                            stats.lines += 1;
+                            stats.legth = max(stats.legth, legth);
+                            legth = 0;
+
+                            if onword {
+                                stats.words += 1;
+                                onword = false;
+                            }
+                        },
+                        (UTFClass::One, x) if isspace(x) => {
+                            stats.characters += 1;
+                            legth += 1;
+                            if onword {
+                                stats.words += 1;
+                                onword = false;
+                            }
+                        },
+                        _ => {
+                            stats.characters += 1;
+                            legth += 1;
+                            onword = true;
+                        }
+                    }
+/*
                     match opt_character {
                         Some(x) if x == linebreak => {
                             stats.characters += 1;
@@ -113,28 +138,27 @@ impl AutomatonUTF8 {
                         }
                         None => onword = false,
                     }
-                    buff.fill(0);
-                    expect = Expect::New;
 
-                    return UTF8PartialState(expect, onword, legth, stats, buff);
+ */
+                    expect = Expect::New;
+                    class = expect;
+
+                    return UTF8PartialState(expect, onword, legth, stats, class);
                 }
                 Expect::Two => {
                     stats.bytes += 1;
-                    buff[1] = char;
                     expect = Expect::One;
-                    return UTF8PartialState(expect, onword, legth, stats, buff);
+                    return UTF8PartialState(expect, onword, legth, stats, class);
                 }
                 Expect::Three => {
                     stats.bytes += 1;
-                    buff[2] = char;
                     expect = Expect::Two;
-                    return UTF8PartialState(expect, onword, legth, stats, buff);
+                    return UTF8PartialState(expect, onword, legth, stats, class);
                 }
                 Expect::Four => {
                     stats.bytes += 1;
-                    buff[3] = char;
                     expect = Expect::Three;
-                    return UTF8PartialState(expect, onword, legth, stats, buff);
+                    return UTF8PartialState(expect, onword, legth, stats, class);
                 }
             }
         }
@@ -151,7 +175,7 @@ mod test {
 
     fn proccess_file_test(f: &str) -> Stats {
         let reader = BufReader::new(File::open(f).unwrap());
-        let stats = AutomatonUTF8.stats_from_bufread(reader, '\n').unwrap();
+        let stats = AutomatonUTF8.stats_from_bufread(reader, b'\n').unwrap();
 
         stats
     }
@@ -170,7 +194,7 @@ mod test {
         assert_eq!(out, expected)
     }
     #[test]
-    #[ignore]
+    //#[ignore]
     fn bible() {
         let out = proccess_file_test("tests/resources/bible.txt");
         let expected = Stats::new(100182, 824036, 4451368, 4451368, 78);
@@ -228,7 +252,7 @@ mod test {
     #[test]
     fn french() {
         let out = proccess_file_test("tests/resources/french.txt");
-        let expected = Stats::new(0, 10, 57, 61, 57);
+        let expected = Stats::new(0, 10, 58, 61, 58);
         assert_eq!(out, expected)
     }
 }
