@@ -124,13 +124,14 @@ pub fn singlethread_files(files: Values, args: PrettyPrint, mode: &Parser) -> ! 
 }
 
 // Convenience functions
+#[inline(always)]
 fn from_file(f: &str, mode: &Parser) -> std::io::Result<Stats> {
     let file = File::open(f)?;
     let reader = BufReader::new(file);
-
     mode.proccess(reader)
 }
 
+#[inline(always)]
 fn from_stdin(mode: &Parser) -> std::io::Result<Stats> {
     let reader = BufReader::new(std::io::stdin());
 
