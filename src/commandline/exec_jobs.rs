@@ -4,8 +4,8 @@ use std::io::{BufReader, BufWriter};
 use clap::Values;
 
 use crate::commandline::pretty_print::PrettyPrint;
-use crate::cw::parser::Parser;
-use crate::cw::stats::Stats;
+use crate::cw_lib::parser::Parser;
+use crate::cw_lib::stats::Stats;
 use std::result::Result::Ok;
 use threads_pool::ThreadPool;
 use std::io::Write;

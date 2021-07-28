@@ -1,7 +1,7 @@
 mod commandline;
-mod cw;
+mod cw_lib;
 
 pub use commandline::exec_jobs::*;
 pub use commandline::pretty_print::PrettyPrint;
-pub use cw::parser::Parser;
-pub use cw::stats::Stats;
+pub use cw_lib::parser::Parser;
+pub use cw_lib::stats::Stats;
