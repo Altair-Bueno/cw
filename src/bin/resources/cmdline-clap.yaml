@@ -1,7 +1,7 @@
 name: cw
 version: "0.1.0"
 author: Altair Bueno
-about: "cw, a rip off wc. Lines, words, character, byte and count with colum\
+about: "cw, a rip off wc. Lines, words, character and byte count with column\
   stats.\n\
   STDOUT:\n\t$lines\t$words\t$chars\t$bytes\t$max-legth\t$file\n\n\
   STDERR:\n\t$file: $err\n\n\

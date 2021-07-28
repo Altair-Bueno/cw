@@ -1,6 +1,6 @@
 # cw
-cw *(count words)* is a modern alternative to classic GNU wc, written on pure
-Rust. It provides the same tools as GNU wc, but with some extras, such as 
+cw *(count words)* is a modern alternative to classic wc, written on pure
+Rust. It provides the same tools as wc, but with some extras, such as 
 multithreading and different encoding support
 
 ![img.png](.github/readme/img.png)
@@ -28,7 +28,8 @@ cargo uninstall cw
 ```
 
 # Features
-The same functionality you'll expect from GNU wc, but with some extras:
+The same functionality you'll expect from GNU wc, but with some extras. To see
+the full list of options, type `cw -h` or `cw --help`:
 
 ## Multithreading
 When provided multiple files, cw can process them sequentially or in parallel
@@ -39,9 +40,18 @@ files
 By default, cw will search for UTF-8 encoded text, with LF (`\n`) line breaks.
 You can choose another any other combination if you need it
 
+# Why?
+- I'm learning Rust
+- My macOS wc cannot count UTF-8 encoded characters correctly, or at least i 
+  don't know how to use it correctly
+- Set up using enviroment variables is painfull if you just want to read one
+  single UTF-8 file
+- Because i can
+
 # Wishlist
 
-- Pre compiled binaries using GitHub workflows
+- Pre-compiled binaries using GitHub workflows
 - More encodings: UTF-16 isn't done yet
 - Auto detect file encoding
+- Colored output
 - Make cw faster
