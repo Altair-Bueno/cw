@@ -1,7 +1,6 @@
-use crate::isspace;
 use crate::stats::automaton::trait_automaton::Automata;
 use crate::stats::automaton::trait_partial_state::PartialState;
-use crate::stats::automaton::OnWord;
+use crate::stats::automaton::{OnWord, isspace};
 use crate::stats::stats::Stats;
 use std::cmp::max;
 
@@ -102,7 +101,7 @@ impl AutomatonUTF8 {
                         Some(x) => {
                             stats.characters += 1;
                             legth += 1;
-                            if isspace!(x as u32) {
+                            if isspace(x as u32) {
                                 if onword {
                                     stats.words += 1;
                                     onword = false;
