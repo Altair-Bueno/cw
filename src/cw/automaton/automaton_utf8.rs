@@ -1,7 +1,7 @@
-use crate::stats::automaton::trait_automaton::Automata;
-use crate::stats::automaton::trait_partial_state::PartialState;
-use crate::stats::automaton::{OnWord, isspace};
-use crate::stats::stats::Stats;
+use crate::cw::automaton::trait_automaton::Automata;
+use crate::cw::automaton::trait_partial_state::PartialState;
+use crate::cw::automaton::{OnWord, isspace};
+use crate::cw::stats::Stats;
 use std::cmp::max;
 
 // UTF8 encoded char uses 4 bytes at most
@@ -145,9 +145,9 @@ mod test {
     use std::fs::File;
     use std::io::BufReader;
 
-    use crate::stats::automaton::automaton_utf8::AutomatonUTF8;
-    use crate::stats::automaton::trait_automaton::Automata;
-    use crate::stats::stats::Stats;
+    use crate::cw::automaton::automaton_utf8::AutomatonUTF8;
+    use crate::cw::automaton::trait_automaton::Automata;
+    use crate::cw::stats::Stats;
 
     fn proccess_file_test(f: &str) -> Stats {
         let reader = BufReader::new(File::open(f).unwrap());

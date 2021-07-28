@@ -1,4 +1,4 @@
-use crate::stats::stats::Stats;
+use crate::cw::stats::Stats;
 
 /// An automaton partial state
 pub trait PartialState

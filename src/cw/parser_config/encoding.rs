@@ -1,4 +1,4 @@
-use crate::stats::parser_config::encoding::Encoding::*;
+use crate::cw::parser_config::encoding::Encoding::*;
 use std::fmt::{Display, Formatter};
 use std::str::FromStr;
 

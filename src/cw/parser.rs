@@ -1,11 +1,11 @@
 use std::fmt::{Display, Formatter};
 use std::io::BufRead;
 
-use crate::stats::automaton::automaton_utf8::AutomatonUTF8;
-use crate::stats::automaton::trait_automaton::Automata;
-use crate::stats::parser_config::encoding::Encoding;
-use crate::stats::parser_config::line_break::LineBreak;
-use crate::stats::stats::Stats;
+use crate::cw::automaton::automaton_utf8::AutomatonUTF8;
+use crate::cw::automaton::trait_automaton::Automata;
+use crate::cw::parser_config::encoding::Encoding;
+use crate::cw::parser_config::line_break::LineBreak;
+use crate::cw::stats::Stats;
 use clap::ArgMatches;
 
 #[derive(Default, Clone)]

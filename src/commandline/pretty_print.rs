@@ -1,6 +1,6 @@
 use clap::ArgMatches;
 
-use crate::stats::stats::Stats;
+use crate::cw::stats::Stats;
 
 /// Convenience struct and functions for pretty printing Stats
 #[derive(Debug, Default)]

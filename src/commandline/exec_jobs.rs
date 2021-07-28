@@ -4,8 +4,8 @@ use std::io::{BufReader, BufWriter};
 use clap::Values;
 
 use crate::commandline::pretty_print::PrettyPrint;
-use crate::stats::parser::Parser;
-use crate::stats::stats::Stats;
+use crate::cw::parser::Parser;
+use crate::cw::stats::Stats;
 use std::result::Result::Ok;
 use threads_pool::ThreadPool;
 use std::io::Write;
@@ -33,8 +33,8 @@ pub fn multithread(files: Values, args: PrettyPrint, threads: usize, mode: &Pars
     let exit_code = {
         let stdout = std::io::stdout();
         let stderr = std::io::stderr();
-        let mut lock_stdout = stdout.lock();
-        let mut lock_stderr = stderr.lock();
+        let lock_stdout = stdout.lock();
+        let lock_stderr = stderr.lock();
         let mut buff_stdout = BufWriter::new(lock_stdout);
         let mut buff_stderr = BufWriter::new(lock_stderr);
 
@@ -43,18 +43,18 @@ pub fn multithread(files: Values, args: PrettyPrint, threads: usize, mode: &Pars
             |(code, acc), (_, (file, result))| match result {
                 Ok(stats) => {
                     let show = args.print(&stats, &file[..]);
-                    writeln!(buff_stdout, "{}", show);
+                    let _ = writeln!(buff_stdout, "{}", show);
                     (code, acc.combine(stats))
                 }
                 Err(err) => {
-                    writeln!(buff_stderr, "{}: {}", file, err);
+                    let _ = writeln!(buff_stderr, "{}: {}", file, err);
                     (code + 1, acc)
                 }
             },
         );
 
         if size > 1 {
-            writeln!(buff_stdout, "{}", args.print(&acc, "total"));
+            let _ = writeln!(buff_stdout, "{}", args.print(&acc, "total"));
         }
         code
     }; // Drop locks and flush buffers
@@ -68,19 +68,19 @@ pub fn singlethread_stdin(args: PrettyPrint, mode: &Parser) -> ! {
     let exit_code = {
         let stdout = std::io::stdout();
         let stderr = std::io::stderr();
-        let mut lock_stdout = stdout.lock();
-        let mut lock_stderr = stderr.lock();
+        let lock_stdout = stdout.lock();
+        let lock_stderr = stderr.lock();
         let mut buff_stdout = BufWriter::new(lock_stdout);
         let mut buff_stderr = BufWriter::new(lock_stderr);
 
         let code = match stats_stdio {
             Ok(stats) => {
                 let show = args.print(&stats, "");
-                writeln!(buff_stdout, "{}", show);
+                let _ = writeln!(buff_stdout, "{}", show);
                 0
             }
             Err(err) => {
-                writeln!(buff_stderr, "{}", err);
+                let _ = writeln!(buff_stderr, "{}", err);
                 1
             }
         };
@@ -97,26 +97,26 @@ pub fn singlethread_files(files: Values, args: PrettyPrint, mode: &Parser) -> ! 
     let exit_code = {
         let stdout = std::io::stdout();
         let stderr = std::io::stderr();
-        let mut lock_stdout = stdout.lock();
-        let mut lock_stderr = stderr.lock();
+        let lock_stdout = stdout.lock();
+        let lock_stderr = stderr.lock();
         let mut buff_stdout = BufWriter::new(lock_stdout);
         let mut buff_stderr = BufWriter::new(lock_stderr);
 
         let (code, merged) = files.fold(init, |(code, acc), file| match from_file(file, mode) {
             Ok(stats) => {
                 let show = args.print(&stats, file);
-                writeln!(buff_stdout, "{}", show);
+                let _ = writeln!(buff_stdout, "{}", show);
                 (code, acc.combine(stats))
             }
             Err(err) => {
-                writeln!(buff_stderr, "{}: {}", file, err);
+                let _ = writeln!(buff_stderr, "{}: {}", file, err);
                 (code + 1, acc)
             }
         });
 
         if size > 1 {
             // Total files
-            writeln!(buff_stdout, "\n{}", args.print(&merged, "total"));
+            let _ = writeln!(buff_stdout, "\n{}", args.print(&merged, "total"));
         }
         code
     }; // Drop locks and flush buffers
