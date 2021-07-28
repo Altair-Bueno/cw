@@ -25,21 +25,17 @@ impl Default for Expect {
 
 impl Expect {
     pub fn decode(byte: u8) -> Expect {
-        // Different char encodings
-        const FOUR: u8 = 0b11110000;    // 11110uuu 10uuzzzz 10yyyyyy 10xxxxxx
-        const THREE: u8 = 0b11100000;   // 1110zzzz 10yyyyyy 10xxxxxx
-        const TWO: u8 = 0b11000000;     // 110yyyyy 10xxxxxx
-        const ASCII: u8 = 0b01111111;   // 0xxxxxxx
-        // other (any)                  // xxxxxxxx
+        let four = 0b11110000;  // 11110uuu 10uuzzzz 10yyyyyy 10xxxxxx
+        let three = 0b11100000; // 1110zzzz 10yyyyyy 10xxxxxx
+        let two = 0b11000000;   // 110yyyyy 10xxxxxx
+        // one (any)                // xxxxxxxx
 
-        if ASCII | byte == ASCII {
-            Expect::One
-        } else if byte & TWO == TWO {
-            Expect::Two
-        } else if byte & THREE == THREE {
-            Expect::Three
-        } else if byte & FOUR == FOUR {
+        if byte & four == four {
             Expect::Four
+        } else if byte & three == three {
+            Expect::Three
+        } else if byte & two == two {
+            Expect::Two
         } else {
             Expect::One
         }
