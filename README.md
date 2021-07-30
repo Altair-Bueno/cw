@@ -1,7 +1,10 @@
 # cw
 cw *(count words)* is a modern alternative to classic wc, written on pure
 Rust. It provides the same tools as wc, but with some extras, such as 
-multithreading and different encoding support
+multithreading and different encoding support. Please note it is not the 
+fastest word counter out there, althought it's pretty lightweight and 
+doesn't depend on any platform-agnostic hardware. I just made it for learning
+Rust
 
 ![img.png](.github/readme/img.png)
 
@@ -37,8 +40,8 @@ by providing the `-t N` option. It will use N additional threads to process all
 files
 
 ## Different encodings and Linebreaks
-By default, cw will search for UTF-8 encoded text, with LF (`\n`) line breaks.
-You can choose another any other combination if you need it
+By default, cw will search for UTF-8 encoded text, with LF (`U+000A`) line 
+breaks. You can choose another any other combination if you need it
 
 # Why?
 - I'm learning Rust
@@ -51,7 +54,8 @@ You can choose another any other combination if you need it
 # Wishlist
 
 - Pre-compiled binaries using GitHub workflows
-- More encodings: UTF-16 isn't done yet
+- Full unicode support eg proccess Z҉͈͓͈͎a̘͈̠̭l̨̯g̶̬͇̭o̝̹̗͎̙ ͟t͖̙̟̹͇̥̝͡e̥͘x͚̺̭̻͘t͉͔̩̲̘ correctly
+- UTF-16 encoding
 - Auto detect file encoding
 - Colored output
 - Make cw faster
