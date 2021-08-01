@@ -45,16 +45,14 @@ breaks. You can choose another any other combination if you need it
 
 # Why?
 - I'm learning Rust
-- My macOS version of wc cannot count UTF-8 encoded characters correctly, or 
+- My macOS version of wc does not count UTF-8 encoded characters correctly, or 
   at least i don't know how to use it
-- Set up using enviroment variables is painfull if you just want to read one
-  single UTF-8 file
 - Because i can
 
 # Wishlist
 
 - Pre-compiled binaries using GitHub workflows
-- Full unicode support eg proccess Z҉͈͓͈͎a̘͈̠̭l̨̯g̶̬͇̭o̝̹̗͎̙ ͟t͖̙̟̹͇̥̝͡e̥͘x͚̺̭̻͘t͉͔̩̲̘ correctly
+- Full unicode support (eg proccess Z҉͈͓͈͎a̘͈̠̭l̨̯g̶̬͇̭o̝̹̗͎̙ ͟t͖̙̟̹͇̥̝͡e̥͘x͚̺̭̻͘t͉͔̩̲̘ correctly)
 - UTF-16 encoding
 - Auto detect file encoding
 - Colored output
