@@ -3,7 +3,6 @@ use std::io::{BufReader, BufWriter};
 
 use clap::Values;
 
-use crate::commandline::pretty_print::PrettyPrint;
 use crate::cw_lib::parser::Parser;
 use crate::cw_lib::stats::Stats;
 use std::io::Write;

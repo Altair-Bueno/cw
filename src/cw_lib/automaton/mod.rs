@@ -1,7 +1,5 @@
 // Private members
 pub mod automaton_utf8;
-pub mod trait_automaton;
-pub mod trait_partial_state;
 
 // Private types and def
 // If we are on a word or not

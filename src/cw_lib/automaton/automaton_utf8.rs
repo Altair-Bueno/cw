@@ -1,8 +1,7 @@
-use crate::cw_lib::automaton::trait_automaton::Automata;
-use crate::cw_lib::automaton::trait_partial_state::PartialState;
 use crate::cw_lib::automaton::{OnWord, isspace};
 use crate::cw_lib::stats::Stats;
 use std::cmp::max;
+
 
 // UTF8 encoded char uses 4 bytes at most
 type UTFClass = Expect;
@@ -136,7 +135,8 @@ impl AutomatonUTF8 {
         }
     }
 }
-#[cfg(test)]
+
+#[cfg(disabled)]
 mod test {
     use std::fs::File;
     use std::io::BufReader;
