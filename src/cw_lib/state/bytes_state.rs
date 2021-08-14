@@ -29,6 +29,8 @@ impl Compute for BytesState {
 mod test {
     use crate::cw_lib::state::bytes_state::BytesState;
     use crate::cw_lib::state::traits::{Compute, PartialState};
+    use std::io::{BufReader, Read};
+    use std::fs::File;
 
     #[test]
     pub fn test1 () {
@@ -56,6 +58,86 @@ mod test {
             .compute(" ass sa fda fsj fasd ".as_bytes())
             .output();
         assert_eq!(parse,28)
+    }
+
+
+    fn proccess_file_test(f: &str) -> u32 {
+        let mut reader = BufReader::new(File::open(f).unwrap());
+
+        let mut state = BytesState::new();
+        let mut buff = [0; 1024];
+        loop {
+            let read = reader.read(&mut buff).unwrap();
+            if read == 0 {
+                return state.output();
+            }
+            state = state.compute(&buff[0..read]);
+        }
+    }
+
+    #[test]
+    fn gabriel() {
+        let out = proccess_file_test("tests/resources/Gabriel.txt");
+        let expected = 2700;
+        assert_eq!(out, expected)
+    }
+
+    #[test]
+    fn lorem() {
+        let out = proccess_file_test("tests/resources/Lorem_big.txt");
+        assert_eq!(out, 751539)
+    }
+    #[test]
+    fn bible() {
+        let out = proccess_file_test("tests/resources/bible.txt");
+        assert_eq!(out, 4451368)
+    }
+    #[test]
+    fn s1() {
+        let out = proccess_file_test("tests/resources/sample1.txt");
+        assert_eq!(out, 607)
+    }
+
+    #[test]
+    fn s2() {
+        let out = proccess_file_test("tests/resources/sample2.txt");
+        assert_eq!(out, 2859)
+    }
+    #[test]
+    fn s3() {
+        let out = proccess_file_test("tests/resources/sample3.txt");
+        assert_eq!(out, 3541)
+    }
+    #[test]
+    fn small() {
+        let out = proccess_file_test("tests/resources/small.txt");
+        assert_eq!(out, 18)
+    }
+    #[test]
+    fn empty() {
+        let out = proccess_file_test("tests/resources/empty.txt");
+        assert_eq!(out, 0)
+    }
+
+    #[test]
+    fn arabic() {
+        // - Legth isn't 0
+        // - test weird
+        let out = proccess_file_test("tests/resources/arabic.txt");
+        let expected = 105;
+        assert_eq!(out, expected)
+    }
+    #[test]
+    fn spanish() {
+        let out = proccess_file_test("tests/resources/spanish.txt");
+        let expected = 22;
+        assert_eq!(out, expected)
+    }
+
+    #[test]
+    fn french() {
+        let out = proccess_file_test("tests/resources/french.txt");
+        assert_eq!(out, 61)
     }
 
 }

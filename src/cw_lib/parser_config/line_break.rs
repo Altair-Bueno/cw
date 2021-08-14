@@ -9,6 +9,14 @@ pub enum LineBreak {
     CR,
     LF,
 }
+impl LineBreak {
+    pub fn get_separator(&self) ->u8 {
+        match self {
+            CR => b'\r',
+            LF => b'\n',
+        }
+    }
+}
 
 impl Display for LineBreak {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {

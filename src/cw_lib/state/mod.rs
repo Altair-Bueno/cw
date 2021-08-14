@@ -38,7 +38,18 @@ impl PartialState for State {
 
 // fn(State,&[u8]) -> State
 impl State {
-
+    pub fn new(linebreak:u8) -> State {
+        State{
+            lines_state: LinesState::new(linebreak),
+            words_state: WordsState::new(),
+            char_state: CharState::new(),
+            bytes_state: BytesState::new(),
+            max_length_state: MaxLengthState::new(linebreak)
+        }
+    }
+    pub fn none(mut self, _:&[u8]) -> State {
+        self
+    }
     pub fn lines(mut self, tape : &[u8]) ->State {
         self.lines_state = self.lines_state.compute(tape);
         self
@@ -58,5 +69,13 @@ impl State {
     pub fn max_length(mut self, tape:&[u8]) -> State {
         self.max_length_state = self.max_length_state.compute(tape);
         self
+    }
+}
+
+impl Iterator for State {
+    type Item = State;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        Some(*self)
     }
 }
