@@ -1,5 +1,12 @@
 use crate::cw_lib::state::traits::{Compute, PartialState};
 use regex::bytes::Regex;
+use lazy_static::lazy_static;
+
+// Avoid compiling the regex multiple times inside a loop. Regex should match
+// whitespaces as defined by POSIX standard
+lazy_static! {
+    static ref reg: Regex = Regex::new(r"([\x09\x20\x0A-\x0D]*)[^\x09\x20\x0A-\x0D]+([\x09\x20\x0A-\x0D]*)").unwrap();
+}
 
 // Number of words
 #[derive(Default,Debug,Copy, Clone)]
@@ -28,18 +35,17 @@ impl PartialState for WordsState {
 
 impl Compute for WordsState {
     fn compute(mut self, tape: &[u8]) -> Self {
-        let reg = Regex::new(r"([\x09\x20\x0A-\x0D]*)[^\x09\x20\x0A-\x0D]+([\x09\x20\x0A-\x0D]*)").unwrap();
-
         reg.captures_iter(tape)
             .map(|x|
                 (
+                    // number of delimeters on the left
                     x.get(1).unwrap().as_bytes().len(),
+                    // number of delimeters on the right
                     x.get(2).unwrap().as_bytes().len()
                 )
             )
-            .fold(self,|acc,spaces| {
-                let (this,onword) = match spaces {
-                    // Palabra cortada, sigue siendo la misma palabra
+            .fold(self,|acc,delimeters| {
+                let (this,onword) = match delimeters {
                     // (0,0) if acc.onword => (0,true), // simplified
                     (0,0)               => (0,true),
                     (_,0) if acc.onword => (1,true),

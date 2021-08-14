@@ -10,37 +10,27 @@ use crate::cw_lib::state::traits::PartialState;
 
 const BUFFER_SIZE: usize = 8 * 1024; // 8KB
 
-mod compose {
-    #[macro_export]
-    macro_rules! compose {
-    ( $last:expr ) => { $last };
-    ( $head:expr, $($tail:expr), +) => {
-        compose_two($head, compose!($($tail),+))
-    };
-    }
-
-    pub fn compose_two<A, B, C, G, F>(f: F, g: G) -> impl Fn(A) -> C
-        where
-            F: Fn(A) -> B,
-            G: Fn(B) -> C,
-    {
-        move |x| g(f(x))
-    }
-}
 
 pub struct Parser {
     encoding :Encoding,
     linebreak:LineBreak,
     tranformer: fn(State,&[u8]) -> State,
-    default_state : State
+    stats_format: Stats,
 }
 impl Default for Parser {
     fn default() -> Self {
         Parser {
             encoding: Default::default(),
             linebreak: Default::default(),
-            tranformer: todo!(),
-            default_state: Default::default(),
+            tranformer:
+            |x,y|
+                x
+                    .words(y)
+                    .lines(y)
+                    .chars(y)
+                    .bytes(y)
+                    .max_length(y),
+            stats_format: Default::default()
         }
     }
 }
@@ -56,28 +46,39 @@ impl Parser {
         max_length:bool
     ) -> Parser {
         let mut tranformer: fn(State,&[u8]) -> State =|x,_| x;
-/*
-        if lines {
-            transformer = compose::compose_two(State::lines,transformer);
-        }
-        if words {
-            tranformer = compose::compose_two(State::words,tranformer);
-        }
-        if chars {
-            tranformer = compose::compose_two(State::chars,tranformer);
-        }
-        if bytes {
-            tranformer = compose::compose_two(State::bytes,tranformer);
-        }
-        if max_length {
-            tranformer = compose::compose_two(State::max_length,tranformer);
-        }
-*/
+
+        let lines = if lines {
+            tranformer = |x,y| tranformer(x,y).lines(y);
+            Some(0)
+        } else { None };
+        let words = if words {
+            tranformer = |x,y| tranformer(x,y).words(y);
+            Some(0)
+        } else { None };
+        let characters = if chars {
+            tranformer = |x,y| tranformer(x,y).chars(y);
+            Some(0)
+        } else { None };
+        let bytes = if bytes {
+            tranformer = move |x,y| tranformer(x,y).bytes(y);
+            Some(0)
+        } else { None };
+        let legth = if max_length {
+            tranformer = move |x,y| tranformer(x,y).max_length(y);
+            Some(0)
+        } else { None };
+
         Parser {
             encoding,
             linebreak,
             tranformer,
-            default_state: Default::default(),
+            stats_format: Stats::new(
+                lines,
+                words,
+                characters,
+                bytes,
+                legth,
+            ),
         }
     }
 
@@ -94,7 +95,7 @@ impl Parser {
     }
 
     pub fn proccess<R: BufRead + Sized>(&self, mut reader: R) -> std::io::Result<Stats> {
-        let mut state = self.default_state.clone();
+        let mut state = State::default();
         let mut buff = [0; BUFFER_SIZE];
         loop {
             let read = reader.read(&mut buff)?;
