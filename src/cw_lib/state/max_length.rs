@@ -1,4 +1,4 @@
-use crate::cw_lib::func::traits::{PartialState, Compute};
+use crate::cw_lib::state::traits::{PartialState, Compute};
 use std::cmp::max;
 
 /// Max length
@@ -8,6 +8,12 @@ pub struct MaxLengthState {
     champion:u32,
     linebreak:u8,
 }
+impl Default for MaxLengthState {
+    fn default() -> Self {
+        MaxLengthState::new(b'\n')
+    }
+}
+
 impl MaxLengthState {
     pub fn new(linebreak:u8) -> Self {
         MaxLengthState {
@@ -19,28 +25,47 @@ impl MaxLengthState {
 }
 
 impl PartialState for MaxLengthState {
-    fn output(&self) -> Result<u32, String> {
+    type Output = u32;
+    fn output(&self)->Result<Self::Output,String>{
         Ok(max(self.champion,self.buffer))
     }
 }
 
 impl Compute for MaxLengthState {
     fn compute(self, tape: &[u8]) -> Self {
-        todo!();
-        let (champion, buffer) = tape
-            .split(|num| num == self.linebreak);
-        /*
-        .fold((self.champion,self.buffer), |(champion,buffer),slice| {
-
-            ()
-        });*/
+        tape
+            .split_inclusive(|x| self.linebreak == *x)
+            .map(|x| {
+                let mut n_chars = x.len();
+                let end = if let Some(x) = x.last() {
+                    *x == b'\n'
+                } else {
+                    false
+                };
+                if end { n_chars -= 1}
+                // n_chars: number of chars without \n
+                // end: If the line ended with \n or not
+                (n_chars,end)
+            })
+            .fold(self,|acc,n| {
+                let (this_len, buffer) = if n.1 {
+                    (self.buffer + n.0 as u32, 0)
+                } else {
+                    (0,self.buffer + n.0 as u32)
+                };
+                MaxLengthState {
+                    buffer,
+                    champion: max(this_len,self.champion),
+                    ..self
+                }
+            })
     }
 }
 
 #[cfg(test)]
 mod test {
-    use crate::cw_lib::func::max_length::MaxLengthState;
-    use crate::cw_lib::func::traits::{Compute, PartialState};
+    use crate::cw_lib::state::max_length::MaxLengthState;
+    use crate::cw_lib::state::traits::{Compute, PartialState};
 
     #[test]
     pub fn test1() {

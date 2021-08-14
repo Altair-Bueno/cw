@@ -1,5 +1,6 @@
 pub trait PartialState {
-    fn output(&self)->Result<u32,String>;
+    type Output;
+    fn output(&self)->Result<Self::Output,String>;
 }
 
 pub trait Compute {

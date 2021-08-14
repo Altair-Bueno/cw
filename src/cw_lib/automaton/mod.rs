@@ -1,4 +1,4 @@
-// Private members
+#[cfg(disabled)]
 pub mod automaton_utf8;
 
 // Private types and def

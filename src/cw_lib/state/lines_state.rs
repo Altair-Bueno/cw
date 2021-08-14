@@ -1,4 +1,4 @@
-use crate::cw_lib::func::traits::{PartialState, Compute};
+use crate::cw_lib::state::traits::{PartialState, Compute};
 
 /// number of lines
 #[derive(Debug,Copy, Clone)]
@@ -6,6 +6,12 @@ pub struct LinesState {
     linescount:u32,
     linebreak:u8,
 }
+impl Default for LinesState {
+    fn default() -> Self {
+        LinesState::new(b'\n')
+    }
+}
+
 impl LinesState {
     pub fn new(linebreak:u8) -> Self {
         LinesState{ linescount: 0, linebreak }
@@ -13,18 +19,19 @@ impl LinesState {
 }
 
 impl PartialState for LinesState {
-    fn output(&self) -> Result<u32, String> {
+    type Output = u32;
+    fn output(&self)->Result<Self::Output,String>{
         Ok(self.linescount)
     }
 }
 impl Compute for LinesState {
     fn compute(self, tape: &[u8]) -> Self {
         let line_breaks = tape
-            .split(|x| x == self.linebreak)
-            .count();
+            .split(|x| *x == self.linebreak)
+            .count() as u32;
 
         LinesState {
-            linescount: self.linescount + line_breaks,
+            linescount: self.linescount + line_breaks - 1,
             ..self
         }
     }
@@ -32,8 +39,8 @@ impl Compute for LinesState {
 
 #[cfg(test)]
 mod test {
-    use crate::cw_lib::func::lines_state::LinesState;
-    use crate::cw_lib::func::traits::{Compute, PartialState};
+    use crate::cw_lib::state::lines_state::LinesState;
+    use crate::cw_lib::state::traits::{Compute, PartialState};
 
     #[test]
     pub fn test1(){

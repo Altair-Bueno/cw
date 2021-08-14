@@ -1,4 +1,4 @@
-use crate::cw_lib::func::traits::{PartialState, Compute};
+use crate::cw_lib::state::traits::{PartialState, Compute};
 
 /// Number of bytes
 #[derive(Default,Debug,Copy, Clone)]
@@ -12,22 +12,23 @@ impl BytesState {
 }
 
 impl PartialState for BytesState {
-    fn output(&self) -> Result<u32,String> {
+    type Output = u32;
+    fn output(&self)->Result<Self::Output,String>{
         Ok(self.bytecount)
     }
 }
 
 impl Compute for BytesState {
     fn compute(mut self, tape: &[u8]) -> Self {
-        self.bytecount += tape.len();
+        self.bytecount += (tape.len() as u32);
         self
     }
 }
 
 #[cfg(test)]
 mod test {
-    use crate::cw_lib::func::bytes_state::BytesState;
-    use crate::cw_lib::func::traits::{Compute, PartialState};
+    use crate::cw_lib::state::bytes_state::BytesState;
+    use crate::cw_lib::state::traits::{Compute, PartialState};
 
     #[test]
     pub fn test1 () {

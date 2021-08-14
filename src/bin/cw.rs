@@ -1,6 +1,7 @@
 use clap::{load_yaml, App};
 use cw::*;
 
+#[cfg(disabled)]
 fn main() {
     // Load clap for commandline utilities
     let yaml = load_yaml!("resources/cmdline-clap.yaml");
