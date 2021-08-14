@@ -20,8 +20,8 @@ impl LinesState {
 
 impl PartialState for LinesState {
     type Output = u32;
-    fn output(&self)->Result<Self::Output,String>{
-        Ok(self.linescount)
+    fn output(&self)->Self::Output{
+        (self.linescount)
     }
 }
 impl Compute for LinesState {
@@ -45,43 +45,53 @@ mod test {
     #[test]
     pub fn test1(){
         let line = "hello world".as_bytes();
-        let out = LinesState::new(b'\n').compute(line).output().unwrap();
+        let out = LinesState::new(b'\n').compute(line).output();
         assert_eq!(out,0)
     }
     #[test]
     pub fn test2(){
         let line = "".as_bytes();
-        let out = LinesState::new(b'\n').compute(line).output().unwrap();
+        let out = LinesState::new(b'\n').compute(line).output();
         assert_eq!(out,0)
     }
     #[test]
     pub fn test3(){
         let line = "\n".as_bytes();
-        let out = LinesState::new(b'\n').compute(line).output().unwrap();
+        let out = LinesState::new(b'\n').compute(line).output();
         assert_eq!(out,1)
     }
     #[test]
     pub fn test4(){
         let line = "hello\n".as_bytes();
-        let out = LinesState::new(b'\n').compute(line).output().unwrap();
+        let out = LinesState::new(b'\n').compute(line).output();
         assert_eq!(out,1)
     }
     #[test]
     pub fn test5(){
         let line = "hello\nworld".as_bytes();
-        let out = LinesState::new(b'\n').compute(line).output().unwrap();
+        let out = LinesState::new(b'\n').compute(line).output();
         assert_eq!(out,1)
     }
     #[test]
     pub fn test6(){
         let line = "\nworld".as_bytes();
-        let out = LinesState::new(b'\n').compute(line).output().unwrap();
+        let out = LinesState::new(b'\n').compute(line).output();
         assert_eq!(out,1)
     }
     #[test]
     pub fn test7(){
         let line = "\nèô,sdfa".as_bytes();
-        let out = LinesState::new(b'\n').compute(line).output().unwrap();
+        let out = LinesState::new(b'\n').compute(line).output();
         assert_eq!(out,1)
+    }
+    #[test]
+    pub fn test8() {
+        let out = LinesState::new(b'\n')
+            .compute("helloworld".as_bytes())
+            .compute("jksajksfjas a jkasjf da \n".as_bytes())
+            .compute("\nsajisffajsjdfasf".as_bytes())
+            .compute("hasisdaoasfo".as_bytes())
+            .output();
+        assert_eq!(out,2)
     }
 }

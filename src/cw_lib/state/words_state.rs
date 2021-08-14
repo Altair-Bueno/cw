@@ -16,17 +16,36 @@ impl WordsState {
 
 impl PartialState for WordsState {
     type Output = u32;
-    fn output(&self)->Result<Self::Output,String>{
-        Ok(self.wordcount)
+    fn output(&self)->Self::Output{
+        let remaining = if self.onword {
+            1
+        } else {
+            0
+        };
+        self.wordcount + remaining
     }
 }
 
 impl Compute for WordsState {
     fn compute(mut self, tape: &[u8]) -> Self {
-        // Has at least one match
-        let reg = Regex::new(r"(?P<frontspaces>[\x09\x20\x0A-\x0D]*)(?P<letters>[^\x09\x20\x0A-\x0D]*)").unwrap();
+        let reg = Regex::new(r"([\x09\x20\x0A-\x0D]*)[^\x09\x20\x0A-\x0D]+").unwrap();
 
-        Default::default()
+        reg.captures_iter(tape)
+            .map(|x| x.get(1).unwrap().as_bytes().len())
+            .fold(self,|acc,frontspaces| {
+                let (this,onword) = match (frontspaces,acc.onword) {
+                    // Palabra cortada, sigue siendo la misma palabra
+                    (0,true) => (0,true),
+                    // Palabra no cortada, cuento la anterior
+                    (_,true) =>(1,true),
+                    // Primera palabra. Puede tener 0 delante o no
+                    _ => (0,true),
+                };
+                WordsState {
+                    wordcount: this + acc.wordcount,
+                    onword
+                }
+            })
     }
 }
 #[cfg(test)]
@@ -37,55 +56,64 @@ mod test {
     #[test]
     pub fn test1() {
         let line = "".as_bytes();
-        let out = WordsState::new().compute(line).output().unwrap();
+        let out = WordsState::new().compute(line).output();
         assert_eq!(out,0)
     }
     #[test]
     pub fn test2() {
         let line = "hello".as_bytes();
-        let out = WordsState::new().compute(line).output().unwrap();
+        let out = WordsState::new().compute(line).output();
         assert_eq!(out,1)
     }
     #[test]
     pub fn test3() {
         let line = "hello world".as_bytes();
-        let out = WordsState::new().compute(line).output().unwrap();
+        let out = WordsState::new().compute(line).output();
         assert_eq!(out,2)
     }
     #[test]
     pub fn test4() {
         let line = "hello\nworld".as_bytes();
-        let out = WordsState::new().compute(line).output().unwrap();
+        let out = WordsState::new().compute(line).output();
         assert_eq!(out,2)
     }
     #[test]
     pub fn test5() {
         let line = "\nworld".as_bytes();
-        let out = WordsState::new().compute(line).output().unwrap();
+        let out = WordsState::new().compute(line).output();
         assert_eq!(out,1)
     }
     #[test]
     pub fn test6() {
         let line = "\n\nworld".as_bytes();
-        let out = WordsState::new().compute(line).output().unwrap();
+        let out = WordsState::new().compute(line).output();
         assert_eq!(out,1)
     }
     #[test]
     pub fn test7() {
         let line = "hello\n\n".as_bytes();
-        let out = WordsState::new().compute(line).output().unwrap();
+        let out = WordsState::new().compute(line).output();
         assert_eq!(out,1)
     }
     #[test]
     pub fn test8() {
         let line = "texto en español de prueba con número de palabras".as_bytes();
-        let out = WordsState::new().compute(line).output().unwrap();
+        let out = WordsState::new().compute(line).output();
         assert_eq!(out,9)
     }
     #[test]
     pub fn test9() {
         let line = "    \t   texto en      español de    prueba    con número\n\t \t de\n palabras".as_bytes();
-        let out = WordsState::new().compute(line).output().unwrap();
+        let out = WordsState::new().compute(line).output();
         assert_eq!(out,9)
+    }
+    #[test]
+    pub fn test10() {
+        let out = WordsState::new()
+            .compute("hell".as_bytes())
+            .compute("o ".as_bytes())
+            .compute("world".as_bytes())
+            .output();
+        assert_eq!(out,2)
     }
 }
