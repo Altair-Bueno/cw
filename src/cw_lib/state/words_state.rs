@@ -40,14 +40,14 @@ impl Compute for WordsState {
             .fold(self,|acc,spaces| {
                 let (this,onword) = match spaces {
                     // Palabra cortada, sigue siendo la misma palabra
-                    (0,0) if acc.onword => (0,true),
-                    (0,0) => (0,true),
-                    (_,0) if acc.onword =>(1,true),
-                    (_,0) => (0,true),
-                    (0,_) if acc.onword =>(1,false),
-                    (0,_) => (1,false),
-                    _ if acc.onword => (2,false),
-                    _ =>(1,false),
+                    // (0,0) if acc.onword => (0,true), // simplified
+                    (0,0)               => (0,true),
+                    (_,0) if acc.onword => (1,true),
+                    (_,0)               => (0,true),
+                    (0,_) if acc.onword => (1,false),
+                    (0,_)               => (1,false),
+                    _ if acc.onword     => (2,false),
+                    _                   => (1,false),
                 };
 
                 WordsState {
