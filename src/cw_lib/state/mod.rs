@@ -4,7 +4,6 @@ use crate::cw_lib::state::bytes_state::BytesState;
 use crate::cw_lib::state::max_length::MaxLengthState;
 use crate::cw_lib::state::chars_state::CharState;
 use crate::cw_lib::state::traits::{PartialState, Compute};
-use crate::cw_lib::stats::Stats;
 
 pub mod traits;
 pub mod lines_state;

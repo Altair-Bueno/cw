@@ -1,34 +1,24 @@
 use crate::cw_lib::state::traits::{PartialState, Compute};
 use regex::bytes::Regex;
-use regex::bytes::RegexSet;
 
-// fixme : utf8 support
-
-
-#[derive(Copy, Clone)]
-pub enum Expect {
-    New,
-    One,
-    Two,
-    Three,
-    Four
-}
-impl Default for Expect {
-    fn default() -> Self {
-        Expect::New
-    }
-}
-
-// TODO
 #[derive(Default,Copy, Clone)]
 pub struct CharState{
-    expect: Expect,
+    expect: u32,
     num_chars:u32
 }
 
 impl CharState {
     pub fn new()-> CharState{
         Default::default()
+    }
+
+    fn eat_from_tape(eat:u32,tape:&[u8]) -> (u32,&[u8]) {
+        if tape.len() > eat as usize {
+            (0,&tape[eat as usize..])
+        } else {
+            let left= eat - tape.len() as u32;
+            (left,&[])
+        }
     }
 }
 impl PartialState for CharState {
@@ -40,23 +30,27 @@ impl PartialState for CharState {
 }
 impl Compute for CharState {
     fn compute(mut self, tape: &[u8]) -> Self {
-        if tape.is_empty() {
-            return self
-        }
-        // todo comerle por delante a la cinta
-        // Todo stuck on tests
-/*
-        let four = Regex::new(r"\b11110000...").unwrap();
-        let triple = Regex::new(r"\b11100000..").unwrap();
-        let double = Regex::new(r"\b11000000.").unwrap();
-        let single = Regex::new(r".").unwrap();
-        */
-        let reg = Regex::new(r"(\xF0...|\xE0..|\xC0.|.)").unwrap();
-        let num = reg.captures_iter(tape).count();
+        let (mut state,tape) = CharState::eat_from_tape(self.expect, tape);
+        //println!("{:?}",tape);
 
+        // run over the rest of the tape
+        // let reg = Regex::new(r"\xF0...|\xE0..|\xC0.|.").unwrap();
+        let reg = Regex::new(r"(?us:.)").unwrap();
+        let (last_match_index,count) = reg
+            .find_iter(tape)
+            //.inspect(|x| println!("{}",std::str::from_utf8(x.as_bytes()).unwrap()))
+            .fold((0,0),|(_,c),n|{
+                (n.end(),c+1)
+        });
+
+        if tape.len() != 0 {
+            let eat_next = tape.len() - last_match_index;
+            // We are sure that this is not the end
+            state = eat_next as u32;
+        }
         CharState {
-            expect: Default::default(),
-            num_chars: self.num_chars + num as u32
+            expect: state,
+            num_chars: self.num_chars + count as u32
         }
     }
 }
@@ -73,6 +67,52 @@ mod test {
         let s = "hello world".as_bytes();
         let out = CharState::new().compute(s).output();
         assert_eq!(out,11)
+    }
+
+    #[test]
+    pub fn test2() {
+        let s = "".as_bytes();
+        let out = CharState::new().compute(s).output();
+        assert_eq!(out,0)
+    }
+    #[test]
+    pub fn test3() {
+        let s = "a".as_bytes();
+        let out = CharState::new().compute(s).output();
+        assert_eq!(out,1)
+    }
+    #[test]
+    pub fn test4() {
+        let s = "as".as_bytes();
+        let out = CharState::new().compute(s).output();
+        assert_eq!(out,2)
+    }
+    #[test]
+    pub fn test5() {
+        let s = "asfasfweefa sdf asfas".as_bytes();
+        let out = CharState::new().compute(s).output();
+        assert_eq!(out,21)
+    }
+    #[test]
+    pub fn test6() {
+        let s = "ñ".as_bytes();
+        let out = CharState::new().compute(s).output();
+        assert_eq!(out,1)
+    }
+    #[test]
+    pub fn test7() {
+        let s = "ó".as_bytes();
+        let out = CharState::new().compute(s).output();
+        assert_eq!(out,1)
+    }
+    #[test]
+    pub fn test8() {
+        let out = CharState::new()
+            .compute("ó".as_bytes())
+            .compute("ñ".as_bytes())
+            .compute("assdfas".as_bytes())
+            .output();
+        assert_eq!(out,9)
     }
 
     // Test on files

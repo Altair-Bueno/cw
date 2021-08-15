@@ -1,7 +1,6 @@
 use crate::cw_lib::state::traits::{Compute, PartialState};
 use regex::bytes::Regex;
 use lazy_static::lazy_static;
-use regex::RegexSet;
 // Avoid compiling the regex multiple times inside a loop. Regex should match
 // whitespaces as defined by POSIX standard
 

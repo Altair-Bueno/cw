@@ -1,4 +1,3 @@
-use std::fmt::{Display, Formatter};
 use std::io::{BufRead, Error};
 
 use crate::cw_lib::parser_config::encoding::Encoding;
@@ -98,7 +97,8 @@ impl Parser {
         let characters = args.is_present("characters");
         let bytes = args.is_present("bytes");
         let len = args.is_present("line_length");
-        if lines || words || characters || bytes || len {
+
+        if lines == words && lines == characters && lines == bytes && lines == len {
             Parser::new(encoding,breakk,lines,words,characters,bytes,len)
         } else {
             Parser::default()
@@ -189,9 +189,9 @@ mod test {
     #[test]
     #[ignore]
     fn arabic() {
+        // todo
         // - Legth isn't 0
         // - test weird
-        todo!();
         let out = proccess_file_test("tests/resources/arabic.txt");
         let expected = Stats::new(Some(0), Some(10), Some(58), Some(105), Some(0));
         assert_eq!(out, expected)

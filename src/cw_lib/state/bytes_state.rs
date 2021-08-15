@@ -20,7 +20,7 @@ impl PartialState for BytesState {
 
 impl Compute for BytesState {
     fn compute(mut self, tape: &[u8]) -> Self {
-        self.bytecount += (tape.len() as u32);
+        self.bytecount += tape.len() as u32;
         self
     }
 }

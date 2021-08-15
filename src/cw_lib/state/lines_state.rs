@@ -20,7 +20,7 @@ impl LinesState {
 impl PartialState for LinesState {
     type Output = u32;
     fn output(&self)->Self::Output{
-        (self.linescount)
+        self.linescount
     }
 }
 impl Compute for LinesState {
