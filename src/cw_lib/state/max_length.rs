@@ -1,6 +1,8 @@
 use crate::cw_lib::state::traits::{PartialState, Compute};
 use std::cmp::max;
 
+// fixme: Does not work. Neets utf8 support
+
 /// Max length
 #[derive(Debug,Copy, Clone)]
 pub struct MaxLengthState {
@@ -66,6 +68,8 @@ impl Compute for MaxLengthState {
 mod test {
     use crate::cw_lib::state::max_length::MaxLengthState;
     use crate::cw_lib::state::traits::{Compute, PartialState};
+    use std::io::{BufReader, Read};
+    use std::fs::File;
 
     #[test]
     pub fn test1() {
@@ -106,5 +110,86 @@ mod test {
             .compute("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.".as_bytes())
             .output();
         assert_eq!(out,445)
+    }
+
+    // Test on files
+    fn proccess_file_test(f: &str) -> u32 {
+        let mut reader = BufReader::new(File::open(f).unwrap());
+
+        let mut state = MaxLengthState::new(b'\n');
+        let mut buff = [0; 1024];
+        loop {
+            let read = reader.read(&mut buff).unwrap();
+            if read == 0 {
+                return state.output();
+            }
+            state = state.compute(&buff[0..read]);
+        }
+    }
+
+    #[test]
+    fn gabriel() {
+        let out = proccess_file_test("tests/resources/Gabriel.txt");
+        let expected = 580;
+        assert_eq!(out, expected)
+    }
+
+    #[test]
+    fn lorem() {
+        let out = proccess_file_test("tests/resources/Lorem_big.txt");
+        assert_eq!(out, 1142)
+    }
+    #[test]
+    fn bible() {
+        let out = proccess_file_test("tests/resources/bible.txt");
+        assert_eq!(out, 78)
+    }
+    #[test]
+    fn s1() {
+        let out = proccess_file_test("tests/resources/sample1.txt");
+        assert_eq!(out, 346)
+    }
+
+    #[test]
+    fn s2() {
+        let out = proccess_file_test("tests/resources/sample2.txt");
+        assert_eq!(out, 635)
+    }
+    #[test]
+    fn s3() {
+        let out = proccess_file_test("tests/resources/sample3.txt");
+        assert_eq!(out, 818)
+    }
+    #[test]
+    fn small() {
+        let out = proccess_file_test("tests/resources/small.txt");
+        assert_eq!(out, 17)
+    }
+    #[test]
+    fn empty() {
+        let out = proccess_file_test("tests/resources/empty.txt");
+        assert_eq!(out, 0)
+    }
+
+    #[test]
+    #[ignore]
+    fn arabic() {
+        // - Legth isn't 0
+        // - test weird
+        let out = proccess_file_test("tests/resources/arabic.txt");
+        let expected = 58;
+        assert_eq!(out, expected)
+    }
+    #[test]
+    fn spanish() {
+        let out = proccess_file_test("tests/resources/spanish.txt");
+        let expected = 18;
+        assert_eq!(out, expected)
+    }
+
+    #[test]
+    fn french() {
+        let out = proccess_file_test("tests/resources/french.txt");
+        assert_eq!(out, 58)
     }
 }

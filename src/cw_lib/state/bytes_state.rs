@@ -1,5 +1,8 @@
 use crate::cw_lib::state::traits::{PartialState, Compute};
 
+// fixme Works as intended
+
+
 /// Number of bytes
 #[derive(Default,Debug,Copy, Clone)]
 pub struct BytesState {
@@ -60,7 +63,7 @@ mod test {
         assert_eq!(parse,28)
     }
 
-
+    // Test on files
     fn proccess_file_test(f: &str) -> u32 {
         let mut reader = BufReader::new(File::open(f).unwrap());
 

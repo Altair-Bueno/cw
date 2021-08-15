@@ -2,6 +2,8 @@ use crate::cw_lib::state::traits::{Compute, PartialState};
 use regex::bytes::Regex;
 use lazy_static::lazy_static;
 
+// FIXME too slow
+
 // Avoid compiling the regex multiple times inside a loop. Regex should match
 // whitespaces as defined by POSIX standard
 lazy_static! {
@@ -67,6 +69,8 @@ impl Compute for WordsState {
 mod test {
     use crate::cw_lib::state::words_state::WordsState;
     use crate::cw_lib::state::traits::{Compute, PartialState};
+    use std::io::{BufReader, Read};
+    use std::fs::File;
 
     #[test]
     pub fn test1() {
@@ -130,5 +134,86 @@ mod test {
             .compute("world".as_bytes())
             .output();
         assert_eq!(out,2)
+    }
+
+    // Test on files
+    fn proccess_file_test(f: &str) -> u32 {
+        let mut reader = BufReader::new(File::open(f).unwrap());
+
+        let mut state = WordsState::new();
+        let mut buff = [0; 1024];
+        loop {
+            let read = reader.read(&mut buff).unwrap();
+            if read == 0 {
+                return state.output();
+            }
+            state = state.compute(&buff[0..read]);
+        }
+    }
+
+    #[test]
+    fn gabriel() {
+        let out = proccess_file_test("tests/resources/Gabriel.txt");
+        let expected = 187;
+        assert_eq!(out, expected)
+    }
+
+    #[test]
+    fn lorem() {
+        let out = proccess_file_test("tests/resources/Lorem_big.txt");
+        assert_eq!(out, 111618)
+    }
+    #[test]
+    fn bible() {
+        let out = proccess_file_test("tests/resources/bible.txt");
+        assert_eq!(out, 824036)
+    }
+    #[test]
+    fn s1() {
+        let out = proccess_file_test("tests/resources/sample1.txt");
+        assert_eq!(out, 88)
+    }
+
+    #[test]
+    fn s2() {
+        let out = proccess_file_test("tests/resources/sample2.txt");
+        assert_eq!(out, 423)
+    }
+    #[test]
+    fn s3() {
+        let out = proccess_file_test("tests/resources/sample3.txt");
+        assert_eq!(out, 546)
+    }
+    #[test]
+    fn small() {
+        let out = proccess_file_test("tests/resources/small.txt");
+        assert_eq!(out, 3)
+    }
+    #[test]
+    fn empty() {
+        let out = proccess_file_test("tests/resources/empty.txt");
+        assert_eq!(out, 0)
+    }
+
+    #[test]
+    #[ignore]
+    fn arabic() {
+        // - Legth isn't 0
+        // - test weird
+        let out = proccess_file_test("tests/resources/arabic.txt");
+        let expected = 0;
+        assert_eq!(out, expected)
+    }
+    #[test]
+    fn spanish() {
+        let out = proccess_file_test("tests/resources/spanish.txt");
+        let expected = 3;
+        assert_eq!(out, expected)
+    }
+
+    #[test]
+    fn french() {
+        let out = proccess_file_test("tests/resources/french.txt");
+        assert_eq!(out, 10)
     }
 }
