@@ -1,4 +1,4 @@
-use std::io::{BufRead, Error};
+use std::io::BufRead;
 
 use crate::cw_lib::parser_config::encoding::Encoding;
 use crate::cw_lib::parser_config::line_break::LineBreak;
@@ -12,7 +12,6 @@ const BUFFER_SIZE: usize = 8 * 1024; // 8KB
 
 pub struct Parser {
     tranformer: Vec<Box<dyn Fn(State, &[u8]) -> State>>,
-    stats_format: Stats,
     initial_state : State,
 }
 impl Default for Parser {
@@ -26,7 +25,6 @@ impl Default for Parser {
                 Box::new(State::max_length),
                 Box::new(State::words)
             ],
-            stats_format: Default::default(),
             initial_state: Default::default()
         }
     }
@@ -46,40 +44,29 @@ impl Parser {
         let initial_state = State::new(linebreak.get_separator());
 
         // todo encoding
-        let lines = if lines {
+        // todo enable or disable searching for certain things
+        if lines {
             tranformer.push(Box::new(State::lines));
-            Some(0)
-        } else { None };
+        };
 
-        let words = if words {
+        if words {
             tranformer.push(Box::new(State::words));
-            Some(0)
-        } else { None };
+        } ;
 
-        let characters = if chars {
+        if chars {
             tranformer.push(Box::new(State::chars));
-            Some(0)
-        } else { None };
+        };
 
-        let bytes = if bytes {
+        if bytes {
             tranformer.push(Box::new(State::bytes));
-            Some(0)
-        } else { None };
+        };
 
-        let legth = if max_length {
+        if max_length {
             tranformer.push(Box::new(State::max_length));
-            Some(0)
-        } else { None };
+        };
 
         Parser {
             tranformer,
-            stats_format: Stats::new(
-                lines,
-                words,
-                characters,
-                bytes,
-                legth,
-            ),
             initial_state
         }
     }
@@ -109,6 +96,7 @@ impl Parser {
     pub fn proccess<R: BufRead + Sized>(&self, mut reader: R) -> std::io::Result<Stats> {
         let mut state = self.initial_state;
         let mut buff = [0; BUFFER_SIZE];
+
         loop {
             let read = reader.read(&mut buff)?;
             if read == 0 {

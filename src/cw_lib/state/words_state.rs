@@ -35,7 +35,7 @@ impl PartialState for WordsState {
 }
 
 impl Compute for WordsState {
-    fn compute(mut self, tape: &[u8]) -> Self {
+    fn compute(self, tape: &[u8]) -> Self {
         let isseparator = |x:u8| match x {
             0x09|0x20 => true,
             x=> 0x0A <= x && 0x0D >=x,

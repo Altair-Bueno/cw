@@ -46,7 +46,7 @@ impl State {
             max_length_state: MaxLengthState::new(linebreak)
         }
     }
-    pub fn none(mut self, _:&[u8]) -> State {
+    pub fn none(self, _:&[u8]) -> State {
         self
     }
     pub fn lines(mut self, tape : &[u8]) ->State {
