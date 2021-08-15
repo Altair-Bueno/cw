@@ -5,11 +5,11 @@ use std::option::Option::Some;
 /// Represents Stats for a file
 #[derive(Debug, Eq, PartialEq)]
 pub struct Stats {
-    pub lines: Option<u32>,
-    pub words: Option<u32>,
-    pub characters: Option<u32>,
-    pub bytes: Option<u32>,
-    pub legth: Option<u32>,
+    pub lines: Option<usize>,
+    pub words: Option<usize>,
+    pub characters: Option<usize>,
+    pub bytes: Option<usize>,
+    pub legth: Option<usize>,
     //colums: Colums,
 }
 impl Default for Stats {
@@ -26,7 +26,7 @@ impl Default for Stats {
 
 impl Stats {
     /// Creates a new Stats struct using the given parameters
-    pub fn new(lines: Option<u32>, words: Option<u32>, characters: Option<u32>, bytes: Option<u32>, legth: Option<u32>) -> Stats {
+    pub fn new(lines: Option<usize>, words: Option<usize>, characters: Option<usize>, bytes: Option<usize>, legth: Option<usize>) -> Stats {
         Stats {
             lines,
             words,
@@ -40,7 +40,7 @@ impl Stats {
     /// arguments for improved performance. There is no need to
     /// de-referenciate or alloc more memory
     pub fn combine(self, s: Stats) -> Stats {
-        let combine_using =  |a, b, f:fn(u32,u32)->u32| {
+        let combine_using =  |a, b, f:fn(usize,usize)->usize| {
             match (a,b) {
                 (Some(x),Some(y)) => Some(f(x,y)),
                 _ => None

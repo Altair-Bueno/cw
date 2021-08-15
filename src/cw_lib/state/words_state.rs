@@ -12,7 +12,7 @@ lazy_static! {
 // Number of words
 #[derive(Default,Debug,Copy, Clone)]
 pub struct WordsState{
-    wordcount:u32,
+    wordcount:usize,
     onword:bool,
 }
 
@@ -23,7 +23,7 @@ impl WordsState {
 }
 
 impl PartialState for WordsState {
-    type Output = u32;
+    type Output = usize;
     fn output(&self)->Self::Output{
         let remaining = if self.onword {
             1
@@ -56,7 +56,7 @@ impl Compute for WordsState {
 
 
         WordsState {
-            wordcount: count as u32 + self.wordcount,
+            wordcount: count + self.wordcount,
             onword
         }
     }
@@ -133,7 +133,7 @@ mod test {
     }
 
     // Test on files
-    fn proccess_file_test(f: &str) -> u32 {
+    fn proccess_file_test(f: &str) -> usize {
         let mut reader = BufReader::new(File::open(f).unwrap());
 
         let mut state = WordsState::new();

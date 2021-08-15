@@ -3,7 +3,7 @@ use crate::cw_lib::state::traits::{PartialState, Compute};
 /// Number of bytes
 #[derive(Default,Debug,Copy, Clone)]
 pub struct BytesState {
-    bytecount:u32,
+    bytecount:usize,
 }
 impl BytesState {
     pub fn new() -> Self {
@@ -12,7 +12,7 @@ impl BytesState {
 }
 
 impl PartialState for BytesState {
-    type Output = u32;
+    type Output = usize;
     fn output(&self)->Self::Output{
         self.bytecount
     }
@@ -20,7 +20,7 @@ impl PartialState for BytesState {
 
 impl Compute for BytesState {
     fn compute(mut self, tape: &[u8]) -> Self {
-        self.bytecount += tape.len() as u32;
+        self.bytecount += tape.len() ;
         self
     }
 }
@@ -61,7 +61,7 @@ mod test {
     }
 
     // Test on files
-    fn proccess_file_test(f: &str) -> u32 {
+    fn proccess_file_test(f: &str) -> usize {
         let mut reader = BufReader::new(File::open(f).unwrap());
 
         let mut state = BytesState::new();

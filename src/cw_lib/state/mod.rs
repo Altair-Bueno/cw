@@ -22,7 +22,7 @@ pub struct State {
 }
 
 impl PartialState for State {
-    type Output = (u32,u32,u32,u32,u32);
+    type Output = (usize,usize,usize,usize,usize);
 
     fn output(&self) -> Self::Output {
         let lines_state = self.lines_state.output();

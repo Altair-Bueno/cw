@@ -6,8 +6,8 @@ use std::cmp::max;
 /// Max length
 #[derive(Debug,Copy, Clone)]
 pub struct MaxLengthState {
-    buffer:u32,
-    champion:u32,
+    buffer:usize,
+    champion:usize,
     linebreak:u8,
 }
 impl Default for MaxLengthState {
@@ -27,7 +27,7 @@ impl MaxLengthState {
 }
 
 impl PartialState for MaxLengthState {
-    type Output = u32;
+    type Output = usize;
     fn output(&self)->Self::Output{
         max(self.champion,self.buffer)
     }
@@ -51,9 +51,9 @@ impl Compute for MaxLengthState {
             })
             .fold(self,|acc,n| {
                 let (this_len, buffer) = if n.1 {
-                    (self.buffer + n.0 as u32, 0)
+                    (self.buffer + n.0 , 0)
                 } else {
-                    (0,self.buffer + n.0 as u32)
+                    (0,self.buffer + n.0)
                 };
                 MaxLengthState {
                     buffer,
@@ -113,7 +113,7 @@ mod test {
     }
 
     // Test on files
-    fn proccess_file_test(f: &str) -> u32 {
+    fn proccess_file_test(f: &str) -> usize {
         let mut reader = BufReader::new(File::open(f).unwrap());
 
         let mut state = MaxLengthState::new(b'\n');

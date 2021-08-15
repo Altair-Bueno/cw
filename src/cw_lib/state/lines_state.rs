@@ -2,7 +2,7 @@ use crate::cw_lib::state::traits::{PartialState, Compute};
 /// number of lines
 #[derive(Debug,Copy, Clone)]
 pub struct LinesState {
-    linescount:u32,
+    linescount:usize,
     linebreak:u8,
 }
 impl Default for LinesState {
@@ -18,7 +18,7 @@ impl LinesState {
 }
 
 impl PartialState for LinesState {
-    type Output = u32;
+    type Output = usize;
     fn output(&self)->Self::Output{
         self.linescount
     }
@@ -27,7 +27,7 @@ impl Compute for LinesState {
     fn compute(self, tape: &[u8]) -> Self {
         let line_breaks = tape
             .split(|x| *x == self.linebreak)
-            .count() as u32;
+            .count();
 
         LinesState {
             linescount: self.linescount + line_breaks - 1,
@@ -97,7 +97,7 @@ mod test {
     }
 
     // Test on files
-    fn proccess_file_test(f: &str) -> u32 {
+    fn proccess_file_test(f: &str) -> usize {
         let mut reader = BufReader::new(File::open(f).unwrap());
 
         let mut state = LinesState::new(b'\n');

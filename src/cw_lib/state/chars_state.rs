@@ -9,8 +9,8 @@ lazy_static!{
 
 #[derive(Default,Copy, Clone)]
 pub struct CharState{
-    expect: u32,
-    num_chars:u32
+    expect: usize,
+    num_chars:usize
 }
 
 impl CharState {
@@ -18,17 +18,17 @@ impl CharState {
         Default::default()
     }
 
-    fn eat_from_tape(eat:u32,tape:&[u8]) -> (u32,&[u8]) {
-        if tape.len() > eat as usize {
-            (0,&tape[eat as usize..])
+    fn eat_from_tape(eat:usize,tape:&[u8]) -> (usize,&[u8]) {
+        if tape.len() > eat {
+            (0,&tape[eat..])
         } else {
-            let left= eat - tape.len() as u32;
+            let left= eat - tape.len();
             (left,&[])
         }
     }
 }
 impl PartialState for CharState {
-    type Output = u32;
+    type Output = usize;
 
     fn output(&self)->Self::Output {
         self.num_chars
@@ -49,11 +49,11 @@ impl Compute for CharState {
         if tape.len() != 0 {
             let eat_next = tape.len() - last_match_index;
             // We are sure that this is not the end
-            state = eat_next as u32;
+            state = eat_next;
         }
         CharState {
             expect: state,
-            num_chars: self.num_chars + count as u32
+            num_chars: self.num_chars + count
         }
     }
 }
@@ -119,7 +119,7 @@ mod test {
     }
 
     // Test on files
-    fn proccess_file_test(f: &str) -> u32 {
+    fn proccess_file_test(f: &str) -> usize {
         let mut reader = BufReader::new(File::open(f).unwrap());
 
         let mut state = CharState::new();
