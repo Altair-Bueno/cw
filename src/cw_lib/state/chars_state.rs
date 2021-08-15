@@ -1,5 +1,11 @@
 use crate::cw_lib::state::traits::{PartialState, Compute};
 use regex::bytes::Regex;
+use lazy_static::lazy_static;
+
+lazy_static!{
+    static ref reg:Regex = Regex::new(r"(?us:.)").unwrap();
+}
+
 
 #[derive(Default,Copy, Clone)]
 pub struct CharState{
@@ -31,11 +37,8 @@ impl PartialState for CharState {
 impl Compute for CharState {
     fn compute(mut self, tape: &[u8]) -> Self {
         let (mut state,tape) = CharState::eat_from_tape(self.expect, tape);
-        //println!("{:?}",tape);
-
         // run over the rest of the tape
-        // let reg = Regex::new(r"\xF0...|\xE0..|\xC0.|.").unwrap();
-        let reg = Regex::new(r"(?us:.)").unwrap();
+
         let (last_match_index,count) = reg
             .find_iter(tape)
             //.inspect(|x| println!("{}",std::str::from_utf8(x.as_bytes()).unwrap()))

@@ -3,7 +3,7 @@ use std::fmt::{Display, Formatter};
 use std::option::Option::Some;
 
 /// Represents Stats for a file
-#[derive(Debug, Default, Eq, PartialEq)]
+#[derive(Debug, Eq, PartialEq)]
 pub struct Stats {
     pub lines: Option<u32>,
     pub words: Option<u32>,
@@ -11,6 +11,17 @@ pub struct Stats {
     pub bytes: Option<u32>,
     pub legth: Option<u32>,
     //colums: Colums,
+}
+impl Default for Stats {
+    fn default() -> Self {
+        Stats {
+            lines: Some(0),
+            words: Some(0),
+            characters: Some(0),
+            bytes: Some(0),
+            legth: Some(0)
+        }
+    }
 }
 
 impl Stats {

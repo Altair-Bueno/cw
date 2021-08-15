@@ -13,7 +13,8 @@ use colored::Colorize;
 const TOTAL : &str = "total";
 
 /// Multithread cw. Parses each file using a threadpool
-pub fn multithread(files: Values, args: PrettyPrint, threads: usize, mode: &Parser) -> ! {
+#[cfg(disabled)]
+pub fn multithread(files: Values, parser: &Parser,threads: usize) -> ! {
     // One thread for stdout
     let size = files.len();
     let pool = ThreadPool::new(threads);
@@ -23,7 +24,7 @@ pub fn multithread(files: Values, args: PrettyPrint, threads: usize, mode: &Pars
     for f in files {
         let copy = sender.clone();
         let fclone = f.to_string();
-        let modeclone: Parser = (*mode).clone();
+        let modeclone: Parser = (*parser).clone();
 
         let _e = pool.execute(move || {
             let stats = from_file(fclone.as_str(), &modeclone);
@@ -44,8 +45,7 @@ pub fn multithread(files: Values, args: PrettyPrint, threads: usize, mode: &Pars
             (0, Stats::default()),
             |(code, acc), (_, (file, result))| match result {
                 Ok(stats) => {
-                    let show = args.print(&stats, &file[..]);
-                    let _ = writeln!(buff_stdout, "{}", show);
+                    let _ = writeln!(buff_stdout, "{}\t{}", stats, file);
                     (code, acc.combine(stats))
                 }
                 Err(err) => {
@@ -56,7 +56,7 @@ pub fn multithread(files: Values, args: PrettyPrint, threads: usize, mode: &Pars
         );
 
         if size > 1 {
-            let _ = writeln!(buff_stdout, "{}{}", args.print(&acc, ""), TOTAL.red());
+            let _ = writeln!(buff_stdout, "{}\t{}", acc, TOTAL.red());
         }
         code
     }; // Drop locks and flush buffers
@@ -64,8 +64,8 @@ pub fn multithread(files: Values, args: PrettyPrint, threads: usize, mode: &Pars
 }
 
 /// Singlethread for STDIN
-pub fn singlethread_stdin(args: PrettyPrint, mode: &Parser) -> ! {
-    let stats_stdio = from_stdin(mode);
+pub fn singlethread_stdin(parser: &Parser) -> ! {
+    let stats_stdio = from_stdin(parser);
 
     let exit_code = {
         let stdout = std::io::stdout();
@@ -77,8 +77,7 @@ pub fn singlethread_stdin(args: PrettyPrint, mode: &Parser) -> ! {
 
         let code = match stats_stdio {
             Ok(stats) => {
-                let show = args.print(&stats, "");
-                let _ = writeln!(buff_stdout, "{}", show);
+                let _ = writeln!(buff_stdout, "{}", stats);
                 0
             }
             Err(err) => {
@@ -92,7 +91,7 @@ pub fn singlethread_stdin(args: PrettyPrint, mode: &Parser) -> ! {
 }
 
 /// Single thread for FILES
-pub fn singlethread_files(files: Values, args: PrettyPrint, mode: &Parser) -> ! {
+pub fn singlethread_files(files: Values,parser:&Parser) -> ! {
     let size = files.len();
     let init = (0, Stats::default());
 
@@ -104,10 +103,9 @@ pub fn singlethread_files(files: Values, args: PrettyPrint, mode: &Parser) -> ! 
         let mut buff_stdout = BufWriter::new(lock_stdout);
         let mut buff_stderr = BufWriter::new(lock_stderr);
 
-        let (code, merged) = files.fold(init, |(code, acc), file| match from_file(file, mode) {
+        let (code, merged) = files.fold(init, |(code, acc), file| match from_file(file, parser) {
             Ok(stats) => {
-                let show = args.print(&stats, file);
-                let _ = writeln!(buff_stdout, "{}", show);
+                let _ = writeln!(buff_stdout, "{}\t{}", stats,file);
                 (code, acc.combine(stats))
             }
             Err(err) => {
@@ -118,7 +116,7 @@ pub fn singlethread_files(files: Values, args: PrettyPrint, mode: &Parser) -> ! 
 
         if size > 1 {
             // Total files
-            let _ = writeln!(buff_stdout, "{}{}", args.print(&merged, ""), TOTAL.red());
+            let _ = writeln!(buff_stdout, "{}\t{}", merged, TOTAL.red());
         }
         code
     }; // Drop locks and flush buffers

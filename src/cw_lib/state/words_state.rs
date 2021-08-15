@@ -36,8 +36,6 @@ impl PartialState for WordsState {
 
 impl Compute for WordsState {
     fn compute(mut self, tape: &[u8]) -> Self {
-        // let reg: Regex = Regex::new(r"([\x09\x20\x0A-\x0D]*)[^\x09\x20\x0A-\x0D]+([\x09\x20\x0A-\x0D]*)").unwrap();
-
         let isseparator = |x:u8| match x {
             0x09|0x20 => true,
             x=> 0x0A <= x && 0x0D >=x,
@@ -61,33 +59,6 @@ impl Compute for WordsState {
             wordcount: count as u32 + self.wordcount,
             onword
         }
-
-        /*
-        reg.captures_iter(tape)
-            .map(|x|
-                (
-                    // number of delimeters on the left
-                    x.get(1).unwrap().as_bytes().len(),
-                    // number of delimeters on the right
-                    x.get(2).unwrap().as_bytes().len()
-                )
-            )
-            .fold(self,|acc,delimeters| {
-                let (this,onword) = match delimeters {
-                    // (0,0) if acc.onword => (0,true), // simplified
-                    (0,0)               => (0,true),
-                    (_,0) if acc.onword => (1,true),
-                    (_,0)               => (0,true),
-                    (0,_) if acc.onword => (1,false),
-                    (0,_)               => (1,false),
-                    _ if acc.onword     => (2,false),
-                    _                   => (1,false),
-                };
-                WordsState {
-                    wordcount: this + acc.wordcount,
-                    onword
-                }
-                */
     }
 }
 #[cfg(test)]

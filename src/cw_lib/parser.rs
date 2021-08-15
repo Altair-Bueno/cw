@@ -45,6 +45,7 @@ impl Parser {
         let mut tranformer :Vec<Box<dyn Fn(State, &[u8]) -> State>> = Vec::with_capacity(5);
         let initial_state = State::new(linebreak.get_separator());
 
+        // todo encoding
         let lines = if lines {
             tranformer.push(Box::new(State::lines));
             Some(0)
@@ -99,9 +100,9 @@ impl Parser {
         let len = args.is_present("line_length");
 
         if lines == words && lines == characters && lines == bytes && lines == len {
-            Parser::new(encoding,breakk,lines,words,characters,bytes,len)
-        } else {
             Parser::default()
+        } else {
+            Parser::new(encoding,breakk,lines,words,characters,bytes,len)
         }
     }
 

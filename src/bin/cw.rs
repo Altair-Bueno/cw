@@ -1,7 +1,6 @@
 use clap::{load_yaml, App};
 use cw::*;
 
-#[cfg(disabled)]
 fn main() {
     // Load clap for commandline utilities
     let yaml = load_yaml!("resources/cmdline-clap.yaml");
@@ -10,8 +9,8 @@ fn main() {
 
     // Program arguments
     let files = matches.values_of("FILES");
-    let pretty_print = PrettyPrint::from_clap(&matches);
-    let parser_config = Parser::from_clap(&matches);
+    let parser = Parser::from_clap(&matches);
+
 
     if let Some(files) = files {
         let num_threads = matches
@@ -20,14 +19,14 @@ fn main() {
             .unwrap_or(Ok(1))
             .unwrap_or(1);
         match num_threads {
-            1 =>singlethread_files(files, pretty_print, &parser_config),
-            x if x> 1 => multithread(files, pretty_print, x, &parser_config),
+            1 => singlethread_files(files,&parser),
+            x if x> 1 => todo!(),// multithread(files,parser,x),
             _ => {
                 eprintln!("Invalid threadcount");
                 std::process::exit(1);
             }
         }
     } else {
-        singlethread_stdin(pretty_print, &parser_config);
+        singlethread_stdin(&parser);
     }
 }
