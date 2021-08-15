@@ -38,7 +38,7 @@ impl Compute for CharState {
     fn compute(mut self, tape: &[u8]) -> Self {
         let (mut state,tape) = CharState::eat_from_tape(self.expect, tape);
         // run over the rest of the tape
-
+        // TODO not sure if im eating the tape correctly
         let (last_match_index,count) = reg
             .find_iter(tape)
             //.inspect(|x| println!("{}",std::str::from_utf8(x.as_bytes()).unwrap()))

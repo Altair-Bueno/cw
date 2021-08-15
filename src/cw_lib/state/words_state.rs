@@ -5,7 +5,7 @@ use lazy_static::lazy_static;
 // whitespaces as defined by POSIX standard
 
 lazy_static! {
-    static ref reg : Regex = Regex::new(r"[\x09\x20\x0A-\x0D]+").unwrap();
+    static ref reg : Regex = Regex::new(r"(?-u)[\x09\x20\x0A-\x0D]+").unwrap();
 }
 
 
