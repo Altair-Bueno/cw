@@ -44,7 +44,6 @@ impl Parser {
         max_length:bool
     ) -> Parser {
         let mut tranformer :Vec<Box<dyn Fn(State, &[u8]) -> State>> = Vec::with_capacity(5);
-        // TODO encoding
         let initial_state = State::new(linebreak.get_separator());
 
         let lines = if lines {
@@ -86,15 +85,24 @@ impl Parser {
     }
 
     pub fn from_clap(args: &ArgMatches) -> Parser {
-        todo!()
-        /*let encoding = args
+        let encoding = args
             .value_of("encoding")
             .map(|x| x.parse().unwrap_or_default())
             .unwrap_or_default();
         let breakk = args
             .value_of("break")
             .map(|x| x.parse().unwrap_or_default())
-            .unwrap_or_default();*/
+            .unwrap_or_default();
+        let lines = args.is_present("lines");
+        let words = args.is_present("words");
+        let characters = args.is_present("characters");
+        let bytes = args.is_present("bytes");
+        let len = args.is_present("line_length");
+        if lines || words || characters || bytes || len {
+            Parser::new(encoding,breakk,lines,words,characters,bytes,len)
+        } else {
+            Parser::default()
+        }
     }
 
     pub fn proccess<R: BufRead + Sized>(&self, mut reader: R) -> std::io::Result<Stats> {
