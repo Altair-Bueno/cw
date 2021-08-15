@@ -1,14 +1,14 @@
 use crate::cw_lib::state::traits::{Compute, PartialState};
 use regex::bytes::Regex;
 use lazy_static::lazy_static;
-
-// FIXME too slow
-
+use regex::RegexSet;
 // Avoid compiling the regex multiple times inside a loop. Regex should match
 // whitespaces as defined by POSIX standard
+
 lazy_static! {
-    static ref reg: Regex = Regex::new(r"([\x09\x20\x0A-\x0D]*)[^\x09\x20\x0A-\x0D]+([\x09\x20\x0A-\x0D]*)").unwrap();
+    static ref reg : Regex = Regex::new(r"[\x09\x20\x0A-\x0D]+").unwrap();
 }
+
 
 // Number of words
 #[derive(Default,Debug,Copy, Clone)]
@@ -37,6 +37,33 @@ impl PartialState for WordsState {
 
 impl Compute for WordsState {
     fn compute(mut self, tape: &[u8]) -> Self {
+        // let reg: Regex = Regex::new(r"([\x09\x20\x0A-\x0D]*)[^\x09\x20\x0A-\x0D]+([\x09\x20\x0A-\x0D]*)").unwrap();
+
+        let isseparator = |x:u8| match x {
+            0x09|0x20 => true,
+            x=> 0x0A <= x && 0x0D >=x,
+        };
+
+        let count = reg.find_iter(tape)
+            .count();
+
+        let count = match tape.get(0) {
+            Some(x) if isseparator(*x) && !self.onword => count-1,
+            _ => count
+        };
+        let onword = match tape.last() {
+            // if last char is separator, we are no longer inside a word
+            Some(x) => !isseparator(*x),
+            None => self.onword
+        };
+
+
+        WordsState {
+            wordcount: count as u32 + self.wordcount,
+            onword
+        }
+
+        /*
         reg.captures_iter(tape)
             .map(|x|
                 (
@@ -57,12 +84,11 @@ impl Compute for WordsState {
                     _ if acc.onword     => (2,false),
                     _                   => (1,false),
                 };
-
                 WordsState {
                     wordcount: this + acc.wordcount,
                     onword
                 }
-            })
+                */
     }
 }
 #[cfg(test)]

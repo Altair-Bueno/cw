@@ -1,8 +1,5 @@
 use crate::cw_lib::state::traits::{PartialState, Compute};
 
-// fixme Works as intended
-
-
 /// Number of bytes
 #[derive(Default,Debug,Copy, Clone)]
 pub struct BytesState {

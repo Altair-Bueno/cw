@@ -1,7 +1,4 @@
 use crate::cw_lib::state::traits::{PartialState, Compute};
-
-// fixme works as intended
-
 /// number of lines
 #[derive(Debug,Copy, Clone)]
 pub struct LinesState {
