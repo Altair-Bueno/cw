@@ -77,11 +77,11 @@ pub fn singlethread_stdin(parser: &Parser) -> ! {
 
         let code = match stats_stdio {
             Ok(stats) => {
-                let _ = writeln!(buff_stdout, "{}", stats);
+                let _ = writeln!(buff_stdout, "\n{}", stats);
                 0
             }
             Err(err) => {
-                let _ = writeln!(buff_stderr, "{}", err);
+                let _ = writeln!(buff_stderr, "\n{}", err);
                 1
             }
         };
@@ -93,7 +93,7 @@ pub fn singlethread_stdin(parser: &Parser) -> ! {
 /// Single thread for FILES
 pub fn singlethread_files(files: Values,parser:&Parser) -> ! {
     let size = files.len();
-    let init = (0, Stats::default());
+    let init = (0, parser.stats_template());
 
     let exit_code = {
         let stdout = std::io::stdout();
@@ -105,7 +105,7 @@ pub fn singlethread_files(files: Values,parser:&Parser) -> ! {
 
         let (code, merged) = files.fold(init, |(code, acc), file| match from_file(file, parser) {
             Ok(stats) => {
-                let _ = writeln!(buff_stdout, "{}\t{}", stats,file);
+                let _ = writeln!(buff_stdout, "{}{}", stats,file);
                 (code, acc.combine(stats))
             }
             Err(err) => {
@@ -116,7 +116,7 @@ pub fn singlethread_files(files: Values,parser:&Parser) -> ! {
 
         if size > 1 {
             // Total files
-            let _ = writeln!(buff_stdout, "{}\t{}", merged, TOTAL.red());
+            let _ = writeln!(buff_stdout, "{}{}", merged, TOTAL.red());
         }
         code
     }; // Drop locks and flush buffers

@@ -13,6 +13,7 @@ const BUFFER_SIZE: usize = 8 * 1024; // 8KB
 pub struct Parser {
     tranformer: Vec<Box<dyn Fn(State, &[u8]) -> State>>,
     initial_state : State,
+    stats:Stats
 }
 impl Default for Parser {
     fn default() -> Self {
@@ -25,7 +26,8 @@ impl Default for Parser {
                 Box::new(State::max_length),
                 Box::new(State::words)
             ],
-            initial_state: Default::default()
+            initial_state: Default::default(),
+            stats: Default::default()
         }
     }
 }
@@ -42,34 +44,42 @@ impl Parser {
     ) -> Parser {
         let mut tranformer :Vec<Box<dyn Fn(State, &[u8]) -> State>> = Vec::with_capacity(5);
         let initial_state = State::new(linebreak.get_separator());
+        let mut stats = Stats::new();
 
         // todo encoding
         // todo enable or disable searching for certain things
         if lines {
             tranformer.push(Box::new(State::lines));
+            stats = stats.print_lines(true);
         };
 
         if words {
             tranformer.push(Box::new(State::words));
+            stats = stats.print_words(true);
         } ;
 
         if chars {
             tranformer.push(Box::new(State::chars));
+            stats = stats.print_characters(true);
         };
 
         if bytes {
             tranformer.push(Box::new(State::bytes));
+            stats = stats.print_bytes(true)
         };
 
         if max_length {
             tranformer.push(Box::new(State::max_length));
+            stats = stats.print_max_lenght(true)
         };
 
         Parser {
             tranformer,
-            initial_state
+            initial_state,
+            stats,
         }
     }
+
 
     pub fn from_clap(args: &ArgMatches) -> Parser {
         let encoding = args
@@ -94,6 +104,7 @@ impl Parser {
     }
 
     pub fn proccess<R: BufRead + Sized>(&self, mut reader: R) -> std::io::Result<Stats> {
+        let mut stats_template = self.stats;
         let mut state = self.initial_state;
         let mut buff = [0; BUFFER_SIZE];
 
@@ -101,10 +112,19 @@ impl Parser {
             let read = reader.read(&mut buff)?;
             if read == 0 {
                 let (l,w,c,b,m) = state.output();
-                return Ok(Stats::new(Some(l),Some(w),Some(c),Some(b),Some(m)));
+                stats_template.set_bytes(b);
+                stats_template.set_characters(c);
+                stats_template.set_legth(m);
+                stats_template.set_lines(l);
+                stats_template.set_words(w);
+                return Ok(stats_template);
             }
             state = self.tranformer.iter().fold(state,|acc,n| n(acc,&buff[0..read]));
         }
+    }
+
+    pub fn stats_template(&self) -> Stats {
+        self.stats
     }
 }
 
