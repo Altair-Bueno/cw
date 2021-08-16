@@ -23,7 +23,7 @@ pub fn multithread(files: Values, parser: &Parser, threads: usize) -> ! {
     for f in files {
         let copy = sender.clone();
         let fclone = f.to_string();
-        let parserclone: Parser = (*parser).clone();
+        let parserclone: Parser = *parser;
 
         let _e = pool.execute(move || {
             let stats = from_file(fclone.as_str(), &parserclone);

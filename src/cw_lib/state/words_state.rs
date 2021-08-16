@@ -24,27 +24,22 @@ impl PartialState for WordsState {
 impl Compute for WordsState {
     fn compute(self, tape: &[u8]) -> Self {
         let is_separator = |x: u8| match x {
-            0x20| 0x09 => true,
+            0x20 | 0x09 => true,
             x => (0x0A..=0x0D).contains(&x),
         };
 
-        tape
-            .iter()
-            .fold(self , |acc,n| {
-                let onword = !is_separator(*n);
-                let wordcount = self.wordcount + {
-                    if acc.onword && !onword {
-                        1
-                    } else {
-                        0
-                    }
-                };
-
-                WordsState {
-                    wordcount,
-                    onword
+        tape.iter().fold(self, |acc, n| {
+            let onword = !is_separator(*n);
+            let wordcount = self.wordcount + {
+                if acc.onword && !onword {
+                    1
+                } else {
+                    0
                 }
-            })
+            };
+
+            WordsState { wordcount, onword }
+        })
     }
 }
 #[cfg(test)]
