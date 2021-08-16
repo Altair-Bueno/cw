@@ -66,7 +66,6 @@ pub fn multithread(files: Values, parser: &Parser, threads: usize) -> ! {
 /// Singlethread for STDIN
 pub fn singlethread_stdin(parser: &Parser) -> ! {
     let stats_stdio = from_stdin(parser);
-
     let exit_code = {
         let stdout = std::io::stdout();
         let stderr = std::io::stderr();
@@ -77,11 +76,11 @@ pub fn singlethread_stdin(parser: &Parser) -> ! {
 
         let code = match stats_stdio {
             Ok(stats) => {
-                let _ = writeln!(buff_stdout, "\n{}", stats);
+                let _ = writeln!(buff_stdout, "{}", stats);
                 0
             }
             Err(err) => {
-                let _ = writeln!(buff_stderr, "\n{}", err);
+                let _ = writeln!(buff_stderr, "{}", err);
                 1
             }
         };

@@ -56,7 +56,7 @@ impl Parser {
     }
 
     pub fn proccess<R: BufRead + Sized>(&self, mut reader: R) -> std::io::Result<Stats> {
-        let state = self.initial_state;
+        let mut state = self.initial_state;
         let mut buff = [0; BUFFER_SIZE];
 
         loop {
@@ -64,7 +64,7 @@ impl Parser {
             if read == 0 {
                 return Ok(state.output());
             }
-            state.compute(&buff[0..read]);
+            state = state.compute(&buff[0..read]);
         }
     }
 }
