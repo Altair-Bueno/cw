@@ -1,10 +1,5 @@
 use crate::cw_lib::state::traits::{Compute, PartialState};
-use lazy_static::lazy_static;
-use regex::bytes::Regex;
 
-lazy_static! {
-    static ref UNICODE_REGEX: Regex = Regex::new(r"(?us:.)").unwrap();
-}
 
 #[derive(Default, Copy, Clone, Debug)]
 pub struct CharState {
@@ -16,15 +11,6 @@ impl CharState {
     pub fn new() -> CharState {
         Default::default()
     }
-
-    fn eat_from_tape(eat: usize, tape: &[u8]) -> (usize, &[u8]) {
-        if tape.len() > eat {
-            (0, &tape[eat..])
-        } else {
-            let left = eat - tape.len();
-            (left, &[])
-        }
-    }
 }
 impl PartialState for CharState {
     type Output = usize;
@@ -35,23 +21,29 @@ impl PartialState for CharState {
 }
 impl Compute for CharState {
     fn compute(self, tape: &[u8]) -> Self {
-        let (mut state, tape) = CharState::eat_from_tape(self.expect, tape);
-        // run over the rest of the tape
-        // TODO not sure if im eating the tape correctly
-        let (last_match_index, count) = UNICODE_REGEX
-            .find_iter(tape)
-            //.inspect(|x| println!("{}",std::str::from_utf8(x.as_bytes()).unwrap()))
-            .fold((0, 0), |(_, c), n| (n.end(), c + 1));
+        let trailing_bytes = |n| {
+            if n & 0b11110000 == 0b11110000 {
+                // 11110uuu 10uuzzzz 10yyyyyy 10xxxxxx
+                3
+            } else if n & 0b11100000 == 0b11100000 {
+                // 1110zzzz 10yyyyyy 10xxxxxx
+                2
+            } else if n & 0b11000000 == 0b11000000 {
+                // 110yyyyy 10xxxxxx
+                1
+            } else {
+                0
+            }
+        };
 
-        if !tape.is_empty() {
-            let eat_next = tape.len() - last_match_index;
-            // We are sure that this is not the end
-            state = eat_next;
-        }
-        CharState {
-            expect: state,
-            num_chars: self.num_chars + count,
-        }
+        tape.iter().fold(self, |acc,n| {
+            let (expect, num_chars) = if acc.expect != 0 {
+                (acc.expect-1,acc.num_chars)
+            } else {
+                (trailing_bytes(*n),acc.num_chars + 1)
+            };
+            CharState { expect, num_chars }
+        })
     }
 }
 
