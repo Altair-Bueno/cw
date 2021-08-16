@@ -93,7 +93,7 @@ pub fn singlethread_stdin(parser: &Parser) -> ! {
 /// Single thread for FILES
 pub fn singlethread_files(files: Values,parser:&Parser) -> ! {
     let size = files.len();
-    let init = (0, parser.stats_template());
+    let init = (0, Stats::default());
 
     let exit_code = {
         let stdout = std::io::stdout();

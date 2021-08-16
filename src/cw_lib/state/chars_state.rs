@@ -35,7 +35,7 @@ impl PartialState for CharState {
     }
 }
 impl Compute for CharState {
-    fn compute(mut self, tape: &[u8]) -> Self {
+    fn compute(self, tape: &[u8]) -> Self {
         let (mut state,tape) = CharState::eat_from_tape(self.expect, tape);
         // run over the rest of the tape
         // TODO not sure if im eating the tape correctly

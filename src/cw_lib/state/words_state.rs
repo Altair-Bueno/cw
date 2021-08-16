@@ -191,6 +191,7 @@ mod test {
         assert_eq!(out, 0)
     }
 
+    /*
     #[test]
     #[ignore]
     fn arabic() {
@@ -200,6 +201,7 @@ mod test {
         let expected = 0;
         assert_eq!(out, expected)
     }
+    */
     #[test]
     fn spanish() {
         let out = proccess_file_test("tests/resources/spanish.txt");

@@ -3,33 +3,20 @@ use std::io::BufRead;
 use crate::cw_lib::parser_config::encoding::Encoding;
 use crate::cw_lib::parser_config::line_break::LineBreak;
 use crate::cw_lib::stats::Stats;
-use clap::ArgMatches;
 use crate::cw_lib::state::State;
-use crate::cw_lib::state::traits::PartialState;
+use crate::cw_lib::state::traits::{PartialState, Compute};
+use crate::cw_lib::state::lines_state::LinesState;
+use crate::cw_lib::state::words_state::WordsState;
+use crate::cw_lib::state::chars_state::CharState;
+use crate::cw_lib::state::bytes_state::BytesState;
+use crate::cw_lib::state::max_length::MaxLengthState;
 
 const BUFFER_SIZE: usize = 8 * 1024; // 8KB
 
 
+#[derive(Default)]
 pub struct Parser {
-    tranformer: Vec<Box<dyn Fn(State, &[u8]) -> State>>,
     initial_state : State,
-    stats:Stats
-}
-impl Default for Parser {
-    fn default() -> Self {
-        Parser {
-            tranformer:
-            vec![
-                Box::new(State::lines),
-                Box::new(State::chars),
-                Box::new(State::bytes),
-                Box::new(State::max_length),
-                Box::new(State::words)
-            ],
-            initial_state: Default::default(),
-            stats: Default::default()
-        }
-    }
 }
 
 impl Parser {
@@ -42,89 +29,46 @@ impl Parser {
         bytes:bool,
         max_length:bool
     ) -> Parser {
-        let mut tranformer :Vec<Box<dyn Fn(State, &[u8]) -> State>> = Vec::with_capacity(5);
-        let initial_state = State::new(linebreak.get_separator());
-        let mut stats = Stats::new();
+        let mut initial_state = State::new();
 
         // todo encoding
         // todo enable or disable searching for certain things
         if lines {
-            tranformer.push(Box::new(State::lines));
-            stats = stats.print_lines(true);
+            initial_state.set_lines_state(Some(LinesState::new(linebreak.get_separator())))
         };
 
         if words {
-            tranformer.push(Box::new(State::words));
-            stats = stats.print_words(true);
+            initial_state.set_words_state(Some(WordsState::new()))
         } ;
 
         if chars {
-            tranformer.push(Box::new(State::chars));
-            stats = stats.print_characters(true);
+            initial_state.set_char_state(Some(CharState::new()))
         };
 
         if bytes {
-            tranformer.push(Box::new(State::bytes));
-            stats = stats.print_bytes(true)
+            initial_state.set_bytes_state(Some(BytesState::new()))
         };
 
         if max_length {
-            tranformer.push(Box::new(State::max_length));
-            stats = stats.print_max_lenght(true)
+            initial_state.set_max_length_state(Some(MaxLengthState::new(linebreak.get_separator())))
         };
 
         Parser {
-            tranformer,
             initial_state,
-            stats,
-        }
-    }
-
-
-    pub fn from_clap(args: &ArgMatches) -> Parser {
-        let encoding = args
-            .value_of("encoding")
-            .map(|x| x.parse().unwrap_or_default())
-            .unwrap_or_default();
-        let breakk = args
-            .value_of("break")
-            .map(|x| x.parse().unwrap_or_default())
-            .unwrap_or_default();
-        let lines = args.is_present("lines");
-        let words = args.is_present("words");
-        let characters = args.is_present("characters");
-        let bytes = args.is_present("bytes");
-        let len = args.is_present("line_length");
-
-        if lines == words && lines == characters && lines == bytes && lines == len {
-            Parser::default()
-        } else {
-            Parser::new(encoding,breakk,lines,words,characters,bytes,len)
         }
     }
 
     pub fn proccess<R: BufRead + Sized>(&self, mut reader: R) -> std::io::Result<Stats> {
-        let mut stats_template = self.stats;
-        let mut state = self.initial_state;
+        let state = self.initial_state;
         let mut buff = [0; BUFFER_SIZE];
 
         loop {
             let read = reader.read(&mut buff)?;
             if read == 0 {
-                let (l,w,c,b,m) = state.output();
-                stats_template.set_bytes(b);
-                stats_template.set_characters(c);
-                stats_template.set_legth(m);
-                stats_template.set_lines(l);
-                stats_template.set_words(w);
-                return Ok(stats_template);
+                return Ok(state.output());
             }
-            state = self.tranformer.iter().fold(state,|acc,n| n(acc,&buff[0..read]));
+            state.compute(&buff[0..read]);
         }
-    }
-
-    pub fn stats_template(&self) -> Stats {
-        self.stats
     }
 }
 

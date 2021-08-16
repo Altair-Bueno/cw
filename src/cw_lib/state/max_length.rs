@@ -49,7 +49,7 @@ impl Compute for MaxLengthState {
                 // end: If the line ended with \n or not
                 (n_chars,end)
             })
-            .fold(self,|acc,n| {
+            .fold(self,|_,n| {
                 let (this_len, buffer) = if n.1 {
                     (self.buffer + n.0 , 0)
                 } else {

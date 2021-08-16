@@ -71,6 +71,23 @@ impl Stats {
     pub fn legth(&self) -> Option<usize> {
         self.legth
     }
+    pub fn set_lines(&mut self, lines: Option<usize>) {
+        self.lines = lines;
+    }
+    /*
+    pub fn set_words(&mut self, words: Option<usize>) {
+        self.words = words;
+    }
+    pub fn set_characters(&mut self, characters: Option<usize>) {
+        self.characters = characters;
+    }
+    pub fn set_bytes(&mut self, bytes: Option<usize>) {
+        self.bytes = bytes;
+    }
+    pub fn set_legth(&mut self, legth: Option<usize>) {
+        self.legth = legth;
+    }
+     */
 }
 
 impl Display for Stats {

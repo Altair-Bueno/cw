@@ -7,9 +7,10 @@ fn main() {
     let app = App::from(yaml).term_width(0);
     let matches = app.get_matches();
 
-    // Program arguments
+    // Files to proccess
     let files = matches.values_of("FILES");
-    let parser = Parser::from_clap(&matches);
+    // Setup parser
+    let parser = parser_from_clap(&matches);
 
 
     if let Some(files) = files {
