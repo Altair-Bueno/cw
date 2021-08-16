@@ -11,7 +11,7 @@ use crate::cw_lib::state::words_state::WordsState;
 use crate::cw_lib::state::State;
 use crate::cw_lib::stats::Stats;
 
-const BUFFER_SIZE: usize = 8 * 1024; // 8KB
+const BUFFER_SIZE: usize = 16 * 1024; // 8KB
 
 #[derive(Default, Copy, Clone, Debug)]
 pub struct Parser {
