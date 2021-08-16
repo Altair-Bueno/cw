@@ -1,59 +1,56 @@
-use crate::cw_lib::state::traits::{PartialState, Compute};
-use regex::bytes::Regex;
+use crate::cw_lib::state::traits::{Compute, PartialState};
 use lazy_static::lazy_static;
+use regex::bytes::Regex;
 
-lazy_static!{
-    static ref reg:Regex = Regex::new(r"(?us:.)").unwrap();
+lazy_static! {
+    static ref UNICODE_REGEX: Regex = Regex::new(r"(?us:.)").unwrap();
 }
 
-
-#[derive(Default,Copy, Clone)]
-pub struct CharState{
+#[derive(Default, Copy, Clone, Debug)]
+pub struct CharState {
     expect: usize,
-    num_chars:usize
+    num_chars: usize,
 }
 
 impl CharState {
-    pub fn new()-> CharState{
+    pub fn new() -> CharState {
         Default::default()
     }
 
-    fn eat_from_tape(eat:usize,tape:&[u8]) -> (usize,&[u8]) {
+    fn eat_from_tape(eat: usize, tape: &[u8]) -> (usize, &[u8]) {
         if tape.len() > eat {
-            (0,&tape[eat..])
+            (0, &tape[eat..])
         } else {
-            let left= eat - tape.len();
-            (left,&[])
+            let left = eat - tape.len();
+            (left, &[])
         }
     }
 }
 impl PartialState for CharState {
     type Output = usize;
 
-    fn output(&self)->Self::Output {
+    fn output(&self) -> Self::Output {
         self.num_chars
     }
 }
 impl Compute for CharState {
     fn compute(self, tape: &[u8]) -> Self {
-        let (mut state,tape) = CharState::eat_from_tape(self.expect, tape);
+        let (mut state, tape) = CharState::eat_from_tape(self.expect, tape);
         // run over the rest of the tape
         // TODO not sure if im eating the tape correctly
-        let (last_match_index,count) = reg
+        let (last_match_index, count) = UNICODE_REGEX
             .find_iter(tape)
             //.inspect(|x| println!("{}",std::str::from_utf8(x.as_bytes()).unwrap()))
-            .fold((0,0),|(_,c),n|{
-                (n.end(),c+1)
-        });
+            .fold((0, 0), |(_, c), n| (n.end(), c + 1));
 
-        if tape.len() != 0 {
+        if !tape.is_empty() {
             let eat_next = tape.len() - last_match_index;
             // We are sure that this is not the end
             state = eat_next;
         }
         CharState {
             expect: state,
-            num_chars: self.num_chars + count
+            num_chars: self.num_chars + count,
         }
     }
 }
@@ -62,51 +59,51 @@ impl Compute for CharState {
 mod test {
     use crate::cw_lib::state::chars_state::CharState;
     use crate::cw_lib::state::traits::{Compute, PartialState};
-    use std::io::{BufReader, Read};
     use std::fs::File;
+    use std::io::{BufReader, Read};
 
     #[test]
     pub fn test1() {
         let s = "hello world".as_bytes();
         let out = CharState::new().compute(s).output();
-        assert_eq!(out,11)
+        assert_eq!(out, 11)
     }
 
     #[test]
     pub fn test2() {
         let s = "".as_bytes();
         let out = CharState::new().compute(s).output();
-        assert_eq!(out,0)
+        assert_eq!(out, 0)
     }
     #[test]
     pub fn test3() {
         let s = "a".as_bytes();
         let out = CharState::new().compute(s).output();
-        assert_eq!(out,1)
+        assert_eq!(out, 1)
     }
     #[test]
     pub fn test4() {
         let s = "as".as_bytes();
         let out = CharState::new().compute(s).output();
-        assert_eq!(out,2)
+        assert_eq!(out, 2)
     }
     #[test]
     pub fn test5() {
         let s = "asfasfweefa sdf asfas".as_bytes();
         let out = CharState::new().compute(s).output();
-        assert_eq!(out,21)
+        assert_eq!(out, 21)
     }
     #[test]
     pub fn test6() {
         let s = "ñ".as_bytes();
         let out = CharState::new().compute(s).output();
-        assert_eq!(out,1)
+        assert_eq!(out, 1)
     }
     #[test]
     pub fn test7() {
         let s = "ó".as_bytes();
         let out = CharState::new().compute(s).output();
-        assert_eq!(out,1)
+        assert_eq!(out, 1)
     }
     #[test]
     pub fn test8() {
@@ -115,7 +112,7 @@ mod test {
             .compute("ñ".as_bytes())
             .compute("assdfas".as_bytes())
             .output();
-        assert_eq!(out,9)
+        assert_eq!(out, 9)
     }
 
     // Test on files

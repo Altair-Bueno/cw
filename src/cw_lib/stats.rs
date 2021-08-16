@@ -19,14 +19,20 @@ impl Default for Stats {
             words: Some(0),
             characters: Some(0),
             bytes: Some(0),
-            legth: Some(0)
+            legth: Some(0),
         }
     }
 }
 
 impl Stats {
     /// Creates a new Stats struct using the given parameters
-    pub fn new(lines: Option<usize>, words: Option<usize>, characters: Option<usize>, bytes: Option<usize>, legth: Option<usize>) -> Stats {
+    pub fn new(
+        lines: Option<usize>,
+        words: Option<usize>,
+        characters: Option<usize>,
+        bytes: Option<usize>,
+        legth: Option<usize>,
+    ) -> Stats {
         Stats {
             lines,
             words,
@@ -40,11 +46,9 @@ impl Stats {
     /// arguments for improved performance. There is no need to
     /// de-referenciate or alloc more memory
     pub fn combine(self, s: Stats) -> Stats {
-        let combine_using =  |a, b, f:fn(usize,usize)->usize| {
-            match (a,b) {
-                (Some(x),Some(y)) => Some(f(x,y)),
-                _ => None
-            }
+        let combine_using = |a, b, f: fn(usize, usize) -> usize| match (a, b) {
+            (Some(x), Some(y)) => Some(f(x, y)),
+            _ => None,
         };
 
         Stats {
@@ -93,19 +97,19 @@ impl Stats {
 impl Display for Stats {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         if let Some(x) = self.lines {
-            write!(f,"{}\t",x)?;
+            write!(f, "{}\t", x)?;
         }
         if let Some(x) = self.words {
-            write!(f,"{}\t",x)?;
+            write!(f, "{}\t", x)?;
         }
         if let Some(x) = self.characters {
-            write!(f,"{}\t",x)?;
+            write!(f, "{}\t", x)?;
         }
         if let Some(x) = self.bytes {
-            write!(f,"{}\t",x)?;
+            write!(f, "{}\t", x)?;
         }
         if let Some(x) = self.legth {
-            write!(f,"{}\t",x)?;
+            write!(f, "{}\t", x)?;
         }
 
         Ok(())

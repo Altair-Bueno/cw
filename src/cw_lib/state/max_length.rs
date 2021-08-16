@@ -1,14 +1,14 @@
-use crate::cw_lib::state::traits::{PartialState, Compute};
+use crate::cw_lib::state::traits::{Compute, PartialState};
 use std::cmp::max;
 
 // fixme: Does not work. Neets utf8 support
 
 /// Max length
-#[derive(Debug,Copy, Clone)]
+#[derive(Debug, Copy, Clone)]
 pub struct MaxLengthState {
-    buffer:usize,
-    champion:usize,
-    linebreak:u8,
+    buffer: usize,
+    champion: usize,
+    linebreak: u8,
 }
 impl Default for MaxLengthState {
     fn default() -> Self {
@@ -17,26 +17,25 @@ impl Default for MaxLengthState {
 }
 
 impl MaxLengthState {
-    pub fn new(linebreak:u8) -> Self {
+    pub fn new(linebreak: u8) -> Self {
         MaxLengthState {
             buffer: 0,
             champion: 0,
-            linebreak
+            linebreak,
         }
     }
 }
 
 impl PartialState for MaxLengthState {
     type Output = usize;
-    fn output(&self)->Self::Output{
-        max(self.champion,self.buffer)
+    fn output(&self) -> Self::Output {
+        max(self.champion, self.buffer)
     }
 }
 
 impl Compute for MaxLengthState {
     fn compute(self, tape: &[u8]) -> Self {
-        tape
-            .split_inclusive(|x| self.linebreak == *x)
+        tape.split_inclusive(|x| self.linebreak == *x)
             .map(|x| {
                 let mut n_chars = x.len();
                 let end = if let Some(x) = x.last() {
@@ -44,20 +43,22 @@ impl Compute for MaxLengthState {
                 } else {
                     false
                 };
-                if end { n_chars -= 1 }
+                if end {
+                    n_chars -= 1
+                }
                 // n_chars: number of chars without \n
                 // end: If the line ended with \n or not
-                (n_chars,end)
+                (n_chars, end)
             })
-            .fold(self,|_,n| {
+            .fold(self, |_, n| {
                 let (this_len, buffer) = if n.1 {
-                    (self.buffer + n.0 , 0)
+                    (self.buffer + n.0, 0)
                 } else {
-                    (0,self.buffer + n.0)
+                    (0, self.buffer + n.0)
                 };
                 MaxLengthState {
                     buffer,
-                    champion: max(this_len,self.champion),
+                    champion: max(this_len, self.champion),
                     ..self
                 }
             })
@@ -68,38 +69,38 @@ impl Compute for MaxLengthState {
 mod test {
     use crate::cw_lib::state::max_length::MaxLengthState;
     use crate::cw_lib::state::traits::{Compute, PartialState};
-    use std::io::{BufReader, Read};
     use std::fs::File;
+    use std::io::{BufReader, Read};
 
     #[test]
     pub fn test1() {
         let line = "".as_bytes();
         let out = MaxLengthState::new(b'\n').compute(line).output();
-        assert_eq!(out,0)
+        assert_eq!(out, 0)
     }
     #[test]
     pub fn test2() {
         let line = "hello\n".as_bytes();
         let out = MaxLengthState::new(b'\n').compute(line).output();
-        assert_eq!(out,5)
+        assert_eq!(out, 5)
     }
     #[test]
     pub fn test3() {
         let line = "hello\nworld".as_bytes();
         let out = MaxLengthState::new(b'\n').compute(line).output();
-        assert_eq!(out,5)
+        assert_eq!(out, 5)
     }
     #[test]
     pub fn test4() {
         let line = "hello\nworldjsafs\n".as_bytes();
         let out = MaxLengthState::new(b'\n').compute(line).output();
-        assert_eq!(out,10)
+        assert_eq!(out, 10)
     }
     #[test]
     pub fn test5() {
         let line = "hello\nworldjsafs\nshjksafhjkasfjhkfajshdjhksdfa".as_bytes();
         let out = MaxLengthState::new(b'\n').compute(line).output();
-        assert_eq!(out,29)
+        assert_eq!(out, 29)
     }
     #[test]
     pub fn test6() {
@@ -109,7 +110,7 @@ mod test {
             .compute("iassfdaafsd\n".as_bytes())
             .compute("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.".as_bytes())
             .output();
-        assert_eq!(out,445)
+        assert_eq!(out, 445)
     }
 
     // Test on files

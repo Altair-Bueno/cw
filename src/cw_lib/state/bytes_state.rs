@@ -1,9 +1,9 @@
-use crate::cw_lib::state::traits::{PartialState, Compute};
+use crate::cw_lib::state::traits::{Compute, PartialState};
 
 /// Number of bytes
-#[derive(Default,Debug,Copy, Clone)]
+#[derive(Default, Debug, Copy, Clone)]
 pub struct BytesState {
-    bytecount:usize,
+    bytecount: usize,
 }
 impl BytesState {
     pub fn new() -> Self {
@@ -13,14 +13,14 @@ impl BytesState {
 
 impl PartialState for BytesState {
     type Output = usize;
-    fn output(&self)->Self::Output{
+    fn output(&self) -> Self::Output {
         self.bytecount
     }
 }
 
 impl Compute for BytesState {
     fn compute(mut self, tape: &[u8]) -> Self {
-        self.bytecount += tape.len() ;
+        self.bytecount += tape.len();
         self
     }
 }
@@ -29,26 +29,26 @@ impl Compute for BytesState {
 mod test {
     use crate::cw_lib::state::bytes_state::BytesState;
     use crate::cw_lib::state::traits::{Compute, PartialState};
-    use std::io::{BufReader, Read};
     use std::fs::File;
+    use std::io::{BufReader, Read};
 
     #[test]
-    pub fn test1 () {
+    pub fn test1() {
         let bytes = "hello world".as_bytes();
         let parse = BytesState::new().compute(bytes).output();
-        assert_eq!(parse,11)
+        assert_eq!(parse, 11)
     }
     #[test]
-    pub fn test2 () {
+    pub fn test2() {
         let bytes = "".as_bytes();
         let parse = BytesState::new().compute(bytes).output();
-        assert_eq!(parse,0)
+        assert_eq!(parse, 0)
     }
     #[test]
-    pub fn test3 () {
+    pub fn test3() {
         let bytes = "ñ".as_bytes();
         let parse = BytesState::new().compute(bytes).output();
-        assert_eq!(parse,2)
+        assert_eq!(parse, 2)
     }
     #[test]
     pub fn test4() {
@@ -57,7 +57,7 @@ mod test {
             .compute("hello".as_bytes())
             .compute(" ass sa fda fsj fasd ".as_bytes())
             .output();
-        assert_eq!(parse,28)
+        assert_eq!(parse, 28)
     }
 
     // Test on files
@@ -139,5 +139,4 @@ mod test {
         let out = proccess_file_test("tests/resources/french.txt");
         assert_eq!(out, 61)
     }
-
 }

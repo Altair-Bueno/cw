@@ -5,16 +5,16 @@ use clap::Values;
 
 use crate::cw_lib::parser::Parser;
 use crate::cw_lib::stats::Stats;
+use colored::Colorize;
 use std::io::Write;
 use std::result::Result::Ok;
 use threads_pool::ThreadPool;
-use colored::Colorize;
 
-const TOTAL : &str = "total";
+const TOTAL: &str = "total";
 
 /// Multithread cw. Parses each file using a threadpool
 #[cfg(disabled)]
-pub fn multithread(files: Values, parser: &Parser,threads: usize) -> ! {
+pub fn multithread(files: Values, parser: &Parser, threads: usize) -> ! {
     // One thread for stdout
     let size = files.len();
     let pool = ThreadPool::new(threads);
@@ -91,7 +91,7 @@ pub fn singlethread_stdin(parser: &Parser) -> ! {
 }
 
 /// Single thread for FILES
-pub fn singlethread_files(files: Values,parser:&Parser) -> ! {
+pub fn singlethread_files(files: Values, parser: &Parser) -> ! {
     let size = files.len();
     let init = (0, Stats::default());
 
@@ -105,7 +105,7 @@ pub fn singlethread_files(files: Values,parser:&Parser) -> ! {
 
         let (code, merged) = files.fold(init, |(code, acc), file| match from_file(file, parser) {
             Ok(stats) => {
-                let _ = writeln!(buff_stdout, "{}{}", stats,file);
+                let _ = writeln!(buff_stdout, "{}{}", stats, file);
                 (code, acc.combine(stats))
             }
             Err(err) => {
@@ -127,7 +127,7 @@ pub fn singlethread_files(files: Values,parser:&Parser) -> ! {
 #[inline(always)]
 fn from_file(f: &str, mode: &Parser) -> std::io::Result<Stats> {
     let file = File::open(f)?;
-    let reader = BufReader::with_capacity(1024*32,file);
+    let reader = BufReader::with_capacity(1024 * 32, file);
     mode.proccess(reader)
 }
 

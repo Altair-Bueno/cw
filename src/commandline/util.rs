@@ -1,7 +1,7 @@
-use clap::ArgMatches;
 use crate::Parser;
+use clap::ArgMatches;
 
-pub fn parser_from_clap(args:&ArgMatches) -> Parser {
+pub fn parser_from_clap(args: &ArgMatches) -> Parser {
     let encoding = args
         .value_of("encoding")
         .map(|x| x.parse().unwrap_or_default())
@@ -19,6 +19,6 @@ pub fn parser_from_clap(args:&ArgMatches) -> Parser {
     if lines == words && lines == characters && lines == bytes && lines == len {
         Parser::default()
     } else {
-        Parser::new(encoding,breakk,lines,words,characters,bytes,len)
+        Parser::new(encoding, breakk, lines, words, characters, bytes, len)
     }
 }

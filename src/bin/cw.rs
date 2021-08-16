@@ -12,7 +12,6 @@ fn main() {
     // Setup parser
     let parser = parser_from_clap(&matches);
 
-
     if let Some(files) = files {
         let num_threads = matches
             .value_of("threads")
@@ -20,8 +19,8 @@ fn main() {
             .unwrap_or(Ok(1))
             .unwrap_or(1);
         match num_threads {
-            1 => singlethread_files(files,&parser),
-            x if x> 1 => todo!(),// multithread(files,parser,x),
+            1 => singlethread_files(files, &parser),
+            x if x > 1 => todo!(), // multithread(files,parser,x),
             _ => {
                 eprintln!("Invalid threadcount");
                 std::process::exit(1);

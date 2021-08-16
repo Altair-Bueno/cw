@@ -2,32 +2,31 @@ use std::io::BufRead;
 
 use crate::cw_lib::parser_config::encoding::Encoding;
 use crate::cw_lib::parser_config::line_break::LineBreak;
-use crate::cw_lib::stats::Stats;
-use crate::cw_lib::state::State;
-use crate::cw_lib::state::traits::{PartialState, Compute};
-use crate::cw_lib::state::lines_state::LinesState;
-use crate::cw_lib::state::words_state::WordsState;
-use crate::cw_lib::state::chars_state::CharState;
 use crate::cw_lib::state::bytes_state::BytesState;
+use crate::cw_lib::state::chars_state::CharState;
+use crate::cw_lib::state::lines_state::LinesState;
 use crate::cw_lib::state::max_length::MaxLengthState;
+use crate::cw_lib::state::traits::{Compute, PartialState};
+use crate::cw_lib::state::words_state::WordsState;
+use crate::cw_lib::state::State;
+use crate::cw_lib::stats::Stats;
 
 const BUFFER_SIZE: usize = 8 * 1024; // 8KB
 
-
-#[derive(Default)]
+#[derive(Default, Copy, Clone, Debug)]
 pub struct Parser {
-    initial_state : State,
+    initial_state: State,
 }
 
 impl Parser {
     pub fn new(
-        encoding: Encoding,
+        _encoding: Encoding,
         linebreak: LineBreak,
-        lines:bool,
-        words:bool,
-        chars:bool,
-        bytes:bool,
-        max_length:bool
+        lines: bool,
+        words: bool,
+        chars: bool,
+        bytes: bool,
+        max_length: bool,
     ) -> Parser {
         let mut initial_state = State::new();
 
@@ -39,7 +38,7 @@ impl Parser {
 
         if words {
             initial_state.set_words_state(Some(WordsState::new()))
-        } ;
+        };
 
         if chars {
             initial_state.set_char_state(Some(CharState::new()))
@@ -53,9 +52,7 @@ impl Parser {
             initial_state.set_max_length_state(Some(MaxLengthState::new(linebreak.get_separator())))
         };
 
-        Parser {
-            initial_state,
-        }
+        Parser { initial_state }
     }
 
     pub fn proccess<R: BufRead + Sized>(&self, mut reader: R) -> std::io::Result<Stats> {
@@ -83,7 +80,7 @@ mod test {
 
     fn proccess_file_test(f: &str) -> Stats {
         let reader = BufReader::new(File::open(f).unwrap());
-        let parser = Parser::new(Encoding::UTF8,LineBreak::LF,true,true,true,true,true);
+        let parser = Parser::new(Encoding::UTF8, LineBreak::LF, true, true, true, true, true);
         parser.proccess(reader).unwrap()
     }
 
@@ -97,14 +94,26 @@ mod test {
     #[test]
     fn lorem() {
         let out = proccess_file_test("tests/resources/Lorem_big.txt");
-        let expected = Stats::new(Some(1996), Some(111618), Some(751539), Some(751539), Some(1142));
+        let expected = Stats::new(
+            Some(1996),
+            Some(111618),
+            Some(751539),
+            Some(751539),
+            Some(1142),
+        );
         assert_eq!(out, expected)
     }
     #[test]
     #[ignore] // On CI does fail. I don't know why
     fn bible() {
         let out = proccess_file_test("tests/resources/bible.txt");
-        let expected = Stats::new(Some(100182), Some(824036), Some(4451368), Some(4451368), Some(78));
+        let expected = Stats::new(
+            Some(100182),
+            Some(824036),
+            Some(4451368),
+            Some(4451368),
+            Some(78),
+        );
         assert_eq!(out, expected)
     }
     #[test]
@@ -163,4 +172,3 @@ mod test {
         assert_eq!(out, expected)
     }
 }
-

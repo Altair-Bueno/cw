@@ -1,19 +1,19 @@
-use crate::cw_lib::state::lines_state::LinesState;
-use crate::cw_lib::state::words_state::WordsState;
 use crate::cw_lib::state::bytes_state::BytesState;
-use crate::cw_lib::state::max_length::MaxLengthState;
 use crate::cw_lib::state::chars_state::CharState;
-use crate::cw_lib::state::traits::{PartialState, Compute};
+use crate::cw_lib::state::lines_state::LinesState;
+use crate::cw_lib::state::max_length::MaxLengthState;
+use crate::cw_lib::state::traits::{Compute, PartialState};
+use crate::cw_lib::state::words_state::WordsState;
 use crate::Stats;
 
-pub mod traits;
-pub mod lines_state;
-pub mod words_state;
 pub mod bytes_state;
-pub mod max_length;
 pub mod chars_state;
+pub mod lines_state;
+pub mod max_length;
+pub mod traits;
+pub mod words_state;
 
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, Debug)]
 pub struct State {
     lines_state: Option<LinesState>,
     words_state: Option<WordsState>,
@@ -28,7 +28,7 @@ impl Default for State {
             words_state: Some(WordsState::new()),
             char_state: Some(CharState::new()),
             bytes_state: Some(BytesState::new()),
-            max_length_state: Some(MaxLengthState::new(b'\n'))
+            max_length_state: Some(MaxLengthState::new(b'\n')),
         }
     }
 }
@@ -37,19 +37,13 @@ impl PartialState for State {
     type Output = Stats;
 
     fn output(&self) -> Self::Output {
-        let lines = self.lines_state.map(|x|x.output());
-        let words = self.words_state.map(|x|x.output());
-        let characters = self.char_state.map(|x|x.output());
-        let bytes = self.bytes_state.map(|x|x.output());
-        let len = self.max_length_state.map(|x|x.output());
+        let lines = self.lines_state.map(|x| x.output());
+        let words = self.words_state.map(|x| x.output());
+        let characters = self.char_state.map(|x| x.output());
+        let bytes = self.bytes_state.map(|x| x.output());
+        let len = self.max_length_state.map(|x| x.output());
 
-        Stats::new(
-            lines,
-            words,
-            characters,
-            bytes,
-            len,
-        )
+        Stats::new(lines, words, characters, bytes, len)
     }
 }
 impl Compute for State {
@@ -59,7 +53,7 @@ impl Compute for State {
             words_state: self.words_state.map(|x| x.compute(tape)),
             char_state: self.char_state.map(|x| x.compute(tape)),
             bytes_state: self.bytes_state.map(|x| x.compute(tape)),
-            max_length_state: self.max_length_state.map(|x| x.compute(tape))
+            max_length_state: self.max_length_state.map(|x| x.compute(tape)),
         }
     }
 }
@@ -72,7 +66,7 @@ impl State {
             words_state: None,
             char_state: None,
             bytes_state: None,
-            max_length_state: None
+            max_length_state: None,
         }
     }
 

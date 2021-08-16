@@ -1,126 +1,120 @@
 use crate::cw_lib::state::traits::{Compute, PartialState};
-use regex::bytes::Regex;
 use lazy_static::lazy_static;
+use regex::bytes::Regex;
 // Avoid compiling the regex multiple times inside a loop. Regex should match
 // whitespaces as defined by POSIX standard
 
 lazy_static! {
-    static ref reg : Regex = Regex::new(r"(?-u)[\x09\x20\x0A-\x0D]+").unwrap();
+    static ref SEPARATOR_REGEX: Regex = Regex::new(r"(?-u)[\x09\x20\x0A-\x0D]+").unwrap();
 }
 
-
 // Number of words
-#[derive(Default,Debug,Copy, Clone)]
-pub struct WordsState{
-    wordcount:usize,
-    onword:bool,
+#[derive(Default, Debug, Copy, Clone)]
+pub struct WordsState {
+    wordcount: usize,
+    onword: bool,
 }
 
 impl WordsState {
-    pub fn new() ->Self {
+    pub fn new() -> Self {
         Default::default()
     }
 }
 
 impl PartialState for WordsState {
     type Output = usize;
-    fn output(&self)->Self::Output{
-        let remaining = if self.onword {
-            1
-        } else {
-            0
-        };
+    fn output(&self) -> Self::Output {
+        let remaining = if self.onword { 1 } else { 0 };
         self.wordcount + remaining
     }
 }
 
 impl Compute for WordsState {
     fn compute(self, tape: &[u8]) -> Self {
-        let isseparator = |x:u8| match x {
-            0x09|0x20 => true,
-            x=> 0x0A <= x && 0x0D >=x,
+        let isseparator = |x: u8| match x {
+            0x09 | 0x20 => true,
+            x => (0x0A..=0x0D).contains(&x),
         };
 
-        let count = reg.find_iter(tape)
-            .count();
+        let count = SEPARATOR_REGEX.find_iter(tape).count();
 
         let count = match tape.get(0) {
-            Some(x) if isseparator(*x) && !self.onword => count-1,
-            _ => count
+            Some(x) if isseparator(*x) && !self.onword => count - 1,
+            _ => count,
         };
         let onword = match tape.last() {
             // if last char is separator, we are no longer inside a word
             Some(x) => !isseparator(*x),
-            None => self.onword
+            None => self.onword,
         };
-
 
         WordsState {
             wordcount: count + self.wordcount,
-            onword
+            onword,
         }
     }
 }
 #[cfg(test)]
 mod test {
-    use crate::cw_lib::state::words_state::WordsState;
     use crate::cw_lib::state::traits::{Compute, PartialState};
-    use std::io::{BufReader, Read};
+    use crate::cw_lib::state::words_state::WordsState;
     use std::fs::File;
+    use std::io::{BufReader, Read};
 
     #[test]
     pub fn test1() {
         let line = "".as_bytes();
         let out = WordsState::new().compute(line).output();
-        assert_eq!(out,0)
+        assert_eq!(out, 0)
     }
     #[test]
     pub fn test2() {
         let line = "hello".as_bytes();
         let out = WordsState::new().compute(line).output();
-        assert_eq!(out,1)
+        assert_eq!(out, 1)
     }
     #[test]
     pub fn test3() {
         let line = "hello world".as_bytes();
         let out = WordsState::new().compute(line).output();
-        assert_eq!(out,2)
+        assert_eq!(out, 2)
     }
     #[test]
     pub fn test4() {
         let line = "hello\nworld".as_bytes();
         let out = WordsState::new().compute(line).output();
-        assert_eq!(out,2)
+        assert_eq!(out, 2)
     }
     #[test]
     pub fn test5() {
         let line = "\nworld".as_bytes();
         let out = WordsState::new().compute(line).output();
-        assert_eq!(out,1)
+        assert_eq!(out, 1)
     }
     #[test]
     pub fn test6() {
         let line = "\n\nworld".as_bytes();
         let out = WordsState::new().compute(line).output();
-        assert_eq!(out,1)
+        assert_eq!(out, 1)
     }
     #[test]
     pub fn test7() {
         let line = "hello\n\n".as_bytes();
         let out = WordsState::new().compute(line).output();
-        assert_eq!(out,1)
+        assert_eq!(out, 1)
     }
     #[test]
     pub fn test8() {
         let line = "texto en español de prueba con número de palabras".as_bytes();
         let out = WordsState::new().compute(line).output();
-        assert_eq!(out,9)
+        assert_eq!(out, 9)
     }
     #[test]
     pub fn test9() {
-        let line = "    \t   texto en      español de    prueba    con número\n\t \t de\n palabras".as_bytes();
+        let line = "    \t   texto en      español de    prueba    con número\n\t \t de\n palabras"
+            .as_bytes();
         let out = WordsState::new().compute(line).output();
-        assert_eq!(out,9)
+        assert_eq!(out, 9)
     }
     #[test]
     pub fn test10() {
@@ -129,7 +123,7 @@ mod test {
             .compute("o ".as_bytes())
             .compute("world".as_bytes())
             .output();
-        assert_eq!(out,2)
+        assert_eq!(out, 2)
     }
 
     // Test on files

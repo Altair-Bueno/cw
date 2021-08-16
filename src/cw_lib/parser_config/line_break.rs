@@ -10,7 +10,7 @@ pub enum LineBreak {
     LF,
 }
 impl LineBreak {
-    pub fn get_separator(&self) ->u8 {
+    pub fn get_separator(&self) -> u8 {
         match self {
             CR => b'\r',
             LF => b'\n',
