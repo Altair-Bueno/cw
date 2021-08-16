@@ -5,7 +5,10 @@ use regex::bytes::Regex;
 // whitespaces as defined by POSIX standard
 
 lazy_static! {
-    static ref SEPARATOR_REGEX: Regex = Regex::new(r"(?-u)[\x09\x20\x0A-\x0D]+").unwrap();
+    // 0x20: space
+    // 0x0A-0x0D: \n,\r...
+    // 0x09: tab
+    static ref SEPARATOR_REGEX: Regex = Regex::new(r"(?-u)[\x20\x0A-\x0D\x09]+").unwrap();
 }
 
 // Number of words
@@ -31,10 +34,8 @@ impl PartialState for WordsState {
 
 impl Compute for WordsState {
     fn compute(self, tape: &[u8]) -> Self {
-        let isseparator = |x: u8| match x {
-            0x09 | 0x20 => true,
-            x => (0x0A..=0x0D).contains(&x),
-        };
+        let isseparator = |x: u8| SEPARATOR_REGEX
+            .is_match(&[x]);
 
         let count = SEPARATOR_REGEX.find_iter(tape).count();
 
