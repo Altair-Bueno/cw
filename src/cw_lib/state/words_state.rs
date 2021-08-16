@@ -1,15 +1,4 @@
 use crate::cw_lib::state::traits::{Compute, PartialState};
-use lazy_static::lazy_static;
-use regex::bytes::Regex;
-// Avoid compiling the regex multiple times inside a loop. Regex should match
-// whitespaces as defined by POSIX standard
-
-lazy_static! {
-    // 0x20: space
-    // 0x0A-0x0D: \n,\r...
-    // 0x09: tab
-    static ref SEPARATOR_REGEX: Regex = Regex::new(r"(?-u)[\x20\x0A-\x0D\x09]+").unwrap();
-}
 
 // Number of words
 #[derive(Default, Debug, Copy, Clone)]
@@ -34,25 +23,28 @@ impl PartialState for WordsState {
 
 impl Compute for WordsState {
     fn compute(self, tape: &[u8]) -> Self {
-        let isseparator = |x: u8| SEPARATOR_REGEX
-            .is_match(&[x]);
-
-        let count = SEPARATOR_REGEX.find_iter(tape).count();
-
-        let count = match tape.get(0) {
-            Some(x) if isseparator(*x) && !self.onword => count - 1,
-            _ => count,
-        };
-        let onword = match tape.last() {
-            // if last char is separator, we are no longer inside a word
-            Some(x) => !isseparator(*x),
-            None => self.onword,
+        let is_separator = |x: u8| match x {
+            0x20| 0x09 => true,
+            x => (0x0A..=0x0D).contains(&x),
         };
 
-        WordsState {
-            wordcount: count + self.wordcount,
-            onword,
-        }
+        tape
+            .iter()
+            .fold(self , |acc,n| {
+                let onword = !is_separator(*n);
+                let wordcount = self.wordcount + {
+                    if acc.onword && !onword {
+                        1
+                    } else {
+                        0
+                    }
+                };
+
+                WordsState {
+                    wordcount,
+                    onword
+                }
+            })
     }
 }
 #[cfg(test)]
