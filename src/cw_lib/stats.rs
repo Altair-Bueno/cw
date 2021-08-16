@@ -3,120 +3,94 @@ use std::fmt::{Display, Formatter};
 use std::option::Option::Some;
 
 /// Represents Stats for a file
-#[derive(Debug, Eq, PartialEq,Copy, Clone)]
+#[derive(Debug, Eq, PartialEq)]
 pub struct Stats {
-    lines: usize,
-    words: usize,
-    characters: usize,
-    bytes: usize,
-    legth: usize,
-    print:[bool;5]
+    lines: Option<usize>,
+    words: Option<usize>,
+    characters: Option<usize>,
+    bytes: Option<usize>,
+    legth: Option<usize>,
     //colums: Colums,
 }
-
 impl Default for Stats {
     fn default() -> Self {
-        Stats{
-            lines: 0,
-            words: 0,
-            characters: 0,
-            bytes: 0,
-            legth: 0,
-            print: [true;5]
+        Stats {
+            lines: Some(0),
+            words: Some(0),
+            characters: Some(0),
+            bytes: Some(0),
+            legth: Some(0)
         }
     }
 }
 
 impl Stats {
-    pub fn new () -> Stats {
-        Stats{
-            lines: 0,
-            words: 0,
-            characters: 0,
-            bytes: 0,
-            legth: 0,
-            print: Default::default()
+    /// Creates a new Stats struct using the given parameters
+    pub fn new(lines: Option<usize>, words: Option<usize>, characters: Option<usize>, bytes: Option<usize>, legth: Option<usize>) -> Stats {
+        Stats {
+            lines,
+            words,
+            characters,
+            bytes,
+            legth,
         }
-    }
-
-
-    pub fn print_lines(mut self, s:bool) ->Self {
-        self.print[0] = s;
-        self
-    }
-    pub fn print_words(mut self, s:bool) ->Self {
-        self.print[1] = s;
-        self
-    }
-    pub fn print_characters(mut self, s:bool) ->Self {
-        self.print[2] = s;
-        self
-    }
-    pub fn print_bytes(mut self, s:bool) ->Self {
-        self.print[3] = s;
-        self
-    }
-    pub fn print_max_lenght(mut self, s:bool) ->Self {
-        self.print[4] = s;
-        self
     }
 
     /// Combines two stats. Usefull when buffering a file. Consumes both
     /// arguments for improved performance. There is no need to
     /// de-referenciate or alloc more memory
     pub fn combine(self, s: Stats) -> Stats {
+        let combine_using =  |a, b, f:fn(usize,usize)->usize| {
+            match (a,b) {
+                (Some(x),Some(y)) => Some(f(x,y)),
+                _ => None
+            }
+        };
+
         Stats {
-            lines: self.lines + s.lines,
-            words: self.words + s.words,
-            characters: self.characters + s.characters,
-            bytes: self.bytes + s.bytes,
-            legth: max(self.legth,s.legth),
-            ..self
+            lines: combine_using(self.lines, s.lines, std::ops::Add::add),
+            words: combine_using(self.words, s.words, std::ops::Add::add),
+            characters: combine_using(self.characters, s.characters, std::ops::Add::add),
+            bytes: combine_using(self.bytes, s.bytes, std::ops::Add::add),
+            legth: combine_using(self.legth, s.legth, max),
         }
     }
-    pub fn set_lines(&mut self, lines: usize) {
-        self.lines = lines;
+
+    pub fn lines(&self) -> Option<usize> {
+        self.lines
     }
-    pub fn set_words(&mut self, words: usize) {
-        self.words = words;
+    pub fn words(&self) -> Option<usize> {
+        self.words
     }
-    pub fn set_characters(&mut self, characters: usize) {
-        self.characters = characters;
+    pub fn characters(&self) -> Option<usize> {
+        self.characters
     }
-    pub fn set_bytes(&mut self, bytes: usize) {
-        self.bytes = bytes;
+    pub fn bytes(&self) -> Option<usize> {
+        self.bytes
     }
-    pub fn set_legth(&mut self, legth: usize) {
-        self.legth = legth;
-    }
-    pub fn set_print(&mut self, print: [bool; 5]) {
-        self.print = print;
+    pub fn legth(&self) -> Option<usize> {
+        self.legth
     }
 }
 
 impl Display for Stats {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        let mut dirty = false;
-        if self.print[0] {
-            dirty = true;
-            write!(f,"{}\t",self.lines)?;
+        if let Some(x) = self.lines {
+            write!(f,"{}\t",x)?;
         }
-        if self.print[1] {
-            dirty = true;
-            write!(f,"{}\t",self.words)?;
+        if let Some(x) = self.words {
+            write!(f,"{}\t",x)?;
         }
-        if self.print[2] {
-            dirty = true;
-            write!(f,"{}\t",self.characters)?;
+        if let Some(x) = self.characters {
+            write!(f,"{}\t",x)?;
         }
-        if self.print[3] {
-            dirty = true;
-            write!(f,"{}\t",self.bytes)?;
+        if let Some(x) = self.bytes {
+            write!(f,"{}\t",x)?;
         }
-        if self.print[4] {
-            dirty = true;
-            write!(f,"{}\t",self.legth)?;
+        if let Some(x) = self.legth {
+            write!(f,"{}\t",x)?;
         }
+
         Ok(())
     }
 }
