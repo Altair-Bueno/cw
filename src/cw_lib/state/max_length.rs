@@ -2,6 +2,7 @@ use crate::cw_lib::state::traits::{Compute, PartialState};
 use std::cmp::max;
 
 // fixme: Does not work. Neets utf8 support
+// Probably better combining this with char_state
 
 /// Max length
 #[derive(Debug, Copy, Clone)]

@@ -30,8 +30,7 @@ impl Parser {
     ) -> Parser {
         let mut initial_state = State::new();
 
-        // todo encoding
-        // todo enable or disable searching for certain things
+        // todo encoding not used right now
         if lines {
             initial_state.set_lines_state(Some(LinesState::new(linebreak.get_separator())))
         };
@@ -148,16 +147,17 @@ mod test {
         assert_eq!(out, expected)
     }
 
+    /*
     #[test]
     #[ignore]
     fn arabic() {
-        // todo
         // - Legth isn't 0
         // - test weird
         let out = proccess_file_test("tests/resources/arabic.txt");
         let expected = Stats::new(Some(0), Some(10), Some(58), Some(105), Some(0));
         assert_eq!(out, expected)
     }
+     */
     #[test]
     fn spanish() {
         let out = proccess_file_test("tests/resources/spanish.txt");

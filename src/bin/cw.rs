@@ -20,7 +20,7 @@ fn main() {
             .unwrap_or(1);
         match num_threads {
             1 => singlethread_files(files, &parser),
-            x if x > 1 => todo!(), // multithread(files,parser,x),
+            x if x > 1 => multithread(files,&parser,x),
             _ => {
                 eprintln!("Invalid threadcount");
                 std::process::exit(1);

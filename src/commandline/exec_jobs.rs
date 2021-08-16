@@ -13,7 +13,6 @@ use threads_pool::ThreadPool;
 const TOTAL: &str = "total";
 
 /// Multithread cw. Parses each file using a threadpool
-#[cfg(disabled)]
 pub fn multithread(files: Values, parser: &Parser, threads: usize) -> ! {
     // One thread for stdout
     let size = files.len();
@@ -24,10 +23,10 @@ pub fn multithread(files: Values, parser: &Parser, threads: usize) -> ! {
     for f in files {
         let copy = sender.clone();
         let fclone = f.to_string();
-        let modeclone: Parser = (*parser).clone();
+        let parserclone: Parser = (*parser).clone();
 
         let _e = pool.execute(move || {
-            let stats = from_file(fclone.as_str(), &modeclone);
+            let stats = from_file(fclone.as_str(), &parserclone);
             let _r = copy.send((fclone, stats));
             // eprintln!("{:?}",_r)
         });
@@ -45,7 +44,7 @@ pub fn multithread(files: Values, parser: &Parser, threads: usize) -> ! {
             (0, Stats::default()),
             |(code, acc), (_, (file, result))| match result {
                 Ok(stats) => {
-                    let _ = writeln!(buff_stdout, "{}\t{}", stats, file);
+                    let _ = writeln!(buff_stdout, "{}{}", stats, file);
                     (code, acc.combine(stats))
                 }
                 Err(err) => {
@@ -56,7 +55,7 @@ pub fn multithread(files: Values, parser: &Parser, threads: usize) -> ! {
         );
 
         if size > 1 {
-            let _ = writeln!(buff_stdout, "{}\t{}", acc, TOTAL.red());
+            let _ = writeln!(buff_stdout, "{}{}", acc, TOTAL.red());
         }
         code
     }; // Drop locks and flush buffers
