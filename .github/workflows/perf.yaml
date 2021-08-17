@@ -8,10 +8,6 @@ jobs:
         continue-on-error: true
         run: sudo apt-get update && sudo apt-get upgrade
 
-      - name: install neofetch
-        continue-on-error: true
-        run: sudo add-apt-repository ppa:dawidd0811/neofetch && sudo apt update && sudo apt install neofetch
-
       - name: Install hyperfine
         continue-on-error: true
         run: |
@@ -19,25 +15,21 @@ jobs:
           sudo dpkg -i hyperfine_1.11.0_amd64.deb
 
       - uses: actions/checkout@v2
+      - name: System info
+        run: |
+          echo "System info" > Stats.txt
+          cat /proc/cpuinfo >> Stats.txt
 
       - name: build & install
         run: cargo install --path .
-      - name: Setup test sources
+      - name: Benchmark
         run: |
           cd tests/resources
           export HYPERFINE_TEST_FILELIST="$(ls | xargs)"
           export HYPERFINE_TEST_FILELIST="$HYPERFINE_TEST_FILELIST $HYPERFINE_TEST_FILELIST"
           export HYPERFINE_TEST_FILELIST="$HYPERFINE_TEST_FILELIST $HYPERFINE_TEST_FILELIST"
-
-      - name: System info
-        run: |
-          echo "System info" > Stats.txt
-          neofetch --cpu_cores logical >> Stats.txt
-
-      - name: test
-        run: |
           echo "Tests" >> Stats.txt
-          hyperfine -w 2 "cw -wlb $HYPERFINE_TEST_FILELIST" "wc -wlc $HYPERFINE_TEST_FILELIST" >> Stats.txt
+          hyperfine -m 100 -w 2 "cw -wlb $HYPERFINE_TEST_FILELIST" "wc -wlc $HYPERFINE_TEST_FILELIST" >> Stats.txt
 
       - name: 'Upload Artifact'
         uses: actions/upload-artifact@v2
