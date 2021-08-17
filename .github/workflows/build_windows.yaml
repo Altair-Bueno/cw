@@ -1,0 +1,23 @@
+name: Build Windows
+on :
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+env:
+  RUSTFLAGS: '-C target-feature=+crt-static'
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build
+        run: cargo build --release
+      - name: Upload results
+        uses: actions/upload-artifact@v2
+        with:
+          name: cw_windows
+          path: |
+            target/release/cw.exe
+          retention-days: 5
