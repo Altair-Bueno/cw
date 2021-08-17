@@ -42,9 +42,9 @@ impl PartialState for State {
         let words = self.words_state.map(|x| x.output());
         let characters = self.char_state.map(|x| x.output());
         let bytes = self.bytes_state.map(|x| x.output());
-        let len = self.max_length_state.map(|x| x.output());
+        let len = self.max_length_state.map(|x| x.output().0);
 // TODO 0 vvvvvv
-        Stats::new(lines, words, characters, bytes, Some(0))
+        Stats::new(lines, words, characters, bytes, len)
     }
 }
 impl Compute for State {
