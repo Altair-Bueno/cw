@@ -16,9 +16,9 @@ pub fn parser_from_clap(args: &ArgMatches) -> Parser {
     let bytes = args.is_present("bytes");
     let len = args.is_present("line_length");
 
-    if lines == words && lines == characters && lines == bytes && lines == len {
-        Parser::default()
-    } else {
+    if lines || words || characters || bytes || bytes || len {
         Parser::new(encoding, breakk, lines, words, characters, bytes, len)
+    } else {
+        Parser::default()
     }
 }

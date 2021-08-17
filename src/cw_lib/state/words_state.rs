@@ -142,9 +142,9 @@ mod test {
         assert_eq!(out, 111618)
     }
     #[test]
-    fn bible() {
-        let out = proccess_file_test("tests/resources/bible.txt");
-        assert_eq!(out, 824036)
+    fn world() {
+        let out = proccess_file_test("tests/resources/world192.txt");
+        assert_eq!(out, 326075)
     }
     #[test]
     fn s1() {

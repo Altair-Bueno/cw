@@ -18,10 +18,6 @@ impl LinesState {
             linebreak,
         }
     }
-
-    pub fn linebreak(&self) -> u8 {
-        self.linebreak
-    }
 }
 
 impl PartialState for LinesState {
@@ -31,7 +27,7 @@ impl PartialState for LinesState {
     }
 }
 impl Compute for LinesState {
-    fn compute(mut self, tape: &[u8]) -> Self {
+    fn compute(self, tape: &[u8]) -> Self {
         let line_breaks = tape
             .iter()
             .filter(|x| **x == self.linebreak)
@@ -131,9 +127,9 @@ mod test {
         assert_eq!(out, 1996)
     }
     #[test]
-    fn bible() {
-        let out = proccess_file_test("tests/resources/bible.txt");
-        assert_eq!(out, 100182)
+    fn world192() {
+        let out = proccess_file_test("tests/resources/world192.txt");
+        assert_eq!(out, 65119)
     }
     #[test]
     fn s1() {

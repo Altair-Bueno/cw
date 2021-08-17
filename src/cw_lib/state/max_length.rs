@@ -22,7 +22,7 @@ impl Default for MaxLengthState {
 }
 
 impl MaxLengthState {
-    pub fn new(linebreak: u8,encoding:Encoding) -> Self {
+    pub fn new(linebreak: u8,_encoding:Encoding) -> Self {
         MaxLengthState {
             max_length_found: 0,
             //line_count: 0,
@@ -151,9 +151,9 @@ mod test {
         assert_eq!(out, 1142)
     }
     #[test]
-    fn bible() {
-        let out = proccess_file_test("tests/resources/bible.txt");
-        assert_eq!(out, 78)
+    fn world() {
+        let out = proccess_file_test("tests/resources/world192.txt");
+        assert_eq!(out, 81)
     }
     #[test]
     fn s1() {

@@ -31,15 +31,14 @@ mod test {
         assert_eq!(out, expected)
     }
     #[test]
-    #[ignore] // On CI does fail. I don't know why
-    fn bible() {
-        let out = proccess_file_test("tests/resources/bible.txt");
+    fn world() {
+        let out = proccess_file_test("tests/resources/world192.txt");
         let expected = Stats::new(
-            Some(100182),
-            Some(824036),
-            Some(4451368),
-            Some(4451368),
-            Some(78),
+            Some(65119),
+            Some(326075),
+            Some(2473400),
+            Some(2473400),
+            Some(81),
         );
         assert_eq!(out, expected)
     }

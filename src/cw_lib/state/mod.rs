@@ -5,7 +5,6 @@ use crate::cw_lib::state::max_length::MaxLengthState;
 use crate::cw_lib::state::traits::{compute::Compute,partial_state::PartialState};
 use crate::cw_lib::state::words_state::WordsState;
 use crate::Stats;
-use crate::config::Encoding;
 
 pub mod bytes_state;
 pub mod chars_state;
