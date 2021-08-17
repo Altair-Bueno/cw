@@ -1,11 +1,14 @@
 name: cw
 version: "0.1.0"
 author: Altair Bueno
-about: "cw, a rip off wc. Lines, words, character and byte count with column \
-  stats.\n\
-  STDOUT:\n\t$lines\t$words\t$chars\t$bytes\t$max-legth\t$file\n\n\
-  STDERR:\n\t$file: $err\n\n\
-  RETURNS:\n\t0 if sucessfull or N> 0 if N errors occurs"
+about: |
+  cw, a rip off wc. Lines, words, character and byte count with column stats.
+  STDOUT:
+  \t$lines $words $chars$bytes  $max-legth  $file
+  STDERR:
+  \t$file: $err
+  RETURNS:
+  \t0 if sucessfull or N > 0 for N errors
 args:
   - FILES:
       about: Input file to proccess. Uses `stdin` if no file is provided
