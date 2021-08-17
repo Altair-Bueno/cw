@@ -24,7 +24,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ ubuntu-latest , "macos-latest", "ubuntu-20.04" , "windows-latest" ]
+        os: [ "macos-latest" , "windows-latest" , "ubuntu-20.04" , "ubuntu-latest" ]
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
