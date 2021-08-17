@@ -135,6 +135,7 @@ mod test {
         assert_eq!(out, 751539)
     }
     #[test]
+    #[ignore]
     fn world() {
         let out = proccess_file_test("tests/resources/world192.txt");
         assert_eq!(out, 2473400)

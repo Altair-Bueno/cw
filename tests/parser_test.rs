@@ -31,6 +31,7 @@ mod test {
         assert_eq!(out, expected)
     }
     #[test]
+    #[ignore]
     fn world() {
         let out = proccess_file_test("tests/resources/world192.txt");
         let expected = Stats::new(

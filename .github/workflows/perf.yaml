@@ -13,25 +13,25 @@ jobs:
           sudo dpkg -i hyperfine_1.11.0_amd64.deb
           cd tests/resources
           echo "Byte count" >> ~/Stats.txt
-          hyperfine -m 100 -w 2 "cw -b $(ls | xargs)" "wc -c $(ls | xargs)" | grep "ms" >> ~/Stats.txt
-          echo "\n********************************************************************************" >> ~/Stats.txt
+          hyperfine -m 100 -w 2 -s basic "cw -b $(ls | xargs)" "wc -c $(ls | xargs)" >> ~/Stats.txt
+          echo "********************************************************************************" >> ~/Stats.txt
           echo "Word count" >> ~/Stats.txt
-          hyperfine -m 100 -w 2 "cw -w $(ls | xargs)" "wc -w $(ls | xargs)" | grep "ms" >> ~/Stats.txt
-          echo "\n********************************************************************************" >> ~/Stats.txt
+          hyperfine -m 100 -w 2 -s basic "cw -w $(ls | xargs)" "wc -w $(ls | xargs)" >> ~/Stats.txt
+          echo "********************************************************************************" >> ~/Stats.txt
           echo "Char count" >> ~/Stats.txt
-          hyperfine -m 100 -w 2 "cw -c $(ls | xargs)" "wc -c $(ls | xargs)" | grep "ms" >> ~/Stats.txt
-          echo "\n********************************************************************************" >> ~/Stats.txt
+          hyperfine -m 100 -w 2 -s basic "cw -c $(ls | xargs)" "wc -c $(ls | xargs)" >> ~/Stats.txt
+          echo "********************************************************************************" >> ~/Stats.txt
           echo "Line count" >> ~/Stats.txt
-          hyperfine -m 100 -w 2 "cw -l $(ls | xargs)" "wc -l $(ls | xargs)" | grep "ms" >> ~/Stats.txt
-          echo "\n********************************************************************************" >> ~/Stats.txt
+          hyperfine -m 100 -w 2 -s basic "cw -l $(ls | xargs)" "wc -l $(ls | xargs)" >> ~/Stats.txt
+          echo "********************************************************************************" >> ~/Stats.txt
           echo "max length" >> ~/Stats.txt
-          hyperfine -m 100 -w 2 "cw -L $(ls | xargs)" "wc -L $(ls | xargs)" | grep "ms" >> ~/Stats.txt
-          echo "\n********************************************************************************" >> ~/Stats.txt
+          hyperfine -m 100 -w 2 -s basic "cw -L $(ls | xargs)" "wc -L $(ls | xargs)" >> ~/Stats.txt
+          echo "********************************************************************************" >> ~/Stats.txt
           echo "Default mode" >> ~/Stats.txt
-          hyperfine -m 100 -w 2 "cw $(ls | xargs)" "wc $(ls | xargs)" | grep "ms" >> ~/Stats.txt
-          echo "\n********************************************************************************" >> ~/Stats.txt
+          hyperfine -m 100 -w 2 -s basic "cw $(ls | xargs)" "wc $(ls | xargs)" >> ~/Stats.txt
+          echo "********************************************************************************" >> ~/Stats.txt
           echo "High load" >> ~/Stats.txt
-          hyperfine -m 100 -w 2 "cw $(ls | xargs) $(ls | xargs) $(ls | xargs)" "wc $(ls | xargs) $(ls | xargs) $(ls | xargs)" | grep "ms" >> ~/Stats.txt
+          hyperfine -m 100 -w 2 -s basic "cw $(ls | xargs) $(ls | xargs) $(ls | xargs)" "wc $(ls | xargs) $(ls | xargs) $(ls | xargs)" >> ~/Stats.txt
 
       - name: Upload results
         uses: actions/upload-artifact@v2
