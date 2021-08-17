@@ -1,63 +1,66 @@
 name: cw
 version: "0.1.0"
 author: Altair Bueno
-about: "cw, a rip off wc. Lines, words, character and byte count with column \
-  stats.\n\
-  STDOUT:\n\t$lines\t$words\t$chars\t$bytes\t$max-legth\t$file\n\n\
-  STDERR:\n\t$file: $err\n\n\
-  RETURNS:\n\t0 if sucessfull or N> 0 if N errors occurs"
+about: |
+  cw, a rip off wc. Lines, words, character and byte count with column stats.
+  STDOUT:
+  \t$lines $words $chars$bytes  $max-legth  $file
+  STDERR:
+  \t$file: $err
+  RETURNS:
+  \t0 if sucessfull or N > 0 for N errors
 args:
   - FILES:
-      about: Input file to proccess. Uses `stdin` if no file is provided
+      help: Input file to proccess. Uses `stdin` if no file is provided
       required: false
       multiple: true
       takes_value: true
       index: 1
 
   - lines:
-      about: Counts the number of lines. A line is defined using a newline character
+      help: Counts the number of lines. A line is defined using a newline character
       short: l
       long: lines
       required: false
       takes_value: false
 
   - characters:
-      about: Counts the number of characteres on the file. Notice that byte and character count may not be equal
+      help: Counts the number of characteres on the file. Notice that byte and character count may not be equal
       short: c
       long: chars
       required: false
       takes_value: false
 
   - words:
-      about: Counts the number of words on the file. A word is a series of characters separated by white spaces.
+      help: Counts the number of words on the file. A word is a series of characters separated by white spaces.
       short: w
       long: words
       required: false
       takes_value: false
 
   - bytes:
-      about: Counts the number of bytes on the file
+      help: Counts the number of bytes on the file
       short: b
       long: bytes
       required: false
       takes_value: false
 
   - line_length:
-      about: Returns the max legth size found on the file
+      help: Returns the max legth size found on the file
       short: L
       long: line-length
       required: false
       takes_value: false
 
   - threads:
-      about: Number of threads used to process all files. Its only usefull when provided multiple files. Using this option with `stdio` won't turn multithreading on
+      help: Number of threads used to process all files. Its only usefull when provided multiple files. Using this option with `stdio` won't turn multithreading on
       short: t
       long: threads
       required: false
       takes_value: true
 
   - break:
-      about: By default using POSIX LF (aka `\n`). For CRLF use LF
+      help: By default using POSIX LF (aka `\n`). For CRLF use LF
       short: n
       long: newline
       required: false
@@ -66,7 +69,7 @@ args:
         - LF
         - CR
   - encoding:
-      about: UTF8
+      help: UTF8
       short: e
       long: encoding
       takes_value: true

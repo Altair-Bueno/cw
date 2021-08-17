@@ -1,0 +1,47 @@
+name: Performance metrics
+on: workflow_dispatch
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: update system
+        continue-on-error: true
+        run: sudo apt-get update && sudo apt-get upgrade
+
+      - name: install neofetch
+        continue-on-error: true
+        run: sudo add-apt-repository ppa:dawidd0811/neofetch && sudo apt update && sudo apt install neofetch
+
+      - name: Install hyperfine
+        continue-on-error: true
+        run: |
+          wget https://github.com/sharkdp/hyperfine/releases/download/v1.11.0/hyperfine_1.11.0_amd64.deb
+          sudo dpkg -i hyperfine_1.11.0_amd64.deb
+
+      - uses: actions/checkout@v2
+
+      - name: build & install
+        run: cargo install --path .
+
+      - name: store args
+        run: |
+          export HYPERFINE_TEST_FILELIST=$(ls tests/resources | xargs)
+          export HYPERFINE_TEST_FILELIST=$HYPERFINE_TEST_FILELIST $HYPERFINE_TEST_FILELIST
+          export HYPERFINE_TEST_FILELIST=$HYPERFINE_TEST_FILELIST $HYPERFINE_TEST_FILELIST
+
+      - name: System info
+        run: |
+          echo "System info" > Stats.txt
+          neofetch --cpu_cores logical >> Stats.txt
+
+      - name: test
+        run: |
+          echo "Tests" >> Stats.txt
+          hyperfine -w 2 "cw -wlb $HYPERFINE_TEST_FILELIST" "wc -wlc $HYPERFINE_TEST_FILELIST" >> Stats.txt
+
+      - name: 'Upload Artifact'
+        uses: actions/upload-artifact@v2
+        with:
+          name: Stats
+          path: Stats.txt
+          retention-days: 5
