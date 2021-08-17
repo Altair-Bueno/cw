@@ -4,24 +4,14 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Install hyperfine
-        continue-on-error: true
-        run: |
-          wget https://github.com/sharkdp/hyperfine/releases/download/v1.11.0/hyperfine_1.11.0_amd64.deb
-          sudo dpkg -i hyperfine_1.11.0_amd64.deb
-
       - uses: actions/checkout@v2
-      - name: System info
+      - name: Benchmark
         run: |
           echo "System info" > Stats.txt
           cat /proc/cpuinfo >> Stats.txt
-
-      - name: build & install
-        run: cargo install --path .
-
-      - name: Benchmark
-        run: |
-          echo $(where hyperfine)
+          cargo install --path .
+          wget https://github.com/sharkdp/hyperfine/releases/download/v1.11.0/hyperfine_1.11.0_amd64.deb
+          sudo dpkg -i hyperfine_1.11.0_amd64.deb
           echo "Tests" >> Stats.txt
           hyperfine -m 100 -w 2 "cw -wlb $(ls | xargs)" "wc -wlc $(ls | xargs)" >> Stats.txt
 
