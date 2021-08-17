@@ -31,12 +31,19 @@ impl PartialState for LinesState {
     }
 }
 impl Compute for LinesState {
-    fn compute(self, tape: &[u8]) -> Self {
-        let line_breaks = tape.split(|x| *x == self.linebreak).count();
-
+    fn compute(mut self, tape: &[u8]) -> Self {
+        let line_breaks = tape
+            .iter()
+            .fold(self.linescount, |acc,n|
+                if *n == self.linebreak {
+                    acc + 1
+                } else {
+                    acc
+                }
+            );
         LinesState {
-            linescount: self.linescount + line_breaks - 1,
-            ..self
+            linescount: line_breaks,
+            linebreak: self.linebreak
         }
     }
 }
