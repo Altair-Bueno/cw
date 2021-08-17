@@ -13,7 +13,7 @@ fn main() {
     let files = matches.values_of("FILES");
     // Setup parser
     let parser = parser_from_clap(&matches);
-    let format = format!("{}Files",parser);
+    let format = format!("{}File(s)",parser);
     println!("{}",format.as_str().blue());
 
     if let Some(files) = files {
