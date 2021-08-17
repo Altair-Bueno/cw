@@ -22,12 +22,12 @@ jobs:
 
       - name: build & install
         run: cargo install --path .
-
-      - name: store args
+      - name: Setup test sources
         run: |
-          export HYPERFINE_TEST_FILELIST=$(ls tests/resources | xargs)
-          export HYPERFINE_TEST_FILELIST=$HYPERFINE_TEST_FILELIST $HYPERFINE_TEST_FILELIST
-          export HYPERFINE_TEST_FILELIST=$HYPERFINE_TEST_FILELIST $HYPERFINE_TEST_FILELIST
+          cd tests/resources
+          export HYPERFINE_TEST_FILELIST="$(ls | xargs)"
+          export HYPERFINE_TEST_FILELIST="$HYPERFINE_TEST_FILELIST $HYPERFINE_TEST_FILELIST"
+          export HYPERFINE_TEST_FILELIST="$HYPERFINE_TEST_FILELIST $HYPERFINE_TEST_FILELIST"
 
       - name: System info
         run: |
