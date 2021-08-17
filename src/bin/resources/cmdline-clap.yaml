@@ -1,38 +1,34 @@
 name: cw
-version: "0.1.0"
+version: "1.0.0"
 author: Altair Bueno
 about: |
-  cw, a rip off wc. Lines, words, character and byte count with column stats.
-  STDOUT:
-  \t$lines $words $chars$bytes  $max-legth  $file
-  STDERR:
-  \t$file: $err
-  RETURNS:
-  \t0 if sucessfull or N > 0 for N errors
+  cw, a rip of wc. Lines, words, character and byte count with column stats.
+
+  Prints each file stats on a separate line, and a total line if multiple files are provided
 args:
   - FILES:
-      help: Input file to proccess. Uses `stdin` if no file is provided
+      help: List of input files to analize. Uses stdin if no file is provided
       required: false
       multiple: true
       takes_value: true
       index: 1
 
   - lines:
-      help: Counts the number of lines. A line is defined using a newline character
+      help: Counts line jumps
       short: l
       long: lines
       required: false
       takes_value: false
 
   - characters:
-      help: Counts the number of characteres on the file. Notice that byte and character count may not be equal
+      help: Counts characters. A character depends on its encoding
       short: c
       long: chars
       required: false
       takes_value: false
 
   - words:
-      help: Counts the number of words on the file. A word is a series of characters separated by white spaces.
+      help: Counts words. A word is defined using ISSPACE(3)
       short: w
       long: words
       required: false
@@ -46,21 +42,21 @@ args:
       takes_value: false
 
   - line_length:
-      help: Returns the max legth size found on the file
+      help: Shows the longest line size
       short: L
       long: line-length
       required: false
       takes_value: false
 
   - threads:
-      help: Number of threads used to process all files. Its only usefull when provided multiple files. Using this option with `stdio` won't turn multithreading on
+      help: Number of threads to use. If no file is provided multithreading is turned off
       short: t
       long: threads
       required: false
       takes_value: true
 
   - break:
-      help: By default using POSIX LF (aka `\n`). For CRLF use LF
+      help: Linebreak to use. Defaults to LF
       short: n
       long: newline
       required: false
@@ -69,7 +65,7 @@ args:
         - LF
         - CR
   - encoding:
-      help: UTF8
+      help: Character encoding expected. Defaults to UTF-8/ASCII
       short: e
       long: encoding
       takes_value: true

@@ -5,6 +5,7 @@ use crate::cw_lib::state::max_length::MaxLengthState;
 use crate::cw_lib::state::traits::{compute::Compute,partial_state::PartialState};
 use crate::cw_lib::state::words_state::WordsState;
 use crate::Stats;
+use std::fmt::{Display, Formatter};
 
 pub mod bytes_state;
 pub mod chars_state;
@@ -24,7 +25,7 @@ pub struct State {
 impl Default for State {
     fn default() -> Self {
         State {
-            lines_state: Some(LinesState::new(b'\n')),
+            lines_state: Some(LinesState::default()),
             words_state: Some(WordsState::new()),
             char_state: None,
             bytes_state: Some(BytesState::new()),
@@ -91,5 +92,27 @@ impl Iterator for State {
 
     fn next(&mut self) -> Option<Self::Item> {
         Some(*self)
+    }
+}
+impl Display for State {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        if let Some(x) = self.lines_state {
+            write!(f, "l({})\t",x.linebreak())?;
+        }
+        if let Some(_) = self.words_state {
+            write!(f, "w\t")?;
+        }
+        if let Some(x) = self.char_state {
+            // TODO encoding
+            write!(f, "c\t")?;
+        }
+        if let Some(_) = self.bytes_state {
+            write!(f, "b\t")?;
+        }
+        if let Some(x) = self.max_length_state {
+            write!(f, "L\t")?;
+        }
+
+        Ok(())
     }
 }

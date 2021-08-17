@@ -1,6 +1,6 @@
 [package]
 name = "cw"
-version = "0.1.0"
+version = "1.0.0"
 authors = ["Altair Bueno"]
 edition = "2018"
 license = "MIT"

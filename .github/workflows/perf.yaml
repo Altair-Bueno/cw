@@ -19,7 +19,7 @@ jobs:
           hyperfine -m 100 -w 2 -s basic "cw -w $(ls | xargs)" "wc -w $(ls | xargs)" >> ~/Stats.txt
           echo "********************************************************************************" >> ~/Stats.txt
           echo "Char count" >> ~/Stats.txt
-          hyperfine -m 100 -w 2 -s basic "cw -c $(ls | xargs)" "wc -c $(ls | xargs)" >> ~/Stats.txt
+          hyperfine -m 100 -w 2 -s basic "cw -c $(ls | xargs)" "wc -m $(ls | xargs)" >> ~/Stats.txt
           echo "********************************************************************************" >> ~/Stats.txt
           echo "Line count" >> ~/Stats.txt
           hyperfine -m 100 -w 2 -s basic "cw -l $(ls | xargs)" "wc -l $(ls | xargs)" >> ~/Stats.txt

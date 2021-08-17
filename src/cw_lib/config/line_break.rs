@@ -4,7 +4,7 @@ use std::str::FromStr;
 
 const STR_CR: &str = "CR";
 const STR_LF: &str = "LF";
-#[derive(Clone)]
+#[derive(Clone,Copy,Debug)]
 pub enum LineBreak {
     CR,
     LF,

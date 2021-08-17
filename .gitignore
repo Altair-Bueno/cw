@@ -3,5 +3,6 @@
 # IntelliJ IDEA
 .idea
 cw.iml
-# Perf flamegraph
+# Debugging
 *.svg
+*.txt

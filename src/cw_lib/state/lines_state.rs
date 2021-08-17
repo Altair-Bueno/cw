@@ -1,22 +1,28 @@
 use crate::cw_lib::state::traits::{compute::Compute,partial_state::PartialState};
+use crate::config::LineBreak;
+
 /// number of lines
 #[derive(Debug, Copy, Clone)]
 pub struct LinesState {
     linescount: usize,
-    linebreak: u8,
+    linebreak: LineBreak,
 }
 impl Default for LinesState {
     fn default() -> Self {
-        LinesState::new(b'\n')
+        LinesState::new(LineBreak::LF)
     }
 }
 
 impl LinesState {
-    pub fn new(linebreak: u8) -> Self {
+    pub fn new(linebreak: LineBreak) -> Self {
         LinesState {
             linescount: 0,
             linebreak,
         }
+    }
+
+    pub fn linebreak(&self) -> LineBreak {
+        self.linebreak
     }
 }
 
@@ -28,9 +34,10 @@ impl PartialState for LinesState {
 }
 impl Compute for LinesState {
     fn compute(self, tape: &[u8]) -> Self {
+        let b = self.linebreak.get_separator();
         let line_breaks = tape
             .iter()
-            .filter(|x| **x == self.linebreak)
+            .filter(|x| **x == b)
             .count();
         LinesState {
             linescount: line_breaks + self.linescount,
@@ -45,52 +52,53 @@ mod test {
     use crate::cw_lib::state::traits::{compute::Compute,partial_state::PartialState};
     use std::fs::File;
     use std::io::{BufReader, Read};
+    use crate::config::LineBreak;
 
     #[test]
     pub fn test1() {
         let line = "hello world".as_bytes();
-        let out = LinesState::new(b'\n').compute(line).output();
+        let out = LinesState::new(LineBreak::LF).compute(line).output();
         assert_eq!(out, 0)
     }
     #[test]
     pub fn test2() {
         let line = "".as_bytes();
-        let out = LinesState::new(b'\n').compute(line).output();
+        let out = LinesState::new(LineBreak::LF).compute(line).output();
         assert_eq!(out, 0)
     }
     #[test]
     pub fn test3() {
         let line = "\n".as_bytes();
-        let out = LinesState::new(b'\n').compute(line).output();
+        let out = LinesState::new(LineBreak::LF).compute(line).output();
         assert_eq!(out, 1)
     }
     #[test]
     pub fn test4() {
         let line = "hello\n".as_bytes();
-        let out = LinesState::new(b'\n').compute(line).output();
+        let out = LinesState::new(LineBreak::LF).compute(line).output();
         assert_eq!(out, 1)
     }
     #[test]
     pub fn test5() {
         let line = "hello\nworld".as_bytes();
-        let out = LinesState::new(b'\n').compute(line).output();
+        let out = LinesState::new(LineBreak::LF).compute(line).output();
         assert_eq!(out, 1)
     }
     #[test]
     pub fn test6() {
         let line = "\nworld".as_bytes();
-        let out = LinesState::new(b'\n').compute(line).output();
+        let out = LinesState::new(LineBreak::LF).compute(line).output();
         assert_eq!(out, 1)
     }
     #[test]
     pub fn test7() {
         let line = "\nèô,sdfa".as_bytes();
-        let out = LinesState::new(b'\n').compute(line).output();
+        let out = LinesState::new(LineBreak::LF).compute(line).output();
         assert_eq!(out, 1)
     }
     #[test]
     pub fn test8() {
-        let out = LinesState::new(b'\n')
+        let out = LinesState::new(LineBreak::LF)
             .compute("helloworld".as_bytes())
             .compute("jksajksfjas a jkasjf da \n".as_bytes())
             .compute("\nsajisffajsjdfasf".as_bytes())
@@ -103,7 +111,7 @@ mod test {
     fn proccess_file_test(f: &str) -> usize {
         let mut reader = BufReader::new(File::open(f).unwrap());
 
-        let mut state = LinesState::new(b'\n');
+        let mut state = LinesState::new(LineBreak::LF);
         let mut buff = [0; 1024];
         loop {
             let read = reader.read(&mut buff).unwrap();

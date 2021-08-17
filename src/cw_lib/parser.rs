@@ -10,6 +10,7 @@ use crate::cw_lib::state::words_state::WordsState;
 use crate::cw_lib::state::traits::{compute::Compute,partial_state::PartialState};
 use crate::cw_lib::state::State;
 use crate::cw_lib::stats::Stats;
+use std::fmt::{Display, Formatter};
 
 const BUFFER_SIZE: usize = 16 * 1024; // 8KB
 
@@ -32,7 +33,7 @@ impl Parser {
 
         // todo encoding not used right now
         if lines {
-            initial_state.set_lines_state(Some(LinesState::new(linebreak.get_separator())))
+            initial_state.set_lines_state(Some(LinesState::new(linebreak)))
         };
 
         if words {
@@ -48,7 +49,7 @@ impl Parser {
         };
 
         if max_length {
-            initial_state.set_max_length_state(Some(MaxLengthState::new(linebreak.get_separator(), encoding)))
+            initial_state.set_max_length_state(Some(MaxLengthState::new(linebreak, encoding)))
         };
 
         Parser { initial_state }
@@ -65,5 +66,10 @@ impl Parser {
             }
             state = state.compute(&buff[0..read]);
         }
+    }
+}
+impl Display for Parser {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        self.initial_state.fmt(f)
     }
 }

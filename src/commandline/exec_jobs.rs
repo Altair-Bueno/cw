@@ -55,7 +55,7 @@ pub fn multithread(files: Values, parser: &Parser, threads: usize) -> ! {
         );
 
         if size > 1 {
-            let _ = writeln!(buff_stdout, "{}{}", acc, TOTAL.red());
+            let _ = writeln!(buff_stdout, "{}{}", acc.to_string().as_str().green(), TOTAL.red());
         }
         code
     }; // Drop locks and flush buffers
@@ -114,7 +114,7 @@ pub fn singlethread_files(files: Values, parser: &Parser) -> ! {
 
         if size > 1 {
             // Total files
-            let _ = writeln!(buff_stdout, "{}{}", merged, TOTAL.red());
+            let _ = writeln!(buff_stdout, "{}{}", merged.to_string().as_str().green(), TOTAL.red());
         }
         code
     }; // Drop locks and flush buffers

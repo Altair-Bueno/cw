@@ -1,6 +1,7 @@
 use clap::{load_yaml, App};
 use cw::util::*;
 use cw::exec_jobs::*;
+use colored::Colorize;
 
 fn main() {
     // Load clap for commandline utilities
@@ -12,6 +13,8 @@ fn main() {
     let files = matches.values_of("FILES");
     // Setup parser
     let parser = parser_from_clap(&matches);
+    let format = format!("{}Files",parser);
+    println!("{}",format.as_str().blue());
 
     if let Some(files) = files {
         let num_threads = matches
