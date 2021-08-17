@@ -24,10 +24,10 @@ jobs:
         run: cargo install --path .
 
       - name: store args
-        run |
-        export HYPERFINE_TEST_FILELIST=$(ls tests/resources | xargs)
-        export HYPERFINE_TEST_FILELIST=$HYPERFINE_TEST_FILELIST $HYPERFINE_TEST_FILELIST
-        export HYPERFINE_TEST_FILELIST=$HYPERFINE_TEST_FILELIST $HYPERFINE_TEST_FILELIST
+        run: |
+          export HYPERFINE_TEST_FILELIST=$(ls tests/resources | xargs)
+          export HYPERFINE_TEST_FILELIST=$HYPERFINE_TEST_FILELIST $HYPERFINE_TEST_FILELIST
+          export HYPERFINE_TEST_FILELIST=$HYPERFINE_TEST_FILELIST $HYPERFINE_TEST_FILELIST
 
       - name: System info
         run: |
@@ -36,8 +36,8 @@ jobs:
 
       - name: test
         run: |
-        echo "Tests" >> Stats.txt
-        hyperfine -w 2 "cw -wlb $HYPERFINE_TEST_FILELIST" "wc -wlc $HYPERFINE_TEST_FILELIST" >> Stats.txt
+          echo "Tests" >> Stats.txt
+          hyperfine -w 2 "cw -wlb $HYPERFINE_TEST_FILELIST" "wc -wlc $HYPERFINE_TEST_FILELIST" >> Stats.txt
 
       - name: 'Upload Artifact'
         uses: actions/upload-artifact@v2
