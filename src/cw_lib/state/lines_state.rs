@@ -34,15 +34,10 @@ impl Compute for LinesState {
     fn compute(mut self, tape: &[u8]) -> Self {
         let line_breaks = tape
             .iter()
-            .fold(self.linescount, |acc,n|
-                if *n == self.linebreak {
-                    acc + 1
-                } else {
-                    acc
-                }
-            );
+            .filter(|x| **x == self.linebreak)
+            .count();
         LinesState {
-            linescount: line_breaks,
+            linescount: line_breaks + self.linescount,
             linebreak: self.linebreak
         }
     }
