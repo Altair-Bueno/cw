@@ -4,10 +4,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: update system
-        continue-on-error: true
-        run: sudo apt-get update && sudo apt-get upgrade
-
       - name: Install hyperfine
         continue-on-error: true
         run: |
@@ -22,16 +18,14 @@ jobs:
 
       - name: build & install
         run: cargo install --path .
+
       - name: Benchmark
         run: |
-          cd tests/resources
-          export HYPERFINE_TEST_FILELIST="$(ls | xargs)"
-          export HYPERFINE_TEST_FILELIST="$HYPERFINE_TEST_FILELIST $HYPERFINE_TEST_FILELIST"
-          export HYPERFINE_TEST_FILELIST="$HYPERFINE_TEST_FILELIST $HYPERFINE_TEST_FILELIST"
+          echo $(where hyperfine)
           echo "Tests" >> Stats.txt
-          hyperfine -m 100 -w 2 "cw -wlb $HYPERFINE_TEST_FILELIST" "wc -wlc $HYPERFINE_TEST_FILELIST" >> Stats.txt
+          hyperfine -m 100 -w 2 "cw -wlb $(ls | xargs)" "wc -wlc $(ls | xargs)" >> Stats.txt
 
-      - name: 'Upload Artifact'
+      - name: Upload results
         uses: actions/upload-artifact@v2
         with:
           name: Stats
