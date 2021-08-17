@@ -7,18 +7,31 @@ jobs:
       - uses: actions/checkout@v2
       - name: Benchmark
         run: |
-          echo "System info" > ~/Stats.txt
-          cat /proc/cpuinfo >> ~/Stats.txt
+          cat /proc/cpuinfo >> ~/cpuinfo.txt
           cargo install --path .
           wget https://github.com/sharkdp/hyperfine/releases/download/v1.11.0/hyperfine_1.11.0_amd64.deb
           sudo dpkg -i hyperfine_1.11.0_amd64.deb
-          echo "Tests" >> ~/Stats.txt
           cd tests/resources
-          hyperfine -m 100 -w 2 "cw -w -l -b $(ls | xargs)" "wc -w -l -c $(ls | xargs)" >> ~/Stats.txt
+          echo "Byte count" >> ~/Stats.txt
+          hyperfine -m 100 -w 2 "cw -b $(ls | xargs)" "wc -c $(ls | xargs)" >> ~/Stats.txt
+          echo "Word count" >> ~/Stats.txt
+          hyperfine -m 100 -w 2 "cw -w $(ls | xargs)" "wc -w $(ls | xargs)" >> ~/Stats.txt
+          echo "Char count" >> ~/Stats.txt
+          hyperfine -m 100 -w 2 "cw -c $(ls | xargs)" "wc -c $(ls | xargs)" >> ~/Stats.txt
+          echo "Line count" >> ~/Stats.txt
+          hyperfine -m 100 -w 2 "cw -l $(ls | xargs)" "wc -l $(ls | xargs)" >> ~/Stats.txt
+          echo "max length" >> ~/Stats.txt
+          hyperfine -m 100 -w 2 "cw -L $(ls | xargs)" "wc -L $(ls | xargs)" >> ~/Stats.txt
+          echo "Default mode" >> ~/Stats.txt
+          hyperfine -m 100 -w 2 "cw $(ls | xargs)" "wc $(ls | xargs)" >> ~/Stats.txt
+          echo "High load" >> ~/Stats.txt
+          hyperfine -m 100 -w 2 "cw $(ls | xargs) $(ls | xargs) $(ls | xargs)" "wc $(ls | xargs) $(ls | xargs) $(ls | xargs)" >> ~/Stats.txt
 
       - name: Upload results
         uses: actions/upload-artifact@v2
         with:
           name: Stats
-          path: ~/Stats.txt
+          path: |
+            ~/Stats.txt
+            ~/cpuinfo.txt
           retention-days: 5
