@@ -27,9 +27,9 @@ impl Default for State {
         State {
             lines_state: Some(LinesState::new(b'\n')),
             words_state: Some(WordsState::new()),
-            char_state: Some(CharState::new()),
+            char_state: None,
             bytes_state: Some(BytesState::new()),
-            max_length_state: Some(MaxLengthState::new(b'\n',Encoding::UTF8)),
+            max_length_state: None,
         }
     }
 }
@@ -42,8 +42,7 @@ impl PartialState for State {
         let words = self.words_state.map(|x| x.output());
         let characters = self.char_state.map(|x| x.output());
         let bytes = self.bytes_state.map(|x| x.output());
-        let len = self.max_length_state.map(|x| x.output().0);
-// TODO 0 vvvvvv
+        let len = self.max_length_state.map(|x| x.output());
         Stats::new(lines, words, characters, bytes, len)
     }
 }

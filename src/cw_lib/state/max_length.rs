@@ -10,8 +10,8 @@ use crate::cw_lib::state::chars_state::CharState;
 #[derive(Debug, Copy, Clone)]
 pub struct MaxLengthState {
     max_length_found:usize,
-    line_count: usize,
-    char_count:usize,
+    //line_count: usize,
+    //char_count:usize,
     linebreak:u8,
     char_state:CharState,
 }
@@ -25,8 +25,8 @@ impl MaxLengthState {
     pub fn new(linebreak: u8,encoding:Encoding) -> Self {
         MaxLengthState {
             max_length_found: 0,
-            line_count: 0,
-            char_count: 0,
+            //line_count: 0,
+            //char_count: 0,
             linebreak,
             char_state: CharState::new()
         }
@@ -34,15 +34,15 @@ impl MaxLengthState {
 }
 
 impl PartialState for MaxLengthState {
-    type Output = (usize,usize,usize);
+    type Output = usize;
     fn output(&self) -> Self::Output {
 
         let char_state_output = self.char_state.output();
         let maxlength = max(self.max_length_found,char_state_output);
-        let line_count = self.line_count;
-        let character_count = char_state_output + self.char_count;
+        // let line_count = self.line_count;
+        // let character_count = char_state_output + self.char_count;
 
-        (maxlength,line_count,character_count)
+        maxlength
     }
 }
 
@@ -64,8 +64,8 @@ impl Compute for MaxLengthState {
                     let count = count_chars_state.output();
                     MaxLengthState {
                         max_length_found: max(count - 1, state.max_length_found),
-                        line_count: state.line_count + 1,
-                        char_count: state.char_count + count,
+                        //line_count: state.line_count + 1,
+                        //char_count: state.char_count + count,
                         char_state: CharState::new(), // TODO encoding
                         ..state
                     }
@@ -85,36 +85,36 @@ mod test {
     #[test]
     pub fn test1() {
         let line = "".as_bytes();
-        let (out,_,_) = MaxLengthState::new(b'\n',Encoding::UTF8).compute(line).output();
+        let out = MaxLengthState::new(b'\n',Encoding::UTF8).compute(line).output();
         assert_eq!(out, 0)
     }
     #[test]
     pub fn test2() {
         let line = "hello\n".as_bytes();
-        let (out,_,_) = MaxLengthState::new(b'\n',Encoding::UTF8).compute(line).output();
+        let out = MaxLengthState::new(b'\n',Encoding::UTF8).compute(line).output();
         assert_eq!(out, 5)
     }
     #[test]
     pub fn test3() {
         let line = "hello\nworld".as_bytes();
-        let (out,_,_) = MaxLengthState::new(b'\n',Encoding::UTF8).compute(line).output();
+        let out = MaxLengthState::new(b'\n',Encoding::UTF8).compute(line).output();
         assert_eq!(out, 5)
     }
     #[test]
     pub fn test4() {
         let line = "hello\nworldjsafs\n".as_bytes();
-        let (out,_,_) = MaxLengthState::new(b'\n',Encoding::UTF8).compute(line).output();
+        let out = MaxLengthState::new(b'\n',Encoding::UTF8).compute(line).output();
         assert_eq!(out, 10)
     }
     #[test]
     pub fn test5() {
         let line = "hello\nworldjsafs\nshjksafhjkasfjhkfajshdjhksdfa".as_bytes();
-        let (out,_,_) = MaxLengthState::new(b'\n',Encoding::UTF8).compute(line).output();
+        let out = MaxLengthState::new(b'\n',Encoding::UTF8).compute(line).output();
         assert_eq!(out, 29)
     }
     #[test]
     pub fn test6() {
-        let (out,_,_) = MaxLengthState::new(b'\n',Encoding::UTF8)
+        let out = MaxLengthState::new(b'\n',Encoding::UTF8)
             .compute("hskjaskl a jadsjfjsdjk a asda dsfksa .".as_bytes())
             .compute("jkhsajkjafsdjkafsjkafsd".as_bytes())
             .compute("iassfdaafsd\n".as_bytes())
@@ -132,7 +132,7 @@ mod test {
         loop {
             let read = reader.read(&mut buff).unwrap();
             if read == 0 {
-                return state.output().0;
+                return state.output();
             }
             state = state.compute(&buff[0..read]);
         }

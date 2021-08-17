@@ -20,7 +20,7 @@ pub struct Parser {
 
 impl Parser {
     pub fn new(
-        _encoding: Encoding,
+        encoding: Encoding,
         linebreak: LineBreak,
         lines: bool,
         words: bool,
@@ -48,7 +48,7 @@ impl Parser {
         };
 
         if max_length {
-            initial_state.set_max_length_state(Some(MaxLengthState::new(linebreak.get_separator(), Encoding::UTF8)))
+            initial_state.set_max_length_state(Some(MaxLengthState::new(linebreak.get_separator(), encoding)))
         };
 
         Parser { initial_state }
