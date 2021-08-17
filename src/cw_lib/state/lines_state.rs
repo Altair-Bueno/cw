@@ -18,6 +18,10 @@ impl LinesState {
             linebreak,
         }
     }
+
+    pub fn linebreak(&self) -> u8 {
+        self.linebreak
+    }
 }
 
 impl PartialState for LinesState {

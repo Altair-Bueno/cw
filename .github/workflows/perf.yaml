@@ -14,22 +14,22 @@ jobs:
           cd tests/resources
           echo "Byte count" >> ~/Stats.txt
           hyperfine -m 100 -w 2 "cw -b $(ls | xargs)" "wc -c $(ls | xargs)" | grep "ms" >> ~/Stats.txt
-          echo "\n********************************************************************************"
+          echo "\n********************************************************************************" >> ~/Stats.txt
           echo "Word count" >> ~/Stats.txt
           hyperfine -m 100 -w 2 "cw -w $(ls | xargs)" "wc -w $(ls | xargs)" | grep "ms" >> ~/Stats.txt
-          echo "\n********************************************************************************"
+          echo "\n********************************************************************************" >> ~/Stats.txt
           echo "Char count" >> ~/Stats.txt
           hyperfine -m 100 -w 2 "cw -c $(ls | xargs)" "wc -c $(ls | xargs)" | grep "ms" >> ~/Stats.txt
-          echo "\n********************************************************************************"
+          echo "\n********************************************************************************" >> ~/Stats.txt
           echo "Line count" >> ~/Stats.txt
           hyperfine -m 100 -w 2 "cw -l $(ls | xargs)" "wc -l $(ls | xargs)" | grep "ms" >> ~/Stats.txt
-          echo "\n********************************************************************************"
+          echo "\n********************************************************************************" >> ~/Stats.txt
           echo "max length" >> ~/Stats.txt
           hyperfine -m 100 -w 2 "cw -L $(ls | xargs)" "wc -L $(ls | xargs)" | grep "ms" >> ~/Stats.txt
-          echo "\n********************************************************************************"
+          echo "\n********************************************************************************" >> ~/Stats.txt
           echo "Default mode" >> ~/Stats.txt
           hyperfine -m 100 -w 2 "cw $(ls | xargs)" "wc $(ls | xargs)" | grep "ms" >> ~/Stats.txt
-          echo "\n********************************************************************************"
+          echo "\n********************************************************************************" >> ~/Stats.txt
           echo "High load" >> ~/Stats.txt
           hyperfine -m 100 -w 2 "cw $(ls | xargs) $(ls | xargs) $(ls | xargs)" "wc $(ls | xargs) $(ls | xargs) $(ls | xargs)" | grep "ms" >> ~/Stats.txt
 

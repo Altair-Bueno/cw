@@ -48,7 +48,7 @@ impl Parser {
         };
 
         if max_length {
-            initial_state.set_max_length_state(Some(MaxLengthState::new(linebreak.get_separator())))
+            initial_state.set_max_length_state(Some(MaxLengthState::new(linebreak.get_separator(), Encoding::UTF8)))
         };
 
         Parser { initial_state }

@@ -1,5 +1,7 @@
 use crate::cw_lib::state::traits::{compute::Compute,partial_state::PartialState};
 use std::cmp::max;
+use crate::config::Encoding;
+use crate::cw_lib::state::chars_state::CharState;
 
 // fixme: Does not work. Neets utf8 support
 // Probably better combining this with char_state
@@ -7,60 +9,66 @@ use std::cmp::max;
 /// Max length
 #[derive(Debug, Copy, Clone)]
 pub struct MaxLengthState {
-    buffer: usize,
-    champion: usize,
-    linebreak: u8,
+    max_length_found:usize,
+    line_count: usize,
+    char_count:usize,
+    linebreak:u8,
+    char_state:CharState,
 }
 impl Default for MaxLengthState {
     fn default() -> Self {
-        MaxLengthState::new(b'\n')
+        MaxLengthState::new(b'\n',Encoding::UTF8)
     }
 }
 
 impl MaxLengthState {
-    pub fn new(linebreak: u8) -> Self {
+    pub fn new(linebreak: u8,encoding:Encoding) -> Self {
         MaxLengthState {
-            buffer: 0,
-            champion: 0,
+            max_length_found: 0,
+            line_count: 0,
+            char_count: 0,
             linebreak,
+            char_state: CharState::new()
         }
     }
 }
 
 impl PartialState for MaxLengthState {
-    type Output = usize;
+    type Output = (usize,usize,usize);
     fn output(&self) -> Self::Output {
-        max(self.champion, self.buffer)
+
+        let char_state_output = self.char_state.output();
+        let maxlength = max(self.max_length_found,char_state_output);
+        let line_count = self.line_count;
+        let character_count = char_state_output + self.char_count;
+
+        (maxlength,line_count,character_count)
     }
 }
 
 impl Compute for MaxLengthState {
     fn compute(self, tape: &[u8]) -> Self {
-        tape.split_inclusive(|x| self.linebreak == *x)
-            .map(|x| {
-                let mut n_chars = x.len();
-                let end = if let Some(x) = x.last() {
-                    *x == b'\n'
+        tape.split_inclusive(|x| *x == self.linebreak)
+            .fold(self, |state,next| {
+                let on_line = next.last().map(|x| *x != state.linebreak).unwrap_or(true);
+                let count_chars_state = state.char_state.compute(next);
+                // Count lines if its the end of the line. Update character
+                // count in the end
+                if on_line {
+                    // No linebreak detected. Still same line as before
+                    MaxLengthState {
+                        char_state: count_chars_state,
+                        ..state
+                    }
                 } else {
-                    false
-                };
-                if end {
-                    n_chars -= 1
-                }
-                // n_chars: number of chars without \n
-                // end: If the line ended with \n or not
-                (n_chars, end)
-            })
-            .fold(self, |_, n| {
-                let (this_len, buffer) = if n.1 {
-                    (self.buffer + n.0, 0)
-                } else {
-                    (0, self.buffer + n.0)
-                };
-                MaxLengthState {
-                    buffer,
-                    champion: max(this_len, self.champion),
-                    ..self
+                    let count = count_chars_state.output();
+                    MaxLengthState {
+                        max_length_found: max(count - 1, state.max_length_found),
+                        line_count: state.line_count + 1,
+                        char_count: state.char_count + count,
+                        char_state: CharState::new(), // TODO encoding
+                        ..state
+                    }
                 }
             })
     }
@@ -72,40 +80,41 @@ mod test {
     use crate::cw_lib::state::traits::{compute::Compute,partial_state::PartialState};
     use std::fs::File;
     use std::io::{BufReader, Read};
+    use crate::cw_lib::config::Encoding;
 
     #[test]
     pub fn test1() {
         let line = "".as_bytes();
-        let out = MaxLengthState::new(b'\n').compute(line).output();
+        let (out,_,_) = MaxLengthState::new(b'\n',Encoding::UTF8).compute(line).output();
         assert_eq!(out, 0)
     }
     #[test]
     pub fn test2() {
         let line = "hello\n".as_bytes();
-        let out = MaxLengthState::new(b'\n').compute(line).output();
+        let (out,_,_) = MaxLengthState::new(b'\n',Encoding::UTF8).compute(line).output();
         assert_eq!(out, 5)
     }
     #[test]
     pub fn test3() {
         let line = "hello\nworld".as_bytes();
-        let out = MaxLengthState::new(b'\n').compute(line).output();
+        let (out,_,_) = MaxLengthState::new(b'\n',Encoding::UTF8).compute(line).output();
         assert_eq!(out, 5)
     }
     #[test]
     pub fn test4() {
         let line = "hello\nworldjsafs\n".as_bytes();
-        let out = MaxLengthState::new(b'\n').compute(line).output();
+        let (out,_,_) = MaxLengthState::new(b'\n',Encoding::UTF8).compute(line).output();
         assert_eq!(out, 10)
     }
     #[test]
     pub fn test5() {
         let line = "hello\nworldjsafs\nshjksafhjkasfjhkfajshdjhksdfa".as_bytes();
-        let out = MaxLengthState::new(b'\n').compute(line).output();
+        let (out,_,_) = MaxLengthState::new(b'\n',Encoding::UTF8).compute(line).output();
         assert_eq!(out, 29)
     }
     #[test]
     pub fn test6() {
-        let out = MaxLengthState::new(b'\n')
+        let (out,_,_) = MaxLengthState::new(b'\n',Encoding::UTF8)
             .compute("hskjaskl a jadsjfjsdjk a asda dsfksa .".as_bytes())
             .compute("jkhsajkjafsdjkafsjkafsd".as_bytes())
             .compute("iassfdaafsd\n".as_bytes())
@@ -118,12 +127,12 @@ mod test {
     fn proccess_file_test(f: &str) -> usize {
         let mut reader = BufReader::new(File::open(f).unwrap());
 
-        let mut state = MaxLengthState::new(b'\n');
+        let mut state = MaxLengthState::new(b'\n',Encoding::UTF8);
         let mut buff = [0; 1024];
         loop {
             let read = reader.read(&mut buff).unwrap();
             if read == 0 {
-                return state.output();
+                return state.output().0;
             }
             state = state.compute(&buff[0..read]);
         }
@@ -171,16 +180,6 @@ mod test {
     fn empty() {
         let out = proccess_file_test("tests/resources/empty.txt");
         assert_eq!(out, 0)
-    }
-
-    #[test]
-    #[ignore]
-    fn arabic() {
-        // - Legth isn't 0
-        // - test weird
-        let out = proccess_file_test("tests/resources/arabic.txt");
-        let expected = 58;
-        assert_eq!(out, expected)
     }
     #[test]
     fn spanish() {

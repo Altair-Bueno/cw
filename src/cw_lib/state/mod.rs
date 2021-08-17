@@ -5,6 +5,7 @@ use crate::cw_lib::state::max_length::MaxLengthState;
 use crate::cw_lib::state::traits::{compute::Compute,partial_state::PartialState};
 use crate::cw_lib::state::words_state::WordsState;
 use crate::Stats;
+use crate::config::Encoding;
 
 pub mod bytes_state;
 pub mod chars_state;
@@ -28,7 +29,7 @@ impl Default for State {
             words_state: Some(WordsState::new()),
             char_state: Some(CharState::new()),
             bytes_state: Some(BytesState::new()),
-            max_length_state: Some(MaxLengthState::new(b'\n')),
+            max_length_state: Some(MaxLengthState::new(b'\n',Encoding::UTF8)),
         }
     }
 }
@@ -42,8 +43,8 @@ impl PartialState for State {
         let characters = self.char_state.map(|x| x.output());
         let bytes = self.bytes_state.map(|x| x.output());
         let len = self.max_length_state.map(|x| x.output());
-
-        Stats::new(lines, words, characters, bytes, len)
+// TODO 0 vvvvvv
+        Stats::new(lines, words, characters, bytes, Some(0))
     }
 }
 impl Compute for State {
