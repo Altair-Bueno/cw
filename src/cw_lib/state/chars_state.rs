@@ -1,4 +1,4 @@
-use crate::cw_lib::state::traits::{Compute, PartialState};
+use crate::cw_lib::state::traits::{compute::Compute,partial_state::PartialState};
 
 
 #[derive(Default, Copy, Clone, Debug)]
@@ -50,7 +50,7 @@ impl Compute for CharState {
 #[cfg(test)]
 mod test {
     use crate::cw_lib::state::chars_state::CharState;
-    use crate::cw_lib::state::traits::{Compute, PartialState};
+    use crate::cw_lib::state::traits::{compute::Compute,partial_state::PartialState};
     use std::fs::File;
     use std::io::{BufReader, Read};
 

@@ -1,5 +1,7 @@
 mod test {
-    use cw::{Encoding, LineBreak, Parser, Stats};
+    use cw::config::*;
+    use cw::Stats;
+    use cw::Parser;
     use std::fs::File;
     use std::io::BufReader;
 

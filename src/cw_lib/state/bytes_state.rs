@@ -1,4 +1,4 @@
-use crate::cw_lib::state::traits::{Compute, PartialState};
+use crate::cw_lib::state::traits::{compute::Compute,partial_state::PartialState};
 
 /// Number of bytes
 #[derive(Default, Debug, Copy, Clone)]
@@ -28,7 +28,7 @@ impl Compute for BytesState {
 #[cfg(test)]
 mod test {
     use crate::cw_lib::state::bytes_state::BytesState;
-    use crate::cw_lib::state::traits::{Compute, PartialState};
+    use crate::cw_lib::state::traits::{compute::Compute,partial_state::PartialState};
     use std::fs::File;
     use std::io::{BufReader, Read};
 

@@ -1,4 +1,4 @@
-use crate::cw_lib::state::traits::{Compute, PartialState};
+use crate::cw_lib::state::traits::{compute::Compute,partial_state::PartialState};
 /// number of lines
 #[derive(Debug, Copy, Clone)]
 pub struct LinesState {
@@ -40,7 +40,7 @@ impl Compute for LinesState {
 #[cfg(test)]
 mod test {
     use crate::cw_lib::state::lines_state::LinesState;
-    use crate::cw_lib::state::traits::{Compute, PartialState};
+    use crate::cw_lib::state::traits::{compute::Compute,partial_state::PartialState};
     use std::fs::File;
     use std::io::{BufReader, Read};
 

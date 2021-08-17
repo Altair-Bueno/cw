@@ -1,5 +1,6 @@
 use clap::{load_yaml, App};
-use cw::*;
+use cw::util::*;
+use cw::exec_jobs::*;
 
 fn main() {
     // Load clap for commandline utilities

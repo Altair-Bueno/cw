@@ -1,4 +1,4 @@
-use crate::cw_lib::state::traits::{Compute, PartialState};
+use crate::cw_lib::state::traits::{compute::Compute,partial_state::PartialState};
 
 // Number of words
 #[derive(Default, Debug, Copy, Clone)]
@@ -30,7 +30,7 @@ impl Compute for WordsState {
 
         tape.iter().fold(self, |acc, n| {
             let onword = !is_separator(*n);
-            let wordcount = self.wordcount + {
+            let wordcount = acc.wordcount + {
                 if acc.onword && !onword {
                     1
                 } else {
@@ -44,7 +44,7 @@ impl Compute for WordsState {
 }
 #[cfg(test)]
 mod test {
-    use crate::cw_lib::state::traits::{Compute, PartialState};
+    use crate::cw_lib::state::traits::{compute::Compute,partial_state::PartialState};
     use crate::cw_lib::state::words_state::WordsState;
     use std::fs::File;
     use std::io::{BufReader, Read};

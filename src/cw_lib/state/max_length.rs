@@ -1,4 +1,4 @@
-use crate::cw_lib::state::traits::{Compute, PartialState};
+use crate::cw_lib::state::traits::{compute::Compute,partial_state::PartialState};
 use std::cmp::max;
 
 // fixme: Does not work. Neets utf8 support
@@ -69,7 +69,7 @@ impl Compute for MaxLengthState {
 #[cfg(test)]
 mod test {
     use crate::cw_lib::state::max_length::MaxLengthState;
-    use crate::cw_lib::state::traits::{Compute, PartialState};
+    use crate::cw_lib::state::traits::{compute::Compute,partial_state::PartialState};
     use std::fs::File;
     use std::io::{BufReader, Read};
 

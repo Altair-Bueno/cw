@@ -1,13 +1,13 @@
 use std::io::BufRead;
 
-use crate::cw_lib::parser_config::encoding::Encoding;
-use crate::cw_lib::parser_config::line_break::LineBreak;
+use crate::cw_lib::config::Encoding;
+use crate::cw_lib::config::LineBreak;
 use crate::cw_lib::state::bytes_state::BytesState;
 use crate::cw_lib::state::chars_state::CharState;
 use crate::cw_lib::state::lines_state::LinesState;
 use crate::cw_lib::state::max_length::MaxLengthState;
-use crate::cw_lib::state::traits::{Compute, PartialState};
 use crate::cw_lib::state::words_state::WordsState;
+use crate::cw_lib::state::traits::{compute::Compute,partial_state::PartialState};
 use crate::cw_lib::state::State;
 use crate::cw_lib::stats::Stats;
 

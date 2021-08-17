@@ -1,4 +1,4 @@
-pub mod parser_config;
+pub mod config;
 // Public API
 pub mod parser;
 mod state;
