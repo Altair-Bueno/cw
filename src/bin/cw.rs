@@ -5,7 +5,7 @@ use cw::exec_jobs::*;
 fn main() {
     // Load clap for commandline utilities
     let yaml = load_yaml!("resources/cmdline-clap.yaml");
-    let app = App::from(yaml).term_width(0);
+    let app = App::from(yaml);
     let matches = app.get_matches();
 
     // Files to proccess
