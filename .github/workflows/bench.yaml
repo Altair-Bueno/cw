@@ -7,41 +7,23 @@ jobs:
       - uses: actions/checkout@v2
       - name: Benchmark
         run: |
-          cat /proc/cpuinfo >> ~/cpuinfo.txt
+          echo "Install dependencies"
           cargo install --path .
           wget https://github.com/sharkdp/hyperfine/releases/download/v1.11.0/hyperfine_1.11.0_amd64.deb
           sudo dpkg -i hyperfine_1.11.0_amd64.deb
-          echo "Hyperfine version: $(hyperfine --version)" >> ~/version.txt
-          echo "gwc version: $(wc --version)" >> ~/version.txt
-          echo "cw version: $(cw --version)" >> ~/version.txt
-          cd tests/resources
-          echo "Byte count" >> ~/Stats.txt
-          hyperfine -m 100 -w 2 -s basic "cw -b $(ls | xargs)" "wc -c $(ls | xargs)" >> ~/Stats.txt
-          echo "********************************************************************************" >> ~/Stats.txt
-          echo "Word count" >> ~/Stats.txt
-          hyperfine -m 100 -w 2 -s basic "cw -w $(ls | xargs)" "wc -w $(ls | xargs)" >> ~/Stats.txt
-          echo "********************************************************************************" >> ~/Stats.txt
-          echo "Char count" >> ~/Stats.txt
-          hyperfine -m 100 -w 2 -s basic "cw -c $(ls | xargs)" "wc -m $(ls | xargs)" >> ~/Stats.txt
-          echo "********************************************************************************" >> ~/Stats.txt
-          echo "Line count" >> ~/Stats.txt
-          hyperfine -m 100 -w 2 -s basic "cw -l $(ls | xargs)" "wc -l $(ls | xargs)" >> ~/Stats.txt
-          echo "********************************************************************************" >> ~/Stats.txt
-          echo "max length" >> ~/Stats.txt
-          hyperfine -m 100 -w 2 -s basic "cw -L $(ls | xargs)" "wc -L $(ls | xargs)" >> ~/Stats.txt
-          echo "********************************************************************************" >> ~/Stats.txt
-          echo "Default mode" >> ~/Stats.txt
-          hyperfine -m 100 -w 2 -s basic "cw $(ls | xargs)" "wc $(ls | xargs)" >> ~/Stats.txt
-          echo "********************************************************************************" >> ~/Stats.txt
-          echo "High load" >> ~/Stats.txt
-          hyperfine -m 100 -w 2 -s basic "cw $(ls | xargs) $(ls | xargs) $(ls | xargs)" "wc $(ls | xargs) $(ls | xargs) $(ls | xargs)" >> ~/Stats.txt
+
+          echo "Fetch CPU & version data"
+          cat /proc/cpuinfo > $GITHUB_WORKSPACE/bench/cpuinfo.txt
+          echo "Hyperfine version: $(hyperfine --version)" > $GITHUB_WORKSPACE/bench/version.txt
+          echo "gwc version: $(wc --version)" >> $GITHUB_WORKSPACE/bench/version.txt
+          echo "cw version: $(cw --version)" >> $GITHUB_WORKSPACE/bench/version.txt
+
+          echo "Running benchmark"
+          $GITHUB_WORKSPACE/bench/bench.sh > $GITHUB_WORKSPACE/bench/stats.txt
 
       - name: Upload results
-        uses: actions/upload-artifact@v2
-        with:
-          name: Stats
-          path: |
-            ~/version.txt
-            ~/Stats.txt
-            ~/cpuinfo.txt
-          retention-days: 5
+        run: |
+          git config --global user.name 'github-actions'
+          git config --global user.email 'github-actions@github.com'
+          git commit -am "Benchmark finished"
+          git push
