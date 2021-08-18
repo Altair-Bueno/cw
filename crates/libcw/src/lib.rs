@@ -1,7 +1,7 @@
-mod stats;
+pub mod config;
 mod parser;
 mod state;
-pub mod config;
+mod stats;
 
-pub use stats::Stats;
 pub use parser::Parser;
+pub use stats::Stats;

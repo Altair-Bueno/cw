@@ -1,12 +1,14 @@
-use clap::{App, load_yaml};
+use clap::{load_yaml, App};
 use colored::Colorize;
-mod commandline;
+
 use commandline::exec_jobs::*;
 use commandline::util::parser_from_clap;
 
+mod commandline;
+
 fn main() {
     // Load clap for commandline utilities
-    let yaml = load_yaml!("resources/cmdline-clap.yaml");
+    let yaml = load_yaml!("../resources/cmdline-clap.yaml");
     let app = App::from(yaml);
     let matches = app.get_matches();
 

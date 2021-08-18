@@ -280,7 +280,7 @@ Climate:
     arid to semiarid; cold winters and hot summers
 Terrain:
     mostly rugged mountains; plains in north and southwest
-Natural resources:
+Natural libcw.resources:
     natural gas, crude oil, coal, copper, talc, barites, sulphur, lead, zinc,
     iron ore, salt, precious and semiprecious stones
 Land use:
@@ -560,7 +560,7 @@ Climate:
     is cooler and wetter
 Terrain:
     mostly mountains and hills; small plains along coast
-Natural resources:
+Natural libcw.resources:
     crude oil, natural gas, coal, chromium, copper, timber, nickel
 Land use:
     arable land 21%; permanent crops 4%; meadows and pastures 15%; forest and
@@ -691,7 +691,7 @@ Overview:
     ties, Tirane has reestablished diplomatic relations with the former Soviet
     Union and the US and has joined the IMF and World Bank. The Albanians have
     also passed legislation allowing foreign investment. Albania possesses
-    considerable mineral resources and, until 1990, was largely self-sufficient
+    considerable mineral libcw.resources and, until 1990, was largely self-sufficient
     in food; however, the breakup of cooperative farms in 1991 and general
     economic decline forced Albania to rely on foreign aid to maintain adequate
     supplies. Available statistics on Albanian economic activity are rudimentary
@@ -812,7 +812,7 @@ Climate:
 Terrain:
     mostly high plateau and desert; some mountains; narrow, discontinuous
     coastal plain
-Natural resources:
+Natural libcw.resources:
     crude oil, natural gas, iron ore, phosphates, uranium, lead, zinc
 Land use:
     arable land 3%; permanent crops NEGL%; meadows and pastures 13%; forest and
@@ -1071,7 +1071,7 @@ Climate:
 Terrain:
     five volcanic islands with rugged peaks and limited coastal plains, two
     coral atolls
-Natural resources:
+Natural libcw.resources:
     pumice and pumicite
 Land use:
     arable land 10%; permanent crops 5%; meadows and pastures 0%; forest and
@@ -1278,7 +1278,7 @@ Climate:
     temperate; snowy, cold winters and cool, dry summers
 Terrain:
     rugged mountains dissected by narrow valleys
-Natural resources:
+Natural libcw.resources:
     hydropower, mineral water, timber, iron ore, lead
 Land use:
     arable land 2%; permanent crops 0%; meadows and pastures 56%; forest and
@@ -1490,7 +1490,7 @@ Climate:
     to October) and hot, rainy season (November to April)
 Terrain:
     narrow coastal plain rises abruptly to vast interior plateau
-Natural resources:
+Natural libcw.resources:
     petroleum, diamonds, iron ore, phosphates, copper, feldspar, gold, bauxite,
     uranium
 Land use:
@@ -1602,7 +1602,7 @@ Overview:
     to the economy, contributing about 60% to GDP. In recent years, a bitter
     internal war has severely affected the nonoil economy, and food has to be
     imported. For the long run, Angola has the advantage of rich natural
-    resources in addition to oil, notably gold, diamonds, and arable land. To
+    libcw.resources in addition to oil, notably gold, diamonds, and arable land. To
     realize its economic potential Angola not only must secure domestic peace
     but also must reform government policies that have led to distortions and
     imbalances throughout the economy.
@@ -1723,7 +1723,7 @@ Climate:
     tropical; moderated by northeast trade winds
 Terrain:
     flat and low-lying island of coral and limestone
-Natural resources:
+Natural libcw.resources:
     negligible; salt, fish, lobster
 Land use:
     arable land NA%; permanent crops NA%; meadows and pastures NA%; forest and
@@ -1819,7 +1819,7 @@ Flag:
 :Anguilla Economy
 
 Overview:
-    Anguilla has few natural resources, and the economy depends heavily on
+    Anguilla has few natural libcw.resources, and the economy depends heavily on
     lobster fishing, offshore banking, tourism, and remittances from emigrants.
     In recent years the economy has benefited from a boom in tourism.
     Development plans center around the improvement of the infrastructure,
@@ -1923,7 +1923,7 @@ Terrain:
     Wilkes Land, the Antarctic Peninsula area, and Ross Island on McMurdo Sound;
     glaciers form ice shelves along about half of the coastline, and floating
     ice shelves constitute 11% of the area of the continent
-Natural resources:
+Natural libcw.resources:
     none presently exploited; iron, chromium, copper, gold, nickel, platinum,
     and other minerals, and coal and hydrocarbons have been found in small,
     uncommercial quantities
@@ -2015,13 +2015,13 @@ Type:
     ratified by governments include - Agreed Measures for the Conservation of
     Antarctic Fauna and Flora (1964); Convention for the Conservation of
     Antarctic Seals (1972); Convention on the Conservation of Antarctic Marine
-    Living Resources (1980); a mineral resources agreement was signed in 1988
+    Living Resources (1980); a mineral libcw.resources agreement was signed in 1988
     but was subsequently rejected; in 1991 the Protocol on Environmental
     Protection to the Antarctic Treaty was signed and awaits ratification; this
     agreement provides for the protection of the Antarctic environment through
     five specific annexes on marine pollution, fauna, and flora, environmental
     impact assessments, waste management, and protected areas; it also prohibits
-    all activities relating to mineral resources except scientific research
+    all activities relating to mineral libcw.resources except scientific research
 
 :Antarctica Economy
 
@@ -2077,14 +2077,14 @@ Climate:
     tropical marine; little seasonal temperature variation
 Terrain:
     mostly low-lying limestone and coral islands with some higher volcanic areas
-Natural resources:
+Natural libcw.resources:
     negligible; pleasant climate fosters tourism
 Land use:
     arable land 18%; permanent crops 0%; meadows and pastures 7%; forest and
     woodland 16%; other 59%
 Environment:
     subject to hurricanes and tropical storms (July to October); insufficient
-    freshwater resources; deeply indented coastline provides many natural
+    freshwater libcw.resources; deeply indented coastline provides many natural
     harbors
 Note:
     420 km east-southeast of Puerto Rico
@@ -2319,7 +2319,7 @@ Terrain:
     central basin interrupted by three submarine ridges (Alpha Cordillera,
     Nansen Cordillera, and Lomonsov Ridge); maximum depth is 4,665 meters in the
     Fram Basin
-Natural resources:
+Natural libcw.resources:
     sand and gravel aggregates, placer deposits, polymetallic nodules, oil and
     gas fields, fish, marine mammals (seals, whales)
 Environment:
@@ -2340,7 +2340,7 @@ Note:
 :Arctic Ocean Economy
 
 Overview:
-    Economic activity is limited to the exploitation of natural resources,
+    Economic activity is limited to the exploitation of natural libcw.resources,
     including crude oil, natural gas, fish, and seals.
 
 :Arctic Ocean Communications
@@ -2384,7 +2384,7 @@ Climate:
 Terrain:
     rich plains of the Pampas in northern half, flat to rolling plateau of
     Patagonia in south, rugged Andes along western border
-Natural resources:
+Natural libcw.resources:
     fertile plains of the pampas, lead, zinc, tin, copper, iron ore, manganese,
     crude oil, uranium
 Land use:
@@ -2524,7 +2524,7 @@ Flag:
 :Argentina Economy
 
 Overview:
-    Argentina is rich in natural resources and has a highly literate population,
+    Argentina is rich in natural libcw.resources and has a highly literate population,
     an export-oriented agricultural sector, and a diversified industrial base.
     Nevertheless, following decades of mismanagement and statist policies, the
     economy has encountered major problems in recent years, leading to
@@ -2659,7 +2659,7 @@ Climate:
 Terrain:
     high Armenian Plateau with mountain; little forest land; fast flowing
     rivers; good soil in Aras River valley
-Natural resources:
+Natural libcw.resources:
     small deposits of gold, copper, molybdenum, zinc, alumina
 Land use:
     10% arable land; NA% permanent crops; NA% meadows and pastures; NA% forest
@@ -2781,7 +2781,7 @@ Overview:
     Azerbaijani railroads and expensive airlifts of supplies to beleagured
     Armenians in Nagorno-Karabakh. An earthquake in December 1988 destroyed
     about one-tenth of industrial capacity and housing, the repair of which has
-    not been possible because the supply of funds and real resources has been
+    not been possible because the supply of funds and real libcw.resources has been
     disrupted by the reorganization and subsequent dismantling of the central
     USSR administrative apparatus. Among facilities made unserviceable by the
     earthquake are the Yerevan nuclear power plant, which had supplied 40% of
@@ -2909,7 +2909,7 @@ Climate:
     tropical marine; little seasonal temperature variation
 Terrain:
     flat with a few hills; scant vegetation
-Natural resources:
+Natural libcw.resources:
     negligible; white sandy beaches
 Land use:
     arable land 0%; permanent crops 0%; meadows and pastures 0%; forest and
@@ -3107,7 +3107,7 @@ Climate:
     tropical
 Terrain:
     low with sand and coral
-Natural resources:
+Natural libcw.resources:
     fish
 Land use:
     arable land 0%; permanent crops 0%; meadows and pastures 0%; forest and
@@ -3183,7 +3183,7 @@ Terrain:
     in the south Atlantic; the ocean floor is dominated by the Mid-Atlantic
     Ridge, a rugged north-south centerline for the entire Atlantic basin;
     maximum depth is 8,605 meters in the Puerto Rico Trench
-Natural resources:
+Natural libcw.resources:
     oil and gas fields, fish, marine mammals (seals and whales), sand and gravel
     aggregates, placer deposits, polymetallic nodules, precious stones
 Environment:
@@ -3210,7 +3210,7 @@ Note:
 :Atlantic Ocean Economy
 
 Overview:
-    Economic activity is limited to exploitation of natural resources,
+    Economic activity is limited to exploitation of natural libcw.resources,
     especially fish, dredging aragonite sands (The Bahamas), and crude oil and
     natural gas production (Caribbean Sea and North Sea).
 
@@ -3258,7 +3258,7 @@ Climate:
     generally arid to semiarid; temperate in south and east; tropical in north
 Terrain:
     mostly low plateau with deserts; fertile plain in southeast
-Natural resources:
+Natural libcw.resources:
     bauxite, coal, iron ore, copper, tin, silver, uranium, nickel, tungsten,
     mineral sands, lead, zinc, diamonds, natural gas, crude oil
 Land use:
@@ -3398,7 +3398,7 @@ Flag:
 Overview:
     Australia has a prosperous Western-style capitalist economy, with a per
     capita GDP comparable to levels in industrialized West European countries.
-    Rich in natural resources, Australia is a major exporter of agricultural
+    Rich in natural libcw.resources, Australia is a major exporter of agricultural
     products, minerals, metals, and fossil fuels. Of the top 25 exports, 21 are
     primary products, so that, as happened during 1983-84, a downturn in world
     commodity prices can have a big impact on the economy. The government is
@@ -3525,7 +3525,7 @@ Climate:
 Terrain:
     mostly mountains with Alps in west and south; mostly flat, with gentle
     slopes along eastern and northern margins
-Natural resources:
+Natural libcw.resources:
     iron ore, crude oil, timber, magnesite, aluminum, lead, coal, lignite,
     copper, hydropower
 Land use:
@@ -3806,7 +3806,7 @@ Terrain:
     large, flat Kura Lowland (much of it below sea level) with Great Caucasus
     Mountains to the north, Karabakh Upland in west; Baku lies on Aspheson
     Peninsula that juts into Caspian Sea
-Natural resources:
+Natural libcw.resources:
     petroleum, natural gas, iron ore, nonferrous metals, alumina
 Land use:
     NA% arable land; NA% permanent crops; NA% meadows and pastures; NA% forest
@@ -3936,7 +3936,7 @@ Overview:
     civil strife, lack of economic reform, political disputes about new economic
     arrangements, and the skittishness of foreign investors, Azerbaijan's
     economic performance was the best of all former Soviet republics in 1991
-    largely because of its reliance on domestic resources for industrial output.
+    largely because of its reliance on domestic libcw.resources for industrial output.
 GDP:
     $NA, per capita $NA; real growth rate --0.7% (1991)
 Inflation rate (consumer prices):
@@ -4043,7 +4043,7 @@ Climate:
     tropical marine; moderated by warm waters of Gulf Stream
 Terrain:
     long, flat coral formations with some low rounded hills
-Natural resources:
+Natural libcw.resources:
     salt, aragonite, timber
 Land use:
     arable land 1%; permanent crops NEGL%; meadows and pastures NEGL%; forest
@@ -4284,7 +4284,7 @@ Climate:
     arid; mild, pleasant winters; very hot, humid summers
 Terrain:
     mostly low desert plain rising gently to low central escarpment
-Natural resources:
+Natural libcw.resources:
     oil, associated and nonassociated natural gas, fish
 Land use:
     arable land 2%; permanent crops 2%; meadows and pastures 6%; forest and
@@ -4506,7 +4506,7 @@ Climate:
     equatorial; scant rainfall, constant wind, burning sun
 Terrain:
     low, nearly level coral island surrounded by a narrow fringing reef
-Natural resources:
+Natural libcw.resources:
     guano (deposits worked until 1891)
 Land use:
     arable land 0%; permanent crops 0%; meadows and pastures 0%; forest and
@@ -4588,7 +4588,7 @@ Climate:
     June); cool, rainy monsoon (June to October)
 Terrain:
     mostly flat alluvial plain; hilly in southeast
-Natural resources:
+Natural libcw.resources:
     natural gas, uranium, arable land, timber
 Land use:
     arable land 67%; permanent crops 2%; meadows and pastures 4%; forest and
@@ -4719,7 +4719,7 @@ Overview:
     Bangladesh is one of the poorest nations in the world. The economy is based
     on the output of a narrow range of agricultural products, such as jute,
     which is the main cash crop and major source of export earnings, and rice.
-    Bangladesh is hampered by a relative lack of natural resources, population
+    Bangladesh is hampered by a relative lack of natural libcw.resources, population
     growth of more than 2% a year, large-scale unemployment, and a limited
     infrastructure; furthermore, it is highly vulnerable to natural disasters.
     Despite these constraints, real GDP growth averaged about 3.5% annually
@@ -4836,7 +4836,7 @@ Climate:
     tropical; rainy season (June to October)
 Terrain:
     relatively flat; rises gently to central highland region
-Natural resources:
+Natural libcw.resources:
     crude oil, fishing, natural gas
 Land use:
     arable land 77%; permanent crops 0%; meadows and pastures 9%; forest and
@@ -5058,7 +5058,7 @@ Climate:
     tropical
 Terrain:
     a volcanic rock 2.4 m high
-Natural resources:
+Natural libcw.resources:
     none
 Land use:
     arable land 0%; permanent crops 0%; meadows and pastures 0%; forest and
@@ -5121,7 +5121,7 @@ Climate:
     mild and moist; transitional between continental and maritime
 Terrain:
     generally flat and contains much marshland
-Natural resources:
+Natural libcw.resources:
     forest land and peat deposits
 Land use:
     arable land NA%; permanent crops NA%; meadows and pastures NA%; forest and
@@ -5246,7 +5246,7 @@ Overview:
     pipeline and the Northern Lights gas pipeline. These pipelines transit
     Belarus enroute to Eastern Europe. Belarus produces petrochemicals,
     plastics, synthetic fibers (nearly 30% of former Soviet output), and
-    fertilizer (20% of former Soviet output). Raw material resources are limited
+    fertilizer (20% of former Soviet output). Raw material libcw.resources are limited
     to potash and peat deposits. The peat (more than one-third of the total for
     the former Soviet Union) is used in domestic heating as boiler fuel for
     electric power stations and in the production of chemicals. The potash
@@ -5377,7 +5377,7 @@ Climate:
 Terrain:
     flat coastal plains in northwest, central rolling hills, rugged mountains of
     Ardennes Forest in southeast
-Natural resources:
+Natural libcw.resources:
     coal, natural gas
 Land use:
     arable land 24%; permanent crops 1%; meadows and pastures 20%; forest and
@@ -5516,7 +5516,7 @@ Overview:
     geographic location, highly developed transport network, and diversified
     industrial and commercial base. Industry is concentrated mainly in the
     populous Flemish area in the north, although the government is encouraging
-    reinvestment in the southern region of Walloon. With few natural resources
+    reinvestment in the southern region of Walloon. With few natural libcw.resources
     Belgium must import essential raw materials, making its economy closely
     dependent on the state of world markets. Over 70% of trade is with other EC
     countries. During the period 1988-90, Belgium's economic performance was
@@ -5639,7 +5639,7 @@ Climate:
     tropical; very hot and humid; rainy season (May to February)
 Terrain:
     flat, swampy coastal plain; low mountains in south
-Natural resources:
+Natural libcw.resources:
     arable land potential, timber, fish
 Land use:
     arable land 2%; permanent crops NEGL%; meadows and pastures 2%; forest and
@@ -5871,7 +5871,7 @@ Climate:
     tropical; hot, humid in south; semiarid in north
 Terrain:
     mostly flat to undulating plain; some hills and low mountains
-Natural resources:
+Natural libcw.resources:
     small offshore oil deposits, limestone, marble, timber
 Land use:
     arable land 12%; permanent crops 4%; meadows and pastures 4%; forest and
@@ -6001,7 +6001,7 @@ Flag:
 
 Overview:
     Benin is one of the least developed countries in the world because of
-    limited natural resources and a poorly developed infrastructure. Agriculture
+    limited natural libcw.resources and a poorly developed infrastructure. Agriculture
     accounts for about 35% of GDP, employs about 60% of the labor force, and
     generates a major share of foreign exchange earnings. The industrial sector
     contributes only about 15% to GDP and employs 2% of the work force. Low
@@ -6111,7 +6111,7 @@ Climate:
     subtropical; mild, humid; gales, strong winds common in winter
 Terrain:
     low hills separated by fertile depressions
-Natural resources:
+Natural libcw.resources:
     limestone, pleasant climate fostering tourism
 Land use:
     arable land 0%; permanent crops 0%; meadows and pastures 0%; forest and
@@ -6318,7 +6318,7 @@ Climate:
     valleys; severe winters and cool summers in Himalayas
 Terrain:
     mostly mountainous with some fertile valleys and savanna
-Natural resources:
+Natural libcw.resources:
     timber, hydropower, gypsum, calcium carbide, tourism potential
 Land use:
     arable land 2%; permanent crops NEGL%; meadows and pastures 5%; forest and
@@ -6430,7 +6430,7 @@ Overview:
     monetary links. Low wages in industry lead most Bhutanese to stay in
     agriculture. Most development projects, such as road construction, rely on
     Indian migrant labor. Bhutan's hydropower potential and its attraction for
-    tourists are its most important natural resources.
+    tourists are its most important natural libcw.resources.
 GDP:
     exchange rate conversion - $320 million, per capita $200; real growth rate
     3.1% (1991 est.)
@@ -6526,7 +6526,7 @@ Climate:
 Terrain:
     rugged Andes Mountains with a highland plateau (Altiplano), hills, lowland
     plains of the Amazon basin
-Natural resources:
+Natural libcw.resources:
     tin, natural gas, crude oil, zinc, tungsten, antimony, silver, iron ore,
     lead, gold, timber
 Land use:
@@ -6803,7 +6803,7 @@ Climate:
     summers and long, severe winters; mild, rainy winters along coast
 Terrain:
     mountains and valleys
-Natural resources:
+Natural libcw.resources:
     coal, iron, bauxite, manganese, timber, wood products, copper, chromium,
     lead, zinc
 Land use:
@@ -7034,7 +7034,7 @@ Climate:
     semiarid; warm winters and hot summers
 Terrain:
     predominately flat to gently rolling tableland; Kalahari Desert in southwest
-Natural resources:
+Natural libcw.resources:
     diamonds, copper, nickel, salt, soda, ash, potash, coal, iron ore, silver,
     natural gas
 Land use:
@@ -7251,7 +7251,7 @@ Climate:
     antarctic
 Terrain:
     volcanic; maximum elevation about 800 meters; coast is mostly inacessible
-Natural resources:
+Natural libcw.resources:
     none
 Land use:
     arable land 0%; permanent crops 0%; meadows and pastures 0%; forest and
@@ -7325,7 +7325,7 @@ Climate:
 Terrain:
     mostly flat to rolling lowlands in north; some plains, hills, mountains, and
     narrow coastal belt
-Natural resources:
+Natural libcw.resources:
     iron ore, manganese, bauxite, nickel, uranium, phosphates, tin, hydropower,
     gold, platinum, crude oil, timber
 Land use:
@@ -7484,7 +7484,7 @@ Overview:
     during 1989 and 1990, Brazilian officials and commercial bankers are engaged
     in talks on the reduction of medium- and long-term debt and debt service
     payments and on the elimination of remaining interest arrears. A major
-    long-run strength is Brazil's vast natural resources.
+    long-run strength is Brazil's vast natural libcw.resources.
 GDP:
     exchange rate conversion - $358 billion, per capita $2,300; real growth rate
     1.2% (1991)
@@ -7608,7 +7608,7 @@ Climate:
     tropical marine; hot, humid, moderated by trade winds
 Terrain:
     flat and low (up to 4 meters in elevation)
-Natural resources:
+Natural libcw.resources:
     coconuts, fish
 Land use:
     arable land 0%; permanent crops 0%; meadows and pastures 0%; forest and
@@ -7697,7 +7697,7 @@ Climate:
     subtropical; humid; temperatures moderated by trade winds
 Terrain:
     coral islands relatively flat; volcanic islands steep, hilly
-Natural resources:
+Natural libcw.resources:
     negligible
 Land use:
     arable land 20%; permanent crops 7%; meadows and pastures 33%; forest and
@@ -7886,7 +7886,7 @@ Climate:
     tropical; hot, humid, rainy
 Terrain:
     flat coastal plain rises to mountains in east; hilly lowland in west
-Natural resources:
+Natural libcw.resources:
     crude oil, natural gas, timber
 Land use:
     arable land 1%; permanent crops 1%; meadows and pastures 1%; forest and
@@ -8109,7 +8109,7 @@ Climate:
     temperate; cold, damp winters; hot, dry summers
 Terrain:
     mostly mountains with lowlands in north and south
-Natural resources:
+Natural libcw.resources:
     bauxite, copper, lead, zinc, coal, timber, arable land
 Land use:
     arable land 34%; permanent crops 3%; meadows and pastures 18%; forest and
@@ -8401,7 +8401,7 @@ Climate:
     tropical; warm, dry winters; hot, wet summers
 Terrain:
     mostly flat to dissected, undulating plains; hills in west and southeast
-Natural resources:
+Natural libcw.resources:
     manganese, limestone, marble; small deposits of gold, antimony, copper,
     nickel, bauxite, lead, phosphates, zinc, silver
 Land use:
@@ -8514,7 +8514,7 @@ Flag:
 
 Overview:
     One of the poorest countries in the world, Burkina has a high population
-    density, few natural resources, and relatively infertile soil. Economic
+    density, few natural libcw.resources, and relatively infertile soil. Economic
     development is hindered by a poor communications network within a landlocked
     country. Agriculture provides about 40% of GDP and is entirely of a
     subsistence nature. Industry, dominated by unprofitable
@@ -8624,7 +8624,7 @@ Climate:
     humidity during winter (northeast monsoon, December to April)
 Terrain:
     central lowlands ringed by steep, rugged highlands
-Natural resources:
+Natural libcw.resources:
     crude oil, timber, tin, antimony, zinc, copper, tungsten, lead, coal, some
     marble, limestone, precious stones, natural gas
 Land use:
@@ -8879,7 +8879,7 @@ Climate:
     temperate; warm; occasional frost in uplands
 Terrain:
     mostly rolling to hilly highland; some plains
-Natural resources:
+Natural libcw.resources:
     nickel, uranium, rare earth oxide, peat, cobalt, copper, platinum (not yet
     exploited), vanadium
 Land use:
@@ -9127,7 +9127,7 @@ Climate:
     March); little seasonal temperature variation
 Terrain:
     mostly low, flat plains; mountains in southwest and north
-Natural resources:
+Natural libcw.resources:
     timber, gemstones, some iron ore, manganese, phosphates, hydropower
     potential
 Land use:
@@ -9375,7 +9375,7 @@ Climate:
 Terrain:
     diverse, with coastal plain in southwest, dissected plateau in center,
     mountains in west, plains in north
-Natural resources:
+Natural libcw.resources:
     crude oil, bauxite, iron ore, timber, hydropower potential
 Land use:
     arable land 13%; permanent crops 2%; meadows and pastures 18%; forest and
@@ -9490,7 +9490,7 @@ Flag:
 :Cameroon Economy
 
 Overview:
-    Because of its offshore oil resources, Cameroon has one of the highest
+    Because of its offshore oil libcw.resources, Cameroon has one of the highest
     incomes per capita in tropical Africa. Still, it faces many of the serious
     problems facing other underdeveloped countries, such as political
     instability, a top-heavy civil service, and a generally unfavorable climate
@@ -9618,7 +9618,7 @@ Climate:
     varies from temperate in south to subarctic and arctic in north
 Terrain:
     mostly plains with mountains in west and lowlands in southeast
-Natural resources:
+Natural libcw.resources:
     nickel, zinc, copper, gold, lead, molybdenum, potash, silver, fish, timber,
     wildlife, coal, crude oil, natural gas
 Land use:
@@ -9749,7 +9749,7 @@ Overview:
     mining, and service sectors has transformed the nation from a largely rural
     economy into one primarily industrial and urban. In the 1980s, Canada
     registered one of the highest rates of real growth among the OECD nations,
-    averaging about 3.2%. With its great natural resources, skilled labor force,
+    averaging about 3.2%. With its great natural libcw.resources, skilled labor force,
     and modern capital plant, Canada has excellent economic prospects. However,
     the continuing constitutional impasse between English- and French-speaking
     areas has observers discussing a possible split in the confederation;
@@ -9792,7 +9792,7 @@ Industries:
 Agriculture:
     accounts for about 3% of GDP; one of the world's major producers and
     exporters of grain (wheat and barley); key source of US agricultural
-    imports; large forest resources cover 35% of total land area; commercial
+    imports; large forest libcw.resources cover 35% of total land area; commercial
     fisheries provide annual catch of 1.5 million metric tons, of which 75% is
     exported
 Illicit drugs:
@@ -9883,7 +9883,7 @@ Climate:
     temperate; warm, dry, summer; precipitation very erratic
 Terrain:
     steep, rugged, rocky, volcanic
-Natural resources:
+Natural libcw.resources:
     salt, basalt rock, pozzolana, limestone, kaolin, fish
 Land use:
     arable land 9%; permanent crops NEGL%; meadows and pastures 6%; forest and
@@ -10115,7 +10115,7 @@ Climate:
     dry winters (November to April)
 Terrain:
     low-lying limestone base surrounded by coral reefs
-Natural resources:
+Natural libcw.resources:
     fish, climate and beaches that foster tourism
 Land use:
     arable land 0%; permanent crops 0%; meadows and pastures 8%; forest and
@@ -10315,7 +10315,7 @@ Climate:
 Terrain:
     vast, flat to rolling, monotonous plateau; scattered hills in northeast and
     southwest
-Natural resources:
+Natural libcw.resources:
     diamonds, uranium, timber, gold, oil
 Land use:
     arable land 3%; permanent crops NEGL%; meadows and pastures 5%; forest and
@@ -10553,7 +10553,7 @@ Climate:
 Terrain:
     broad, arid plains in center, desert in north, mountains in northwest,
     lowlands in south
-Natural resources:
+Natural libcw.resources:
     crude oil (unexploited but exploration under way), uranium, natron, kaolin,
     fish (Lake Chad)
 Land use:
@@ -10683,7 +10683,7 @@ Flag:
 
 Overview:
     The climate, geographic location, and lack of infrastructure and natural
-    resources potential make Chad one of the most underdeveloped countries in
+    libcw.resources potential make Chad one of the most underdeveloped countries in
     the world. Its economy is burdened by the ravages of civil war, conflict
     with Libya, drought, and food shortages. In 1986 real GDP returned to its
     1977 level, with cotton, the major cash crop, accounting for 48% of exports.
@@ -10807,7 +10807,7 @@ Climate:
     temperate; desert in north; cool and damp in south
 Terrain:
     low coastal mountains; fertile central valley; rugged Andes in east
-Natural resources:
+Natural libcw.resources:
     copper, timber, iron ore, nitrates, precious metals, molybdenum
 Land use:
     arable land 7%; permanent crops NEGL%; meadows and pastures 16%; forest and
@@ -11089,7 +11089,7 @@ Climate:
 Terrain:
     mostly mountains, high plateaus, deserts in west; plains, deltas, and hills
     in east
-Natural resources:
+Natural libcw.resources:
     coal, iron ore, crude oil, mercury, tin, tungsten, antimony, manganese,
     molybdenum, vanadium, magnetite, aluminum, lead, zinc, uranium, world's
     largest hydropower potential
@@ -11393,7 +11393,7 @@ Climate:
     tropical; heat and humidity moderated by trade winds
 Terrain:
     steep cliffs along coast rise abruptly to central plateau
-Natural resources:
+Natural libcw.resources:
     phosphate
 Land use:
     arable land 0%; permanent crops 0%; meadows and pastures 0%; forest and
@@ -11559,7 +11559,7 @@ Climate:
     tropical
 Terrain:
     coral atoll
-Natural resources:
+Natural libcw.resources:
     none
 Land use:
     arable land 0%; permanent crops 0%; meadows and pastures 0%; forest and
@@ -11624,7 +11624,7 @@ Climate:
     year; moderate rain fall
 Terrain:
     flat, low-lying coral atolls
-Natural resources:
+Natural libcw.resources:
     fish
 Land use:
     arable land 0%; permanent crops 0%; meadows and pastures 0%; forest and
@@ -11799,7 +11799,7 @@ Climate:
 Terrain:
     flat coastal lowlands, central highlands, high Andes mountains, eastern
     lowland plains
-Natural resources:
+Natural libcw.resources:
     crude oil, natural gas, coal, iron ore, nickel, gold, copper, emeralds
 Land use:
     arable land 4%; permanent crops 2%; meadows and pastures 29%; forest and
@@ -12075,7 +12075,7 @@ Climate:
     tropical marine; rainy season (November to May)
 Terrain:
     volcanic islands, interiors vary from steep mountains to low hills
-Natural resources:
+Natural libcw.resources:
     negligible
 Land use:
     arable land 35%; permanent crops 8%; meadows and pastures 7%; forest and
@@ -12183,7 +12183,7 @@ Flag:
 Overview:
     One of the world's poorest countries, Comoros is made up of several islands
     that have poor transportation links, a young and rapidly increasing
-    population, and few natural resources. The low educational level of the
+    population, and few natural libcw.resources. The low educational level of the
     labor force contributes to a low level of economic activity, high
     unemployment, and a heavy dependence on foreign grants and technical
     assistance. Agriculture, including fishing, hunting, and forestry, is the
@@ -12302,7 +12302,7 @@ Climate:
     astride the Equator
 Terrain:
     coastal plain, southern basin, central plateau, northern basin
-Natural resources:
+Natural libcw.resources:
     petroleum, timber, potash, lead, zinc, uranium, copper, phosphates, natural
     gas
 Land use:
@@ -12549,7 +12549,7 @@ Climate:
     tropical; moderated by trade winds
 Terrain:
     low coral atolls in north; volcanic, hilly islands in south
-Natural resources:
+Natural libcw.resources:
     negligible
 Land use:
     arable land 4%; permanent crops 22%; meadows and pastures 0%; forest and
@@ -12656,7 +12656,7 @@ Overview:
     copra, and clothing. Manufacturing activities are limited to a
     fruit-processing plant and several clothing factories. Economic development
     is hindered by the isolation of the islands from foreign markets and a lack
-    of natural resources and good transportation links. A large trade deficit is
+    of natural libcw.resources and good transportation links. A large trade deficit is
     annually made up for by remittances from emigrants and from foreign aid.
     Current economic development plans call for exploiting the tourism potential
     and expanding the fishing industry.
@@ -12752,7 +12752,7 @@ Climate:
     tropical
 Terrain:
     sand and coral reefs and islands (or cays)
-Natural resources:
+Natural libcw.resources:
     negligible
 Land use:
     arable land 0%; permanent crops 0%; meadows and pastures 0%; forest and
@@ -12824,7 +12824,7 @@ Climate:
     tropical; dry season (December to April); rainy season (May to November)
 Terrain:
     coastal plains separated by rugged mountains
-Natural resources:
+Natural libcw.resources:
     hydropower potential
 Land use:
     arable land 6%; permanent crops 7%; meadows and pastures 45%; forest and
@@ -12992,7 +12992,7 @@ Agriculture:
     accounts for 20-25% of GDP and 70% of exports; cash commodities - coffee,
     beef, bananas, sugar; other food crops include corn, rice, beans, potatoes;
     normally self-sufficient in food except for grain; depletion of forest
-    resources resulting in lower timber output
+    libcw.resources resulting in lower timber output
 Illicit drugs:
     illicit production of cannabis on small scattered plots; transshipment
     country for cocaine from South America
@@ -13080,7 +13080,7 @@ Climate:
 Terrain:
     geographically diverse; flat plains along Hungarian border, low mountains
     and highlands near Adriatic coast, coastline, and islands
-Natural resources:
+Natural libcw.resources:
     oil, some coal, bauxite, low-grade iron ore, calcium, natural asphalt,
     silica, mica, clays, salt, fruit, livestock
 Land use:
@@ -13337,7 +13337,7 @@ Climate:
 Terrain:
     mostly flat to rolling plains with rugged hills and mountains in the
     southeast
-Natural resources:
+Natural libcw.resources:
     cobalt, nickel, iron ore, copper, manganese, salt, timber, silica
 Land use:
     arable land 23%; permanent crops 6%; meadows and pastures 23%; forest and
@@ -13599,7 +13599,7 @@ Climate:
     temperate, Mediterranean with hot, dry summers and cool, wet winters
 Terrain:
     central plain with mountains to north and south
-Natural resources:
+Natural libcw.resources:
     copper, pyrites, asbestos, gypsum, timber, salt, marble, clay earth pigment
 Land use:
     arable land 40%; permanent crops 7%; meadows and pastures 10%; forest and
@@ -13607,7 +13607,7 @@ Land use:
     the Turkish-Cypriot area of the island)
 Environment:
     moderate earthquake activity; water resource problems (no natural reservoir
-    catchments, seasonal disparity in rainfall, and most potable resources
+    catchments, seasonal disparity in rainfall, and most potable libcw.resources
     concentrated in the Turkish-Cypriot area)
 
 :Cyprus People
@@ -13889,7 +13889,7 @@ Climate:
     temperate; cool summers; cold, cloudy, humid winters
 Terrain:
     mixture of hills and mountains separated by plains and basins
-Natural resources:
+Natural libcw.resources:
     hard coal, timber, lignite, uranium, magnesite, iron ore, copper, zinc
 Land use:
     arable land 37%; permanent crops 1%; meadows and pastures 13%; forest and
@@ -14188,7 +14188,7 @@ Climate:
     temperate; humid and overcast; mild, windy winters and cool summers
 Terrain:
     low and flat to gently rolling plains
-Natural resources:
+Natural libcw.resources:
     crude oil, natural gas, fish, salt, limestone
 Land use:
     arable land 61%; permanent crops NEGL%; meadows and pastures 6%; forest and
@@ -14457,7 +14457,7 @@ Climate:
     desert; torrid, dry
 Terrain:
     coastal plain and plateau separated by central mountains
-Natural resources:
+Natural libcw.resources:
     geothermal areas
 Land use:
     arable land 0%; permanent crops 0%; meadows and pastures 9%; forest and
@@ -14567,7 +14567,7 @@ Overview:
     strategic location and status as a free trade zone in northeast Africa.
     Djibouti provides services as both a transit port for the region and an
     international transshipment and refueling center. It has few natural
-    resources and little industry. The nation is, therefore, heavily dependent
+    libcw.resources and little industry. The nation is, therefore, heavily dependent
     on foreign assistance to help support its balance of payments and to finance
     development projects. An unemployment rate of over 30% continues to be a
     major problem. Per capita consumption dropped an estimated 35% over the last
@@ -14673,7 +14673,7 @@ Climate:
     tropical; moderated by northeast trade winds; heavy rainfall
 Terrain:
     rugged mountains of volcanic origin
-Natural resources:
+Natural libcw.resources:
     timber
 Land use:
     arable land 9%; permanent crops 13%; meadows and pastures 3%; forest and
@@ -14889,7 +14889,7 @@ Climate:
     tropical maritime; little seasonal temperature variation
 Terrain:
     rugged highlands and mountains with fertile valleys interspersed
-Natural resources:
+Natural libcw.resources:
     nickel, bauxite, gold, silver
 Land use:
     arable land 23%; permanent crops 7%; meadows and pastures 43%; forest and
@@ -15149,7 +15149,7 @@ Climate:
 Terrain:
     coastal plain (Costa), inter-Andean central highlands (Sierra), and flat to
     rolling eastern jungle (Oriente)
-Natural resources:
+Natural libcw.resources:
     petroleum, fish, timber
 Land use:
     arable land 6%; permanent crops 3%; meadows and pastures 17%; forest and
@@ -15266,7 +15266,7 @@ Flag:
 :Ecuador Economy
 
 Overview:
-    Ecuador has substantial oil resources and rich agricultural areas. Growth
+    Ecuador has substantial oil libcw.resources and rich agricultural areas. Growth
     has been uneven because of natural disasters (for example, a major
     earthquake in 1987), fluctuations in global oil prices, and government
     policies designed to curb inflation. The government has not taken a
@@ -15397,7 +15397,7 @@ Climate:
     desert; hot, dry summers with moderate winters
 Terrain:
     vast desert plateau interrupted by Nile valley and delta
-Natural resources:
+Natural libcw.resources:
     crude oil, natural gas, iron ore, phosphates, manganese, limestone, gypsum,
     talc, asbestos, lead, zinc
 Land use:
@@ -15681,7 +15681,7 @@ Climate:
     tropical; rainy season (May to October); dry season (November to April)
 Terrain:
     mostly mountains with narrow coastal belt and central plateau
-Natural resources:
+Natural libcw.resources:
     hydropower, geothermal power, crude oil
 Land use:
     arable land 27%; permanent crops 8%; meadows and pastures 29%; forest and
@@ -15973,7 +15973,7 @@ Climate:
     tropical; always hot, humid
 Terrain:
     coastal plains rise to interior hills; islands are volcanic
-Natural resources:
+Natural libcw.resources:
     timber, crude oil, small unexploited deposits of gold, manganese, uranium
 Land use:
     arable land 8%; permanent crops 4%; meadows and pastures 4%; forest and
@@ -16097,7 +16097,7 @@ Overview:
     with cocoa, coffee, and wood products providing income, foreign exchange,
     and government revenues. There is little industry. Commerce accounts for
     about 8% of GDP and the construction, public works, and service sectors for
-    about 38%. Undeveloped natural resources include titanium, iron ore,
+    about 38%. Undeveloped natural libcw.resources include titanium, iron ore,
     manganese, uranium, and alluvial gold. Oil exploration, taking place under
     concessions offered to US, French, and Spanish firms, has been moderately
     successful.
@@ -16215,7 +16215,7 @@ Climate:
     maritime, wet, moderate winters
 Terrain:
     marshy, lowlands
-Natural resources:
+Natural libcw.resources:
     shale oil, peat, phosphorite, amber
 Land use:
     22% arable land; NA% permanent crops; 11% meadows and pastures; 31% forest
@@ -16342,7 +16342,7 @@ Overview:
     capital and consumer goods based on raw materials and intermediate products
     from the other former Soviet republics. These manufactures are of high
     quality by ex-Soviet standards and are exported to the other republics.
-    Estonia's mineral resources are limited to major deposits of shale oil (60%
+    Estonia's mineral libcw.resources are limited to major deposits of shale oil (60%
     of old Soviet total) and phosphorites (400 million tons). Estonia has a
     large, relatively modern port and produces more than half of its own energy
     needs at highly polluting shale oil power plants. Like the other 14
@@ -16469,7 +16469,7 @@ Climate:
     to extended droughts
 Terrain:
     high plateau with central mountain range divided by Great Rift Valley
-Natural resources:
+Natural libcw.resources:
     small reserves of gold, platinum, copper, potash
 Land use:
     arable land 12%; permanent crops 1%; meadows and pastures 41%; forest and
@@ -16716,7 +16716,7 @@ Climate:
     tropical
 Terrain:
     NA
-Natural resources:
+Natural libcw.resources:
     negligible
 Land use:
     arable land NA%; permanent crops NA%; meadows and pastures NA%; forest and
@@ -16788,7 +16788,7 @@ Climate:
     February, but does not accumulate
 Terrain:
     rocky, hilly, mountainous with some boggy, undulating plains
-Natural resources:
+Natural libcw.resources:
     fish and wildlife
 Land use:
     arable land 0%; permanent crops 0%; meadows and pastures 99%; forest and
@@ -16985,7 +16985,7 @@ Climate:
     mild winters, cool summers; usually overcast; foggy, windy
 Terrain:
     rugged, rocky, some low peaks; cliffs along most of coast
-Natural resources:
+Natural libcw.resources:
     fish
 Land use:
     arable land 2%; permanent crops 0%; meadows and pastures 0%; forest and
@@ -17200,7 +17200,7 @@ Climate:
     tropical marine; only slight seasonal temperature variation
 Terrain:
     mostly mountains of volcanic origin
-Natural resources:
+Natural libcw.resources:
     timber, fish, gold, copper; offshore oil potential
 Land use:
     arable land 8%; permanent crops 5%; meadows and pastures 3%; forest and
@@ -17453,7 +17453,7 @@ Climate:
     than 60,000 lakes
 Terrain:
     mostly low, flat to rolling plains interspersed with lakes and low hills
-Natural resources:
+Natural libcw.resources:
     timber, copper, zinc, iron ore, silver
 Land use:
     arable land 8%; permanent crops 0%; meadows and pastures NEGL%; forest and
@@ -17737,7 +17737,7 @@ Climate:
 Terrain:
     mostly flat plains or gently rolling hills in north and west; remainder is
     mountainous, especially Pyrenees in south, Alps in east
-Natural resources:
+Natural libcw.resources:
     coal, iron ore, bauxite, fish, timber, zinc, potash
 Land use:
     arable land 32%; permanent crops 2%; meadows and pastures 23%; forest and
@@ -17894,7 +17894,7 @@ Flag:
 
 Overview:
     One of the world's most developed economies, France has substantial
-    agricultural resources and a highly diversified modern industrial sector.
+    agricultural libcw.resources and a highly diversified modern industrial sector.
     Large tracts of fertile land, the application of modern technology, and
     subsidies have combined to make it the leading agricultural producer in
     Western Europe. France is largely self-sufficient in agricultural products
@@ -18036,7 +18036,7 @@ Climate:
     tropical; hot, humid; little seasonal temperature variation
 Terrain:
     low-lying coastal plains rising to hills and small mountains
-Natural resources:
+Natural libcw.resources:
     bauxite, timber, gold (widely scattered), cinnabar, kaolin, fish
 Land use:
     arable land NEGL%; permanent crops NEGL%; meadows and pastures NEGL%; forest
@@ -18243,7 +18243,7 @@ Climate:
     tropical, but moderate
 Terrain:
     mixture of rugged high islands and low islands with reefs
-Natural resources:
+Natural libcw.resources:
     timber, fish, cobalt
 Land use:
     arable land 1%; permanent crops 19%; meadows and pastures 5%; forest and
@@ -18461,7 +18461,7 @@ Climate:
     antarctic
 Terrain:
     volcanic
-Natural resources:
+Natural libcw.resources:
     fish, crayfish
 Land use:
     arable land 0%; permanent crops 0%; meadows and pastures 0%; forest and
@@ -18551,7 +18551,7 @@ Climate:
     tropical; always hot, humid
 Terrain:
     narrow coastal plain; hilly interior; savanna in east and south
-Natural resources:
+Natural libcw.resources:
     crude oil, manganese, uranium, gold, timber, iron ore
 Land use:
     arable land 1%; permanent crops 1%; meadows and pastures 18%; forest and
@@ -18795,7 +18795,7 @@ Climate:
     to May)
 Terrain:
     flood plain of the Gambia River flanked by some low hills
-Natural resources:
+Natural libcw.resources:
     fish
 Land use:
     arable land 16%; permanent crops 0%; meadows and pastures 9%; forest and
@@ -18908,7 +18908,7 @@ Flag:
 :The Gambia Economy
 
 Overview:
-    The Gambia has no important mineral or other natural resources and has a
+    The Gambia has no important mineral or other natural libcw.resources and has a
     limited agricultural base. It is one of the world's poorest countries with a
     per capita income of about $230. About 75% of the population is engaged in
     crop production and livestock raising, which contribute 30% to GDP.
@@ -18952,7 +18952,7 @@ Agriculture:
     accounts for 30% of GDP and employs about 75% of the population; imports
     one-third of food requirements; major export crop is peanuts; the other
     principal crops - millet, sorghum, rice, corn, cassava, palm kernels;
-    livestock - cattle, sheep, and goats; forestry and fishing resources not
+    livestock - cattle, sheep, and goats; forestry and fishing libcw.resources not
     fully exploited
 Economic aid:
     US commitments, including Ex-Im (FY70-89), $93 million; Western (non-US)
@@ -19013,7 +19013,7 @@ Climate:
     temperate, mild winters, dry and warm to hot summers
 Terrain:
     flat to rolling, sand- and dune- covered coastal plain
-Natural resources:
+Natural libcw.resources:
     negligible
 Land use:
     arable land 13%, permanent crops 32%, meadows and pastures 0%, forest and
@@ -19199,7 +19199,7 @@ Terrain:
     Caucasus Mountains in the south; Colchis lowland opens to the Black Sea in
     the west; Kura River Basin in the east; good soils in river valley flood
     plains, foothills of Colchis lowland
-Natural resources:
+Natural libcw.resources:
     forest lands, hydropower, manganese deposits, iron ores, copper, minor coal
     and oil deposits; coastal climate and soils allow for important tea and
     citrus growth
@@ -19325,7 +19325,7 @@ Overview:
     of the USSR's output. Another salient characteristic of the economy has been
     a flourishing private sector (compared with the other republics). Almost 30%
     of the labor force is employed in agriculture and 18% in industry. Mineral
-    resources consist of manganese and copper, and, to a lesser extent,
+    libcw.resources consist of manganese and copper, and, to a lesser extent,
     molybdenum, arsenic, tungsten, and mercury. Except for very small quantities
     of domestic oil, gas, and coal, fuel must be imported from neighboring
     republics. Oil and its products are delivered by pipeline from Azerbaijan to
@@ -19474,7 +19474,7 @@ Climate:
     warm, tropical foehn wind; high relative humidity
 Terrain:
     lowlands in north, uplands in center, Bavarian Alps in south
-Natural resources:
+Natural libcw.resources:
     iron ore, coal, potash, timber, lignite, uranium, copper, natural gas, salt,
     nickel
 Land use:
@@ -19631,7 +19631,7 @@ Overview:
     market economy and is a world leader in exports. It has a highly urbanized
     and skilled population that enjoys excellent living standards, abundant
     leisure time, and comprehensive social welfare benefits. Western Germany is
-    relatively poor in natural resources, coal being the most important mineral.
+    relatively poor in natural libcw.resources, coal being the most important mineral.
     Western Germany's world-class companies manufacture technologically advanced
     goods. The region's economy is mature: services and manufacturing account
     for the dominant share of economic activity, and raw materials and
@@ -19647,7 +19647,7 @@ Overview:
     under its control. The pace of private investment is starting to pick up,
     but questions about property rights and environmental liabilities remain.
     Eastern Germany has one of the world's largest reserves of low-grade lignite
-    coal but little else in the way of mineral resources. The quality of
+    coal but little else in the way of mineral libcw.resources. The quality of
     statistics from eastern Germany is improving, yet many gaps remain; the
     federal government began producing all-German data for select economic
     statistics at the start of 1992. The most challenging economic problem is
@@ -19822,7 +19822,7 @@ Climate:
     southwest; hot and dry in north
 Terrain:
     mostly low plains with dissected plateau in south-central area
-Natural resources:
+Natural libcw.resources:
     gold, timber, industrial diamonds, bauxite, manganese, fish, rubber
 Land use:
     arable land 5%; permanent crops 7%; meadows and pastures 15%; forest and
@@ -20046,7 +20046,7 @@ Climate:
     Mediterranean with mild winters and warm summers
 Terrain:
     a narrow coastal lowland borders The Rock
-Natural resources:
+Natural libcw.resources:
     negligible
 Land use:
     arable land 0%; permanent crops 0%; meadows and pastures 0%; forest and
@@ -20259,7 +20259,7 @@ Climate:
     tropical
 Terrain:
     undetermined
-Natural resources:
+Natural libcw.resources:
     guano, coconuts
 Land use:
     arable land 0%; permanent crops 0%; meadows and pastures 0%; forest and
@@ -20327,7 +20327,7 @@ Climate:
 Terrain:
     mostly mountains with ranges extending into sea as peninsulas or chains of
     islands
-Natural resources:
+Natural libcw.resources:
     bauxite, lignite, magnesite, crude oil, marble
 Land use:
     arable land 23%; permanent crops 8%; meadows and pastures 40%; forest and
@@ -20600,7 +20600,7 @@ Climate:
 Terrain:
     flat to gradually sloping icecap covers all but a narrow, mountainous,
     barren, rocky coast
-Natural resources:
+Natural libcw.resources:
     zinc, lead, iron ore, coal, molybdenum, cryolite, uranium, fish
 Land use:
     arable land 0%; permanent crops 0%; meadows and pastures 1%; forest and
@@ -20812,7 +20812,7 @@ Climate:
     tropical; tempered by northeast trade winds
 Terrain:
     volcanic in origin with central mountains
-Natural resources:
+Natural libcw.resources:
     timber, tropical fruit, deepwater harbors
 Land use:
     arable land 15%; permanent crops 26%; meadows and pastures 3%; forest and
@@ -21035,7 +21035,7 @@ Climate:
 Terrain:
     Basse-Terre is volcanic in origin with interior mountains; Grand-Terre is
     low limestone formation
-Natural resources:
+Natural libcw.resources:
     cultivable land, beaches, and climate that foster tourism
 Land use:
     arable land 18%; permanent crops 5%; meadows and pastures 13%; forest and
@@ -21269,7 +21269,7 @@ Terrain:
     limestone plateau (source of most fresh water) with steep coastal cliffs and
     narrow coastal plains in north, low-rising hills in center, mountains in
     south
-Natural resources:
+Natural libcw.resources:
     fishing (largely undeveloped), tourism (especially from Japan)
 Land use:
     arable land 11%; permanent crops 11%; meadows and pastures 15%; forest and
@@ -21482,7 +21482,7 @@ Climate:
 Terrain:
     mostly mountains with narrow coastal plains and rolling limestone plateau
     (Peten)
-Natural resources:
+Natural libcw.resources:
     crude oil, nickel, rare woods, fish, chicle
 Land use:
     arable land 12%; permanent crops 4%; meadows and pastures 12%; forest and
@@ -21735,7 +21735,7 @@ Climate:
     temperate with mild winters and cool summers; about 50% of days are overcast
 Terrain:
     mostly level with low hills in southwest
-Natural resources:
+Natural libcw.resources:
     cropland
 Land use:
     arable land NA%; permanent crops NA%; meadows and pastures NA%; forest and
@@ -21909,7 +21909,7 @@ Climate:
     harmattan winds
 Terrain:
     generally flat coastal plain, hilly to mountainous interior
-Natural resources:
+Natural libcw.resources:
     bauxite, iron ore, diamonds, gold, uranium, hydropower, fish
 Land use:
     arable land 6%; permanent crops NEGL%; meadows and pastures 12%; forest and
@@ -22015,7 +22015,7 @@ Flag:
 :Guinea Economy
 
 Overview:
-    Although possessing many natural resources and considerable potential for
+    Although possessing many natural libcw.resources and considerable potential for
     agricultural development, Guinea is one of the poorest countries in the
     world. The agricultural sector contributes about 40% to GDP and employs more
     than 80% of the work force, while industry accounts for 27% of GDP. Guinea
@@ -22130,7 +22130,7 @@ Climate:
     northeasterly harmattan winds
 Terrain:
     mostly low coastal plain rising to savanna in east
-Natural resources:
+Natural libcw.resources:
     unexploited deposits of petroleum, bauxite, phosphates; fish, timber
 Land use:
     arable land 11%; permanent crops 1%; meadows and pastures 43%; forest and
@@ -22359,7 +22359,7 @@ Climate:
     (May to mid-August, mid-November to mid-January)
 Terrain:
     mostly rolling highlands; low coastal plain; savanna in south
-Natural resources:
+Natural libcw.resources:
     bauxite, gold, diamonds, hardwood timber, shrimp, fish
 Land use:
     arable land 3%; permanent crops NEGL%; meadows and pastures 6%; forest and
@@ -22610,7 +22610,7 @@ Climate:
     tropical; semiarid where mountains in east cut off trade winds
 Terrain:
     mostly rough and mountainous
-Natural resources:
+Natural libcw.resources:
     bauxite
 Land use:
     arable land 20%; permanent crops 13%; meadows and pastures 18%; forest and
@@ -22930,7 +22930,7 @@ Climate:
     (May to September)
 Terrain:
     low hill
-Natural resources:
+Natural libcw.resources:
     none
 Land use:
     arable land 0%; permanent crops 0%; meadows and pastures 0%; forest and
@@ -23085,7 +23085,7 @@ Climate:
     subtropical in lowlands, temperate in mountains
 Terrain:
     mostly mountains in interior, narrow coastal plains
-Natural resources:
+Natural libcw.resources:
     timber, gold, silver, copper, lead, zinc, iron ore, antimony, coal, fish
 Land use:
     arable land 14%; permanent crops 2%; meadows and pastures 30%; forest and
@@ -23226,7 +23226,7 @@ Overview:
     and inefficient public sector, and the dependence of the export sector
     mostly on coffee and bananas, which are subject to sharp price fluctuations.
     Despite government efforts at reform and large-scale foreign assistance, the
-    economy still is unable to take advantage of its sizable natural resources.
+    economy still is unable to take advantage of its sizable natural libcw.resources.
 GDP:
     exchange rate conversion - $5.2 billion, per capita $1,050; real growth rate
     - 0.3% (1991 est.)
@@ -23342,7 +23342,7 @@ Climate:
     through summer, warm and sunny in fall
 Terrain:
     hilly to mountainous with steep slopes; lowlands in north
-Natural resources:
+Natural libcw.resources:
     outstanding deepwater harbor, feldspar
 Land use:
     arable land 7%; permanent crops 1%; meadows and pastures 1%; forest and
@@ -23467,7 +23467,7 @@ Flag:
 
 Overview:
     Hong Kong has a bustling free market economy with few tariffs or nontariff
-    barriers. Natural resources are limited, and food and raw materials must be
+    barriers. Natural libcw.resources are limited, and food and raw materials must be
     imported. Manufacturing accounts for about 18% of GDP, employs 28% of the
     labor force, and exports about 90% of its output. Real GDP growth averaged a
     remarkable 8% in 1987-88, then slowed to 2.5-3.0% in 1989-90. Unemployment,
@@ -23599,7 +23599,7 @@ Climate:
 Terrain:
     low-lying, nearly level, sandy, coral island surrounded by a narrow fringing
     reef; depressed central area
-Natural resources:
+Natural libcw.resources:
     guano (deposits worked until late 1800s)
 Land use:
     arable land 0%; permanent crops 0%; meadows and pastures 0%; forest and
@@ -23682,7 +23682,7 @@ Climate:
     temperate; cold, cloudy, humid winters; warm summers
 Terrain:
     mostly flat to rolling plains
-Natural resources:
+Natural libcw.resources:
     bauxite, coal, natural gas, fertile soils
 Land use:
     arable land 54%; permanent crops 3%; meadows and pastures 14%; forest and
@@ -23952,7 +23952,7 @@ Climate:
 Terrain:
     mostly plateau interspersed with mountain peaks, icefields; coast deeply
     indented by bays and fiords
-Natural resources:
+Natural libcw.resources:
     fish, hydroelectric and geothermal power, diatomite
 Land use:
     arable land NEGL%; permanent crops 0%; meadows and pastures 23%; forest and
@@ -24081,7 +24081,7 @@ Overview:
     but with extensive welfare measures, low unemployment, and comparatively
     even distribution of income. The economy is heavily dependent on the fishing
     industry, which provides nearly 75% of export earnings. In the absence of
-    other natural resources, Iceland's economy is vulnerable to changing world
+    other natural libcw.resources, Iceland's economy is vulnerable to changing world
     fish prices. The economic improvements resulting from climbing fish prices
     in 1990 and a noninflationary labor agreement probably will be reversed by
     tighter fish quotas and a delay in the construction of an aluminum smelting
@@ -24206,7 +24206,7 @@ Climate:
 Terrain:
     upland plain (Deccan Plateau) in south, flat to rolling plain along the
     Ganges, deserts in west, Himalayas in north
-Natural resources:
+Natural libcw.resources:
     coal (fourth-largest reserves in the world), iron ore, manganese, mica,
     bauxite, titanium ore, chromite, natural gas, diamonds, crude oil, limestone
 Land use:
@@ -24505,7 +24505,7 @@ Terrain:
     subdivided by the Southeast Indian Ocean Ridge, Southwest Indian Ocean
     Ridge, and Ninety East Ridge; maximum depth is 7,258 meters in the Java
     Trench
-Natural resources:
+Natural libcw.resources:
     oil and gas fields, fish, shrimp, sand and gravel aggregates, placer
     deposits, polymetallic nodules
 Environment:
@@ -24532,7 +24532,7 @@ Overview:
     actively exploited by bordering countries, particularly India, South Africa,
     Indonesia, Sri Lanka, and Thailand.
 Industries:
-    based on exploitation of natural resources, particularly marine life,
+    based on exploitation of natural libcw.resources, particularly marine life,
     minerals, oil and gas production, fishing, sand and gravel aggregates,
     placer deposits
 
@@ -24569,7 +24569,7 @@ Climate:
     tropical; hot, humid; more moderate in highlands
 Terrain:
     mostly coastal lowlands; larger islands have interior mountains
-Natural resources:
+Natural libcw.resources:
     crude oil, tin, natural gas liquids, nickel, timber, bauxite, copper,
     fertile soils, coal, gold, silver
 Land use:
@@ -24715,7 +24715,7 @@ Overview:
     now nearly self-sufficient. Plantation crops - rubber and palm oil - and
     textiles and plywood are being encouraged for both export and job
     generation. Industrial output now accounts for 30% of GDP and is based on a
-    supply of diverse natural resources, including crude oil, natural gas,
+    supply of diverse natural libcw.resources, including crude oil, natural gas,
     timber, metals, and coal. Of these, the oil sector dominates the external
     economy, generating more than 20% of the government's revenues and 40% of
     export earnings in 1989. However, the economy's growth is highly dependent
@@ -24868,7 +24868,7 @@ Climate:
 Terrain:
     rugged, mountainous rim; high, central basin with deserts, mountains; small,
     discontinuous plains along both coasts
-Natural resources:
+Natural libcw.resources:
     petroleum, natural gas, coal, chromium, copper, iron ore, lead, manganese,
     zinc, sulfur
 Land use:
@@ -25001,7 +25001,7 @@ Overview:
     with a substantial increase in imports contributed to Iran's recent economic
     growth. Iran has also begun implementing a number of economic reforms to
     reduce government intervention (including subsidies) and has allocated
-    substantial resources to development projects in the hope of stimulating the
+    substantial libcw.resources to development projects in the hope of stimulating the
     economy. Nevertheless, lower oil revenues in 1991 - oil accounts for more
     than 90% of export revenues and provides roughly 65% of the financing for
     the five-year economic development plan - and dramatic increases in external
@@ -25151,7 +25151,7 @@ Climate:
 Terrain:
     mostly broad plains; reedy marshes in southeast; mountains along borders
     with Iran and Turkey
-Natural resources:
+Natural libcw.resources:
     crude oil, natural gas, phosphates, sulfur
 Land use:
     arable land 12%; permanent crops 1%; meadows and pastures 9%; forest and
@@ -25423,7 +25423,7 @@ Climate:
 Terrain:
     mostly level to rolling interior plain surrounded by rugged hills and low
     mountains; sea cliffs on west coast
-Natural resources:
+Natural libcw.resources:
     zinc, lead, natural gas, crude oil, barite, copper, gypsum, limestone,
     dolomite, peat, silver
 Land use:
@@ -25689,7 +25689,7 @@ Climate:
 Terrain:
     Negev desert in the south; low coastal plain; central mountains; Jordan Rift
     Valley
-Natural resources:
+Natural libcw.resources:
     copper, phosphates, bromide, potash, clay, sand, sulfur, asphalt, manganese,
     small amounts of natural gas and crude oil
 Land use:
@@ -25697,7 +25697,7 @@ Land use:
     woodland 6%; other 32%; includes irrigated 11%
 Environment:
     sandstorms may occur during spring and summer; limited arable land and
-    natural water resources pose serious constraints; deforestation
+    natural water libcw.resources pose serious constraints; deforestation
 Note:
     there are 175 Jewish settlements in the West Bank, 38 in the
     Israeli-occupied Golan Heights, 18 in the Gaza Strip, and 14 Israeli-built
@@ -25845,7 +25845,7 @@ Flag:
 Overview:
     Israel has a market economy with substantial government participation. It
     depends on imports of crude oil, grains, raw materials, and military
-    equipment. Despite limited natural resources, Israel has intensively
+    equipment. Despite limited natural libcw.resources, Israel has intensively
     developed its agricultural and industrial sectors over the past 20 years.
     Industry employs about 20% of Israeli workers, agriculture 5%, and services
     most of the rest. Diamonds, high-technology equipment, and agricultural
@@ -25987,7 +25987,7 @@ Climate:
     predominantly Mediterranean; Alpine in far north; hot, dry in south
 Terrain:
     mostly rugged and mountainous; some plains, coastal lowlands
-Natural resources:
+Natural libcw.resources:
     mercury, potash, marble, sulfur, dwindling natural gas and crude oil
     reserves, fish, coal
 Land use:
@@ -26269,7 +26269,7 @@ Climate:
     October)
 Terrain:
     mostly flat to undulating plains; mountains in northwest
-Natural resources:
+Natural libcw.resources:
     crude oil, diamonds, manganese, iron ore, cobalt, bauxite, copper
 Land use:
     arable land 9%; permanent crops 4%; meadows and pastures 9%; forest and
@@ -26521,7 +26521,7 @@ Climate:
     tropical; hot, humid; temperate interior
 Terrain:
     mostly mountains with narrow, discontinuous coastal plain
-Natural resources:
+Natural libcw.resources:
     bauxite, gypsum, limestone
 Land use:
     arable land 19%; permanent crops 6%; meadows and pastures 18%; forest and
@@ -26762,7 +26762,7 @@ Climate:
 Terrain:
     volcanic island, partly covered by glaciers; Beerenberg is the highest peak,
     with an elevation of 2,277 meters
-Natural resources:
+Natural libcw.resources:
     none
 Land use:
     arable land 0%; permanent crops 0%; meadows and pastures 0%; forest and
@@ -26792,7 +26792,7 @@ Capital:
 :Jan Mayen Economy
 
 Overview:
-    Jan Mayen is a volcanic island with no exploitable natural resources.
+    Jan Mayen is a volcanic island with no exploitable natural libcw.resources.
     Economic activity is limited to providing services for employees of Norway's
     radio and meteorological stations located on the island.
 Electricity:
@@ -26841,8 +26841,8 @@ Climate:
     varies from tropical in south to cool temperate in north
 Terrain:
     mostly rugged and mountainous
-Natural resources:
-    negligible mineral resources, fish
+Natural libcw.resources:
+    negligible mineral libcw.resources, fish
 Land use:
     arable land 13%; permanent crops 1%; meadows and pastures 1%; forest and
     woodland 67%; other 18%; includes irrigated 9%
@@ -27121,7 +27121,7 @@ Climate:
     tropical; scant rainfall, constant wind, burning sun
 Terrain:
     sandy, coral island surrounded by a narrow fringing reef
-Natural resources:
+Natural libcw.resources:
     guano (deposits worked until late 1800s)
 Land use:
     arable land 0%; permanent crops 0%; meadows and pastures 0%; forest and
@@ -27199,7 +27199,7 @@ Climate:
     temperate; mild winters and cool summers
 Terrain:
     gently rolling plain with low, rugged hills along north coast
-Natural resources:
+Natural libcw.resources:
     agricultural land
 Land use:
     arable land NA%; permanent crops NA%; meadows and pastures NA%; forest and
@@ -27388,7 +27388,7 @@ Climate:
     seasonal temperature variation
 Terrain:
     mostly flat with a maximum elevation of 4 meters
-Natural resources:
+Natural libcw.resources:
     guano (deposits worked until about 1890)
 Land use:
     arable land 0%; permanent crops 0%; meadows and pastures 0%; forest and
@@ -27478,13 +27478,13 @@ Climate:
 Terrain:
     mostly desert plateau in east, highland area in west; Great Rift Valley
     separates East and West Banks of the Jordan River
-Natural resources:
+Natural libcw.resources:
     phosphates, potash, shale oil
 Land use:
     arable land 4%; permanent crops 0.5%; meadows and pastures 1%; forest and
     woodland 0.5%; other 94%; includes irrigated 0.5%
 Environment:
-    lack of natural water resources; deforestation; overgrazing; soil erosion;
+    lack of natural water libcw.resources; deforestation; overgrazing; soil erosion;
     desertification
 Note:
     The war between Israel and the Arab states in June 1967 ended with Israel in
@@ -27620,7 +27620,7 @@ Overview:
     already serious economic problems, forcing the government to shelve the IMF
     program, stop most debt payments, and suspend rescheduling negotiations. Aid
     from Gulf Arab states and worker remittances have plunged, and refugees have
-    flooded the country, straining government resources. Economic recovery is
+    flooded the country, straining government libcw.resources. Economic recovery is
     unlikely without substantial foreign aid, debt relief, and economic reform.
 GDP:
     exchange rate conversion - $3.6 billion, per capita $1,100; real growth rate
@@ -27738,7 +27738,7 @@ Climate:
     tropical
 Terrain:
     undetermined
-Natural resources:
+Natural libcw.resources:
     guano deposits and other fertilizers
 Land use:
     arable land 0%; permanent crops 0%; meadows and pastures 0%; forest and
@@ -27808,7 +27808,7 @@ Climate:
 Terrain:
     extends from the Volga to the Altai mountains and from the plains in western
     Siberia to oasis and desert in Central Asia
-Natural resources:
+Natural libcw.resources:
     petroleum, coal, iron, manganese, chrome, nickel, cobalt, copper,
     molybdenum, lead, zinc, bauxite, gold, uranium, iron
 Land use:
@@ -27915,8 +27915,8 @@ Flag:
 
 Overview:
     The second-largest in area of the 15 former Soviet republics, Kazakhstan has
-    vast oil, coal, and agricultural resources. Kazakhstan is highly dependent
-    on trade with Russia, exchanging its natural resources for finished consumer
+    vast oil, coal, and agricultural libcw.resources. Kazakhstan is highly dependent
+    on trade with Russia, exchanging its natural libcw.resources for finished consumer
     and industrial goods. Kazakhstan now finds itself with serious pollution
     problems, backward technology, and little experience in foreign markets. The
     government in 1991 pushed privatization of the economy at a faster pace than
@@ -28050,7 +28050,7 @@ Climate:
 Terrain:
     low plains rise to central highlands bisected by Great Rift Valley; fertile
     plateau in west
-Natural resources:
+Natural libcw.resources:
     gold, limestone, soda ash, salt barytes, rubies, fluorspar, garnets,
     wildlife
 Land use:
@@ -28298,7 +28298,7 @@ Climate:
     tropical, but moderated by prevailing winds
 Terrain:
     low and nearly level with a maximum elevation of about 1 meter
-Natural resources:
+Natural libcw.resources:
     none
 Land use:
     arable land 0%; permanent crops 0%; meadows and pastures 0%; forest and
@@ -28366,7 +28366,7 @@ Climate:
     tropical; marine, hot and humid, moderated by trade winds
 Terrain:
     mostly low-lying coral atolls surrounded by extensive reefs
-Natural resources:
+Natural libcw.resources:
     phosphate (production discontinued in 1979)
 Land use:
     arable land NEGL%; permanent crops 51%; meadows and pastures 0%; forest and
@@ -28474,7 +28474,7 @@ Flag:
 :Kiribati Economy
 
 Overview:
-    The country has few national resources. Commercially viable phosphate
+    The country has few national libcw.resources. Commercially viable phosphate
     deposits were exhausted at the time of independence in 1979. Copra and fish
     now represent the bulk of production and exports. The economy has fluctuated
     widely in recent years. Real GDP declined about 8% in 1987, as the fish
@@ -28584,7 +28584,7 @@ Climate:
 Terrain:
     mostly hills and mountains separated by deep, narrow valleys; coastal plains
     wide in west, discontinuous in east
-Natural resources:
+Natural libcw.resources:
     coal, lead, tungsten, zinc, graphite, magnesite, iron ore, copper, gold,
     pyrites, salt, fluorspar, hydropower
 Land use:
@@ -28710,7 +28710,7 @@ Overview:
     strict rule of KIM Il-song and his son, KIM Chong-il. Economic growth during
     the period 1984-89 averaged 2-3%, but output declined by 2-4% annually
     during 1990-91, largely because of disruptions in economic relations with
-    the USSR. Abundant natural resources and hydropower form the basis of
+    the USSR. Abundant natural libcw.resources and hydropower form the basis of
     industrial development. Output of the extractive industries includes coal,
     iron ore, magnesite, graphite, copper, zinc, lead, and precious metals.
     Manufacturing is centered on heavy industry, with light industry lagging far
@@ -28834,7 +28834,7 @@ Climate:
     temperate, with rainfall heavier in summer than winter
 Terrain:
     mostly hills and mountains; wide coastal plains in west and south
-Natural resources:
+Natural libcw.resources:
     coal, tungsten, graphite, molybdenum, lead, hydropower
 Land use:
     arable land 21%; permanent crops 1%; meadows and pastures 1%; forest and
@@ -29105,7 +29105,7 @@ Climate:
     dry desert; intensely hot summers; short, cool winters
 Terrain:
     flat to slightly undulating desert plain
-Natural resources:
+Natural libcw.resources:
     petroleum, fish, shrimp, natural gas
 Land use:
     arable land NEGL%; permanent crops 0%; meadows and pastures 8%; forest and
@@ -29348,7 +29348,7 @@ Climate:
 Terrain:
     peaks of Tien Shan rise to 7,000 meters, and associated valleys and basins
     encompass entire nation
-Natural resources:
+Natural libcw.resources:
     small amounts of coal, natural gas, oil; also nepheline, rare earth metals,
     mercury, bismuth, gold, uranium, lead, zinc, hydroelectric power
 Land use:
@@ -29577,7 +29577,7 @@ Climate:
     April)
 Terrain:
     mostly rugged mountains; some plains and plateaus
-Natural resources:
+Natural libcw.resources:
     timber, hydropower, gypsum, tin, gold, gemstones
 Land use:
     arable land 4%; permanent crops NEGL%; meadows and pastures 3%; forest and
@@ -29819,7 +29819,7 @@ Climate:
     maritime; wet, moderate winters
 Terrain:
     low plain
-Natural resources:
+Natural libcw.resources:
     minimal; amber, peat, limestone, dolomite
 Land use:
     27% arable land; NA% permanent crops; 13% meadows and pastures; 39% forest
@@ -29938,7 +29938,7 @@ Overview:
     Latvia is in the process of reforming the centrally planned economy
     inherited from the former USSR into a market economy. Prices have been
     freed, and privatization of shops and farms has begun. Latvia lacks natural
-    resources, aside from its arable land and small forests. Its most valuable
+    libcw.resources, aside from its arable land and small forests. Its most valuable
     economic asset is its work force, which is better educated and disciplined
     than in most of the former Soviet republics. Industrial production is highly
     diversified, with products ranging from agricultural machinery to consumer
@@ -30068,7 +30068,7 @@ Climate:
 Terrain:
     narrow coastal plain; Al Biqa` (Bekaa Valley) separates Lebanon and
     Anti-Lebanon Mountains
-Natural resources:
+Natural libcw.resources:
     limestone, iron ore, salt; water-surplus state in a water-deficit region
 Land use:
     arable land 21%; permanent crops 9%; meadows and pastures 1%; forest and
@@ -30389,7 +30389,7 @@ Climate:
     temperate; cool to cold, dry winters; hot, wet summers
 Terrain:
     mostly highland with some plateaus, hills, and mountains
-Natural resources:
+Natural libcw.resources:
     some diamonds and other minerals, water, agricultural and grazing land
 Land use:
     arable land 10%; permanent crops 0%; meadows and pastures 66%; forest and
@@ -30507,7 +30507,7 @@ Flag:
 
 Overview:
     Small, landlocked, and mountainous, Lesotho has no important natural
-    resources other than water. Its economy is based on agriculture, light
+    libcw.resources other than water. Its economy is based on agriculture, light
     manufacturing, and remittances from laborers employed in South Africa ($153
     million in 1989). The great majority of households gain their livelihoods
     from subsistence farming and migrant labor. Manufacturing depends largely on
@@ -30621,7 +30621,7 @@ Climate:
 Terrain:
     mostly flat to rolling coastal plains rising to rolling plateau and low
     mountains in northeast
-Natural resources:
+Natural libcw.resources:
     iron ore, timber, diamonds, gold
 Land use:
     arable land 1%; permanent crops 3%; meadows and pastures 2%; forest and
@@ -30748,7 +30748,7 @@ Overview:
     Civil war during 1990 destroyed much of Liberia's economy, especially the
     infrastructure in and around Monrovia. Expatriate businessmen fled the
     country, taking capital and expertise with them. Many will not return.
-    Richly endowed with water, mineral resources, forests, and a climate
+    Richly endowed with water, mineral libcw.resources, forests, and a climate
     favorable to agriculture, Liberia had been a producer and exporter of basic
     products, while local manufacturing, mainly foreign owned, had been small in
     scope. Political instability threatens prospects for economic reconstruction
@@ -30878,14 +30878,14 @@ Climate:
     Mediterranean along coast; dry, extreme desert interior
 Terrain:
     mostly barren, flat to undulating plains, plateaus, depressions
-Natural resources:
+Natural libcw.resources:
     crude oil, natural gas, gypsum
 Land use:
     arable land 1%; permanent crops 0%; meadows and pastures 8%; forest and
     woodland 0%; other 91%; includes irrigated NEGL%
 Environment:
     hot, dry, dust-laden ghibli is a southern wind lasting one to four days in
-    spring and fall; desertification; sparse natural surface-water resources
+    spring and fall; desertification; sparse natural surface-water libcw.resources
 Note:
     the Great Manmade River Project, the largest water development scheme in the
     world, is being built to bring water from large aquifers under the Sahara to
@@ -31122,7 +31122,7 @@ Climate:
     moderately warm, cloudy, humid summers
 Terrain:
     mostly mountainous (Alps) with Rhine Valley in western third
-Natural resources:
+Natural libcw.resources:
     hydroelectric potential
 Land use:
     arable land 25%; permanent crops 0%; meadows and pastures 38%; forest and
@@ -31336,7 +31336,7 @@ Climate:
     maritime; wet, moderate winters
 Terrain:
     lowland, many scattered small lakes, fertile soil
-Natural resources:
+Natural libcw.resources:
     peat
 Land use:
     49.1% arable land; NA% permanent crops; 22.2% meadows and pastures; 16.3%
@@ -31456,7 +31456,7 @@ Overview:
     substantially above average in living standards and technology in the old
     USSR, Lithuania historically lagged behind Latvia and Estonia in economic
     development. It is ahead of its Baltic neighbors, however, in implementing
-    market reform. The country has no important natural resources aside from its
+    market reform. The country has no important natural libcw.resources aside from its
     arable land and strategic location. Industry depends entirely on imported
     materials that have come from the republics of the former USSR. Lithuania
     benefits from its ice-free port at Klaipeda on the Baltic Sea and its rail
@@ -31598,7 +31598,7 @@ Terrain:
     mostly gently rolling uplands with broad, shallow valleys; uplands to
     slightly mountainous in the north; steep slope down to Moselle floodplain in
     the southeast
-Natural resources:
+Natural libcw.resources:
     iron ore (no longer exploited)
 Land use:
     arable land 24%; permanent crops 1%; meadows and pastures 20%; forest and
@@ -31835,7 +31835,7 @@ Climate:
     subtropical; marine with cool winters, warm summers
 Terrain:
     generally flat
-Natural resources:
+Natural libcw.resources:
     negligible
 Land use:
     arable land 0%; permanent crops 0%; meadows and pastures 0%; forest and
@@ -32043,7 +32043,7 @@ Climate:
 Terrain:
     territory covered with deep basins and valleys; there are three large lakes,
     each divided by a frontier line
-Natural resources:
+Natural libcw.resources:
     chromium, lead, zinc, manganese, tungsten, nickel, low-grade iron ore,
     asbestos, sulphur, timber
 Land use:
@@ -32150,7 +32150,7 @@ Flag:
 Overview:
     Macedonia, although the poorest among the six republics of a disintegrated
     Yugoslav federation, can meet basic food and energy needs through its own
-    agricultural and coal resources. As a breakaway republic, however, it will
+    agricultural and coal libcw.resources. As a breakaway republic, however, it will
     move down toward a bare subsistence level of life unless economic ties are
     reforged or enlarged with its neighbors Serbia, Albania, Greece, and
     Bulgaria. The economy depends on outside sources for all of its oil and gas
@@ -32273,7 +32273,7 @@ Climate:
     tropical along coast, temperate inland, arid in south
 Terrain:
     narrow coastal plain, high plateau and mountains in center
-Natural resources:
+Natural libcw.resources:
     graphite, chromite, coal, bauxite, salt, quartz, tar sands, semiprecious
     stones, mica, fish
 Land use:
@@ -32529,7 +32529,7 @@ Climate:
     tropical; rainy season (November to May); dry season (May to November)
 Terrain:
     narrow elongated plateau with rolling plains, rounded hills, some mountains
-Natural resources:
+Natural libcw.resources:
     limestone; unexploited deposits of uranium, coal, and bauxite
 Land use:
     arable land 25%; permanent crops NEGL%; meadows and pastures 20%; forest and
@@ -32763,7 +32763,7 @@ Climate:
     February) monsoons
 Terrain:
     coastal plains rising to hills and mountains
-Natural resources:
+Natural libcw.resources:
     tin, crude oil, timber, copper, iron ore, natural gas, bauxite
 Land use:
     arable land 3%; permanent crops 10%; meadows and pastures NEGL%; forest and
@@ -33071,7 +33071,7 @@ Climate:
     southwest monsoon (June to August)
 Terrain:
     flat with elevations only as high as 2.5 meters
-Natural resources:
+Natural libcw.resources:
     fish
 Land use:
     arable land 10%; permanent crops 0%; meadows and pastures 3%; forest and
@@ -33283,7 +33283,7 @@ Climate:
 Terrain:
     mostly flat to rolling northern plains covered by sand; savanna in south,
     rugged hills in northeast
-Natural resources:
+Natural libcw.resources:
     gold, phosphates, kaolin, salt, limestone, uranium; bauxite, iron ore,
     manganese, tin, and copper deposits are known but not exploited
 Land use:
@@ -33529,7 +33529,7 @@ Climate:
     Mediterranean with mild, rainy winters and hot, dry summers
 Terrain:
     mostly low, rocky, flat to dissected plains; many coastal cliffs
-Natural resources:
+Natural libcw.resources:
     limestone, salt
 Land use:
     arable land 38%; permanent crops 3%; meadows and pastures 0%; forest and
@@ -33636,7 +33636,7 @@ Flag:
 :Malta Economy
 
 Overview:
-    Significant resources are limestone, a favorable geographic location, and a
+    Significant libcw.resources are limestone, a favorable geographic location, and a
     productive labor force. Malta produces only about 20% of its food needs, has
     limited freshwater supplies, and has no domestic energy sources.
     Consequently, the economy is highly dependent on foreign trade and services.
@@ -33753,7 +33753,7 @@ Climate:
     cool summers and mild winters; humid; overcast about half the time
 Terrain:
     hills in north and south bisected by central valley
-Natural resources:
+Natural libcw.resources:
     lead, iron ore
 Land use:
     arable land NA%; permanent crops NA%; meadows and pastures NA%; forest and
@@ -33949,7 +33949,7 @@ Climate:
     wet season May to November; hot and humid; islands border typhoon belt
 Terrain:
     low coral limestone and sand islands
-Natural resources:
+Natural libcw.resources:
     phosphate deposits, marine products, deep seabed minerals
 Land use:
     arable land 0%; permanent crops 60%; meadows and pastures 0%; forest and
@@ -34060,7 +34060,7 @@ Overview:
     supply the domestic meat market. Small-scale industry is limited to
     handicrafts, fish processing, and copra. The tourist industry is the primary
     source of foreign exchange and employs about 10% of the labor force. The
-    islands have few natural resources, and imports far exceed exports. In 1987
+    islands have few natural libcw.resources, and imports far exceed exports. In 1987
     the US Government provided grants of $40 million out of the Marshallese
     budget of $55 million.
 GDP:
@@ -34155,7 +34155,7 @@ Climate:
     tropical; moderated by trade winds; rainy season (June to October)
 Terrain:
     mountainous with indented coastline; dormant volcano
-Natural resources:
+Natural libcw.resources:
     coastal scenery and beaches, cultivable land
 Land use:
     arable land 10%; permanent crops 8%; meadows and pastures 30%; forest and
@@ -34378,7 +34378,7 @@ Climate:
     desert; constantly hot, dry, dusty
 Terrain:
     mostly barren, flat plains of the Sahara; some central hills
-Natural resources:
+Natural libcw.resources:
     iron ore, gypsum, fish, copper, phosphate
 Land use:
     arable land 1%; permanent crops NEGL%; meadows and pastures 38%; forest and
@@ -34640,7 +34640,7 @@ Climate:
 Terrain:
     small coastal plain rising to discontinuous mountains encircling central
     plateau
-Natural resources:
+Natural libcw.resources:
     arable land, fish
 Land use:
     arable land 54%; permanent crops 4%; meadows and pastures 4%; forest and
@@ -34869,7 +34869,7 @@ Climate:
     (November to May); dry season is cooler (May to November)
 Terrain:
     generally undulating with ancient volcanic peaks, deep ravines
-Natural resources:
+Natural libcw.resources:
     negligible
 Land use:
     arable land NA%; permanent crops NA%; meadows and pastures NA%; forest and
@@ -35062,14 +35062,14 @@ Climate:
     varies from tropical to desert
 Terrain:
     high, rugged mountains, low coastal plains, high plateaus, and desert
-Natural resources:
+Natural libcw.resources:
     crude oil, silver, copper, gold, lead, zinc, natural gas, timber
 Land use:
     arable land 12%; permanent crops 1%; meadows and pastures 39%; forest and
     woodland 24%; other 24%; includes irrigated 3%
 Environment:
     subject to tsunamis along the Pacific coast and destructive earthquakes in
-    the center and south; natural water resources scarce and polluted in north,
+    the center and south; natural water libcw.resources scarce and polluted in north,
     inaccessible and poor quality in center and extreme southeast;
     deforestation; erosion widespread; desertification; serious air pollution in
     Mexico City and urban centers along US-Mexico border
@@ -35355,7 +35355,7 @@ Climate:
 Terrain:
     islands vary geologically from high mountainous islands to low, coral
     atolls; volcanic outcroppings on Pohnpei, Kosrae, and Truk
-Natural resources:
+Natural libcw.resources:
     forests, marine products, deep-seabed minerals
 Land use:
     arable land NA%; permanent crops NA%; meadows and pastures NA%; forest and
@@ -35565,7 +35565,7 @@ Climate:
     tropical, but moderated by prevailing easterly winds
 Terrain:
     low, nearly level
-Natural resources:
+Natural libcw.resources:
     fish and wildlife
 Land use:
     arable land 0%; permanent crops 0%; meadows and pastures 0%; forest and
@@ -35648,7 +35648,7 @@ Climate:
     mild winters, warm summers
 Terrain:
     rolling steppe, gradual slope south to Black Sea
-Natural resources:
+Natural libcw.resources:
     lignite, phosphorites, gypsum
 Land use:
     NA% arable land; NA% permanent crops; NA% meadows and pastures; NA% forest
@@ -35782,7 +35782,7 @@ Overview:
     a favorable climate, and economic development has been primarily based on
     agriculture, featuring fruits, vegetables, wine, and tobacco. Industry
     accounts for 20% of the labor force, whereas agriculture employs more than
-    one-third. Moldova has no major mineral resources and has depended on the
+    one-third. Moldova has no major mineral libcw.resources and has depended on the
     former Soviet republics for coal, oil, gas, steel, most electronic
     equipment, machine tools, and major consumer durables such as automobiles.
     Its industrial and agricultural products, in turn, have been exported to the
@@ -35899,7 +35899,7 @@ Climate:
     Mediterranean with mild, wet winters and hot, dry summers
 Terrain:
     hilly, rugged, rocky
-Natural resources:
+Natural libcw.resources:
     none
 Land use:
     arable land 0%; permanent crops 0%; meadows and pastures 0%; forest and
@@ -36091,7 +36091,7 @@ Climate:
 Terrain:
     vast semidesert and desert plains; mountains in west and southwest; Gobi
     Desert in southeast
-Natural resources:
+Natural libcw.resources:
     oil, coal, copper, molybdenum, tungsten, phosphates, tin, nickel, zinc,
     wolfram, fluorspar, gold
 Land use:
@@ -36227,7 +36227,7 @@ Overview:
     unproductive land have constrained economic development. Economic activity
     traditionally has been based on agriculture and the breeding of livestock -
     Mongolia has the highest number of livestock per person in the world. In
-    recent years extensive mineral resources have been developed with Soviet
+    recent years extensive mineral libcw.resources have been developed with Soviet
     support. The mining and processing of coal, copper, molybdenum, tin,
     tungsten, and gold account for a large part of industrial production. Timber
     and fishing are also important sectors. In 1991-92 Mongolian leadership is
@@ -36344,7 +36344,7 @@ Climate:
     tropical; little daily or seasonal temperature variation
 Terrain:
     volcanic islands, mostly mountainous, with small coastal lowland
-Natural resources:
+Natural libcw.resources:
     negligible
 Land use:
     arable land 20%; permanent crops 0%; meadows and pastures 10%; forest and
@@ -36543,7 +36543,7 @@ Climate:
     Mediterranean, becoming more extreme in the interior
 Terrain:
     mostly mountains with rich coastal plains
-Natural resources:
+Natural libcw.resources:
     phosphates, iron ore, manganese, lead, zinc, fish, salt
 Land use:
     arable land 18%; permanent crops 1%; meadows and pastures 28%; forest and
@@ -36809,7 +36809,7 @@ Climate:
 Terrain:
     mostly coastal lowlands, uplands in center, high plateaus in northwest,
     mountains in west
-Natural resources:
+Natural libcw.resources:
     coal, titanium
 Land use:
     arable land 4%; permanent crops NEGL%; meadows and pastures 56%; forest and
@@ -36922,7 +36922,7 @@ Flag:
 Overview:
     One of Africa's poorest countries, Mozambique has failed to exploit the
     economic potential of its sizable agricultural, hydropower, and
-    transportation resources. Indeed, national output, consumption, and
+    transportation libcw.resources. Indeed, national output, consumption, and
     investment declined throughout the first half of the 1980s because of
     internal disorders, lack of government administrative control, and a growing
     foreign debt. A sharp increase in foreign aid, attracted by an economic
@@ -37052,7 +37052,7 @@ Climate:
     desert; hot, dry; rainfall sparse and erratic
 Terrain:
     mostly high plateau; Namib Desert along coast; Kalahari Desert in east
-Natural resources:
+Natural libcw.resources:
     diamonds, copper, uranium, gold, lead, tin, lithium, cadmium, zinc, salt,
     vanadium, natural gas, fish; suspected deposits of oil, natural gas, coal,
     and iron ore
@@ -37060,7 +37060,7 @@ Land use:
     arable land 1%; permanent crops NEGL%; meadows and pastures 64%; forest and
     woodland 22%; other 13%; includes irrigated NEGL%
 Environment:
-    inhospitable with very limited natural water resources; desertification
+    inhospitable with very limited natural water libcw.resources; desertification
 Note:
     Walvis Bay area is an exclave of South Africa in Namibia
 
@@ -37181,7 +37181,7 @@ Overview:
     fifth-largest producer of uranium. Alluvial diamond deposits are among the
     richest in the world, making Namibia a primary source for gem-quality
     diamonds. Namibia also produces large quantities of lead, zinc, tin, silver,
-    and tungsten, and it has substantial resources of coal. More than half the
+    and tungsten, and it has substantial libcw.resources of coal. More than half the
     population depends on agriculture (largely subsistence agriculture) for its
     livelihood.
 GDP:
@@ -37284,7 +37284,7 @@ Climate:
 Terrain:
     sandy beach rises to fertile ring around raised coral reefs with phosphate
     plateau in center
-Natural resources:
+Natural libcw.resources:
     phosphates
 Land use:
     arable land 0%; permanent crops 0%; meadows and pastures 0%; forest and
@@ -37387,7 +37387,7 @@ Overview:
     Revenues come from the export of phosphates, the reserves of which are
     expected to be exhausted by the year 2000. Phosphates have given Nauruans
     one of the highest per capita incomes in the Third World - $10,000 annually.
-    Few other resources exist, so most necessities must be imported, including
+    Few other libcw.resources exist, so most necessities must be imported, including
     fresh water from Australia. The rehabilitation of mined land and the
     replacement of income from phosphates are serious long-term problems.
     Substantial amounts of phosphate income are invested in trust funds to help
@@ -37491,7 +37491,7 @@ Climate:
 Terrain:
     raised coral and limestone plateau, flat to undulating; ringed by vertical
     white cliffs (9 to 15 meters high)
-Natural resources:
+Natural libcw.resources:
     guano
 Land use:
     arable land 0%; permanent crops 0%; meadows and pastures 10%; forest and
@@ -37554,7 +37554,7 @@ Climate:
 Terrain:
     Terai or flat river plain of the Ganges in south, central hill region,
     rugged Himalayas in north
-Natural resources:
+Natural libcw.resources:
     quartz, water, timber, hydroelectric potential, scenic beauty; small
     deposits of lignite, copper, cobalt, iron ore
 Land use:
@@ -37695,7 +37695,7 @@ Overview:
     sugarcane, tobacco, and grain). Production of textiles and carpets has
     expanded recently and accounted for 87% of foreign exchange earnings in
     FY89. Apart from agricultural land and forests, the only other exploitable
-    natural resources are mica, hydropower, and tourism. Agricultural production
+    natural libcw.resources are mica, hydropower, and tourism. Agricultural production
     in the late 1980s grew by about 5%, as compared with annual population
     growth of 2.6%. Forty percent or more of the population is undernourished
     partly because of poor distribution. Since May 1991, the government has been
@@ -37809,7 +37809,7 @@ Climate:
     temperate; marine; cool summers and mild winters
 Terrain:
     mostly coastal lowland and reclaimed land (polders); some hills in southeast
-Natural resources:
+Natural libcw.resources:
     natural gas, crude oil, fertile soil
 Land use:
     arable land 26%; permanent crops 1%; meadows and pastures 32%; forest and
@@ -38080,7 +38080,7 @@ Climate:
     tropical; ameliorated by northeast trade winds
 Terrain:
     generally hilly, volcanic interiors
-Natural resources:
+Natural libcw.resources:
     phosphates (Curacao only), salt (Bonaire only)
 Land use:
     arable land 8%; permanent crops 0%; meadows and pastures 0%; forest and
@@ -38322,7 +38322,7 @@ Climate:
     tropical; modified by southeast trade winds; hot, humid
 Terrain:
     coastal plains with interior mountains
-Natural resources:
+Natural libcw.resources:
     nickel, chrome, iron, cobalt, manganese, silver, gold, lead, copper
 Land use:
     arable land NEGL%; permanent crops NEGL%; meadows and pastures 14%; forest
@@ -38423,7 +38423,7 @@ Flag:
 :New Caledonia Economy
 
 Overview:
-    New Caledonia has more than 25% of the world's known nickel resources. In
+    New Caledonia has more than 25% of the world's known nickel libcw.resources. In
     recent years the economy has suffered because of depressed international
     demand for nickel, the principal source of export earnings. Only a
     negligible amount of the land is suitable for cultivation, and food accounts
@@ -38528,7 +38528,7 @@ Climate:
     temperate with sharp regional contrasts
 Terrain:
     predominately mountainous with some large coastal plains
-Natural resources:
+Natural libcw.resources:
     natural gas, iron ore, sand, coal, timber, hydropower, gold, limestone
 Land use:
     arable land 2%; permanent crops 0%; meadows and pastures 53%; forest and
@@ -38788,7 +38788,7 @@ Climate:
 Terrain:
     extensive Atlantic coastal plains rising to central interior mountains;
     narrow Pacific coastal plain interrupted by volcanoes
-Natural resources:
+Natural libcw.resources:
     gold, silver, copper, tungsten, lead, zinc, timber, fish
 Land use:
     arable land 9%; permanent crops 1%; meadows and pastures 43%; forest and
@@ -39070,7 +39070,7 @@ Climate:
 Terrain:
     predominately desert plains and sand dunes; flat to rolling plains in south;
     hills in north
-Natural resources:
+Natural libcw.resources:
     uranium, coal, iron ore, tin, phosphates
 Land use:
     arable land 3%; permanent crops 0%; meadows and pastures 7%; forest and
@@ -39322,7 +39322,7 @@ Climate:
 Terrain:
     southern lowlands merge into central hills and plateaus; mountains in
     southeast, plains in north
-Natural resources:
+Natural libcw.resources:
     crude oil, tin, columbite, iron ore, coal, limestone, lead, zinc, natural
     gas
 Land use:
@@ -39496,7 +39496,7 @@ Agriculture:
     farming dominates; once a large net exporter of food and now an importer;
     cash crops - cocoa, peanuts, palm oil, rubber; food crops - corn, rice,
     sorghum, millet, cassava, yams; livestock - cattle, sheep, goats, pigs;
-    fishing and forestry resources extensively exploited
+    fishing and forestry libcw.resources extensively exploited
 Illicit drugs:
     illicit heroin and some cocaine trafficking; marijuana cultivation for
     domestic consumption and export; major transit country for heroin en route
@@ -39581,7 +39581,7 @@ Climate:
     tropical; modified by southeast trade winds
 Terrain:
     steep limestone cliffs along coast, central plateau
-Natural resources:
+Natural libcw.resources:
     fish, arable land
 Land use:
     arable land 61%; permanent crops 4%; meadows and pastures 4%; forest and
@@ -39778,7 +39778,7 @@ Climate:
     subtropical, mild, little seasonal temperature variation
 Terrain:
     volcanic formation with mostly rolling plains
-Natural resources:
+Natural libcw.resources:
     fish
 Land use:
     arable land 0%; permanent crops 0%; meadows and pastures 25%; forest and
@@ -39972,7 +39972,7 @@ Terrain:
     southern islands are limestone with level terraces and fringing coral reefs;
     northern islands are volcanic; highest elevation is 471 meters (Mt. Tagpochu
     on Saipan)
-Natural resources:
+Natural libcw.resources:
     arable land, fish
 Land use:
     arable land 1%; permanent crops NA%; meadows and pastures 19%; forest and
@@ -40182,7 +40182,7 @@ Terrain:
     glaciated; mostly high plateaus and rugged mountains broken by fertile
     valleys; small, scattered plains; coastline deeply indented by fjords;
     arctic tundra in north
-Natural resources:
+Natural libcw.resources:
     crude oil, copper, natural gas, pyrites, nickel, iron ore, zinc, lead, fish,
     timber, hydropower
 Land use:
@@ -40321,7 +40321,7 @@ Overview:
     dependence on international trade, Norway is basically an exporter of raw
     materials and semiprocessed goods, with an abundance of small- and
     medium-sized firms, and is ranked among the major shipping nations. The
-    country is richly endowed with natural resources - petroleum, hydropower,
+    country is richly endowed with natural libcw.resources - petroleum, hydropower,
     fish, forests, and minerals - and is highly dependent on its oil sector to
     keep its economy afloat. Although one of the government's main priorities is
     to reduce this dependency, this situation is not likely to improve for years
@@ -40463,7 +40463,7 @@ Climate:
     summer monsoon (May to September) in far south
 Terrain:
     vast central desert plain, rugged mountains in north and south
-Natural resources:
+Natural libcw.resources:
     crude oil, copper, asbestos, some marble, limestone, chromium, gypsum,
     natural gas
 Land use:
@@ -40471,7 +40471,7 @@ Land use:
     and woodland NEGL%; other 95%; includes irrigated NEGL%
 Environment:
     summer winds often raise large sandstorms and duststorms in interior; sparse
-    natural freshwater resources
+    natural freshwater libcw.resources
 Note:
     strategic location with small foothold on Musandam Peninsula controlling
     Strait of Hormuz (17% of world's oil production transits this point going
@@ -40679,7 +40679,7 @@ Terrain:
     about 200 islands varying geologically from the high, mountainous main
     island of Babelthuap to low, coral islands usually fringed by large barrier
     reefs
-Natural resources:
+Natural libcw.resources:
     forests, minerals (especially gold), marine products; deep-seabed minerals
 Land use:
     arable land NA%; permanent crops NA%; meadows and pastures NA%; forest and
@@ -40906,7 +40906,7 @@ Terrain:
     in October; the ocean floor in the eastern Pacific is dominated by the East
     Pacific Rise, while the western Pacific is dissected by deep trenches; the
     world's greatest depth is 10,924 meters in the Marianas Trench
-Natural resources:
+Natural libcw.resources:
     oil and gas fields, polymetallic nodules, sand and gravel aggregates, placer
     deposits, fish
 Environment:
@@ -40990,7 +40990,7 @@ Climate:
 Terrain:
     flat Indus plain in east; mountains in north and northwest; Balochistan
     plateau in west
-Natural resources:
+Natural libcw.resources:
     land, extensive natural gas reserves, limited crude oil, poor quality coal,
     iron ore, copper, salt, limestone
 Land use:
@@ -41273,7 +41273,7 @@ Climate:
     equatorial, hot, and very rainy
 Terrain:
     low, with maximum elevations of about 2 meters
-Natural resources:
+Natural libcw.resources:
     none
 Land use:
     arable land 0%; permanent crops 0%; meadows and pastures 0%; forest and
@@ -41345,7 +41345,7 @@ Climate:
 Terrain:
     interior mostly steep, rugged mountains and dissected, upland plains;
     coastal areas largely plains and rolling hills
-Natural resources:
+Natural libcw.resources:
     copper, mahogany forests, shrimp
 Land use:
     arable land 6%; permanent crops 2%; meadows and pastures 15%; forest and
@@ -41624,7 +41624,7 @@ Climate:
     October); slight seasonal temperature variation
 Terrain:
     mostly mountains with coastal lowlands and rolling foothills
-Natural resources:
+Natural libcw.resources:
     gold, copper, silver, natural gas, timber, oil potential
 Land use:
     arable land NEGL%; permanent crops 1%; meadows and pastures NEGL%; forest
@@ -41741,7 +41741,7 @@ Flag:
 :Papua New Guinea Economy
 
 Overview:
-    Papua New Guinea is richly endowed with natural resources, but exploitation
+    Papua New Guinea is richly endowed with natural libcw.resources, but exploitation
     has been hampered by the rugged terrain and the high cost of developing an
     infrastructure. Agriculture provides a subsistence livelihood for 85% of the
     population. Mining of numerous deposits, including copper and gold, accounts
@@ -41853,7 +41853,7 @@ Climate:
     tropical
 Terrain:
     undetermined
-Natural resources:
+Natural libcw.resources:
     none
 Land use:
     arable land 0%; permanent crops 0%; meadows and pastures 0%; forest and
@@ -41915,7 +41915,7 @@ Terrain:
     grassy plains and wooded hills east of Rio Paraguay; Gran Chaco region west
     of Rio Paraguay mostly low, marshy plain near the river, and dry forest and
     thorny scrub elsewhere
-Natural resources:
+Natural libcw.resources:
     iron ore, manganese, limestone, hydropower, timber
 Land use:
     arable land 20%; permanent crops 1%; meadows and pastures 39%; forest and
@@ -42049,7 +42049,7 @@ Flag:
 Overview:
     Agriculture, including forestry, accounts for about 25% of GDP, employs
     about 45% of the labor force, and provides the bulk of exports. Paraguay has
-    no known significant mineral or petroleum resources but does have a large
+    no known significant mineral or petroleum libcw.resources but does have a large
     hydropower potential. Since 1981 economic performance has declined compared
     with the boom period of 1976-81, when real GDP grew at an average annual
     rate of nearly 11%. During the period 1982-86 real GDP fell in three of five
@@ -42180,7 +42180,7 @@ Climate:
 Terrain:
     western coastal plain (costa), high and rugged Andes in center (sierra),
     eastern lowland jungle of Amazon Basin (selva)
-Natural resources:
+Natural libcw.resources:
     copper, silver, gold, petroleum, timber, fish, iron ore, coal, phosphate,
     potash
 Land use:
@@ -42491,7 +42491,7 @@ Climate:
     (May to October)
 Terrain:
     mostly mountains with narrow to extensive coastal lowlands
-Natural resources:
+Natural libcw.resources:
     timber, crude oil, nickel, cobalt, silver, gold, salt, copper
 Land use:
     arable land 26%; permanent crops 11%; meadows and pastures 4%; forest and
@@ -42769,7 +42769,7 @@ Climate:
     (November to March)
 Terrain:
     rugged volcanic formation; rocky coastline with cliffs
-Natural resources:
+Natural libcw.resources:
     miro trees (used for handicrafts), fish
 Land use:
     arable land NA%; permanent crops NA%; meadows and pastures NA%; forest and
@@ -42959,7 +42959,7 @@ Climate:
     precipitation; mild summers with frequent showers and thundershowers
 Terrain:
     mostly flat plain; mountains along southern border
-Natural resources:
+Natural libcw.resources:
     coal, sulfur, copper, natural gas, silver, lead, salt
 Land use:
     arable land 46%; permanent crops 1%; meadows and pastures 13%; forest and
@@ -43290,7 +43290,7 @@ Climate:
     maritime temperate; cool and rainy in north, warmer and drier in south
 Terrain:
     mountainous north of the Tagus, rolling plains in south
-Natural resources:
+Natural libcw.resources:
     fish, forests (cork), tungsten, iron ore, uranium ore, marble
 Land use:
     arable land 32%; permanent crops 6%; meadows and pastures 6%; forest and
@@ -43565,7 +43565,7 @@ Climate:
 Terrain:
     mostly mountains with coastal plain belt in north; mountains precipitous to
     sea on west coast
-Natural resources:
+Natural libcw.resources:
     some copper and nickel; potential for onshore and offshore crude oil
 Land use:
     arable land 8%; permanent crops 9%; meadows and pastures 41%; forest and
@@ -43800,13 +43800,13 @@ Climate:
     desert; hot, dry; humid and sultry in summer
 Terrain:
     mostly flat and barren desert covered with loose sand and gravel
-Natural resources:
+Natural libcw.resources:
     crude oil, natural gas, fish
 Land use:
     arable land NEGL%; permanent crops 0%; meadows and pastures 5%; forest and
     woodland 0%; other 95%
 Environment:
-    haze, duststorms, sandstorms common; limited freshwater resources mean
+    haze, duststorms, sandstorms common; limited freshwater libcw.resources mean
     increasing dependence on large-scale desalination facilities
 Note:
     strategic location in central Persian Gulf near major crude oil sources
@@ -44008,7 +44008,7 @@ Climate:
     hot and rainy from November to April
 Terrain:
     mostly rugged and mountainous; fertile lowlands along coast
-Natural resources:
+Natural libcw.resources:
     fish, arable land
 Land use:
     arable land 20%; permanent crops 2%; meadows and pastures 4%; forest and
@@ -44243,7 +44243,7 @@ Terrain:
     central Transylvanian Basin is separated from the plain of Moldavia on the
     east by the Carpathian Mountains and separated from the Walachian Plain on
     the south by the Transylvanian Alps
-Natural resources:
+Natural libcw.resources:
     crude oil (reserves being exhausted), timber, natural gas, coal, iron ore,
     salt
 Land use:
@@ -44542,10 +44542,10 @@ Climate:
 Terrain:
     broad plain with low hills west of Urals; vast coniferous forest and tundra
     in Siberia; uplands and mountains along southern border regions
-Natural resources:
+Natural libcw.resources:
     wide natural resource base including major deposits of oil, natural gas,
     coal, and many strategic minerals; timber; note - formidable obstacles of
-    climate, terrain, and distance hinder exploitation of natural resources
+    climate, terrain, and distance hinder exploitation of natural libcw.resources
 Land use:
     NA% arable land; NA% permanent crops; NA% meadows and pastures; NA% forest
     and woodland; NA% other; includes NA% irrigated
@@ -44692,7 +44692,7 @@ Flag:
 
 Overview:
     Russia, one of the world's largest economies, possesses a wealth of natural
-    resources and a diverse industrial base. Within the now-dismantled USSR, it
+    libcw.resources and a diverse industrial base. Within the now-dismantled USSR, it
     had produced 60% of total output, with 55% of the total labor force and 60%
     of the total capital stock. Russia depends on its world-class deposits of
     oil and gas not only for its own needs but also for vital hard currency
@@ -44854,7 +44854,7 @@ Climate:
     in mountains with frost and snow possible
 Terrain:
     mostly grassy uplands and hills; mountains in west
-Natural resources:
+Natural libcw.resources:
     gold, cassiterite (tin ore), wolframite (tungsten ore), natural gas,
     hydropower
 Land use:
@@ -45100,7 +45100,7 @@ Climate:
     tropical; marine; mild, tempered by trade winds
 Terrain:
     rugged, volcanic; small scattered plateaus and plains
-Natural resources:
+Natural libcw.resources:
     fish; Ascension is a breeding ground for sea turtles and sooty terns; no
     minerals
 Land use:
@@ -45295,7 +45295,7 @@ Climate:
     variation; rainy season (May to November)
 Terrain:
     volcanic with mountainous interiors
-Natural resources:
+Natural libcw.resources:
     negligible
 Land use:
     arable land 22%; permanent crops 17%; meadows and pastures 3%; forest and
@@ -45509,7 +45509,7 @@ Climate:
     April, rainy season from May to August
 Terrain:
     volcanic and mountainous with some broad, fertile valleys
-Natural resources:
+Natural libcw.resources:
     forests, sandy beaches, minerals (pumice), mineral springs, geothermal
     potential
 Land use:
@@ -45712,7 +45712,7 @@ Climate:
     cold and wet, with much mist and fog; spring and autumn are windy
 Terrain:
     mostly barren rock
-Natural resources:
+Natural libcw.resources:
     fish, deepwater ports
 Land use:
     arable land 13%; permanent crops 0%; meadows and pastures 0%; forest and
@@ -45915,7 +45915,7 @@ Climate:
     November)
 Terrain:
     volcanic, mountainous; Soufriere volcano on the island of Saint Vincent
-Natural resources:
+Natural libcw.resources:
     negligible
 Land use:
     arable land 38%; permanent crops 12%; meadows and pastures 6%; forest and
@@ -46124,7 +46124,7 @@ Climate:
     Mediterranean; mild to cool winters; warm, sunny summers
 Terrain:
     rugged mountains
-Natural resources:
+Natural libcw.resources:
     building stones
 Land use:
     arable land 17%; permanent crops 0%; meadows and pastures 0%; forest and
@@ -46331,7 +46331,7 @@ Climate:
     tropical; hot, humid; one rainy season (October to May)
 Terrain:
     volcanic, mountainous
-Natural resources:
+Natural libcw.resources:
     fish
 Land use:
     arable land 1%; permanent crops 20%; meadows and pastures 1%; forest and
@@ -46564,7 +46564,7 @@ Climate:
     harsh, dry desert with great extremes of temperature
 Terrain:
     mostly uninhabited, sandy desert
-Natural resources:
+Natural libcw.resources:
     crude oil, natural gas, iron ore, gold, copper
 Land use:
     arable land 1%; permanent crops NEGL%; meadows and pastures 39%; forest and
@@ -46801,7 +46801,7 @@ Climate:
     winds; dry season (May to November) dominated by hot, dry harmattan wind
 Terrain:
     generally low, rolling, plains rising to foothills in southeast
-Natural resources:
+Natural libcw.resources:
     fish, phosphates, iron ore
 Land use:
     arable land 27%; permanent crops 0%; meadows and pastures 30%; forest and
@@ -47066,7 +47066,7 @@ Terrain:
     ranges and basins; to the southeast, ancient mountain and hills; to the
     southwest, extremely high shoreline with no islands off the coast; home of
     largest lake in former Yugoslavia, Lake Scutari
-Natural resources:
+Natural libcw.resources:
     oil, gas, coal, antimony, copper, lead, zinc, nickel, gold, pyrite, chrome
 Land use:
     arable land 30%; permanent crops 5%; meadows and pastures 20%; forest and
@@ -47177,7 +47177,7 @@ Overview:
     strife. This new state faces major economic problems. First, like the other
     former Yugoslav republics, Serbia and Montenegro depended on their sister
     republics for large amounts of foodstuffs, energy supplies, and
-    manufactures. Wide varieties in climate, mineral resources, and levels of
+    manufactures. Wide varieties in climate, mineral libcw.resources, and levels of
     technology among the six republics accentuated this interdependence, as did
     the Communist practice of concentrating much industrial output in a small
     number of giant plants. The breakup of many of the trade links, the sharp
@@ -47321,7 +47321,7 @@ Climate:
 Terrain:
     Mahe Group is granitic, narrow coastal strip, rocky, hilly; others are
     coral, flat, elevated reefs
-Natural resources:
+Natural libcw.resources:
     fish, copra, cinnamon trees
 Land use:
     arable land 4%; permanent crops 18%; meadows and pastures 0%; forest and
@@ -47544,7 +47544,7 @@ Climate:
 Terrain:
     coastal belt of mangrove swamps, wooded hill country, upland plateau,
     mountains in east
-Natural resources:
+Natural libcw.resources:
     diamonds, titanium ore, bauxite, iron ore, gold, chromite
 Land use:
     arable land 25%; permanent crops 2%; meadows and pastures 31%; forest and
@@ -47767,7 +47767,7 @@ Climate:
 Terrain:
     lowland; gently undulating central plateau contains water catchment area and
     nature preserve
-Natural resources:
+Natural libcw.resources:
     fish, deepwater ports
 Land use:
     arable land 4%; permanent crops 7%; meadows and pastures 0%; forest and
@@ -48009,7 +48009,7 @@ Climate:
 Terrain:
     a short coastal strip on the Adriatic, an alpine mountain region adjacent to
     Italy, mixed mountain and valleys with numerous rivers to the east
-Natural resources:
+Natural libcw.resources:
     lignite coal, lead, zinc, mercury, uranium, silver
 Land use:
     arable land 10%; permanent crops 2%; meadows and pastures 20%; forest and
@@ -48267,7 +48267,7 @@ Climate:
     tropical monsoon; few extremes of temperature and weather
 Terrain:
     mostly rugged mountains with some low coral atolls
-Natural resources:
+Natural libcw.resources:
     fish, forests, gold, bauxite, phosphates
 Land use:
     arable land 1%; permanent crops 1%; meadows and pastures 1%; forest and
@@ -48381,7 +48381,7 @@ Overview:
     forestry contribute about 70% to GDP, with the fishing and forestry sectors
     being important export earners. The service sector contributes about 25% to
     GDP. Most manufactured goods and petroleum products must be imported. The
-    islands are rich in undeveloped mineral resources such as lead, zinc,
+    islands are rich in undeveloped mineral libcw.resources such as lead, zinc,
     nickel, and gold. The economy suffered from a severe cyclone in mid-1986
     that caused widespread damage to the infrastructure.
 GDP:
@@ -48484,7 +48484,7 @@ Climate:
     between monsoons
 Terrain:
     mostly flat to undulating plateau rising to hills in north
-Natural resources:
+Natural libcw.resources:
     uranium and largely unexploited reserves of iron ore, tin, gypsum, bauxite,
     copper, salt
 Land use:
@@ -48605,7 +48605,7 @@ Flag:
 
 Overview:
     One of the world's poorest and least developed countries, Somalia has few
-    resources. Agriculture is the most important sector of the economy, with the
+    libcw.resources. Agriculture is the most important sector of the economy, with the
     livestock sector accounting for about 40% of GDP and about 65% of export
     earnings. Nomads and seminomads who are dependent upon livestock for their
     livelihoods make up more than half of the population. Crop production
@@ -48730,7 +48730,7 @@ Climate:
     mostly semiarid; subtropical along coast; sunny days, cool nights
 Terrain:
     vast interior plateau rimmed by rugged hills and narrow coastal plain
-Natural resources:
+Natural libcw.resources:
     gold, chromium, antimony, coal, iron ore, manganese, nickel, phosphates,
     tin, uranium, gem diamonds, platinum, copper, vanadium, salt, natural gas
 Land use:
@@ -48898,7 +48898,7 @@ Overview:
     outputs thus do not move smoothly into the most productive employments, and
     the effectiveness of the market is further lowered by international
     constraints on dealings with South Africa. The main strength of the economy
-    lies in its rich mineral resources, which provide two-thirds of exports.
+    lies in its rich mineral libcw.resources, which provide two-thirds of exports.
     Average growth of less than 2% in output in recent years falls far short of
     the 5% to 6% level needed to absorb some 300,000 new entrants to the labor
     force annually. Economic developments in the 1990s will be driven partly by
@@ -49026,7 +49026,7 @@ Terrain:
     mountainous; South Georgia is largely barren and has steep, glacier-covered
     mountains; the South Sandwich Islands are of volcanic origin with some
     active volcanoes
-Natural resources:
+Natural libcw.resources:
     fish
 Land use:
     arable land 0%; permanent crops 0%; meadows and pastures 0%; forest and
@@ -49137,7 +49137,7 @@ Climate:
 Terrain:
     large, flat to dissected plateau surrounded by rugged hills; Pyrenees in
     north
-Natural resources:
+Natural libcw.resources:
     coal, lignite, iron ore, uranium, mercury, pyrites, fluorspar, gypsum, zinc,
     lead, tungsten, copper, kaolin, potash, hydropower
 Land use:
@@ -49434,7 +49434,7 @@ Climate:
     tropical
 Terrain:
     flat
-Natural resources:
+Natural libcw.resources:
     fish, guano; undetermined oil and natural gas potential
 Land use:
     arable land 0%; permanent crops 0%; meadows and pastures 0%; forest and
@@ -49509,7 +49509,7 @@ Climate:
     monsoon (June to October)
 Terrain:
     mostly low, flat to rolling plain; mountains in south-central interior
-Natural resources:
+Natural libcw.resources:
     limestone, graphite, mineral sands, gems, phosphates, clay
 Land use:
     arable land 16%; permanent crops 17%; meadows and pastures 7%; forest and
@@ -49774,7 +49774,7 @@ Climate:
     tropical in south; arid desert in north; rainy season (April to October)
 Terrain:
     generally flat, featureless plain; mountains in east and west
-Natural resources:
+Natural libcw.resources:
     small reserves of crude oil, iron ore, copper, chromium ore, zinc, tungsten,
     mica, silver, crude oil
 Land use:
@@ -50031,7 +50031,7 @@ Climate:
     tropical; moderated by trade winds
 Terrain:
     mostly rolling hills; narrow coastal plain with swamps
-Natural resources:
+Natural libcw.resources:
     timber, hydropower potential, fish, shrimp, bauxite, iron ore, and small
     amounts of nickel, copper, platinum, gold
 Land use:
@@ -50285,7 +50285,7 @@ Climate:
 Terrain:
     wild, rugged mountains; much of high land ice covered; west coast clear of
     ice about half the year; fjords along west and north coasts
-Natural resources:
+Natural libcw.resources:
     coal, copper, iron ore, phosphate, zinc, wildlife, fish
 Land use:
     arable land 0%; permanent crops 0%; meadows and pastures 0%; forest and
@@ -50408,7 +50408,7 @@ Climate:
     varies from tropical to near temperate
 Terrain:
     mostly mountains and hills; some moderately sloping plains
-Natural resources:
+Natural libcw.resources:
     asbestos, coal, clay, cassiterite, hydropower, forests, small gold and
     diamond deposits, quarry stone, and talc
 Land use:
@@ -50623,7 +50623,7 @@ Climate:
     summers; subarctic in north
 Terrain:
     mostly flat or gently rolling lowlands; mountains in west
-Natural resources:
+Natural libcw.resources:
     zinc, iron ore, lead, copper, silver, timber, uranium, hydropower potential
 Land use:
     arable land 7%; permanent crops 0%; meadows and pastures 2%; forest and
@@ -50902,7 +50902,7 @@ Climate:
 Terrain:
     mostly mountains (Alps in south, Jura in northwest) with a central plateau
     of rolling hills, plains, and large lakes
-Natural resources:
+Natural libcw.resources:
     hydropower potential, timber, salt
 Land use:
     arable land 10%; permanent crops 1%; meadows and pastures 40%; forest and
@@ -51178,7 +51178,7 @@ Climate:
 Terrain:
     primarily semiarid and desert plateau; narrow coastal plain; mountains in
     west
-Natural resources:
+Natural libcw.resources:
     crude oil, phosphates, chrome and manganese ores, asphalt, iron ore, rock
     salt, marble, gypsum
 Land use:
@@ -51452,7 +51452,7 @@ Climate:
 Terrain:
     eastern two-thirds mostly rugged mountains; flat to gently rolling plains in
     west
-Natural resources:
+Natural libcw.resources:
     small deposits of coal, natural gas, limestone, marble, and asbestos
 Land use:
     arable land 24%; permanent crops 1%; meadows and pastures 5%; forest and
@@ -51722,7 +51722,7 @@ Climate:
 Terrain:
     Pamir and Alay Mountains dominate landscape; western Fergana Valley in
     north, Kafirnigan and Vakhsh Valleys in southeast
-Natural resources:
+Natural libcw.resources:
     significant hydropower potential, petroleum, uranium, mercury, small
     production of petroleum, brown coal, lead, zinc, antimony, tungsten
 Land use:
@@ -51840,7 +51840,7 @@ Overview:
     main economic sector, normally accounting for 38% of employment and
     featuring cotton and fruits. Industry is sparse, bright spots including
     electric power and aluminum production based on the country's sizable
-    hydropower resources and a surprising specialty in the production of
+    hydropower libcw.resources and a surprising specialty in the production of
     metal-cutting machine tools. In 1991 and early 1992, disruptions in food
     supplies from the outside have severely strained the availability of food
     throughout the republic. The combination of the poor food supply, the
@@ -51953,7 +51953,7 @@ Climate:
     varies from tropical along coast to temperate in highlands
 Terrain:
     plains along coast; central plateau; highlands in north, south
-Natural resources:
+Natural libcw.resources:
     hydropower potential, tin, phosphates, iron ore, coal, diamonds, gemstones,
     gold, natural gas, nickel
 Land use:
@@ -52211,7 +52211,7 @@ Climate:
     and humid
 Terrain:
     central plain; eastern plateau (Khorat); mountains elsewhere
-Natural resources:
+Natural libcw.resources:
     tin, rubber, natural gas, tungsten, tantalum, timber, lead, fish, gypsum,
     lignite, fluorite
 Land use:
@@ -52494,7 +52494,7 @@ Climate:
 Terrain:
     gently rolling savanna in north; central hills; southern plateau; low
     coastal plain with extensive lagoons and marshes
-Natural resources:
+Natural libcw.resources:
     phosphates, limestone, marble
 Land use:
     arable land 25%; permanent crops 1%; meadows and pastures 4%; forest and
@@ -52745,7 +52745,7 @@ Climate:
     tropical; moderated by trade winds (April to November)
 Terrain:
     coral atolls enclosing large lagoons
-Natural resources:
+Natural libcw.resources:
     negligible
 Land use:
     arable land 0%; permanent crops 0%; meadows and pastures 0%; forest and
@@ -52836,7 +52836,7 @@ Flag:
 :Tokelau Economy
 
 Overview:
-    Tokelau's small size, isolation, and lack of resources greatly restrain
+    Tokelau's small size, isolation, and lack of libcw.resources greatly restrain
     economic development and confine agriculture to the subsistence level. The
     people must rely on aid from New Zealand to maintain public services, annual
     aid being substantially greater than GDP. The principal sources of revenue
@@ -52929,7 +52929,7 @@ Climate:
 Terrain:
     most islands have limestone base formed from uplifted coral formation;
     others have limestone overlying volcanic base
-Natural resources:
+Natural libcw.resources:
     fish, fertile soil
 Land use:
     arable land 25%; permanent crops 55%; meadows and pastures 6%; forest and
@@ -53135,7 +53135,7 @@ Climate:
     tropical; rainy season (June to December)
 Terrain:
     mostly plains with some hills and low mountains
-Natural resources:
+Natural libcw.resources:
     crude oil, natural gas, asphalt
 Land use:
     arable land 14%; permanent crops 17%; meadows and pastures 2%; forest and
@@ -53371,7 +53371,7 @@ Climate:
     tropical
 Terrain:
     sandy
-Natural resources:
+Natural libcw.resources:
     fish
 Land use:
     arable land 0%; permanent crops 0%; meadows and pastures 0%; forest and
@@ -53440,7 +53440,7 @@ Climate:
 Terrain:
     mountains in north; hot, dry central plain; semiarid south merges into the
     Sahara
-Natural resources:
+Natural libcw.resources:
     crude oil, phosphates, iron ore, lead, zinc, salt
 Land use:
     arable land 20%; permanent crops 10%; meadows and pastures 19%; forest and
@@ -53678,7 +53678,7 @@ Climate:
     temperate; hot, dry summers with mild, wet winters; harsher in interior
 Terrain:
     mostly mountains; narrow coastal plain; high central plateau (Anatolia)
-Natural resources:
+Natural libcw.resources:
     antimony, coal, chromium, mercury, copper, borate, sulphur, iron ore
 Land use:
     arable land 30%; permanent crops 4%; meadows and pastures 12%; forest and
@@ -53944,7 +53944,7 @@ Climate:
     subtropical desert
 Terrain:
     flat-to-rolling sandy desert with dunes; borders Caspian Sea in west
-Natural resources:
+Natural libcw.resources:
     petroleum, natural gas, coal, sulphur, salt, magnesium
 Land use:
     NA% arable land; NA% permanent crops; NA% meadows and pastures; NA% forest
@@ -54168,7 +54168,7 @@ Climate:
     tropical; marine; moderated by trade winds; sunny and relatively dry
 Terrain:
     low, flat limestone; extensive marshes and mangrove swamps
-Natural resources:
+Natural libcw.resources:
     spiny lobster, conch
 Land use:
     arable land 2%; permanent crops 0%; meadows and pastures; 0%; forest and
@@ -54360,7 +54360,7 @@ Climate:
     gales and heavy rain (November to March)
 Terrain:
     very low-lying and narrow coral atolls
-Natural resources:
+Natural libcw.resources:
     fish
 Land use:
     arable land 0%; permanent crops 0%; meadows and pastures 0%; forest and
@@ -54455,7 +54455,7 @@ Flag:
 
 Overview:
     Tuvalu consists of a scattered group of nine coral atolls with poor soil.
-    The country has no known mineral resources and few exports. Subsistence
+    The country has no known mineral libcw.resources and few exports. Subsistence
     farming and fishing are the primary economic activities. The islands are too
     small and too remote for development of a tourist industry. Government
     revenues largely come from the sale of stamps and coins and worker
@@ -54554,7 +54554,7 @@ Climate:
     to August); semiarid in northeast
 Terrain:
     mostly plateau with rim of mountains
-Natural resources:
+Natural libcw.resources:
     copper, cobalt, limestone, salt
 Land use:
     arable land 23%; permanent crops 9%; meadows and pastures 25%; forest and
@@ -54667,7 +54667,7 @@ Flag:
 :Uganda Economy
 
 Overview:
-    Uganda has substantial natural resources, including fertile soils, regular
+    Uganda has substantial natural libcw.resources, including fertile soils, regular
     rainfall, and sizable mineral deposits of copper and cobalt. The economy has
     been devastated by widespread political instability, mismanagement, and
     civil war since independence in 1962, keeping Uganda poor with a per capita
@@ -54805,7 +54805,7 @@ Terrain:
     most of Ukraine consists of fertile plains (steppes) and plateaux, mountains
     being found only in the west (the Carpathians), and in the Crimean peninsula
     in the extreme south
-Natural resources:
+Natural libcw.resources:
     iron ore, coal, manganese, natural gas, oil, salt, sulphur, graphite,
     titanium, magnesium, kaolin, nickel, mercury, timber
 Land use:
@@ -54937,7 +54937,7 @@ Flag:
 
 Overview:
     Because of its size, geographic location, Slavic population, and rich
-    resources, the loss of Ukraine was the final and most bitter blow to the
+    libcw.resources, the loss of Ukraine was the final and most bitter blow to the
     Soviet leaders wishing to preserve some semblance of the old political,
     military, and economic power of the USSR. After Russia, the Ukrainian
     republic was far and away the most important economic component of the
@@ -55074,13 +55074,13 @@ Climate:
 Terrain:
     flat, barren coastal plain merging into rolling sand dunes of vast desert
     waste- land; mountains in east
-Natural resources:
+Natural libcw.resources:
     crude oil and natural gas
 Land use:
     arable land NEGL%; permanent crops NEGL%; meadows and pastures 2%; forest
     and woodland NEGL%; other 98%; includes irrigated NEGL%
 Environment:
-    frequent dust and sand storms; lack of natural freshwater resources being
+    frequent dust and sand storms; lack of natural freshwater libcw.resources being
     overcome by desalination plants; desertification
 Note:
     strategic location along southern approaches to Strait of Hormuz, a vital
@@ -55309,7 +55309,7 @@ Climate:
 Terrain:
     mostly rugged hills and low mountains; level to rolling plains in east and
     southeast
-Natural resources:
+Natural libcw.resources:
     coal, crude oil, natural gas, tin, limestone, iron ore, salt, clay, chalk,
     gypsum, lead, silica
 Land use:
@@ -55642,7 +55642,7 @@ Terrain:
     vast central plain, mountains in west, hills and low mountains in east;
     rugged mountains and broad river valleys in Alaska; rugged, volcanic
     topography in Hawaii
-Natural resources:
+Natural libcw.resources:
     coal, copper, lead, molybdenum, phosphates, uranium, bauxite, gold, iron,
     mercury, nickel, potash, silver, tungsten, zinc, crude oil, natural gas,
     timber
@@ -55652,7 +55652,7 @@ Land use:
 Environment:
     pollution control measures improving air and water quality; acid rain;
     agricultural fertilizer and pesticide pollution; management of sparse
-    natural water resources in west; desertification; tsunamis, volcanoes, and
+    natural water libcw.resources in west; desertification; tsunamis, volcanoes, and
     earthquake activity around Pacific Basin; continuous permafrost in northern
     Alaska is a major impediment to development
 Note:
@@ -55956,7 +55956,7 @@ Climate:
     warm temperate; freezing temperatures almost unknown
 Terrain:
     mostly rolling plains and low hills; fertile coastal lowland
-Natural resources:
+Natural libcw.resources:
     soil, hydropower potential, minor minerals
 Land use:
     arable land 8%; permanent crops NEGL%; meadows and pastures 78%; forest and
@@ -56208,7 +56208,7 @@ Terrain:
     mostly flat-to-rolling sandy desert with dunes; Fergana valley in east
     surrounded by mountainous Tajikistan and Kyrgyzstan; shrinking Aral Sea in
     west
-Natural resources:
+Natural libcw.resources:
     natural gas, petroleum, coal, gold, uranium, silver, copper, lead and zinc,
     tungsten, molybdenum
 Land use:
@@ -56333,7 +56333,7 @@ Overview:
     to encourage food production at the expense of cotton. The small industrial
     sector specializes in such items as agricultural machinery, mineral
     fertilizers, vegetable oil, and electrical cranes. Uzbekistan also has some
-    important natural resources including gold (about 30% of Soviet production),
+    important natural libcw.resources including gold (about 30% of Soviet production),
     uranium, and natural gas. The Uzbek government has encouraged land reform
     but has shied away from other aspects of economic reform.
 GDP:
@@ -56444,7 +56444,7 @@ Climate:
     tropical; moderated by southeast trade winds
 Terrain:
     mostly mountains of volcanic origin; narrow coastal plains
-Natural resources:
+Natural libcw.resources:
     manganese, hardwood forests, fish
 Land use:
     arable land 1%; permanent crops 5%; meadows and pastures 2%; forest and
@@ -56665,7 +56665,7 @@ Climate:
 Terrain:
     Andes mountains and Maracaibo lowlands in northwest; central plains
     (llanos); Guyana highlands in southeast
-Natural resources:
+Natural libcw.resources:
     crude oil, natural gas, iron ore, gold, bauxite, other minerals, hydropower,
     diamonds
 Land use:
@@ -56935,7 +56935,7 @@ Climate:
 Terrain:
     low, flat delta in south and north; central highlands; hilly, mountainous in
     far north and northwest
-Natural resources:
+Natural libcw.resources:
     phosphates, coal, manganese, bauxite, chromate, offshore oil deposits,
     forests
 Land use:
@@ -57047,12 +57047,12 @@ Overview:
     accounts for half of GNP. Rice is the staple crop; substantial amounts of
     maize, sorghum, cassava, and sweet potatoes are also grown. The government
     permits sale of surplus grain on the open market. Most of the mineral
-    resources are located in the north, including coal, which is an important
+    libcw.resources are located in the north, including coal, which is an important
     export item. Oil was discovered off the southern coast in 1986 with
     production reaching 70,000 barrels per day in 1991 and expected to increase
     in the years ahead. Following the end of the war in 1975, heavy-handed
     government measures undermined efforts at an efficient merger of the
-    agricultural resources of the south and the industrial resources of the
+    agricultural libcw.resources of the south and the industrial libcw.resources of the
     north. The economy remains heavily dependent on foreign aid and has received
     assistance from UN agencies, France, Australia, Sweden, and Communist
     countries. Inflation, although down from recent triple-digit levels, is
@@ -57183,14 +57183,14 @@ Climate:
     little seasonal temperature variation; rainy season May to November
 Terrain:
     mostly hilly to rugged and mountainous with little level land
-Natural resources:
+Natural libcw.resources:
     sun, sand, sea, surf
 Land use:
     arable land 15%; permanent crops 6%; meadows and pastures 26%; forest and
     woodland 6%; other 47%
 Environment:
     rarely affected by hurricanes; subject to frequent severe droughts, floods,
-    earthquakes; lack of natural freshwater resources
+    earthquakes; lack of natural freshwater libcw.resources
 Note:
     important location 1,770 km southeast of Miami and 65 km east of Puerto
     Rico, along the Anegada Passage - a key shipping lane for the Panama Canal;
@@ -57392,7 +57392,7 @@ Terrain:
     atoll of three coral islands built up on an underwater volcano; central
     lagoon is former crater, islands are part of the rim; average elevation less
     than four meters
-Natural resources:
+Natural libcw.resources:
     none
 Land use:
     arable land 0%; permanent crops 0%; meadows and pastures 0%; forest and
@@ -57479,7 +57479,7 @@ Climate:
     October)
 Terrain:
     volcanic origin; low hills
-Natural resources:
+Natural libcw.resources:
     negligible
 Land use:
     arable land 5%; permanent crops 20%; meadows and pastures 0%; forest and
@@ -57698,7 +57698,7 @@ Climate:
     summers, cool to mild winters
 Terrain:
     mostly rugged dissected upland, some vegetation in west, but barren in east
-Natural resources:
+Natural libcw.resources:
     negligible
 Land use:
     arable land 27%, permanent crops 0%, meadows and pastures 32%, forest and
@@ -57870,7 +57870,7 @@ Climate:
 Terrain:
     mostly low, flat desert with large areas of rocky or sandy surfaces rising
     to small mountains in south and northeast
-Natural resources:
+Natural libcw.resources:
     phosphates, iron ore
 Land use:
     arable land NEGL%; permanent crops 0%; meadows and pastures 19%; forest and
@@ -57942,7 +57942,7 @@ Diplomatic representation:
 :Western Sahara Economy
 
 Overview:
-    Western Sahara, a territory poor in natural resources and having little
+    Western Sahara, a territory poor in natural libcw.resources and having little
     rainfall, has a per capita GDP of roughly $300. Pastoral nomadism, fishing,
     and phosphate mining are the principal sources of income for the population.
     Most of the food for the urban population must be imported. All trade and
@@ -58039,7 +58039,7 @@ Climate:
     tropical; rainy season (October to March), dry season (May to October)
 Terrain:
     narrow coastal plain with volcanic, rocky, rugged mountains in interior
-Natural resources:
+Natural libcw.resources:
     hardwood forests, fish
 Land use:
     arable land 19%; permanent crops 24%; meadows and pastures NEGL%; forest and
@@ -58273,8 +58273,8 @@ Terrain:
     highest elevation is Mt. Everest at 8,848 meters and lowest depression is
     the Dead Sea at 392 meters below sea level; greatest ocean depth is the
     Marianas Trench at 10,924 meters
-Natural resources:
-    the rapid using up of nonrenewable mineral resources, the depletion of
+Natural libcw.resources:
+    the rapid using up of nonrenewable mineral libcw.resources, the depletion of
     forest areas and wetlands, the extinction of animal and plant species, and
     the deterioration in air and water quality (especially in Eastern Europe and
     the former USSR) pose serious long-term problems that governments and
@@ -58290,7 +58290,7 @@ Environment:
     (earthquakes, landslides, tsunamis, volcanic eruptions), overpopulation,
     industrial disasters, pollution (air, water, acid rain, toxic substances),
     loss of vegetation (overgrazing, deforestation, desertification), loss of
-    wildlife resources, soil degradation, soil depletion, erosion
+    wildlife libcw.resources, soil degradation, soil depletion, erosion
 
 :World People
 
@@ -58458,7 +58458,7 @@ Terrain:
     narrow coastal plain backed by flat-topped hills and rugged mountains;
     dissected upland desert plains in center slope into the desert interior of
     the Arabian Peninsula
-Natural resources:
+Natural libcw.resources:
     crude oil, fish, rock salt, marble; small deposits of coal, gold, lead,
     nickel, and copper; fertile soil in west
 Land use:
@@ -58466,7 +58466,7 @@ Land use:
     woodland 7%; other 57%; includes irrigated NEGL%
 Environment:
     subject to sand and dust storms in summer; scarcity of natural freshwater
-    resources; overgrazing; soil erosion; desertification
+    libcw.resources; overgrazing; soil erosion; desertification
 Note:
     controls Bab el Mandeb, the strait linking the Red Sea and the Gulf of Aden,
     one of world's most active shipping lanes
@@ -58600,7 +58600,7 @@ Overview:
     Whereas the northern city Sanaa is the political capital of a united Yemen,
     the southern city Aden, with its refinery and port facilities, is the
     economic and commercial capital. Future economic development depends heavily
-    on Western-assisted development of promising oil resources. South Yemen's
+    on Western-assisted development of promising oil libcw.resources. South Yemen's
     willingness to merge stemmed partly from the steady decline in Soviet
     economic support.
 Overview:
@@ -58616,7 +58616,7 @@ Overview:
     $800 million.
   South:
     This has been one of the poorest Arab countries, with a per capita GNP of
-    about $500. A shortage of natural resources, a widely dispersed population,
+    about $500. A shortage of natural libcw.resources, a widely dispersed population,
     and an arid climate have made economic development difficult. The economy
     has grown at an average annual rate of only 2-3% since the mid-1970s. The
     economy had been organized along socialist lines, dominated by the public
@@ -58777,7 +58777,7 @@ Climate:
     Equator - wet season November to March, dry season April to October
 Terrain:
     vast central basin is a low-lying plateau; mountains in east
-Natural resources:
+Natural libcw.resources:
     cobalt, copper, cadmium, crude oil, industrial and gem diamonds, gold,
     silver, zinc, manganese, tin, germanium, uranium, radium, bauxite, iron ore,
     coal, hydropower potential
@@ -58904,7 +58904,7 @@ Flag:
 :Zaire Economy
 
 Overview:
-    In 1990, in spite of large mineral resources Zaire had a GDP per capita of
+    In 1990, in spite of large mineral libcw.resources Zaire had a GDP per capita of
     only about $260, putting it among the desperately poor African nations. The
     country's chronic economic problems worsened in 1991, with copper and cobalt
     production down 20-30%, inflation near 8,000% in 1991 as compared with 100%
@@ -59029,7 +59029,7 @@ Climate:
     tropical; modified by altitude; rainy season (October to April)
 Terrain:
     mostly high plateau with some hills and mountains
-Natural resources:
+Natural libcw.resources:
     copper, cobalt, zinc, lead, coal, emeralds, gold, silver, uranium,
     hydropower potential
 Land use:
@@ -59244,7 +59244,7 @@ Climate:
 Terrain:
     mostly high plateau with higher central plateau (high veld); mountains in
     east
-Natural resources:
+Natural libcw.resources:
     coal, chromium ore, asbestos, gold, nickel, copper, iron ore, vanadium,
     lithium, tin, platinum group metals
 Land use:

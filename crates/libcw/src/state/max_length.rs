@@ -79,8 +79,8 @@ mod test {
     use std::fs::File;
     use std::io::{BufReader, Read};
 
-    use crate::config::LineBreak;
     use crate::config::Encoding;
+    use crate::config::LineBreak;
     use crate::state::max_length::MaxLengthState;
     use crate::state::traits::{compute::Compute, partial_state::PartialState};
 
@@ -153,58 +153,58 @@ mod test {
 
     #[test]
     fn gabriel() {
-        let out = proccess_file_test("tests/resources/Gabriel.txt");
+        let out = proccess_file_test("resources/Gabriel.txt");
         let expected = 580;
         assert_eq!(out, expected)
     }
 
     #[test]
     fn lorem() {
-        let out = proccess_file_test("tests/resources/Lorem_big.txt");
+        let out = proccess_file_test("resources/Lorem_big.txt");
         assert_eq!(out, 1142)
     }
     #[test]
     #[ignore]
     fn world() {
-        let out = proccess_file_test("tests/resources/world192.txt");
+        let out = proccess_file_test("resources/world192.txt");
         assert_eq!(out, 81)
     }
     #[test]
     fn s1() {
-        let out = proccess_file_test("tests/resources/sample1.txt");
+        let out = proccess_file_test("resources/sample1.txt");
         assert_eq!(out, 346)
     }
 
     #[test]
     fn s2() {
-        let out = proccess_file_test("tests/resources/sample2.txt");
+        let out = proccess_file_test("resources/sample2.txt");
         assert_eq!(out, 635)
     }
     #[test]
     fn s3() {
-        let out = proccess_file_test("tests/resources/sample3.txt");
+        let out = proccess_file_test("resources/sample3.txt");
         assert_eq!(out, 818)
     }
     #[test]
     fn small() {
-        let out = proccess_file_test("tests/resources/small.txt");
+        let out = proccess_file_test("resources/small.txt");
         assert_eq!(out, 17)
     }
     #[test]
     fn empty() {
-        let out = proccess_file_test("tests/resources/empty.txt");
+        let out = proccess_file_test("resources/empty.txt");
         assert_eq!(out, 0)
     }
     #[test]
     fn spanish() {
-        let out = proccess_file_test("tests/resources/spanish.txt");
+        let out = proccess_file_test("resources/spanish.txt");
         let expected = 18;
         assert_eq!(out, expected)
     }
 
     #[test]
     fn french() {
-        let out = proccess_file_test("tests/resources/french.txt");
+        let out = proccess_file_test("resources/french.txt");
         assert_eq!(out, 58)
     }
 }

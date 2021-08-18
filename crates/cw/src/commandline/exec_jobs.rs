@@ -1,6 +1,6 @@
 use std::fs::File;
-use std::io::{BufReader, BufWriter};
 use std::io::Write;
+use std::io::{BufReader, BufWriter};
 use std::result::Result::Ok;
 
 use clap::Values;

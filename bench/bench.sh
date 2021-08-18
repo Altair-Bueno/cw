@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-cd "$GITHUB_WORKSPACE/tests/resources" || exit
+cd "$GITHUB_WORKSPACE/resources" || exit
 
 export ARGS_LIST_HYPERFINE=$(ls | xargs)
 echo "Byte count"

@@ -7,9 +7,9 @@ use crate::state::bytes_state::BytesState;
 use crate::state::chars_state::CharState;
 use crate::state::lines_state::LinesState;
 use crate::state::max_length::MaxLengthState;
-use crate::state::State;
 use crate::state::traits::{compute::Compute, partial_state::PartialState};
 use crate::state::words_state::WordsState;
+use crate::state::State;
 use crate::stats::Stats;
 
 const BUFFER_SIZE: usize = 16 * 1024; // 8KB

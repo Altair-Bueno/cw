@@ -123,46 +123,46 @@ mod test {
 
     #[test]
     fn gabriel() {
-        let out = proccess_file_test("tests/resources/Gabriel.txt");
+        let out = proccess_file_test("resources/Gabriel.txt");
         let expected = 57;
         assert_eq!(out, expected)
     }
 
     #[test]
     fn lorem() {
-        let out = proccess_file_test("tests/resources/Lorem_big.txt");
+        let out = proccess_file_test("resources/Lorem_big.txt");
         assert_eq!(out, 1996)
     }
     #[test]
     #[ignore]
     fn world192() {
-        let out = proccess_file_test("tests/resources/world192.txt");
+        let out = proccess_file_test("resources/world192.txt");
         assert_eq!(out, 65119)
     }
     #[test]
     fn s1() {
-        let out = proccess_file_test("tests/resources/sample1.txt");
+        let out = proccess_file_test("resources/sample1.txt");
         assert_eq!(out, 3)
     }
 
     #[test]
     fn s2() {
-        let out = proccess_file_test("tests/resources/sample2.txt");
+        let out = proccess_file_test("resources/sample2.txt");
         assert_eq!(out, 12)
     }
     #[test]
     fn s3() {
-        let out = proccess_file_test("tests/resources/sample3.txt");
+        let out = proccess_file_test("resources/sample3.txt");
         assert_eq!(out, 20)
     }
     #[test]
     fn small() {
-        let out = proccess_file_test("tests/resources/small.txt");
+        let out = proccess_file_test("resources/small.txt");
         assert_eq!(out, 1)
     }
     #[test]
     fn empty() {
-        let out = proccess_file_test("tests/resources/empty.txt");
+        let out = proccess_file_test("resources/empty.txt");
         assert_eq!(out, 0)
     }
 
@@ -170,20 +170,20 @@ mod test {
     fn arabic() {
         // - Legth isn't 0
         // - test weird
-        let out = proccess_file_test("tests/resources/arabic.txt");
+        let out = proccess_file_test("resources/arabic.txt");
         let expected = 0;
         assert_eq!(out, expected)
     }
     #[test]
     fn spanish() {
-        let out = proccess_file_test("tests/resources/spanish.txt");
+        let out = proccess_file_test("resources/spanish.txt");
         let expected = 1;
         assert_eq!(out, expected)
     }
 
     #[test]
     fn french() {
-        let out = proccess_file_test("tests/resources/french.txt");
+        let out = proccess_file_test("resources/french.txt");
         assert_eq!(out, 0)
     }
 }
