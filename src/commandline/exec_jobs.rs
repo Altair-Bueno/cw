@@ -1,14 +1,14 @@
 use std::fs::File;
 use std::io::{BufReader, BufWriter};
+use std::io::Write;
+use std::result::Result::Ok;
 
 use clap::Values;
+use colored::Colorize;
+use threads_pool::ThreadPool;
 
 use crate::libcw::parser::Parser;
 use crate::libcw::stats::Stats;
-use colored::Colorize;
-use std::io::Write;
-use std::result::Result::Ok;
-use threads_pool::ThreadPool;
 
 const TOTAL: &str = "total";
 
@@ -55,7 +55,12 @@ pub fn multithread(files: Values, parser: &Parser, threads: usize) -> ! {
         );
 
         if size > 1 {
-            let _ = writeln!(buff_stdout, "{}{}", acc.to_string().as_str().green(), TOTAL.red());
+            let _ = writeln!(
+                buff_stdout,
+                "{}{}",
+                acc.to_string().as_str().green(),
+                TOTAL.red()
+            );
         }
         code
     }; // Drop locks and flush buffers
@@ -114,7 +119,12 @@ pub fn singlethread_files(files: Values, parser: &Parser) -> ! {
 
         if size > 1 {
             // Total files
-            let _ = writeln!(buff_stdout, "{}{}", merged.to_string().as_str().green(), TOTAL.red());
+            let _ = writeln!(
+                buff_stdout,
+                "{}{}",
+                merged.to_string().as_str().green(),
+                TOTAL.red()
+            );
         }
         code
     }; // Drop locks and flush buffers

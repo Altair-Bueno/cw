@@ -1,7 +1,8 @@
-use crate::libcw::state::traits::{compute::Compute,partial_state::PartialState};
 use std::cmp::max;
+
 use crate::config::{Encoding, LineBreak};
 use crate::libcw::state::chars_state::CharState;
+use crate::libcw::state::traits::{compute::Compute, partial_state::PartialState};
 
 // fixme: Does not work. Neets utf8 support
 // Probably better combining this with char_state
@@ -9,26 +10,26 @@ use crate::libcw::state::chars_state::CharState;
 /// Max length
 #[derive(Debug, Copy, Clone)]
 pub struct MaxLengthState {
-    max_length_found:usize,
+    max_length_found: usize,
     //line_count: usize,
     //char_count:usize,
-    linebreak:LineBreak,
-    char_state:CharState,
+    linebreak: LineBreak,
+    char_state: CharState,
 }
 impl Default for MaxLengthState {
     fn default() -> Self {
-        MaxLengthState::new(LineBreak::default(),Encoding::default())
+        MaxLengthState::new(LineBreak::default(), Encoding::default())
     }
 }
 
 impl MaxLengthState {
-    pub fn new(linebreak: LineBreak,_encoding:Encoding) -> Self {
+    pub fn new(linebreak: LineBreak, _encoding: Encoding) -> Self {
         MaxLengthState {
             max_length_found: 0,
             //line_count: 0,
             //char_count: 0,
             linebreak,
-            char_state: CharState::new()
+            char_state: CharState::new(),
         }
     }
 }
@@ -36,9 +37,8 @@ impl MaxLengthState {
 impl PartialState for MaxLengthState {
     type Output = usize;
     fn output(&self) -> Self::Output {
-
         let char_state_output = self.char_state.output();
-        let maxlength = max(self.max_length_found,char_state_output);
+        let maxlength = max(self.max_length_found, char_state_output);
         // let line_count = self.line_count;
         // let character_count = char_state_output + self.char_count;
 
@@ -49,69 +49,80 @@ impl PartialState for MaxLengthState {
 impl Compute for MaxLengthState {
     fn compute(self, tape: &[u8]) -> Self {
         let b = self.linebreak.get_separator();
-        tape.split_inclusive(|x| *x == b)
-            .fold(self, |state,next| {
-                let on_line = next.last().map(|x| *x != b).unwrap_or(true);
-                let count_chars_state = state.char_state.compute(next);
-                // Count lines if its the end of the line. Update character
-                // count in the end
-                if on_line {
-                    // No linebreak detected. Still same line as before
-                    MaxLengthState {
-                        char_state: count_chars_state,
-                        ..state
-                    }
-                } else {
-                    let count = count_chars_state.output();
-                    MaxLengthState {
-                        max_length_found: max(count - 1, state.max_length_found),
-                        //line_count: state.line_count + 1,
-                        //char_count: state.char_count + count,
-                        char_state: CharState::new(), // TODO encoding
-                        ..state
-                    }
+        tape.split_inclusive(|x| *x == b).fold(self, |state, next| {
+            let on_line = next.last().map(|x| *x != b).unwrap_or(true);
+            let count_chars_state = state.char_state.compute(next);
+            // Count lines if its the end of the line. Update character
+            // count in the end
+            if on_line {
+                // No linebreak detected. Still same line as before
+                MaxLengthState {
+                    char_state: count_chars_state,
+                    ..state
                 }
-            })
+            } else {
+                let count = count_chars_state.output();
+                MaxLengthState {
+                    max_length_found: max(count - 1, state.max_length_found),
+                    //line_count: state.line_count + 1,
+                    //char_count: state.char_count + count,
+                    char_state: CharState::new(), // TODO encoding
+                    ..state
+                }
+            }
+        })
     }
 }
 
 #[cfg(test)]
 mod test {
-    use crate::libcw::state::max_length::MaxLengthState;
-    use crate::libcw::state::traits::{compute::Compute, partial_state::PartialState};
     use std::fs::File;
     use std::io::{BufReader, Read};
-    use crate::libcw::config::Encoding;
+
     use crate::config::LineBreak;
+    use crate::libcw::config::Encoding;
+    use crate::libcw::state::max_length::MaxLengthState;
+    use crate::libcw::state::traits::{compute::Compute, partial_state::PartialState};
 
     #[test]
     pub fn test1() {
         let line = "".as_bytes();
-        let out = MaxLengthState::new(LineBreak::LF,Encoding::UTF8).compute(line).output();
+        let out = MaxLengthState::new(LineBreak::LF, Encoding::UTF8)
+            .compute(line)
+            .output();
         assert_eq!(out, 0)
     }
+
     #[test]
     pub fn test2() {
         let line = "hello\n".as_bytes();
-        let out = MaxLengthState::new(LineBreak::LF,Encoding::UTF8).compute(line).output();
+        let out = MaxLengthState::new(LineBreak::LF, Encoding::UTF8)
+            .compute(line)
+            .output();
         assert_eq!(out, 5)
     }
     #[test]
     pub fn test3() {
         let line = "hello\nworld".as_bytes();
-        let out = MaxLengthState::new(LineBreak::LF,Encoding::UTF8).compute(line).output();
+        let out = MaxLengthState::new(LineBreak::LF, Encoding::UTF8)
+            .compute(line)
+            .output();
         assert_eq!(out, 5)
     }
     #[test]
     pub fn test4() {
         let line = "hello\nworldjsafs\n".as_bytes();
-        let out = MaxLengthState::new(LineBreak::LF,Encoding::UTF8).compute(line).output();
+        let out = MaxLengthState::new(LineBreak::LF, Encoding::UTF8)
+            .compute(line)
+            .output();
         assert_eq!(out, 10)
     }
     #[test]
     pub fn test5() {
         let line = "hello\nworldjsafs\nshjksafhjkasfjhkfajshdjhksdfa".as_bytes();
-        let out = MaxLengthState::new(LineBreak::LF,Encoding::UTF8).compute(line).output();
+        let out = MaxLengthState::new(LineBreak::LF, Encoding::UTF8)
+            .compute(line)
+            .output();
         assert_eq!(out, 29)
     }
     #[test]
@@ -129,7 +140,7 @@ mod test {
     fn proccess_file_test(f: &str) -> usize {
         let mut reader = BufReader::new(File::open(f).unwrap());
 
-        let mut state = MaxLengthState::new(LineBreak::LF,Encoding::UTF8);
+        let mut state = MaxLengthState::new(LineBreak::LF, Encoding::UTF8);
         let mut buff = [0; 1024];
         loop {
             let read = reader.read(&mut buff).unwrap();

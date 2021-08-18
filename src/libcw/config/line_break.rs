@@ -1,14 +1,17 @@
-use crate::libcw::config::LineBreak::*;
 use std::fmt::{Display, Formatter};
 use std::str::FromStr;
 
+use crate::libcw::config::LineBreak::*;
+
 const STR_CR: &str = "CR";
 const STR_LF: &str = "LF";
-#[derive(Clone,Copy,Debug)]
+
+#[derive(Clone, Copy, Debug)]
 pub enum LineBreak {
     CR,
     LF,
 }
+
 impl LineBreak {
     pub fn get_separator(&self) -> u8 {
         match self {

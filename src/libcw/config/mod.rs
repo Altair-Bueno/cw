@@ -1,5 +1,5 @@
+pub use encoding::Encoding;
+pub use line_break::LineBreak;
+
 mod encoding;
 mod line_break;
-
-pub use encoding::Encoding as Encoding;
-pub use line_break::LineBreak as LineBreak;

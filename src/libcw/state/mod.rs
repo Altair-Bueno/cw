@@ -1,3 +1,5 @@
+use std::fmt::{Display, Formatter};
+
 use crate::libcw::state::bytes_state::BytesState;
 use crate::libcw::state::chars_state::CharState;
 use crate::libcw::state::lines_state::LinesState;
@@ -5,7 +7,6 @@ use crate::libcw::state::max_length::MaxLengthState;
 use crate::libcw::state::traits::{compute::Compute, partial_state::PartialState};
 use crate::libcw::state::words_state::WordsState;
 use crate::Stats;
-use std::fmt::{Display, Formatter};
 
 pub mod bytes_state;
 pub mod chars_state;
@@ -97,7 +98,7 @@ impl Iterator for State {
 impl Display for State {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         if let Some(x) = self.lines_state {
-            write!(f, "l({})\t",x.linebreak())?;
+            write!(f, "l({})\t", x.linebreak())?;
         }
         if let Some(_) = self.words_state {
             write!(f, "w\t")?;

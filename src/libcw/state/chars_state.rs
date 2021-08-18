@@ -1,5 +1,4 @@
-use crate::libcw::state::traits::{compute::Compute,partial_state::PartialState};
-
+use crate::libcw::state::traits::{compute::Compute, partial_state::PartialState};
 
 #[derive(Default, Copy, Clone, Debug)]
 pub struct CharState {
@@ -36,11 +35,11 @@ impl Compute for CharState {
             }
         };
 
-        tape.iter().fold(self, |acc,n| {
+        tape.iter().fold(self, |acc, n| {
             let (expect, num_chars) = if acc.expect != 0 {
-                (acc.expect-1,acc.num_chars)
+                (acc.expect - 1, acc.num_chars)
             } else {
-                (trailing_bytes(*n),acc.num_chars + 1)
+                (trailing_bytes(*n), acc.num_chars + 1)
             };
             CharState { expect, num_chars }
         })
@@ -49,10 +48,11 @@ impl Compute for CharState {
 
 #[cfg(test)]
 mod test {
-    use crate::libcw::state::chars_state::CharState;
-    use crate::libcw::state::traits::{compute::Compute, partial_state::PartialState};
     use std::fs::File;
     use std::io::{BufReader, Read};
+
+    use crate::libcw::state::chars_state::CharState;
+    use crate::libcw::state::traits::{compute::Compute, partial_state::PartialState};
 
     #[test]
     pub fn test1() {

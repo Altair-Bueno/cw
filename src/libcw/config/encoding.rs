@@ -1,6 +1,7 @@
-use crate::libcw::config::Encoding::*;
 use std::fmt::{Display, Formatter};
 use std::str::FromStr;
+
+use crate::libcw::config::Encoding::*;
 
 const STR_UTF8: &str = "UTF8";
 const STR_UTF16: &str = "UTF16";
@@ -10,6 +11,7 @@ pub enum Encoding {
     UTF8,
     UTF16,
 }
+
 impl Display for Encoding {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let w = match self {

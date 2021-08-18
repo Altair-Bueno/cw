@@ -27,10 +27,11 @@ impl Compute for BytesState {
 
 #[cfg(test)]
 mod test {
-    use crate::libcw::state::bytes_state::BytesState;
-    use crate::libcw::state::traits::{compute::Compute, partial_state::PartialState};
     use std::fs::File;
     use std::io::{BufReader, Read};
+
+    use crate::libcw::state::bytes_state::BytesState;
+    use crate::libcw::state::traits::{compute::Compute, partial_state::PartialState};
 
     #[test]
     pub fn test1() {
@@ -38,6 +39,7 @@ mod test {
         let parse = BytesState::new().compute(bytes).output();
         assert_eq!(parse, 11)
     }
+
     #[test]
     pub fn test2() {
         let bytes = "".as_bytes();

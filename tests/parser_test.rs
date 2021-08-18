@@ -1,9 +1,10 @@
 mod test {
-    use cw::config::*;
-    use cw::Stats;
-    use cw::Parser;
     use std::fs::File;
     use std::io::BufReader;
+
+    use cw::config::*;
+    use cw::Parser;
+    use cw::Stats;
 
     fn proccess_file_test(f: &str) -> Stats {
         let reader = BufReader::new(File::open(f).unwrap());

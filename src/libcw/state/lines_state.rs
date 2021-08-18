@@ -1,5 +1,5 @@
-use crate::libcw::state::traits::{compute::Compute,partial_state::PartialState};
 use crate::config::LineBreak;
+use crate::libcw::state::traits::{compute::Compute, partial_state::PartialState};
 
 /// number of lines
 #[derive(Debug, Copy, Clone)]
@@ -35,24 +35,22 @@ impl PartialState for LinesState {
 impl Compute for LinesState {
     fn compute(self, tape: &[u8]) -> Self {
         let b = self.linebreak.get_separator();
-        let line_breaks = tape
-            .iter()
-            .filter(|x| **x == b)
-            .count();
+        let line_breaks = tape.iter().filter(|x| **x == b).count();
         LinesState {
             linescount: line_breaks + self.linescount,
-            linebreak: self.linebreak
+            linebreak: self.linebreak,
         }
     }
 }
 
 #[cfg(test)]
 mod test {
-    use crate::libcw::state::lines_state::LinesState;
-    use crate::libcw::state::traits::{compute::Compute, partial_state::PartialState};
     use std::fs::File;
     use std::io::{BufReader, Read};
+
     use crate::config::LineBreak;
+    use crate::libcw::state::lines_state::LinesState;
+    use crate::libcw::state::traits::{compute::Compute, partial_state::PartialState};
 
     #[test]
     pub fn test1() {
@@ -60,6 +58,7 @@ mod test {
         let out = LinesState::new(LineBreak::LF).compute(line).output();
         assert_eq!(out, 0)
     }
+
     #[test]
     pub fn test2() {
         let line = "".as_bytes();

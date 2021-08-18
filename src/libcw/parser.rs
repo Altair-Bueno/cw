@@ -1,3 +1,4 @@
+use std::fmt::{Display, Formatter};
 use std::io::BufRead;
 
 use crate::libcw::config::Encoding;
@@ -6,11 +7,10 @@ use crate::libcw::state::bytes_state::BytesState;
 use crate::libcw::state::chars_state::CharState;
 use crate::libcw::state::lines_state::LinesState;
 use crate::libcw::state::max_length::MaxLengthState;
-use crate::libcw::state::words_state::WordsState;
-use crate::libcw::state::traits::{compute::Compute, partial_state::PartialState};
 use crate::libcw::state::State;
+use crate::libcw::state::traits::{compute::Compute, partial_state::PartialState};
+use crate::libcw::state::words_state::WordsState;
 use crate::libcw::stats::Stats;
-use std::fmt::{Display, Formatter};
 
 const BUFFER_SIZE: usize = 16 * 1024; // 8KB
 
