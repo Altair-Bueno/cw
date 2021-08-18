@@ -1,7 +1,7 @@
 name: Test
 on:
   push:
-    branches: [ master ]
+    branches: [ dev ]
   pull_request:
     branches: [ master ]
   # Manually run this workflow

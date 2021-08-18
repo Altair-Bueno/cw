@@ -2,13 +2,13 @@
 cw (*count words*) is a faster alternative to classic GNU wc, written on pure
 Rust. It provides the same tools as wc, but with some extras, such as 
 multithreading and multiple encoding support. cw also provides its core 
-functionality as a library that can target any platform, including `wasm`, with 
-no platform-specific code. The Rust compiler leverages great performance 
-with stupidly simple source code
+functionality as a library called `libcw` that can target any platform,
+including `wasm`, with no platform-specific code. The Rust compiler leverages 
+great performance with stupidly simple source code
 
 cw diferenciates itself from other wc clones by providing great defaults. cw 
-will always count characters using the provided encoding, and thus, always
-providing the right count. Other word counter will provide, for example, wrong
+will **always** count characters using the provided encoding, and thus, always
+providing the right count. Other word counters will provide, for example, wrong
 max line length on UTF-8 encoded text
 
 ![img.png](.github/readme/img.png)
@@ -17,7 +17,7 @@ max line length on UTF-8 encoded text
 
 Because cw is written entiretly on Rust, is as simple as using `cargo`. If you
 already have installed [`cargo`](https://doc.rust-lang.org/cargo/getting-started/installation.html) 
-on your system, run the folowing on the commandline:
+on your system, run the following from the commandline:
 
 ```bash
 cargo install --git https://github.com/Altair-Bueno/cw.git
@@ -40,7 +40,7 @@ the full list of options, type `cw -h` or `cw --help`:
 
 ## Multithreading
 When provided multiple files, cw can process them sequentially or in parallel
-by providing the `-t <n>` option. It will use n additional threads to process
+by providing the `-t <n>` option. It will use `n` additional threads to process
 all files
 
 ## Different encodings and Linebreaks
