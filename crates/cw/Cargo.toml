@@ -1,0 +1,23 @@
+[package]
+name = "cw"
+version = "1.0.0"
+authors = ["Altair Bueno"]
+edition = "2018"
+license = "MIT"
+description = "A rip off wc. Lines, words, character and byte count with column stats"
+readme = "README.md"
+repository = "https://github.com/Altair-Bueno/cw"
+keywords = ["wc","cw","word","line","character","UTF8","UTF16","count"]
+categories = ["command-line-utilities","filesystem","text-processing"]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+threads_pool = "^0.2.0"
+colored = "2.0.0"
+libcw = { path = "../libcw" }
+
+[dependencies.clap]
+version = "2.33.3"
+default-features = false
+features = ["yaml","color","vec_map","wrap_help"]

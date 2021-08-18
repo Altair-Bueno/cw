@@ -1,4 +1,4 @@
-use crate::libcw::state::traits::{compute::Compute, partial_state::PartialState};
+use crate::state::traits::{compute::Compute, partial_state::PartialState};
 
 #[derive(Default, Copy, Clone, Debug)]
 pub struct CharState {
@@ -51,8 +51,8 @@ mod test {
     use std::fs::File;
     use std::io::{BufReader, Read};
 
-    use crate::libcw::state::chars_state::CharState;
-    use crate::libcw::state::traits::{compute::Compute, partial_state::PartialState};
+    use crate::state::chars_state::CharState;
+    use crate::state::traits::{compute::Compute, partial_state::PartialState};
 
     #[test]
     pub fn test1() {

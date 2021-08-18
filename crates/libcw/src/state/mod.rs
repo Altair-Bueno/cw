@@ -1,11 +1,11 @@
 use std::fmt::{Display, Formatter};
 
-use crate::libcw::state::bytes_state::BytesState;
-use crate::libcw::state::chars_state::CharState;
-use crate::libcw::state::lines_state::LinesState;
-use crate::libcw::state::max_length::MaxLengthState;
-use crate::libcw::state::traits::{compute::Compute, partial_state::PartialState};
-use crate::libcw::state::words_state::WordsState;
+use crate::state::bytes_state::BytesState;
+use crate::state::chars_state::CharState;
+use crate::state::lines_state::LinesState;
+use crate::state::max_length::MaxLengthState;
+use crate::state::traits::{compute::Compute, partial_state::PartialState};
+use crate::state::words_state::WordsState;
 use crate::Stats;
 
 pub mod bytes_state;

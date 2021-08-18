@@ -1,4 +1,4 @@
-use crate::libcw::state::traits::{compute::Compute, partial_state::PartialState};
+use crate::state::traits::{compute::Compute, partial_state::PartialState};
 
 /// Number of bytes
 #[derive(Default, Debug, Copy, Clone)]
@@ -30,8 +30,8 @@ mod test {
     use std::fs::File;
     use std::io::{BufReader, Read};
 
-    use crate::libcw::state::bytes_state::BytesState;
-    use crate::libcw::state::traits::{compute::Compute, partial_state::PartialState};
+    use crate::state::bytes_state::BytesState;
+    use crate::state::traits::{compute::Compute, partial_state::PartialState};
 
     #[test]
     pub fn test1() {

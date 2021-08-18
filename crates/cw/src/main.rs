@@ -1,8 +1,8 @@
 use clap::{App, load_yaml};
 use colored::Colorize;
-
-use cw::exec_jobs::*;
-use cw::util::*;
+mod commandline;
+use commandline::exec_jobs::*;
+use commandline::util::parser_from_clap;
 
 fn main() {
     // Load clap for commandline utilities

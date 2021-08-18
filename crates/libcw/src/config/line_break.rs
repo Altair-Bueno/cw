@@ -1,7 +1,7 @@
 use std::fmt::{Display, Formatter};
 use std::str::FromStr;
 
-use crate::libcw::config::LineBreak::*;
+use crate::config::LineBreak::*;
 
 const STR_CR: &str = "CR";
 const STR_LF: &str = "LF";

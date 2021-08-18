@@ -1,6 +1,6 @@
 use clap::ArgMatches;
 
-use crate::Parser;
+use libcw::Parser;
 
 pub fn parser_from_clap(args: &ArgMatches) -> Parser {
     let encoding = args

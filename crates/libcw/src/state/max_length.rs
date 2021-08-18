@@ -1,8 +1,8 @@
 use std::cmp::max;
 
 use crate::config::{Encoding, LineBreak};
-use crate::libcw::state::chars_state::CharState;
-use crate::libcw::state::traits::{compute::Compute, partial_state::PartialState};
+use crate::state::chars_state::CharState;
+use crate::state::traits::{compute::Compute, partial_state::PartialState};
 
 // fixme: Does not work. Neets utf8 support
 // Probably better combining this with char_state
@@ -80,9 +80,9 @@ mod test {
     use std::io::{BufReader, Read};
 
     use crate::config::LineBreak;
-    use crate::libcw::config::Encoding;
-    use crate::libcw::state::max_length::MaxLengthState;
-    use crate::libcw::state::traits::{compute::Compute, partial_state::PartialState};
+    use crate::config::Encoding;
+    use crate::state::max_length::MaxLengthState;
+    use crate::state::traits::{compute::Compute, partial_state::PartialState};
 
     #[test]
     pub fn test1() {

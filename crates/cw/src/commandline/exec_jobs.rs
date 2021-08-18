@@ -7,8 +7,8 @@ use clap::Values;
 use colored::Colorize;
 use threads_pool::ThreadPool;
 
-use crate::libcw::parser::Parser;
-use crate::libcw::stats::Stats;
+use libcw::Parser;
+use libcw::Stats;
 
 const TOTAL: &str = "total";
 

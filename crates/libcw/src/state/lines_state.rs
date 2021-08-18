@@ -1,5 +1,5 @@
 use crate::config::LineBreak;
-use crate::libcw::state::traits::{compute::Compute, partial_state::PartialState};
+use crate::state::traits::{compute::Compute, partial_state::PartialState};
 
 /// number of lines
 #[derive(Debug, Copy, Clone)]
@@ -49,8 +49,8 @@ mod test {
     use std::io::{BufReader, Read};
 
     use crate::config::LineBreak;
-    use crate::libcw::state::lines_state::LinesState;
-    use crate::libcw::state::traits::{compute::Compute, partial_state::PartialState};
+    use crate::state::lines_state::LinesState;
+    use crate::state::traits::{compute::Compute, partial_state::PartialState};
 
     #[test]
     pub fn test1() {
