@@ -3,8 +3,8 @@ use std::io::{BufReader, BufWriter};
 
 use clap::Values;
 
-use crate::cw_lib::parser::Parser;
-use crate::cw_lib::stats::Stats;
+use crate::libcw::parser::Parser;
+use crate::libcw::stats::Stats;
 use colored::Colorize;
 use std::io::Write;
 use std::result::Result::Ok;

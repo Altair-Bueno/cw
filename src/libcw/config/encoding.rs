@@ -1,4 +1,4 @@
-use crate::cw_lib::config::Encoding::*;
+use crate::libcw::config::Encoding::*;
 use std::fmt::{Display, Formatter};
 use std::str::FromStr;
 

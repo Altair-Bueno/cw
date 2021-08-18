@@ -1,4 +1,4 @@
-use crate::cw_lib::state::traits::{compute::Compute,partial_state::PartialState};
+use crate::libcw::state::traits::{compute::Compute,partial_state::PartialState};
 
 // Number of words
 #[derive(Default, Debug, Copy, Clone)]
@@ -44,8 +44,8 @@ impl Compute for WordsState {
 }
 #[cfg(test)]
 mod test {
-    use crate::cw_lib::state::traits::{compute::Compute,partial_state::PartialState};
-    use crate::cw_lib::state::words_state::WordsState;
+    use crate::libcw::state::traits::{compute::Compute, partial_state::PartialState};
+    use crate::libcw::state::words_state::WordsState;
     use std::fs::File;
     use std::io::{BufReader, Read};
 

@@ -1,7 +1,7 @@
-use crate::cw_lib::state::traits::{compute::Compute,partial_state::PartialState};
+use crate::libcw::state::traits::{compute::Compute,partial_state::PartialState};
 use std::cmp::max;
 use crate::config::{Encoding, LineBreak};
-use crate::cw_lib::state::chars_state::CharState;
+use crate::libcw::state::chars_state::CharState;
 
 // fixme: Does not work. Neets utf8 support
 // Probably better combining this with char_state
@@ -77,11 +77,11 @@ impl Compute for MaxLengthState {
 
 #[cfg(test)]
 mod test {
-    use crate::cw_lib::state::max_length::MaxLengthState;
-    use crate::cw_lib::state::traits::{compute::Compute,partial_state::PartialState};
+    use crate::libcw::state::max_length::MaxLengthState;
+    use crate::libcw::state::traits::{compute::Compute, partial_state::PartialState};
     use std::fs::File;
     use std::io::{BufReader, Read};
-    use crate::cw_lib::config::Encoding;
+    use crate::libcw::config::Encoding;
     use crate::config::LineBreak;
 
     #[test]

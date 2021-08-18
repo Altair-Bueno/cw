@@ -1,4 +1,4 @@
-use crate::cw_lib::state::traits::{compute::Compute,partial_state::PartialState};
+use crate::libcw::state::traits::{compute::Compute,partial_state::PartialState};
 use crate::config::LineBreak;
 
 /// number of lines
@@ -48,8 +48,8 @@ impl Compute for LinesState {
 
 #[cfg(test)]
 mod test {
-    use crate::cw_lib::state::lines_state::LinesState;
-    use crate::cw_lib::state::traits::{compute::Compute,partial_state::PartialState};
+    use crate::libcw::state::lines_state::LinesState;
+    use crate::libcw::state::traits::{compute::Compute, partial_state::PartialState};
     use std::fs::File;
     use std::io::{BufReader, Read};
     use crate::config::LineBreak;

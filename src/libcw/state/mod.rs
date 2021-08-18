@@ -1,9 +1,9 @@
-use crate::cw_lib::state::bytes_state::BytesState;
-use crate::cw_lib::state::chars_state::CharState;
-use crate::cw_lib::state::lines_state::LinesState;
-use crate::cw_lib::state::max_length::MaxLengthState;
-use crate::cw_lib::state::traits::{compute::Compute,partial_state::PartialState};
-use crate::cw_lib::state::words_state::WordsState;
+use crate::libcw::state::bytes_state::BytesState;
+use crate::libcw::state::chars_state::CharState;
+use crate::libcw::state::lines_state::LinesState;
+use crate::libcw::state::max_length::MaxLengthState;
+use crate::libcw::state::traits::{compute::Compute, partial_state::PartialState};
+use crate::libcw::state::words_state::WordsState;
 use crate::Stats;
 use std::fmt::{Display, Formatter};
 

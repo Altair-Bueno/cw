@@ -1,4 +1,4 @@
-use crate::cw_lib::config::LineBreak::*;
+use crate::libcw::config::LineBreak::*;
 use std::fmt::{Display, Formatter};
 use std::str::FromStr;
 
