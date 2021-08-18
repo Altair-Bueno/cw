@@ -13,19 +13,19 @@ jobs:
           sudo dpkg -i hyperfine_1.11.0_amd64.deb
 
           echo "Fetch CPU & version data"
-          cat /proc/cpuinfo > $GITHUB_WORKSPACE/bench/cpuinfo.txt
-          echo "Hyperfine version: $(hyperfine --version)" > $GITHUB_WORKSPACE/bench/version.txt
-          echo "gwc version: $(wc --version)" >> $GITHUB_WORKSPACE/bench/version.txt
-          echo "cw version: $(cw --version)" >> $GITHUB_WORKSPACE/bench/version.txt
+          cat /proc/cpuinfo > bench/cpuinfo.txt
+          echo "Hyperfine version: $(hyperfine --version)" > bench/version.txt
+          echo "gwc version: $(wc --version)" >> bench/version.txt
+          echo "cw version: $(cw --version)" >> bench/version.txt
 
           echo "Running benchmark"
-          $GITHUB_WORKSPACE/bench/bench.sh > $GITHUB_WORKSPACE/bench/stats.txt
+          bench/bench.sh > bench/stats.txt
 
       - name: Upload results
         continue-on-error: true
         run: |
           git config --global user.name 'github-actions'
           git config --global user.email 'github-actions@github.com'
-          git add --all
+          git add bench/stats.txt bench/cpuinfo.txt bench/version.txt
           git commit -am "Benchmark finished"
           git push
