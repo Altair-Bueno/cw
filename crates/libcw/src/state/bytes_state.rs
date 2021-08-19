@@ -1,11 +1,13 @@
 use crate::state::traits::{compute::Compute, partial_state::PartialState};
 
-/// Number of bytes
+/// Represents a partial state that can be used as a middle structure to
+/// store partial reads over a divided tape
 #[derive(Default, Debug, Copy, Clone)]
 pub struct BytesState {
     bytecount: usize,
 }
 impl BytesState {
+    /// Creates a new instance of BytesState
     pub fn new() -> Self {
         Default::default()
     }

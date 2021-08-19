@@ -14,12 +14,49 @@ use crate::stats::Stats;
 
 const BUFFER_SIZE: usize = 16 * 1024; // 8KB
 
+/// Parser is libcw's main component. It provides abstractions over the
+/// different counters contained inside this crate. It has an easy to use
+/// interface API that results on a [Stats](crate::Stats) instance with the
+/// yielded results
+///
+/// # Default search configuration
+///
+/// - lines
+/// - words
+/// - bytes
+///
+/// # Example
+///
+/// ```no_run
+/// # use libcw::Parser;
+/// # use libcw::config::{Encoding, LineBreak};
+/// # use std::io::BufReader;
+/// # use std::fs::File;
+/// # use std::io;
+/// # fn main() -> io::Result<()> {
+/// let parser = Parser::new(
+///     Encoding::UTF8,
+///     LineBreak::LF,
+///     true,true,true,true,true
+/// );
+/// let read = BufReader::new(File::open("foo.txt")?);
+/// let stats_from_read = parser.proccess(read);
+/// # Ok(())
+/// # }
+/// ```
 #[derive(Default, Copy, Clone, Debug)]
 pub struct Parser {
     initial_state: State,
 }
 
 impl Parser {
+    /// Creates a new parser instance with the given configuration. It's
+    /// important to note that a Parser instance is **inmutable**. It can be
+    /// used accross threads without any kind of syncronization problems. Also,
+    /// it can be combined with the [lazy_static](https://crates.io/crates/lazy_static)
+    /// macro for sharing one single instance across different threads. Setting
+    /// a Parser correctly is important: You only pay for what you need, meaning
+    /// It'll only look for the stats you asked for and thus returning faster
     pub fn new(
         encoding: Encoding,
         linebreak: LineBreak,
@@ -55,6 +92,26 @@ impl Parser {
         Parser { initial_state }
     }
 
+    /// The proccess method takes in a BufRead instance that is read
+    /// for yielding results. If the BufRead instance can be read this will
+    /// yield the corresponding Err result
+    /// ```no_run
+    /// # use libcw::Parser;
+    /// # use libcw::config::{Encoding, LineBreak};
+    /// # use std::io::BufReader;
+    /// # use std::fs::File;
+    /// # use std::io;
+    /// # fn main() -> io::Result<()> {
+    /// let parser = Parser::new(
+    ///     Encoding::UTF8,
+    ///     LineBreak::LF,
+    ///     true,true,true,true,true
+    /// );
+    /// let read = BufReader::new(File::open("foo.txt")?);
+    /// let stats_from_read = parser.proccess(read);
+    /// # Ok(())
+    /// # }
+    /// ```
     pub fn proccess<R: BufRead + Sized>(&self, mut reader: R) -> std::io::Result<Stats> {
         let mut state = self.initial_state;
         let mut buff = [0; BUFFER_SIZE];
@@ -69,6 +126,12 @@ impl Parser {
     }
 }
 impl Display for Parser {
+    /// Displays the current configuration set-up for this Parser instance using
+    /// this format
+    ///
+    /// ```text
+    /// l(type)\tw\tc\tb\tL\t
+    /// ```
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         self.initial_state.fmt(f)
     }

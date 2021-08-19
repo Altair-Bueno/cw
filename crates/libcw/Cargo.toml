@@ -4,6 +4,7 @@ version = "1.0.0"
 authors = ["Altair Bueno"]
 edition = "2018"
 license = "MIT"
+readme = "README.md"
 description = "cw core library for fast and reliable count"
 repository = "https://github.com/Altair-Bueno/cw"
 keywords = ["wc","cw","word","line","character","UTF8","UTF16","count"]

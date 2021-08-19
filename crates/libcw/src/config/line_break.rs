@@ -6,13 +6,23 @@ use crate::config::LineBreak::*;
 const STR_CR: &str = "CR";
 const STR_LF: &str = "LF";
 
+/// Represents a set of supported line breaks for a [Parser](crate::Parser).
+/// Currently, it supports:
 #[derive(Clone, Copy, Debug)]
 pub enum LineBreak {
+    /// Cariage return. Often used on old Macintosh systems
+    /// - Unicode code: U+000D
+    /// - Default: No
     CR,
+    /// Line feed. Most common implementation of new line used on all POSIX
+    /// systems such as macOS, Linux and FreeBSD
+    /// - Unicode code: U+000A
+    /// - Default: Yes
     LF,
 }
 
 impl LineBreak {
+    /// Returns the byte used to represent this character
     pub fn get_separator(&self) -> u8 {
         match self {
             CR => b'\r',
