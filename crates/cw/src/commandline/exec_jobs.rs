@@ -12,7 +12,7 @@ use libcw::Stats;
 
 const TOTAL: &str = "total";
 
-/// Multithread cw. Parses each file using a threadpool
+/// Multithread cw. Parses each file using a [threadpool](threads_pool::ThreadPool)
 pub fn multithread(files: Values, parser: &Parser, threads: usize) -> ! {
     // One thread for stdout
     let size = files.len();
@@ -67,7 +67,7 @@ pub fn multithread(files: Values, parser: &Parser, threads: usize) -> ! {
     std::process::exit(exit_code)
 }
 
-/// Singlethread for STDIN
+/// cw singlethread for STDIN
 pub fn singlethread_stdin(parser: &Parser) -> ! {
     let stats_stdio = from_stdin(parser);
     let exit_code = {
@@ -93,7 +93,7 @@ pub fn singlethread_stdin(parser: &Parser) -> ! {
     std::process::exit(exit_code);
 }
 
-/// Single thread for FILES
+/// cw single thread for FILE(s) input
 pub fn singlethread_files(files: Values, parser: &Parser) -> ! {
     let size = files.len();
     let init = (0, Stats::default());

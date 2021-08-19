@@ -1,4 +1,4 @@
-This file provides benchmark results against GNU wc from `coreutils`. These
+This file provides benchmark results against GNU's coreutils wc. These
 results show a considerable speed increase on most scenarios. Note that both 
 programs run extremely fast, and results may vary on different CPUs 
 architectures. While cw's blazing performance comes with zero abstraction cost

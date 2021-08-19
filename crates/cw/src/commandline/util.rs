@@ -2,6 +2,7 @@ use clap::ArgMatches;
 
 use libcw::Parser;
 
+/// Generates a [Parser](libcw::Parser) instance from [Clap's ArgMatches](clap::ArgMatches)
 pub fn parser_from_clap(args: &ArgMatches) -> Parser {
     let encoding = args
         .value_of("encoding")
