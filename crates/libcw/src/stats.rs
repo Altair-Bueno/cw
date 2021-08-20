@@ -3,6 +3,7 @@ use std::fmt::{Display, Formatter};
 use std::option::Option::Some;
 
 /// Represents a set of stats. Is used as an output value for [Parser's proccess](crate::Parser::proccess)
+/// method
 ///
 /// # Suported stats list
 /// - Number of lines
@@ -75,7 +76,7 @@ impl Stats {
     }
 
     /// Combines two stats. Usefull for providing some combined results. If
-    /// any of the combined stats has a missing value, the result will also
+    /// any of the combined stats has a missing value, the result will **also**
     /// have a missing value
     /// ```
     /// use libcw::Stats;
@@ -99,28 +100,28 @@ impl Stats {
         }
     }
 
-    /// Returns the number of lines contained on this stats if available
+    /// Returns the number of lines contained on this stats, if available
     pub fn lines(&self) -> Option<usize> {
         self.lines
     }
 
-    /// Returns the number of words contained on this stats if available
+    /// Returns the number of words contained on this stats, if available
     pub fn words(&self) -> Option<usize> {
         self.words
     }
 
-    /// Returns the number of characters contained on this stats if available
+    /// Returns the number of characters contained on this stats, if available
     pub fn characters(&self) -> Option<usize> {
         self.characters
     }
 
-    /// Returns the number of bytes contained on this stats if available
+    /// Returns the number of bytes contained on this stats, if available
     pub fn bytes(&self) -> Option<usize> {
         self.bytes
     }
 
     /// Returns the number max number of sequential characters between two line
-    /// breaks (including start and end of file) contained on this stats if
+    /// breaks (including start and end of file) contained on this stats, if
     /// available
     pub fn legth(&self) -> Option<usize> {
         self.legth
@@ -133,7 +134,7 @@ impl Display for Stats {
     /// lines\twords\tcharacters\tbytes\tlength\t
     /// ```
     /// If any value is missing (eg words is None), then said value and its
-    /// right separator will be missing
+    /// right tab will be missing
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         if let Some(x) = self.lines {
             write!(f, "{}\t", x)?;

@@ -52,11 +52,12 @@ pub struct Parser {
 impl Parser {
     /// Creates a new parser instance with the given configuration. It's
     /// important to note that a Parser instance is **inmutable**. It can be
-    /// used accross threads without any kind of syncronization problems. Also,
+    /// used across threads without any kind of locks. Also,
     /// it can be combined with the [lazy_static](https://crates.io/crates/lazy_static)
     /// macro for sharing one single instance across different threads. Setting
     /// a Parser correctly is important: You only pay for what you need, meaning
-    /// It'll only look for the stats you asked for and thus returning faster
+    /// It'll only compute for the stats you asked for and thus taking the least
+    /// amout of time to return
     pub fn new(
         encoding: Encoding,
         linebreak: LineBreak,
@@ -92,9 +93,9 @@ impl Parser {
         Parser { initial_state }
     }
 
-    /// The proccess method takes in a BufRead instance that is read
-    /// for yielding results. If the BufRead instance can be read this will
-    /// yield the corresponding Err result
+    /// The proccess method takes in a [BufRead](std::io::BufRead) instance
+    /// that is read for yielding results. If the BufRead instance canotn be
+    /// read this will yield the corresponding error
     /// ```no_run
     /// # use libcw::Parser;
     /// # use libcw::config::{Encoding, LineBreak};

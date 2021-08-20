@@ -8,7 +8,7 @@
 //! - Platform agnostic
 //! - Fast performance
 //! - 100% Rust safe `std` code
-//! - Zero dependencies
+//! - Zero dependencies, small size
 //! - Selected encoding is used everywhere, even on `max line length`
 //!
 //! # Usage
