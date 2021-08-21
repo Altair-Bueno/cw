@@ -100,14 +100,14 @@ impl Display for State {
         if let Some(x) = self.lines_state {
             write!(f, "l({})\t", x.linebreak())?;
         }
-        if let Some(_) = self.words_state {
+        if let Some(_x) = self.words_state {
             write!(f, "w\t")?;
         }
         if let Some(_x) = self.char_state {
             // TODO encoding
             write!(f, "c\t")?;
         }
-        if let Some(_) = self.bytes_state {
+        if let Some(_x) = self.bytes_state {
             write!(f, "b\t")?;
         }
         if let Some(_x) = self.max_length_state {

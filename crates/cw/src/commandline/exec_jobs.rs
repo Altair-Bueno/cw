@@ -13,7 +13,7 @@ use libcw::Stats;
 const TOTAL: &str = "total";
 
 /// Multithread cw. Parses each file using a [threadpool](threads_pool::ThreadPool)
-pub fn multithread(files: Values, parser: &Parser, threads: usize) -> ! {
+pub fn multithread(files: Values, parser: Parser, threads: usize) -> ! {
     // One thread for stdout
     let size = files.len();
     let pool = ThreadPool::new(threads);
@@ -23,10 +23,9 @@ pub fn multithread(files: Values, parser: &Parser, threads: usize) -> ! {
     for f in files {
         let copy = sender.clone();
         let fclone = f.to_string();
-        let parserclone: Parser = *parser;
 
         let _e = pool.execute(move || {
-            let stats = from_file(fclone.as_str(), &parserclone);
+            let stats = from_file(fclone.as_str(), &parser);
             let _r = copy.send((fclone, stats));
             // eprintln!("{:?}",_r)
         });
@@ -39,6 +38,13 @@ pub fn multithread(files: Values, parser: &Parser, threads: usize) -> ! {
         let lock_stderr = stderr.lock();
         let mut buff_stdout = BufWriter::new(lock_stdout);
         let mut buff_stderr = BufWriter::new(lock_stderr);
+
+        let _ = write!(
+            buff_stdout,
+            "{}",
+            format!("{}File(s)\n", parser).as_str().blue()
+        );
+        let _ = buff_stdout.flush();
 
         let (code, acc) = (0..size).into_iter().zip(reciver.iter()).fold(
             (0, Stats::default()),
@@ -59,7 +65,7 @@ pub fn multithread(files: Values, parser: &Parser, threads: usize) -> ! {
                 buff_stdout,
                 "{}{}",
                 acc.to_string().as_str().green(),
-                TOTAL.red()
+                TOTAL.green()
             );
         }
         code
@@ -68,8 +74,8 @@ pub fn multithread(files: Values, parser: &Parser, threads: usize) -> ! {
 }
 
 /// cw singlethread for STDIN
-pub fn singlethread_stdin(parser: &Parser) -> ! {
-    let stats_stdio = from_stdin(parser);
+pub fn singlethread_stdin(parser: Parser) -> ! {
+    let stats_stdio = from_stdin(&parser);
     let exit_code = {
         let stdout = std::io::stdout();
         let stderr = std::io::stderr();
@@ -77,6 +83,12 @@ pub fn singlethread_stdin(parser: &Parser) -> ! {
         let lock_stderr = stderr.lock();
         let mut buff_stdout = BufWriter::new(lock_stdout);
         let mut buff_stderr = BufWriter::new(lock_stderr);
+        let _ = write!(
+            buff_stdout,
+            "{}",
+            format!("{}File(s)\n", parser).as_str().blue()
+        );
+        let _ = buff_stdout.flush();
 
         let code = match stats_stdio {
             Ok(stats) => {
@@ -94,7 +106,7 @@ pub fn singlethread_stdin(parser: &Parser) -> ! {
 }
 
 /// cw single thread for FILE(s) input
-pub fn singlethread_files(files: Values, parser: &Parser) -> ! {
+pub fn singlethread_files(files: Values, parser: Parser) -> ! {
     let size = files.len();
     let init = (0, Stats::default());
 
@@ -105,8 +117,14 @@ pub fn singlethread_files(files: Values, parser: &Parser) -> ! {
         let lock_stderr = stderr.lock();
         let mut buff_stdout = BufWriter::new(lock_stdout);
         let mut buff_stderr = BufWriter::new(lock_stderr);
+        let _ = write!(
+            buff_stdout,
+            "{}",
+            format!("{}File(s)\n", parser).as_str().blue()
+        );
+        let _ = buff_stdout.flush();
 
-        let (code, merged) = files.fold(init, |(code, acc), file| match from_file(file, parser) {
+        let (code, merged) = files.fold(init, |(code, acc), file| match from_file(file, &parser) {
             Ok(stats) => {
                 let _ = writeln!(buff_stdout, "{}{}", stats, file);
                 (code, acc.combine(stats))
@@ -123,7 +141,7 @@ pub fn singlethread_files(files: Values, parser: &Parser) -> ! {
                 buff_stdout,
                 "{}{}",
                 merged.to_string().as_str().green(),
-                TOTAL.red()
+                TOTAL.green()
             );
         }
         code

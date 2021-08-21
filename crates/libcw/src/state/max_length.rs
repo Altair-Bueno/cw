@@ -153,58 +153,58 @@ mod test {
 
     #[test]
     fn gabriel() {
-        let out = proccess_file_test("resources/Gabriel.txt");
+        let out = proccess_file_test("resources/utf8/Gabriel.txt");
         let expected = 580;
         assert_eq!(out, expected)
     }
 
     #[test]
     fn lorem() {
-        let out = proccess_file_test("resources/Lorem_big.txt");
+        let out = proccess_file_test("resources/utf8/Lorem_big.txt");
         assert_eq!(out, 1142)
     }
     #[test]
     #[ignore]
     fn world() {
-        let out = proccess_file_test("resources/world192.txt");
+        let out = proccess_file_test("resources/utf8/world192.txt");
         assert_eq!(out, 81)
     }
     #[test]
     fn s1() {
-        let out = proccess_file_test("resources/sample1.txt");
+        let out = proccess_file_test("resources/utf8/sample1.txt");
         assert_eq!(out, 346)
     }
 
     #[test]
     fn s2() {
-        let out = proccess_file_test("resources/sample2.txt");
+        let out = proccess_file_test("resources/utf8/sample2.txt");
         assert_eq!(out, 635)
     }
     #[test]
     fn s3() {
-        let out = proccess_file_test("resources/sample3.txt");
+        let out = proccess_file_test("resources/utf8/sample3.txt");
         assert_eq!(out, 818)
     }
     #[test]
     fn small() {
-        let out = proccess_file_test("resources/small.txt");
+        let out = proccess_file_test("resources/utf8/small.txt");
         assert_eq!(out, 17)
     }
     #[test]
     fn empty() {
-        let out = proccess_file_test("resources/empty.txt");
+        let out = proccess_file_test("resources/utf8/empty.txt");
         assert_eq!(out, 0)
     }
     #[test]
     fn spanish() {
-        let out = proccess_file_test("resources/spanish.txt");
+        let out = proccess_file_test("resources/utf8/spanish.txt");
         let expected = 18;
         assert_eq!(out, expected)
     }
 
     #[test]
     fn french() {
-        let out = proccess_file_test("resources/french.txt");
+        let out = proccess_file_test("resources/utf8/french.txt");
         assert_eq!(out, 58)
     }
 }
