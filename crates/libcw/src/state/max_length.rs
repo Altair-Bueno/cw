@@ -23,13 +23,13 @@ impl Default for MaxLengthState {
 }
 
 impl MaxLengthState {
-    pub fn new(linebreak: LineBreak, _encoding: Encoding) -> Self {
+    pub fn new(linebreak: LineBreak, encoding: Encoding) -> Self {
         MaxLengthState {
             max_length_found: 0,
             //line_count: 0,
             //char_count: 0,
             linebreak,
-            char_state: CharState::new(),
+            char_state: CharState::new(encoding),
         }
     }
 }
@@ -66,7 +66,7 @@ impl Compute for MaxLengthState {
                     max_length_found: max(count - 1, state.max_length_found),
                     //line_count: state.line_count + 1,
                     //char_count: state.char_count + count,
-                    char_state: CharState::new(), // TODO encoding
+                    char_state: CharState::new(Encoding::default()), // TODO encoding
                     ..state
                 }
             }

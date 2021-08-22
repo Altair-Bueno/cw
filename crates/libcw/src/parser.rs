@@ -79,7 +79,7 @@ impl Parser {
         };
 
         if chars {
-            initial_state.set_char_state(Some(CharState::new()))
+            initial_state.set_char_state(Some(CharState::new(encoding)))
         };
 
         if bytes {
@@ -116,7 +116,7 @@ impl Parser {
     pub fn proccess<R: BufRead + Sized>(&self, mut reader: R) -> std::io::Result<Stats> {
         let mut state = self.initial_state;
         let mut buff = [0; BUFFER_SIZE];
-
+        // TODO detect endianness if UTF16 https://en.wikipedia.org/wiki/UTF-16
         loop {
             let read = reader.read(&mut buff)?;
             if read == 0 {
