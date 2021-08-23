@@ -42,7 +42,7 @@ pub fn multithread(files: Values, parser: Parser, threads: usize) -> ! {
         let _ = write!(
             buff_stdout,
             "{}",
-            format!("{}File(s)\n", parser).as_str().blue()
+            format!("{} File(s)\n", parser).as_str().blue()
         );
         let _ = buff_stdout.flush();
 
@@ -86,7 +86,7 @@ pub fn singlethread_stdin(parser: Parser) -> ! {
         let _ = write!(
             buff_stdout,
             "{}",
-            format!("{}File(s)\n", parser).as_str().blue()
+            format!("{} File(s)\n", parser).as_str().blue()
         );
         let _ = buff_stdout.flush();
 
@@ -120,7 +120,7 @@ pub fn singlethread_files(files: Values, parser: Parser) -> ! {
         let _ = write!(
             buff_stdout,
             "{}",
-            format!("{}File(s)\n", parser).as_str().blue()
+            format!("{} File(s)\n", parser).as_str().blue()
         );
         let _ = buff_stdout.flush();
 

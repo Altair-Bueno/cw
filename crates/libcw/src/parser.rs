@@ -114,11 +114,17 @@ impl Parser {
     /// # Ok(())
     /// # }
     /// ```
-    pub fn proccess<R: BufRead + Sized>(&self, mut reader: R) -> std::io::Result<Stats> {
+    pub fn proccess<R: BufRead + Sized>(&self, reader: R) -> std::io::Result<Stats> {
+        match self.encoding {
+            Encoding::UTF8 => self.utf8_proccess(reader),
+            Encoding::UTF16 => self.utf16_proccess(reader),
+        }
+    }
+
+    /// Runs over the tape at max speed reading utf8 encoded text
+    fn utf8_proccess<R: BufRead + Sized>(&self, mut reader: R) -> std::io::Result<Stats> {
         let mut state = self.initial_state;
         let mut buff = [0; BUFFER_SIZE];
-        // TODO detect endianness if UTF16 https://en.wikipedia.org/wiki/UTF-16
-        // Use utf 16 compute instead if UTF16 detected
         loop {
             let read = reader.read(&mut buff)?;
             if read == 0 {
@@ -127,7 +133,62 @@ impl Parser {
             state = state.utf8_compute(&buff[0..read]);
         }
     }
+
+    /// Decides endianess and computes tape
+    fn utf16_proccess<R: BufRead + Sized>(&self, mut reader: R) -> std::io::Result<Stats> {
+        let buff = reader.fill_buf()?;
+        if buff.len() < 2 {
+            // Not enought
+            let mut out = self.initial_state.output();
+            out.set_bytes(Some(buff.len()));
+            Ok(out)
+        } else {
+            let first = buff[0];
+            let second = buff[1];
+
+            if first == 0xFF && second == 0xFE {
+                // Little endian
+                let mut stats = self.initial_state.output();
+                stats.set_bytes(Some(2));
+
+                reader.consume(2);
+
+                self.utf16_process_le(reader)
+                    .map(|x|x.combine(stats))
+            } else if first == 0xFE && second == 0xFF {
+                // Big endian
+                let mut stats = self.initial_state.output();
+                stats.set_bytes(Some(2));
+
+                reader.consume(2);
+
+                self.utf16_proccess_be(reader)
+                    .map(|x|x.combine(stats))
+            } else {
+                // Assumed big endian
+                self.utf16_proccess_be(reader)
+            }
+        }
+    }
+    fn utf16_proccess_be<R: BufRead + Sized>(&self, mut reader: R) -> std::io::Result<Stats> {
+        let mut state = self.initial_state;
+        let mut buff = [0; BUFFER_SIZE];
+        loop {
+            let read = reader.read(&mut buff)?;
+            if read == 0 {
+                return Ok(state.output());
+            }
+            if read % 2 != 0 {
+                //
+            }
+            state = state.utf16_compute(&buff[0..read]);
+        }
+    }
+    fn utf16_process_le<R: BufRead + Sized>(&self, mut reader: R) -> std::io::Result<Stats> {
+        todo!()
+    }
 }
+
 impl Display for Parser {
     /// Displays the current configuration set-up for this Parser instance using
     /// this format
@@ -136,6 +197,7 @@ impl Display for Parser {
     /// l\tw\tc\tb\tL\t
     /// ```
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        self.initial_state.fmt(f)
+        self.initial_state.fmt(f)?;
+        write!(f,"{} {}",self.encoding, self.linebreak)
     }
 }

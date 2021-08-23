@@ -126,6 +126,27 @@ impl Stats {
     pub fn legth(&self) -> Option<usize> {
         self.legth
     }
+
+    /// Changes the stored line count for these stats
+    pub fn set_lines(&mut self, lines: Option<usize>) {
+        self.lines = lines;
+    }
+    /// Changes the stored word count for these stats
+    pub fn set_words(&mut self, words: Option<usize>) {
+        self.words = words;
+    }
+    /// Changes the stored character count for these stats
+    pub fn set_characters(&mut self, characters: Option<usize>) {
+        self.characters = characters;
+    }
+    /// Changes the stored byte count for these stats
+    pub fn set_bytes(&mut self, bytes: Option<usize>) {
+        self.bytes = bytes;
+    }
+    /// Changes the stored byte count for these stats
+    pub fn set_legth(&mut self, legth: Option<usize>) {
+        self.legth = legth;
+    }
 }
 
 impl Display for Stats {

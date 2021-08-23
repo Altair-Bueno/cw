@@ -38,8 +38,6 @@ impl Compute for BytesState {
 #[cfg(test)]
     mod test {
     mod utf16 {
-        use std::fs::File;
-        use std::io::{BufReader, Read};
 
         use crate::state::bytes_state::BytesState;
         use crate::state::traits::{compute::Compute, partial_state::PartialState};

@@ -10,6 +10,25 @@ impl WordsState {
     pub fn new() -> Self {
         Default::default()
     }
+
+    fn compute_char(self, n: &u8) -> WordsState {
+        let is_separator = |x: u8| -> bool {
+            match x {
+                0x20 | 0x09 => true,
+                x => (0x0A..=0x0D).contains(&x),
+            }
+        };
+        let onword = !is_separator(*n);
+        let wordcount = self.wordcount + {
+            if self.onword && !onword {
+                1
+            } else {
+                0
+            }
+        };
+
+        WordsState { wordcount, onword }
+    }
 }
 
 impl PartialState for WordsState {
@@ -20,48 +39,18 @@ impl PartialState for WordsState {
     }
 }
 
+
 impl Compute for WordsState {
     fn utf8_compute(self, tape: &[u8]) -> Self {
-        let is_separator = |x: u8| match x {
-            0x20 | 0x09 => true,
-            x => (0x0A..=0x0D).contains(&x),
-        };
-
-        tape.iter().fold(self, |acc, n| {
-            let onword = !is_separator(*n);
-            let wordcount = acc.wordcount + {
-                if acc.onword && !onword {
-                    1
-                } else {
-                    0
-                }
-            };
-
-            WordsState { wordcount, onword }
-        })
+        tape.iter().fold(self, WordsState::compute_char)
     }
 
     fn utf16_compute(self, tape: &[u8]) -> Self {
-        let is_separator = |x: u8| match x {
-            0x20 | 0x09 => true,
-            x => (0x0A..=0x0D).contains(&x),
-        };
         let mut temp = true;
         tape.iter().filter(|_| {
             temp = !temp;
             temp
-        }).fold(self, |acc, n| {
-            let onword = !is_separator(*n);
-            let wordcount = acc.wordcount + {
-                if acc.onword && !onword {
-                    1
-                } else {
-                    0
-                }
-            };
-
-            WordsState { wordcount, onword }
-        })
+        }).fold(self, WordsState::compute_char)
     }
 }
 
@@ -69,8 +58,6 @@ impl Compute for WordsState {
 mod test {
     mod utf16 {
 
-        use std::fs::File;
-        use std::io::{BufReader, Read};
 
         use crate::state::traits::{compute::Compute, partial_state::PartialState};
         use crate::state::words_state::WordsState;
@@ -78,56 +65,56 @@ mod test {
         #[test]
         pub fn test1() {
             let line = "".encode_utf16().flat_map(u16::to_be_bytes).collect::<Vec<u8>>();
-            let out = WordsState::new().utf8_compute(line.as_slice()).output();
+            let out = WordsState::new().utf16_compute(line.as_slice()).output();
             assert_eq!(out, 0)
         }
 
         #[test]
         pub fn test2() {
             let line = "hello".encode_utf16().flat_map(u16::to_be_bytes).collect::<Vec<u8>>();
-            let out = WordsState::new().utf8_compute(line.as_slice()).output();
+            let out = WordsState::new().utf16_compute(line.as_slice()).output();
             assert_eq!(out, 1)
         }
 
         #[test]
         pub fn test3() {
             let line = "hello world".encode_utf16().flat_map(u16::to_be_bytes).collect::<Vec<u8>>();
-            let out = WordsState::new().utf8_compute(line.as_slice()).output();
+            let out = WordsState::new().utf16_compute(line.as_slice()).output();
             assert_eq!(out, 2)
         }
 
         #[test]
         pub fn test4() {
             let line = "hello\nworld".encode_utf16().flat_map(u16::to_be_bytes).collect::<Vec<u8>>();
-            let out = WordsState::new().utf8_compute(line.as_slice()).output();
+            let out = WordsState::new().utf16_compute(line.as_slice()).output();
             assert_eq!(out, 2)
         }
 
         #[test]
         pub fn test5() {
             let line = "\nworld".encode_utf16().flat_map(u16::to_be_bytes).collect::<Vec<u8>>();
-            let out = WordsState::new().utf8_compute(line.as_slice()).output();
+            let out = WordsState::new().utf16_compute(line.as_slice()).output();
             assert_eq!(out, 1)
         }
 
         #[test]
         pub fn test6() {
             let line = "\n\nworld".encode_utf16().flat_map(u16::to_be_bytes).collect::<Vec<u8>>();
-            let out = WordsState::new().utf8_compute(line.as_slice()).output();
+            let out = WordsState::new().utf16_compute(line.as_slice()).output();
             assert_eq!(out, 1)
         }
 
         #[test]
         pub fn test7() {
             let line = "hello\n\n".encode_utf16().flat_map(u16::to_be_bytes).collect::<Vec<u8>>();
-            let out = WordsState::new().utf8_compute(line.as_slice()).output();
+            let out = WordsState::new().utf16_compute(line.as_slice()).output();
             assert_eq!(out, 1)
         }
 
         #[test]
         pub fn test8() {
             let line = "texto en español de prueba con número de palabras".encode_utf16().flat_map(u16::to_be_bytes).collect::<Vec<u8>>();
-            let out = WordsState::new().utf8_compute(line.as_slice()).output();
+            let out = WordsState::new().utf16_compute(line.as_slice()).output();
             assert_eq!(out, 9)
         }
 
@@ -135,7 +122,7 @@ mod test {
         pub fn test9() {
             let line = "    \t   texto en      español de    prueba    con número\n\t \t de\n palabras"
                 .encode_utf16().flat_map(u16::to_be_bytes).collect::<Vec<u8>>();
-            let out = WordsState::new().utf8_compute(line.as_slice()).output();
+            let out = WordsState::new().utf16_compute(line.as_slice()).output();
             assert_eq!(out, 9)
         }
 
@@ -145,9 +132,9 @@ mod test {
             let s2 ="o ".encode_utf16().flat_map(u16::to_be_bytes).collect::<Vec<u8>>();
             let s3 = "world".encode_utf16().flat_map(u16::to_be_bytes).collect::<Vec<u8>>();
             let out = WordsState::new()
-                .utf8_compute(s1.as_slice())
-                .utf8_compute(s2.as_slice())
-                .utf8_compute(s3.as_slice())
+                .utf16_compute(s1.as_slice())
+                .utf16_compute(s2.as_slice())
+                .utf16_compute(s3.as_slice())
                 .output();
             assert_eq!(out, 2)
         }

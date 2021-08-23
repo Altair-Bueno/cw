@@ -4,7 +4,6 @@ use crate::config::LineBreak;
 use crate::state::chars_state::CharState;
 use crate::state::traits::{compute::Compute, partial_state::PartialState};
 
-
 /// Max length
 #[derive(Debug, Copy, Clone)]
 pub struct MaxLengthState {
@@ -101,14 +100,17 @@ impl Compute for MaxLengthState {
 #[cfg(test)]
 mod test {
     mod utf16 {
-        use crate::state::max_length::MaxLengthState;
         use crate::config::LineBreak;
+        use crate::state::max_length::MaxLengthState;
         use crate::state::traits::compute::Compute;
         use crate::state::traits::partial_state::PartialState;
 
         #[test]
         pub fn test1() {
-            let line = "".encode_utf16().flat_map(u16::to_be_bytes).collect::<Vec<u8>>();
+            let line = ""
+                .encode_utf16()
+                .flat_map(u16::to_be_bytes)
+                .collect::<Vec<u8>>();
             let out = MaxLengthState::new(LineBreak::LF)
                 .utf16_compute(line.as_slice())
                 .output();
@@ -117,52 +119,73 @@ mod test {
 
         #[test]
         pub fn test2() {
-            let line = "hello\n".encode_utf16().flat_map(u16::to_be_bytes).collect::<Vec<u8>>();
+            let line = "hello\n"
+                .encode_utf16()
+                .flat_map(u16::to_be_bytes)
+                .collect::<Vec<u8>>();
             let out = MaxLengthState::new(LineBreak::LF)
-                .utf8_compute(line.as_slice())
+                .utf16_compute(line.as_slice())
                 .output();
             assert_eq!(out, 5)
         }
 
         #[test]
         pub fn test3() {
-            let line = "hello\nworld".encode_utf16().flat_map(u16::to_be_bytes).collect::<Vec<u8>>();
+            let line = "hello\nworld"
+                .encode_utf16()
+                .flat_map(u16::to_be_bytes)
+                .collect::<Vec<u8>>();
             let out = MaxLengthState::new(LineBreak::LF)
-                .utf8_compute(line.as_slice())
+                .utf16_compute(line.as_slice())
                 .output();
             assert_eq!(out, 5)
         }
 
         #[test]
         pub fn test4() {
-            let line = "hello\nworldjsafs\n".encode_utf16().flat_map(u16::to_be_bytes).collect::<Vec<u8>>();
+            let line = "hello\nworldjsafs\n"
+                .encode_utf16()
+                .flat_map(u16::to_be_bytes)
+                .collect::<Vec<u8>>();
             let out = MaxLengthState::new(LineBreak::LF)
-                .utf8_compute(line.as_slice())
+                .utf16_compute(line.as_slice())
                 .output();
             assert_eq!(out, 10)
         }
 
         #[test]
         pub fn test5() {
-            let line = "hello\nworldjsafs\nshjksafhjkasfjhkfajshdjhksdfa".encode_utf16().flat_map(u16::to_be_bytes).collect::<Vec<u8>>();
+            let line = "hello\nworldjsafs\nshjksafhjkasfjhkfajshdjhksdfa"
+                .encode_utf16()
+                .flat_map(u16::to_be_bytes)
+                .collect::<Vec<u8>>();
             let out = MaxLengthState::new(LineBreak::LF)
-                .utf8_compute(line.as_slice())
+                .utf16_compute(line.as_slice())
                 .output();
             assert_eq!(out, 29)
         }
 
         #[test]
         pub fn test6() {
-            let s1 = "hskjaskl a jadsjfjsdjk a asda dsfksa .".encode_utf16().flat_map(u16::to_be_bytes).collect::<Vec<u8>>();
-            let s2 = "jkhsajkjafsdjkafsjkafsd".encode_utf16().flat_map(u16::to_be_bytes).collect::<Vec<u8>>();
-            let s3 = "iassfdaafsd\n".encode_utf16().flat_map(u16::to_be_bytes).collect::<Vec<u8>>();
+            let s1 = "hskjaskl a jadsjfjsdjk a asda dsfksa ."
+                .encode_utf16()
+                .flat_map(u16::to_be_bytes)
+                .collect::<Vec<u8>>();
+            let s2 = "jkhsajkjafsdjkafsjkafsd"
+                .encode_utf16()
+                .flat_map(u16::to_be_bytes)
+                .collect::<Vec<u8>>();
+            let s3 = "iassfdaafsd\n"
+                .encode_utf16()
+                .flat_map(u16::to_be_bytes)
+                .collect::<Vec<u8>>();
             let s4 = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
                 .encode_utf16().flat_map(u16::to_be_bytes).collect::<Vec<u8>>();
             let out = MaxLengthState::new(LineBreak::LF)
-                .utf8_compute(s1.as_slice())
-                .utf8_compute(s2.as_slice())
-                .utf8_compute(s3.as_slice())
-                .utf8_compute(s4.as_slice())
+                .utf16_compute(s1.as_slice())
+                .utf16_compute(s2.as_slice())
+                .utf16_compute(s3.as_slice())
+                .utf16_compute(s4.as_slice())
                 .output();
             assert_eq!(out, 445)
         }
@@ -171,7 +194,6 @@ mod test {
         use std::fs::File;
         use std::io::{BufReader, Read};
 
-        use crate::config::Encoding;
         use crate::config::LineBreak;
         use crate::state::max_length::MaxLengthState;
         use crate::state::traits::{compute::Compute, partial_state::PartialState};

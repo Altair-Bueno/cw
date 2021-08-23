@@ -23,9 +23,6 @@ impl LinesState {
         }
     }
 
-    pub fn linebreak(&self) -> LineBreak {
-        self.linebreak
-    }
 }
 
 impl PartialState for LinesState {
@@ -42,7 +39,6 @@ impl Compute for LinesState {
         LinesState {
             linescount: line_breaks + self.linescount,
             linebreak: self.linebreak,
-            ..self
         }
     }
     fn utf16_compute(self,tape:&[u8]) -> Self {
@@ -55,7 +51,6 @@ impl Compute for LinesState {
         LinesState {
             linescount: line_breaks + self.linescount,
             linebreak: self.linebreak,
-            ..self
         }
     }
 }
@@ -63,10 +58,7 @@ impl Compute for LinesState {
 #[cfg(test)]
 mod test {
     mod utf16 {
-        use std::fs::File;
-        use std::io::{BufReader, Read};
-
-        use crate::config::{LineBreak, Encoding};
+        use crate::config::LineBreak;
         use crate::state::lines_state::LinesState;
         use crate::state::traits::{compute::Compute, partial_state::PartialState};
 
@@ -141,7 +133,7 @@ mod test {
         use std::fs::File;
         use std::io::{BufReader, Read};
 
-        use crate::config::{LineBreak, Encoding};
+        use crate::config::LineBreak;
         use crate::state::lines_state::LinesState;
         use crate::state::traits::{compute::Compute, partial_state::PartialState};
 

@@ -18,7 +18,7 @@ impl CharState {
             } else {
                 ((decoder)(*n), acc.num_chars + 1)
             };
-            CharState { expect, num_chars,..self }
+            CharState { expect, num_chars, }
         })
     }
 
@@ -71,7 +71,6 @@ impl Compute for CharState {
 mod test {
     mod utf16 {
         use crate::state::chars_state::CharState;
-        use crate::config::Encoding;
         use crate::state::traits::compute::Compute;
         use crate::state::traits::partial_state::PartialState;
 
@@ -140,7 +139,6 @@ mod test {
 
         use crate::state::chars_state::CharState;
         use crate::state::traits::{compute::Compute, partial_state::PartialState};
-        use crate::config::Encoding;
 
         #[test]
         pub fn test1() {
