@@ -1,11 +1,9 @@
 use std::cmp::max;
 
-use crate::config::{Encoding, LineBreak};
+use crate::config::LineBreak;
 use crate::state::chars_state::CharState;
 use crate::state::traits::{compute::Compute, partial_state::PartialState};
 
-// fixme: Does not work. Neets utf8 support
-// Probably better combining this with char_state
 
 /// Max length
 #[derive(Debug, Copy, Clone)]
@@ -18,18 +16,18 @@ pub struct MaxLengthState {
 }
 impl Default for MaxLengthState {
     fn default() -> Self {
-        MaxLengthState::new(LineBreak::default(), Encoding::default())
+        MaxLengthState::new(LineBreak::default())
     }
 }
 
 impl MaxLengthState {
-    pub fn new(linebreak: LineBreak, encoding: Encoding) -> Self {
+    pub fn new(linebreak: LineBreak) -> Self {
         MaxLengthState {
             max_length_found: 0,
             //line_count: 0,
             //char_count: 0,
             linebreak,
-            char_state: CharState::new(encoding),
+            char_state: CharState::new(),
         }
     }
 }
@@ -47,11 +45,11 @@ impl PartialState for MaxLengthState {
 }
 
 impl Compute for MaxLengthState {
-    fn compute(self, tape: &[u8]) -> Self {
+    fn utf8_compute(self, tape: &[u8]) -> Self {
         let b = self.linebreak.get_separator();
         tape.split_inclusive(|x| *x == b).fold(self, |state, next| {
             let on_line = next.last().map(|x| *x != b).unwrap_or(true);
-            let count_chars_state = state.char_state.compute(next);
+            let count_chars_state = state.char_state.utf8_compute(next);
             // Count lines if its the end of the line. Update character
             // count in the end
             if on_line {
@@ -66,11 +64,15 @@ impl Compute for MaxLengthState {
                     max_length_found: max(count - 1, state.max_length_found),
                     //line_count: state.line_count + 1,
                     //char_count: state.char_count + count,
-                    char_state: CharState::new(Encoding::default()), // TODO encoding
+                    char_state: CharState::new(),
                     ..state
                 }
             }
         })
+    }
+
+    fn utf16_compute(self, tape: &[u8]) -> Self {
+        todo!()
     }
 }
 
@@ -87,8 +89,8 @@ mod test {
     #[test]
     pub fn test1() {
         let line = "".as_bytes();
-        let out = MaxLengthState::new(LineBreak::LF, Encoding::UTF8)
-            .compute(line)
+        let out = MaxLengthState::new(LineBreak::LF)
+            .utf8_compute(line)
             .output();
         assert_eq!(out, 0)
     }
@@ -96,42 +98,42 @@ mod test {
     #[test]
     pub fn test2() {
         let line = "hello\n".as_bytes();
-        let out = MaxLengthState::new(LineBreak::LF, Encoding::UTF8)
-            .compute(line)
+        let out = MaxLengthState::new(LineBreak::LF)
+            .utf8_compute(line)
             .output();
         assert_eq!(out, 5)
     }
     #[test]
     pub fn test3() {
         let line = "hello\nworld".as_bytes();
-        let out = MaxLengthState::new(LineBreak::LF, Encoding::UTF8)
-            .compute(line)
+        let out = MaxLengthState::new(LineBreak::LF)
+            .utf8_compute(line)
             .output();
         assert_eq!(out, 5)
     }
     #[test]
     pub fn test4() {
         let line = "hello\nworldjsafs\n".as_bytes();
-        let out = MaxLengthState::new(LineBreak::LF, Encoding::UTF8)
-            .compute(line)
+        let out = MaxLengthState::new(LineBreak::LF)
+            .utf8_compute(line)
             .output();
         assert_eq!(out, 10)
     }
     #[test]
     pub fn test5() {
         let line = "hello\nworldjsafs\nshjksafhjkasfjhkfajshdjhksdfa".as_bytes();
-        let out = MaxLengthState::new(LineBreak::LF, Encoding::UTF8)
-            .compute(line)
+        let out = MaxLengthState::new(LineBreak::LF)
+            .utf8_compute(line)
             .output();
         assert_eq!(out, 29)
     }
     #[test]
     pub fn test6() {
-        let out = MaxLengthState::new(LineBreak::LF,Encoding::UTF8)
-            .compute("hskjaskl a jadsjfjsdjk a asda dsfksa .".as_bytes())
-            .compute("jkhsajkjafsdjkafsjkafsd".as_bytes())
-            .compute("iassfdaafsd\n".as_bytes())
-            .compute("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.".as_bytes())
+        let out = MaxLengthState::new(LineBreak::LF)
+            .utf8_compute("hskjaskl a jadsjfjsdjk a asda dsfksa .".as_bytes())
+            .utf8_compute("jkhsajkjafsdjkafsjkafsd".as_bytes())
+            .utf8_compute("iassfdaafsd\n".as_bytes())
+            .utf8_compute("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.".as_bytes())
             .output();
         assert_eq!(out, 445)
     }
@@ -140,14 +142,14 @@ mod test {
     fn proccess_file_test(f: &str) -> usize {
         let mut reader = BufReader::new(File::open(f).unwrap());
 
-        let mut state = MaxLengthState::new(LineBreak::LF, Encoding::UTF8);
+        let mut state = MaxLengthState::new(LineBreak::LF);
         let mut buff = [0; 1024];
         loop {
             let read = reader.read(&mut buff).unwrap();
             if read == 0 {
                 return state.output();
             }
-            state = state.compute(&buff[0..read]);
+            state = state.utf8_compute(&buff[0..read]);
         }
     }
 

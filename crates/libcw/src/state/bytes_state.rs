@@ -11,6 +11,11 @@ impl BytesState {
     pub fn new() -> Self {
         Default::default()
     }
+    fn count(self , tape:&[u8]) -> Self {
+        BytesState {
+            bytecount: self.bytecount + tape.len()
+        }
+    }
 }
 
 impl PartialState for BytesState {
@@ -21,9 +26,12 @@ impl PartialState for BytesState {
 }
 
 impl Compute for BytesState {
-    fn compute(mut self, tape: &[u8]) -> Self {
-        self.bytecount += tape.len();
-        self
+    fn utf8_compute(self, tape: &[u8]) -> Self {
+        self.count(tape)
+    }
+
+    fn utf16_compute(self, tape: &[u8]) -> Self {
+        self.count(tape)
     }
 }
 
@@ -38,28 +46,28 @@ mod test {
     #[test]
     pub fn test1() {
         let bytes = "hello world".as_bytes();
-        let parse = BytesState::new().compute(bytes).output();
+        let parse = BytesState::new().utf8_compute(bytes).output();
         assert_eq!(parse, 11)
     }
 
     #[test]
     pub fn test2() {
         let bytes = "".as_bytes();
-        let parse = BytesState::new().compute(bytes).output();
+        let parse = BytesState::new().utf8_compute(bytes).output();
         assert_eq!(parse, 0)
     }
     #[test]
     pub fn test3() {
         let bytes = "ñ".as_bytes();
-        let parse = BytesState::new().compute(bytes).output();
+        let parse = BytesState::new().utf8_compute(bytes).output();
         assert_eq!(parse, 2)
     }
     #[test]
     pub fn test4() {
         let parse = BytesState::new()
-            .compute("ñ".as_bytes())
-            .compute("hello".as_bytes())
-            .compute(" ass sa fda fsj fasd ".as_bytes())
+            .utf8_compute("ñ".as_bytes())
+            .utf8_compute("hello".as_bytes())
+            .utf8_compute(" ass sa fda fsj fasd ".as_bytes())
             .output();
         assert_eq!(parse, 28)
     }
@@ -75,7 +83,7 @@ mod test {
             if read == 0 {
                 return state.output();
             }
-            state = state.compute(&buff[0..read]);
+            state = state.utf8_compute(&buff[0..read]);
         }
     }
 

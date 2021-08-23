@@ -15,7 +15,7 @@ pub mod max_length;
 pub mod traits;
 pub mod words_state;
 
-#[derive(Copy, Clone, Debug)]
+#[derive(Copy, Clone)]
 pub struct State {
     lines_state: Option<LinesState>,
     words_state: Option<WordsState>,
@@ -48,13 +48,23 @@ impl PartialState for State {
     }
 }
 impl Compute for State {
-    fn compute(self, tape: &[u8]) -> Self {
+    fn utf8_compute(self, tape: &[u8]) -> Self {
         State {
-            lines_state: self.lines_state.map(|x| x.compute(tape)),
-            words_state: self.words_state.map(|x| x.compute(tape)),
-            char_state: self.char_state.map(|x| x.compute(tape)),
-            bytes_state: self.bytes_state.map(|x| x.compute(tape)),
-            max_length_state: self.max_length_state.map(|x| x.compute(tape)),
+            lines_state: self.lines_state.map(|x| x.utf8_compute(tape)),
+            words_state: self.words_state.map(|x| x.utf8_compute(tape)),
+            char_state: self.char_state.map(|x| x.utf8_compute(tape)),
+            bytes_state: self.bytes_state.map(|x| x.utf8_compute(tape)),
+            max_length_state: self.max_length_state.map(|x| x.utf8_compute(tape)),
+        }
+    }
+
+    fn utf16_compute(self, tape: &[u8]) -> Self {
+        State {
+            lines_state: self.lines_state.map(|x| x.utf16_compute(tape)),
+            words_state: self.words_state.map(|x| x.utf16_compute(tape)),
+            char_state: self.char_state.map(|x| x.utf16_compute(tape)),
+            bytes_state: self.bytes_state.map(|x| x.utf16_compute(tape)),
+            max_length_state: self.max_length_state.map(|x| x.utf16_compute(tape)),
         }
     }
 }
@@ -97,14 +107,22 @@ impl Iterator for State {
 }
 impl Display for State {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        self.lines_state.map(|_| write!(f, "l\t")).unwrap_or(Ok(()))?;
+        self.words_state.map(|_| write!(f,"w\t")).unwrap_or(Ok(()))?;
+        self.char_state.map(|_| write!(f,"c\t")).unwrap_or(Ok(()))?;
+        self.bytes_state.map(|_| write!(f,"b\t")).unwrap_or(Ok(()))?;
+        self.max_length_state.map(|_| write!(f,"L\t")).unwrap_or(Ok(()))?;
+
+
+        /*
         if let Some(x) = self.lines_state {
-            write!(f, "l({})\t", x.linebreak())?;
+            write!(f, "l\t")?;
         }
         if let Some(_x) = self.words_state {
             write!(f, "w\t")?;
         }
         if let Some(_x) = self.char_state {
-            // TODO encoding
+
             write!(f, "c\t")?;
         }
         if let Some(_x) = self.bytes_state {
@@ -113,7 +131,7 @@ impl Display for State {
         if let Some(_x) = self.max_length_state {
             write!(f, "L\t")?;
         }
-
+        */
         Ok(())
     }
 }

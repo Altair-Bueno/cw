@@ -44,9 +44,11 @@ const BUFFER_SIZE: usize = 16 * 1024; // 8KB
 /// # Ok(())
 /// # }
 /// ```
-#[derive(Default, Copy, Clone, Debug)]
+#[derive(Default, Copy, Clone)]
 pub struct Parser {
     initial_state: State,
+    encoding:Encoding,
+    linebreak:LineBreak,
 }
 
 impl Parser {
@@ -69,7 +71,6 @@ impl Parser {
     ) -> Parser {
         let mut initial_state = State::new();
 
-        // todo encoding not used right now
         if lines {
             initial_state.set_lines_state(Some(LinesState::new(linebreak)))
         };
@@ -79,7 +80,7 @@ impl Parser {
         };
 
         if chars {
-            initial_state.set_char_state(Some(CharState::new(encoding)))
+            initial_state.set_char_state(Some(CharState::new()))
         };
 
         if bytes {
@@ -87,10 +88,10 @@ impl Parser {
         };
 
         if max_length {
-            initial_state.set_max_length_state(Some(MaxLengthState::new(linebreak, encoding)))
+            initial_state.set_max_length_state(Some(MaxLengthState::new(linebreak)))
         };
 
-        Parser { initial_state }
+        Parser { initial_state, encoding, linebreak }
     }
 
     /// The proccess method takes in a [BufRead](std::io::BufRead) instance
@@ -117,12 +118,13 @@ impl Parser {
         let mut state = self.initial_state;
         let mut buff = [0; BUFFER_SIZE];
         // TODO detect endianness if UTF16 https://en.wikipedia.org/wiki/UTF-16
+        // Use utf 16 compute instead if UTF16 detected
         loop {
             let read = reader.read(&mut buff)?;
             if read == 0 {
                 return Ok(state.output());
             }
-            state = state.compute(&buff[0..read]);
+            state = state.utf8_compute(&buff[0..read]);
         }
     }
 }
@@ -131,7 +133,7 @@ impl Display for Parser {
     /// this format
     ///
     /// ```text
-    /// l(type)\tw\tc\tb\tL\t
+    /// l\tw\tc\tb\tL\t
     /// ```
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         self.initial_state.fmt(f)

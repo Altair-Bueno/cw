@@ -1,15 +1,17 @@
 use crate::config::LineBreak;
 use crate::state::traits::{compute::Compute, partial_state::PartialState};
+use std::fmt::Debug;
 
 /// number of lines
-#[derive(Debug, Copy, Clone)]
+#[derive(Copy, Clone,Debug)]
 pub struct LinesState {
     linescount: usize,
     linebreak: LineBreak,
 }
+
 impl Default for LinesState {
     fn default() -> Self {
-        LinesState::new(LineBreak::LF)
+        LinesState::new(LineBreak::default())
     }
 }
 
@@ -33,12 +35,27 @@ impl PartialState for LinesState {
     }
 }
 impl Compute for LinesState {
-    fn compute(self, tape: &[u8]) -> Self {
+    fn utf8_compute(self,tape:&[u8]) -> Self {
         let b = self.linebreak.get_separator();
         let line_breaks = tape.iter().filter(|x| **x == b).count();
+
         LinesState {
             linescount: line_breaks + self.linescount,
             linebreak: self.linebreak,
+            ..self
+        }
+    }
+    fn utf16_compute(self,tape:&[u8]) -> Self {
+        let b = self.linebreak.get_separator();
+        let mut temp = true;
+        let line_breaks = tape.iter().filter(|_| {
+            temp = !temp;
+            temp
+        }).filter(|x| **x == b).count();
+        LinesState {
+            linescount: line_breaks + self.linescount,
+            linebreak: self.linebreak,
+            ..self
         }
     }
 }
@@ -48,60 +65,60 @@ mod test {
     use std::fs::File;
     use std::io::{BufReader, Read};
 
-    use crate::config::LineBreak;
+    use crate::config::{LineBreak, Encoding};
     use crate::state::lines_state::LinesState;
     use crate::state::traits::{compute::Compute, partial_state::PartialState};
 
     #[test]
     pub fn test1() {
         let line = "hello world".as_bytes();
-        let out = LinesState::new(LineBreak::LF).compute(line).output();
+        let out = LinesState::new(LineBreak::LF).utf8_compute(line).output();
         assert_eq!(out, 0)
     }
 
     #[test]
     pub fn test2() {
         let line = "".as_bytes();
-        let out = LinesState::new(LineBreak::LF).compute(line).output();
+        let out = LinesState::new(LineBreak::LF).utf8_compute(line).output();
         assert_eq!(out, 0)
     }
     #[test]
     pub fn test3() {
         let line = "\n".as_bytes();
-        let out = LinesState::new(LineBreak::LF).compute(line).output();
+        let out = LinesState::new(LineBreak::LF).utf8_compute(line).output();
         assert_eq!(out, 1)
     }
     #[test]
     pub fn test4() {
         let line = "hello\n".as_bytes();
-        let out = LinesState::new(LineBreak::LF).compute(line).output();
+        let out = LinesState::new(LineBreak::LF).utf8_compute(line).output();
         assert_eq!(out, 1)
     }
     #[test]
     pub fn test5() {
         let line = "hello\nworld".as_bytes();
-        let out = LinesState::new(LineBreak::LF).compute(line).output();
+        let out = LinesState::new(LineBreak::LF).utf8_compute(line).output();
         assert_eq!(out, 1)
     }
     #[test]
     pub fn test6() {
         let line = "\nworld".as_bytes();
-        let out = LinesState::new(LineBreak::LF).compute(line).output();
+        let out = LinesState::new(LineBreak::LF).utf8_compute(line).output();
         assert_eq!(out, 1)
     }
     #[test]
     pub fn test7() {
         let line = "\nèô,sdfa".as_bytes();
-        let out = LinesState::new(LineBreak::LF).compute(line).output();
+        let out = LinesState::new(LineBreak::LF).utf8_compute(line).output();
         assert_eq!(out, 1)
     }
     #[test]
     pub fn test8() {
         let out = LinesState::new(LineBreak::LF)
-            .compute("helloworld".as_bytes())
-            .compute("jksajksfjas a jkasjf da \n".as_bytes())
-            .compute("\nsajisffajsjdfasf".as_bytes())
-            .compute("hasisdaoasfo".as_bytes())
+            .utf8_compute("helloworld".as_bytes())
+            .utf8_compute("jksajksfjas a jkasjf da \n".as_bytes())
+            .utf8_compute("\nsajisffajsjdfasf".as_bytes())
+            .utf8_compute("hasisdaoasfo".as_bytes())
             .output();
         assert_eq!(out, 2)
     }
@@ -117,7 +134,7 @@ mod test {
             if read == 0 {
                 return state.output();
             }
-            state = state.compute(&buff[0..read]);
+            state = state.utf8_compute(&buff[0..read]);
         }
     }
 

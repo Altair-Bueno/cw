@@ -1,12 +1,11 @@
 use crate::state::traits::{compute::Compute, partial_state::PartialState};
 
 // Number of words
-#[derive(Default, Debug, Copy, Clone)]
+#[derive(Copy, Clone,Default)]
 pub struct WordsState {
     wordcount: usize,
     onword: bool,
 }
-
 impl WordsState {
     pub fn new() -> Self {
         Default::default()
@@ -22,7 +21,7 @@ impl PartialState for WordsState {
 }
 
 impl Compute for WordsState {
-    fn compute(self, tape: &[u8]) -> Self {
+    fn utf8_compute(self, tape: &[u8]) -> Self {
         let is_separator = |x: u8| match x {
             0x20 | 0x09 => true,
             x => (0x0A..=0x0D).contains(&x),
@@ -41,6 +40,10 @@ impl Compute for WordsState {
             WordsState { wordcount, onword }
         })
     }
+
+    fn utf16_compute(self, tape: &[u8]) -> Self {
+        todo!()
+    }
 }
 
 #[cfg(test)]
@@ -54,65 +57,65 @@ mod test {
     #[test]
     pub fn test1() {
         let line = "".as_bytes();
-        let out = WordsState::new().compute(line).output();
+        let out = WordsState::new().utf8_compute(line).output();
         assert_eq!(out, 0)
     }
 
     #[test]
     pub fn test2() {
         let line = "hello".as_bytes();
-        let out = WordsState::new().compute(line).output();
+        let out = WordsState::new().utf8_compute(line).output();
         assert_eq!(out, 1)
     }
     #[test]
     pub fn test3() {
         let line = "hello world".as_bytes();
-        let out = WordsState::new().compute(line).output();
+        let out = WordsState::new().utf8_compute(line).output();
         assert_eq!(out, 2)
     }
     #[test]
     pub fn test4() {
         let line = "hello\nworld".as_bytes();
-        let out = WordsState::new().compute(line).output();
+        let out = WordsState::new().utf8_compute(line).output();
         assert_eq!(out, 2)
     }
     #[test]
     pub fn test5() {
         let line = "\nworld".as_bytes();
-        let out = WordsState::new().compute(line).output();
+        let out = WordsState::new().utf8_compute(line).output();
         assert_eq!(out, 1)
     }
     #[test]
     pub fn test6() {
         let line = "\n\nworld".as_bytes();
-        let out = WordsState::new().compute(line).output();
+        let out = WordsState::new().utf8_compute(line).output();
         assert_eq!(out, 1)
     }
     #[test]
     pub fn test7() {
         let line = "hello\n\n".as_bytes();
-        let out = WordsState::new().compute(line).output();
+        let out = WordsState::new().utf8_compute(line).output();
         assert_eq!(out, 1)
     }
     #[test]
     pub fn test8() {
         let line = "texto en español de prueba con número de palabras".as_bytes();
-        let out = WordsState::new().compute(line).output();
+        let out = WordsState::new().utf8_compute(line).output();
         assert_eq!(out, 9)
     }
     #[test]
     pub fn test9() {
         let line = "    \t   texto en      español de    prueba    con número\n\t \t de\n palabras"
             .as_bytes();
-        let out = WordsState::new().compute(line).output();
+        let out = WordsState::new().utf8_compute(line).output();
         assert_eq!(out, 9)
     }
     #[test]
     pub fn test10() {
         let out = WordsState::new()
-            .compute("hell".as_bytes())
-            .compute("o ".as_bytes())
-            .compute("world".as_bytes())
+            .utf8_compute("hell".as_bytes())
+            .utf8_compute("o ".as_bytes())
+            .utf8_compute("world".as_bytes())
             .output();
         assert_eq!(out, 2)
     }
@@ -128,7 +131,7 @@ mod test {
             if read == 0 {
                 return state.output();
             }
-            state = state.compute(&buff[0..read]);
+            state = state.utf8_compute(&buff[0..read]);
         }
     }
 
