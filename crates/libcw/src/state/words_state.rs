@@ -1,7 +1,7 @@
 use crate::state::traits::{compute::Compute, partial_state::PartialState};
 
 // Number of words
-#[derive(Copy, Clone,Default)]
+#[derive(Copy, Clone,Default,Debug)]
 pub struct WordsState {
     wordcount: usize,
     onword: bool,

@@ -44,11 +44,23 @@ const BUFFER_SIZE: usize = 16 * 1024; // 8KB
 /// # Ok(())
 /// # }
 /// ```
-#[derive(Default, Copy, Clone)]
+#[derive(Default, Copy, Clone,Debug)]
 pub struct Parser {
     initial_state: State,
     encoding:Encoding,
     linebreak:LineBreak,
+}
+impl Display for Parser {
+    /// Displays the current configuration set-up for this Parser instance using
+    /// this format
+    ///
+    /// ```text
+    /// l\tw\tc\tb\tL\t
+    /// ```
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        self.initial_state.fmt(f)?;
+        write!(f,"{} {}",self.encoding, self.linebreak)
+    }
 }
 
 impl Parser {
@@ -136,6 +148,7 @@ impl Parser {
 
     /// Decides endianess and computes tape
     fn utf16_proccess<R: BufRead + Sized>(&self, mut reader: R) -> std::io::Result<Stats> {
+        // TODO utf16 encoding on beta. Some test did not pass
         let buff = reader.fill_buf()?;
         if buff.len() < 2 {
             // Not enought
@@ -227,18 +240,5 @@ impl Parser {
                 state = state.utf16_compute(&buff[start..(read + 1)]);
             }
         }
-    }
-}
-
-impl Display for Parser {
-    /// Displays the current configuration set-up for this Parser instance using
-    /// this format
-    ///
-    /// ```text
-    /// l\tw\tc\tb\tL\t
-    /// ```
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        self.initial_state.fmt(f)?;
-        write!(f,"{} {}",self.encoding, self.linebreak)
     }
 }

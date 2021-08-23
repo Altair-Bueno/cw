@@ -153,7 +153,7 @@ pub fn singlethread_files(files: Values, parser: Parser) -> ! {
 #[inline(always)]
 fn from_file(f: &str, mode: &Parser) -> std::io::Result<Stats> {
     let file = File::open(f)?;
-    let reader = BufReader::with_capacity(1024 * 32, file);
+    let reader = BufReader::new(file);
     mode.proccess(reader)
 }
 

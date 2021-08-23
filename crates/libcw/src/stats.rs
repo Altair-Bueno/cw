@@ -54,6 +54,24 @@ impl Default for Stats {
         }
     }
 }
+impl Display for Stats {
+    /// Displays the contained stats using this format
+    /// ```text
+    /// lines\twords\tcharacters\tbytes\tlength\t
+    /// ```
+    /// If any value is missing (eg words is None), then said value and its
+    /// right tab will be missing
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+
+        self.lines.map(|x| write!(f, "{}\t", x)).unwrap_or(Ok(()))?;
+        self.words.map(|x| write!(f, "{}\t", x)).unwrap_or(Ok(()))?;
+        self.characters.map(|x| write!(f, "{}\t", x)).unwrap_or(Ok(()))?;
+        self.bytes.map(|x| write!(f, "{}\t", x)).unwrap_or(Ok(()))?;
+        self.legth.map(|x| write!(f, "{}\t", x)).unwrap_or(Ok(()))?;
+        Ok(())
+    }
+}
+
 
 impl Stats {
     /// Creates a new Stats struct with the given information. This method
@@ -146,33 +164,5 @@ impl Stats {
     /// Changes the stored byte count for these stats
     pub fn set_legth(&mut self, legth: Option<usize>) {
         self.legth = legth;
-    }
-}
-
-impl Display for Stats {
-    /// Displays the contained stats using this format
-    /// ```text
-    /// lines\twords\tcharacters\tbytes\tlength\t
-    /// ```
-    /// If any value is missing (eg words is None), then said value and its
-    /// right tab will be missing
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        if let Some(x) = self.lines {
-            write!(f, "{}\t", x)?;
-        }
-        if let Some(x) = self.words {
-            write!(f, "{}\t", x)?;
-        }
-        if let Some(x) = self.characters {
-            write!(f, "{}\t", x)?;
-        }
-        if let Some(x) = self.bytes {
-            write!(f, "{}\t", x)?;
-        }
-        if let Some(x) = self.legth {
-            write!(f, "{}\t", x)?;
-        }
-
-        Ok(())
     }
 }

@@ -13,7 +13,7 @@ const STR_UTF16: &str = "UTF16";
 pub enum Encoding {
     /// UTF-8 encoded text. It's the default setting for parsers
     UTF8,
-    /// UTF-16 encoded text. Currently it is not stable
+    /// UTF-16 encoded text
     UTF16,
 }
 

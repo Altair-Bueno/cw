@@ -38,7 +38,7 @@ impl Compute for LinesState {
 
         LinesState {
             linescount: line_breaks + self.linescount,
-            linebreak: self.linebreak,
+            ..self
         }
     }
     fn utf16_compute(self,tape:&[u8]) -> Self {
@@ -50,7 +50,7 @@ impl Compute for LinesState {
         }).filter(|x| **x == b).count();
         LinesState {
             linescount: line_breaks + self.linescount,
-            linebreak: self.linebreak,
+            ..self
         }
     }
 }
@@ -65,7 +65,10 @@ mod test {
         #[test]
         pub fn test1() {
             let line = "hello world".encode_utf16().flat_map(u16::to_be_bytes).collect::<Vec<u8>>();
-            let out = LinesState::new(LineBreak::LF).utf16_compute(line.as_slice()).output();
+            let out = LinesState::new(LineBreak::LF);
+            let line = line.as_slice();
+            let out = out.utf16_compute(line);
+            let out =out.output();
             assert_eq!(out, 0)
         }
 

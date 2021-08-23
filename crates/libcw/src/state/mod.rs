@@ -15,7 +15,7 @@ pub mod max_length;
 pub mod traits;
 pub mod words_state;
 
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone,Debug)]
 pub struct State {
     lines_state: Option<LinesState>,
     words_state: Option<WordsState>,
