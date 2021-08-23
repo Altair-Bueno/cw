@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
-cd "$GITHUB_WORKSPACE/resources" || exit
+
+# Simple bash script that runs some benchmars using hyperfine
+# USAGE
+# ./bench.sh "path/to/files"
+
+cd "$1" || exit
 
 export ARGS_LIST_HYPERFINE=$(ls | xargs)
 echo "Byte count"

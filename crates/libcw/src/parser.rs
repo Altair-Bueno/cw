@@ -44,9 +44,23 @@ const BUFFER_SIZE: usize = 16 * 1024; // 8KB
 /// # Ok(())
 /// # }
 /// ```
-#[derive(Default, Copy, Clone, Debug)]
+#[derive(Default, Copy, Clone,Debug)]
 pub struct Parser {
     initial_state: State,
+    encoding:Encoding,
+    linebreak:LineBreak,
+}
+impl Display for Parser {
+    /// Displays the current configuration set-up for this Parser instance using
+    /// this format
+    ///
+    /// ```text
+    /// l\tw\tc\tb\tL\t
+    /// ```
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        self.initial_state.fmt(f)?;
+        write!(f,"{} {}",self.encoding, self.linebreak)
+    }
 }
 
 impl Parser {
@@ -69,7 +83,6 @@ impl Parser {
     ) -> Parser {
         let mut initial_state = State::new();
 
-        // todo encoding not used right now
         if lines {
             initial_state.set_lines_state(Some(LinesState::new(linebreak)))
         };
@@ -87,10 +100,10 @@ impl Parser {
         };
 
         if max_length {
-            initial_state.set_max_length_state(Some(MaxLengthState::new(linebreak, encoding)))
+            initial_state.set_max_length_state(Some(MaxLengthState::new(linebreak)))
         };
 
-        Parser { initial_state }
+        Parser { initial_state, encoding, linebreak }
     }
 
     /// The proccess method takes in a [BufRead](std::io::BufRead) instance
@@ -113,27 +126,119 @@ impl Parser {
     /// # Ok(())
     /// # }
     /// ```
-    pub fn proccess<R: BufRead + Sized>(&self, mut reader: R) -> std::io::Result<Stats> {
+    pub fn proccess<R: BufRead + Sized>(&self, reader: R) -> std::io::Result<Stats> {
+        match self.encoding {
+            Encoding::UTF8 => self.utf8_proccess(reader),
+            Encoding::UTF16 => self.utf16_proccess(reader),
+        }
+    }
+
+    /// Runs over the tape at max speed reading utf8 encoded text
+    fn utf8_proccess<R: BufRead + Sized>(&self, mut reader: R) -> std::io::Result<Stats> {
         let mut state = self.initial_state;
         let mut buff = [0; BUFFER_SIZE];
-
         loop {
             let read = reader.read(&mut buff)?;
             if read == 0 {
                 return Ok(state.output());
             }
-            state = state.compute(&buff[0..read]);
+            state = state.utf8_compute(&buff[0..read]);
         }
     }
-}
-impl Display for Parser {
-    /// Displays the current configuration set-up for this Parser instance using
-    /// this format
-    ///
-    /// ```text
-    /// l(type)\tw\tc\tb\tL\t
-    /// ```
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        self.initial_state.fmt(f)
+
+    /// Decides endianess and computes tape
+    fn utf16_proccess<R: BufRead + Sized>(&self, mut reader: R) -> std::io::Result<Stats> {
+        // TODO utf16 encoding on beta. Some test did not pass
+        let buff = reader.fill_buf()?;
+        if buff.len() < 2 {
+            // Not enought
+            let mut out = self.initial_state.output();
+            out.set_bytes(Some(buff.len()));
+            Ok(out)
+        } else {
+            let first = buff[0];
+            let second = buff[1];
+
+            if first == 0xFF && second == 0xFE {
+                // Little endian
+                let mut stats = self.initial_state.output();
+                stats.set_bytes(Some(2));
+
+                reader.consume(2);
+
+                self.utf16_process_le(reader)
+                    .map(|x|x.combine(stats))
+            } else if first == 0xFE && second == 0xFF {
+                // Big endian
+                let mut stats = self.initial_state.output();
+                stats.set_bytes(Some(2));
+
+                reader.consume(2);
+
+                self.utf16_proccess_be(reader)
+                    .map(|x|x.combine(stats))
+            } else {
+                // Assumed big endian
+                self.utf16_proccess_be(reader)
+            }
+        }
+    }
+    fn utf16_proccess_be<R: BufRead + Sized>(&self, mut reader: R) -> std::io::Result<Stats> {
+        let mut state = self.initial_state;
+        let mut buff = [0; BUFFER_SIZE];
+
+        let mut read = 0;
+        loop {
+            let start = if read % 2 != 0 {
+                // Put last one the first
+                buff[0] = buff[read];
+                0
+            } else {
+                // Ignore the first element
+                1
+            };
+            // [_,Some,Some,Some,Some...,BUFFER_SIZE]
+            read = reader.read(&mut buff[1..BUFFER_SIZE])?;
+
+            if read == 0 {
+                return Ok(state.output());
+            } else {
+                // Tape wont change. Non mutable call
+                state = state.utf16_compute(&buff[start..(read + 1)]);
+            }
+        }
+    }
+    fn utf16_process_le<R: BufRead + Sized>(&self, mut reader: R) -> std::io::Result<Stats> {
+        let mut state = self.initial_state;
+        let mut buff = [0; BUFFER_SIZE];
+
+        let mut read = 0;
+        loop {
+            let start = if read % 2 != 0 {
+                // Put last one the first
+                buff[0] = buff[read];
+                0
+            } else {
+                // Ignore the first element
+                1
+            };
+            // [_,Some,Some,Some,Some...,BUFFER_SIZE]
+            read = reader.read(&mut buff[1..BUFFER_SIZE])?;
+
+            let mut index = start + 1;
+            while index < read + 1 {
+                let temp = buff[index];
+                buff[index] = buff[index - 1];
+                buff[index - 1] = temp;
+                index += 2;
+            }
+
+            if read == 0 {
+                return Ok(state.output());
+            } else {
+                // Tape won't change. Non mutable call
+                state = state.utf16_compute(&buff[start..(read + 1)]);
+            }
+        }
     }
 }

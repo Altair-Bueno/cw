@@ -1,8 +1,7 @@
-//! libcw is library designed to count words fast on any platform, including
-//! `wasm`. It has **zero dependencies** and compiles to blazing fast machine code
+//! libcw is library designed to count words fast on any arch. It has **zero
+//! dependencies** and compiles to blazing fast machine code
 //! that outperforms `GNU's coreutils wc` engine on most situations, while
 //! providing more features on Rust's safer & simpler code.
-//!
 //!
 //! # Features
 //! - Platform agnostic

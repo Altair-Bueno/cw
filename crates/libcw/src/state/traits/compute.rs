@@ -4,5 +4,6 @@
 /// a second tape b
 
 pub trait Compute {
-    fn compute(self, tape: &[u8]) -> Self;
+    fn utf8_compute(self, tape: &[u8]) -> Self;
+    fn utf16_compute(self,tape: &[u8]) -> Self;
 }

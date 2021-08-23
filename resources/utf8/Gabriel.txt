@@ -1,0 +1,58 @@
+{
+  "isBackup" : false,
+  "id" : "EB16E2EE-E60E-48A7-8804-33563C1346FC",
+  "title" : "Hablando con Gabriel",
+  "tabs" : [
+    {
+      "id" : "F51F38D5-9214-4035-98AC-A3FC53980F4E",
+      "title" : "E.T.S. de Ingeniería Informática",
+      "url" : "https:\/\/informatica.cv.uma.es\/index.php"
+    },
+    {
+      "id" : "03002622-F863-4BC8-B71B-07BADD2ED1C4",
+      "title" : "E.T.S.I. INFORMÁTICA - GRADO EN ING. DEL SOFTWARE \/ PLAN DE ESTUDIOS - Universidad de Málaga",
+      "url" : "https:\/\/www.uma.es\/etsi-informatica\/info\/72378\/grado-ing-del-software-guia-docente\/"
+    },
+    {
+      "id" : "BC60072B-3206-43E5-80BB-EA475D668344",
+      "title" : "Arquitecturas Virtuales - Universidad de Málaga",
+      "url" : "https:\/\/www.uma.es\/centers\/subject\/etsi-informatica\/5103\/51047\/"
+    },
+    {
+      "id" : "A76D0686-0C90-46F9-9B59-2FD0FD9931EB",
+      "title" : "Arquitecturas Cluster - Universidad de Málaga",
+      "url" : "https:\/\/www.uma.es\/centers\/subject\/etsi-informatica\/5103\/51030\/"
+    },
+    {
+      "id" : "48DF0E59-99D7-471C-A0A7-2E51030623F3",
+      "title" : "gvolpe\/pfps-shopping-cart: The Shopping Cart application developed in the book \"Practical FP in Scala: A hands-on approach\"",
+      "url" : "https:\/\/github.com\/gvolpe\/pfps-shopping-cart"
+    },
+    {
+      "id" : "CE85ADED-B305-4DE3-AF33-DB1EE4F60DBC",
+      "title" : "Apache Kafka",
+      "url" : "https:\/\/kafka.apache.org\/"
+    },
+    {
+      "id" : "BE86F569-FB8F-4D94-812C-1EB4291A7C39",
+      "title" : "Explore",
+      "url" : "https:\/\/hub.docker.com\/search?q=kafka&type=image"
+    },
+    {
+      "id" : "4B53EFEB-AA27-41D0-9956-763B1CF9B513",
+      "title" : "The Scala Programming Language",
+      "url" : "https:\/\/www.scala-lang.org\/"
+    },
+    {
+      "id" : "682A1BAF-B9EC-40AE-A881-09CEA368317A",
+      "title" : "Asignatura: Bases de Datos (2020-21, Grupo A)",
+      "url" : "https:\/\/informatica.cv.uma.es\/course\/view.php?id=4284"
+    },
+    {
+      "id" : "62F84171-DC14-4986-B640-868E43CE3905",
+      "title" : "devops - Buscar con Google",
+      "url" : "https:\/\/www.google.com\/search?q=devops&client=safari&rls=en&sxsrf=ALeKk02hctnM1goYelVKKFJmcLMaxWZ_Qg%3A1622018822835&ei=BguuYLOzMovbkgWrjqoQ&oq=devops&gs_lcp=Cgdnd3Mtd2l6EAMyBQgAELEDMgUIABCxAzICCAAyAggAMgIIADIFCAAQywEyBQgAEMsBMgUIABDLATIFCAAQywEyAggAOgcIABBHELADOgcIABCwAxBDOgcIIxDqAhAnOgkIIxDqAhAnEBM6BAgjECc6BggjECcQEzoECAAQQzoHCAAQsQMQQzoLCAAQsQMQxwEQowI6CAgAELEDEIMBOgUILhCxAzoLCAAQsQMQxwEQrwE6CAguELEDEJMCOgUIABDJA1COHFiujwFg9pIBaAZwAngAgAF0iAG2BZIBAzUuMpgBAKABAaoBB2d3cy13aXqwAQrIAQrAAQE&sclient=gws-wiz&ved=0ahUKEwizzoP--ubwAhWLraQKHSuHCgIQ4dUDCA0&uact=5"
+    }
+  ],
+  "isArchive" : false
+}

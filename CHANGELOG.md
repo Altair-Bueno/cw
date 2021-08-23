@@ -1,3 +1,10 @@
+## libcw 1.0.1 23/08/2021
+
+- Added beta support for UTF16 encoding 
+- Made some performance optimizations 
+
+---
+
 ## cw 1.0.0 17/08/2021
 
 First stable release. Provides the basic functionality of classic gwc

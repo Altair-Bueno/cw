@@ -19,7 +19,7 @@ jobs:
           echo "cw version: $(cw --version)" >> bench/version.txt
 
           echo "Running benchmark"
-          bench/bench.sh > bench/stats.txt
+          bench/bench.sh "$GITHUB_WORKSPACE/resources/utf8" > bench/stats.txt
 
       - name: Upload results
         continue-on-error: true
