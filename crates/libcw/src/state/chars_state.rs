@@ -77,49 +77,49 @@ mod test {
 
         #[test]
         pub fn test1() {
-            let s:Vec<u8> = "hello world".encode_utf16().flat_map(|x| x.to_ne_bytes()).collect();
+            let s:Vec<u8> = "hello world".encode_utf16().flat_map(|x| x.to_be_bytes()).collect();
             let out = CharState::new().utf16_compute(s.as_slice()).output();
             assert_eq!(out, 11)
         }
 
         #[test]
         pub fn test2() {
-            let s:Vec<u8> = "".encode_utf16().flat_map(|x| x.to_ne_bytes()).collect();
+            let s:Vec<u8> = "".encode_utf16().flat_map(|x| x.to_be_bytes()).collect();
             let out = CharState::new().utf16_compute(s.as_slice()).output();
             assert_eq!(out, 0)
         }
 
         #[test]
         pub fn test3() {
-            let s:Vec<u8> = "a".encode_utf16().flat_map(|x| x.to_ne_bytes()).collect();
+            let s:Vec<u8> = "a".encode_utf16().flat_map(|x| x.to_be_bytes()).collect();
             let out = CharState::new().utf16_compute(s.as_slice()).output();
             assert_eq!(out, 1)
         }
 
         #[test]
         pub fn test4() {
-            let s:Vec<u8> = "as".encode_utf16().flat_map(|x| x.to_ne_bytes()).collect();
+            let s:Vec<u8> = "as".encode_utf16().flat_map(|x| x.to_be_bytes()).collect();
             let out = CharState::new().utf16_compute(s.as_slice()).output();
             assert_eq!(out, 2)
         }
 
         #[test]
         pub fn test5() {
-            let s:Vec<u8> = "asfasfweefa sdf asfas".encode_utf16().flat_map(|x| x.to_ne_bytes()).collect();
+            let s:Vec<u8> = "asfasfweefa sdf asfas".encode_utf16().flat_map(|x| x.to_be_bytes()).collect();
             let out = CharState::new().utf16_compute(s.as_slice()).output();
             assert_eq!(out, 21)
         }
 
         #[test]
         pub fn test6() {
-            let s:Vec<u8> = "ñ".encode_utf16().flat_map(|x| x.to_ne_bytes()).collect();
+            let s:Vec<u8> = "ñ".encode_utf16().flat_map(|x| x.to_be_bytes()).collect();
             let out = CharState::new().utf16_compute(s.as_slice()).output();
             assert_eq!(out, 1)
         }
 
         #[test]
         pub fn test7() {
-            let s:Vec<u8> = "ó".encode_utf16().flat_map(|x| x.to_ne_bytes()).collect();
+            let s:Vec<u8> = "ó".encode_utf16().flat_map(|x| x.to_be_bytes()).collect();
             let out = CharState::new().utf16_compute(s.as_slice()).output();
             assert_eq!(out, 1)
         }
@@ -127,9 +127,9 @@ mod test {
         #[test]
         pub fn test8() {
             let out = CharState::new()
-                .utf16_compute("ó".encode_utf16().flat_map(|x| x.to_ne_bytes()).collect::<Vec<u8>>().as_slice())
-                .utf16_compute("ñ".encode_utf16().flat_map(|x| x.to_ne_bytes()).collect::<Vec<u8>>().as_slice())
-                .utf16_compute("assdfas".encode_utf16().flat_map(|x| x.to_ne_bytes()).collect::<Vec<u8>>().as_slice())
+                .utf16_compute("ó".encode_utf16().flat_map(|x| x.to_be_bytes()).collect::<Vec<u8>>().as_slice())
+                .utf16_compute("ñ".encode_utf16().flat_map(|x| x.to_be_bytes()).collect::<Vec<u8>>().as_slice())
+                .utf16_compute("assdfas".encode_utf16().flat_map(|x| x.to_be_bytes()).collect::<Vec<u8>>().as_slice())
                 .output();
             assert_eq!(out, 9)
         }
