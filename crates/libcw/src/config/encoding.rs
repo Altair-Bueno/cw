@@ -21,7 +21,6 @@ impl Display for Encoding {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let w = match self {
             UTF8 => STR_UTF8,
-            // UTF16 => STR_ASCII,
             UTF16 => STR_UTF16,
         };
         write!(f, "{}", w)

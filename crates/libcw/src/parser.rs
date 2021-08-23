@@ -173,19 +173,60 @@ impl Parser {
     fn utf16_proccess_be<R: BufRead + Sized>(&self, mut reader: R) -> std::io::Result<Stats> {
         let mut state = self.initial_state;
         let mut buff = [0; BUFFER_SIZE];
+
+        let mut read = 0;
         loop {
-            let read = reader.read(&mut buff)?;
+            let start = if read % 2 != 0 {
+                // Put last one the first
+                buff[0] = buff[read];
+                0
+            } else {
+                // Ignore the first element
+                1
+            };
+            // [_,Some,Some,Some,Some...,BUFFER_SIZE]
+            read = reader.read(&mut buff[1..BUFFER_SIZE])?;
+
             if read == 0 {
                 return Ok(state.output());
+            } else {
+                // Tape wont change. Non mutable call
+                state = state.utf16_compute(&buff[start..(read + 1)]);
             }
-            if read % 2 != 0 {
-                //
-            }
-            state = state.utf16_compute(&buff[0..read]);
         }
     }
     fn utf16_process_le<R: BufRead + Sized>(&self, mut reader: R) -> std::io::Result<Stats> {
-        todo!()
+        let mut state = self.initial_state;
+        let mut buff = [0; BUFFER_SIZE];
+
+        let mut read = 0;
+        loop {
+            let start = if read % 2 != 0 {
+                // Put last one the first
+                buff[0] = buff[read];
+                0
+            } else {
+                // Ignore the first element
+                1
+            };
+            // [_,Some,Some,Some,Some...,BUFFER_SIZE]
+            read = reader.read(&mut buff[1..BUFFER_SIZE])?;
+
+            let mut index = start + 1;
+            while index < read + 1 {
+                let temp = buff[index];
+                buff[index] = buff[index - 1];
+                buff[index - 1] = temp;
+                index += 2;
+            }
+
+            if read == 0 {
+                return Ok(state.output());
+            } else {
+                // Tape won't change. Non mutable call
+                state = state.utf16_compute(&buff[start..(read + 1)]);
+            }
+        }
     }
 }
 
