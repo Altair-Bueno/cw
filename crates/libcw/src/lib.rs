@@ -3,6 +3,14 @@
 //! that outperforms `GNU's coreutils wc` engine on most situations, while
 //! providing more features on Rust's safer & simpler code.
 //!
+//! To use `libcw` on your project, add this to your `Cargo.toml` file
+//!
+//! ```toml
+//! [dependencies]
+//!  libcw = { git="https://github.com/Altair-Bueno/cw" }
+//! ```
+//!
+//!
 //! # Features
 //! - Platform agnostic
 //! - Fast performance
