@@ -30,7 +30,22 @@ let stats_from_read = parser.proccess(read);
 ```
 
 # Performance
+
 See this repo [BENCH.md](https://github.com/Altair-Bueno/cw/blob/master/BENCH.md)
 to learn more about this crate's performance
 
 <!-- cargo-sync-readme end -->
+
+# Build documentation
+
+Run this from the commandline to build and open this library's documentation
+
+```bash
+cargo doc --package libcw --open
+```
+
+# Examples
+
+See [examples folder](examples)
+
+
