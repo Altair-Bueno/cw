@@ -12,7 +12,7 @@
 //!
 //! To learn more about this proyect, visit it's [GitHub repo](https://github.com/Altair-Bueno/cw)
 //!
-use clap::{load_yaml, App};
+use clap::{load_yaml, App, AppSettings};
 
 use commandline::exec_jobs::*;
 use commandline::util::parser_from_clap;
@@ -22,7 +22,8 @@ mod commandline;
 fn main() {
     // Load clap for commandline utilities
     let yaml = load_yaml!("../resources/cmdline-clap.yaml");
-    let app = App::from(yaml);
+    let app = App::from(yaml)
+        .setting(AppSettings::ColoredHelp);
     let matches = app.get_matches();
 
     // Files to proccess
