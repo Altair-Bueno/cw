@@ -44,12 +44,13 @@ const BUFFER_SIZE: usize = 16 * 1024; // 8KB
 /// # Ok(())
 /// # }
 /// ```
-#[derive(Default, Copy, Clone,Debug)]
+#[derive(Default, Copy, Clone, Debug)]
 pub struct Parser {
     initial_state: State,
-    encoding:Encoding,
-    linebreak:LineBreak,
+    encoding: Encoding,
+    linebreak: LineBreak,
 }
+
 impl Display for Parser {
     /// Displays the current configuration set-up for this Parser instance using
     /// this format
@@ -59,7 +60,7 @@ impl Display for Parser {
     /// ```
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         self.initial_state.fmt(f)?;
-        write!(f,"{} {}",self.encoding, self.linebreak)
+        write!(f, "{} {}", self.encoding, self.linebreak)
     }
 }
 
@@ -103,7 +104,11 @@ impl Parser {
             initial_state.set_max_length_state(Some(MaxLengthState::new(linebreak)))
         };
 
-        Parser { initial_state, encoding, linebreak }
+        Parser {
+            initial_state,
+            encoding,
+            linebreak,
+        }
     }
 
     /// The proccess method takes in a [BufRead](std::io::BufRead) instance
@@ -166,8 +171,7 @@ impl Parser {
 
                 reader.consume(2);
 
-                self.utf16_process_le(reader)
-                    .map(|x|x.combine(stats))
+                self.utf16_process_le(reader).map(|x| x.combine(stats))
             } else if first == 0xFE && second == 0xFF {
                 // Big endian
                 let mut stats = self.initial_state.output();
@@ -175,8 +179,7 @@ impl Parser {
 
                 reader.consume(2);
 
-                self.utf16_proccess_be(reader)
-                    .map(|x|x.combine(stats))
+                self.utf16_proccess_be(reader).map(|x| x.combine(stats))
             } else {
                 // Assumed big endian
                 self.utf16_proccess_be(reader)
@@ -225,13 +228,15 @@ impl Parser {
             // [_,Some,Some,Some,Some...,BUFFER_SIZE]
             read = reader.read(&mut buff[1..BUFFER_SIZE])?;
 
+            for index in ((start + 1)..(read + 1)).step_by(2) {
+                buff.swap(index, index - 1)
+            }
+            /*
             let mut index = start + 1;
             while index < read + 1 {
-                let temp = buff[index];
-                buff[index] = buff[index - 1];
-                buff[index - 1] = temp;
+                buff.swap(index,index-1);
                 index += 2;
-            }
+            }*/
 
             if read == 0 {
                 return Ok(state.output());

@@ -21,14 +21,6 @@ pub fn parser_from_clap(args: &ArgMatches) -> Parser {
     if lines || words || characters || bytes || bytes || len {
         Parser::new(encoding, breakk, lines, words, characters, bytes, len)
     } else {
-        Parser::new(
-            encoding,
-            breakk,
-            true,
-            true,
-            false,
-            true,
-            false
-        )
+        Parser::new(encoding, breakk, true, true, false, true, false)
     }
 }

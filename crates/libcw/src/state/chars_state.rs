@@ -1,6 +1,6 @@
 use crate::state::traits::{compute::Compute, partial_state::PartialState};
 
-#[derive(Copy, Clone, Debug,Default)]
+#[derive(Copy, Clone, Debug, Default)]
 pub struct CharState {
     expect: usize,
     num_chars: usize,
@@ -11,14 +11,14 @@ impl CharState {
         Default::default()
     }
 
-    fn compute(self,tape:&[u8],decoder:fn(u8) -> usize) -> CharState{
+    fn compute(self, tape: &[u8], decoder: fn(u8) -> usize) -> CharState {
         tape.iter().fold(self, |acc, n| {
             let (expect, num_chars) = if acc.expect != 0 {
                 (acc.expect - 1, acc.num_chars)
             } else {
                 ((decoder)(*n), acc.num_chars + 1)
             };
-            CharState { expect, num_chars, }
+            CharState { expect, num_chars }
         })
     }
 
@@ -50,6 +50,7 @@ impl CharState {
         }
     }
 }
+
 impl PartialState for CharState {
     type Output = usize;
 
@@ -57,13 +58,14 @@ impl PartialState for CharState {
         self.num_chars
     }
 }
+
 impl Compute for CharState {
     fn utf8_compute(self, tape: &[u8]) -> Self {
-        self.compute(tape,CharState::utf8_decoder)
+        self.compute(tape, CharState::utf8_decoder)
     }
 
     fn utf16_compute(self, tape: &[u8]) -> Self {
-        self.compute(tape,CharState::utf16_decoder)
+        self.compute(tape, CharState::utf16_decoder)
     }
 }
 
@@ -76,49 +78,55 @@ mod test {
 
         #[test]
         pub fn test1() {
-            let s:Vec<u8> = "hello world".encode_utf16().flat_map(|x| x.to_be_bytes()).collect();
+            let s: Vec<u8> = "hello world"
+                .encode_utf16()
+                .flat_map(|x| x.to_be_bytes())
+                .collect();
             let out = CharState::new().utf16_compute(s.as_slice()).output();
             assert_eq!(out, 11)
         }
 
         #[test]
         pub fn test2() {
-            let s:Vec<u8> = "".encode_utf16().flat_map(|x| x.to_be_bytes()).collect();
+            let s: Vec<u8> = "".encode_utf16().flat_map(|x| x.to_be_bytes()).collect();
             let out = CharState::new().utf16_compute(s.as_slice()).output();
             assert_eq!(out, 0)
         }
 
         #[test]
         pub fn test3() {
-            let s:Vec<u8> = "a".encode_utf16().flat_map(|x| x.to_be_bytes()).collect();
+            let s: Vec<u8> = "a".encode_utf16().flat_map(|x| x.to_be_bytes()).collect();
             let out = CharState::new().utf16_compute(s.as_slice()).output();
             assert_eq!(out, 1)
         }
 
         #[test]
         pub fn test4() {
-            let s:Vec<u8> = "as".encode_utf16().flat_map(|x| x.to_be_bytes()).collect();
+            let s: Vec<u8> = "as".encode_utf16().flat_map(|x| x.to_be_bytes()).collect();
             let out = CharState::new().utf16_compute(s.as_slice()).output();
             assert_eq!(out, 2)
         }
 
         #[test]
         pub fn test5() {
-            let s:Vec<u8> = "asfasfweefa sdf asfas".encode_utf16().flat_map(|x| x.to_be_bytes()).collect();
+            let s: Vec<u8> = "asfasfweefa sdf asfas"
+                .encode_utf16()
+                .flat_map(|x| x.to_be_bytes())
+                .collect();
             let out = CharState::new().utf16_compute(s.as_slice()).output();
             assert_eq!(out, 21)
         }
 
         #[test]
         pub fn test6() {
-            let s:Vec<u8> = "ñ".encode_utf16().flat_map(|x| x.to_be_bytes()).collect();
+            let s: Vec<u8> = "ñ".encode_utf16().flat_map(|x| x.to_be_bytes()).collect();
             let out = CharState::new().utf16_compute(s.as_slice()).output();
             assert_eq!(out, 1)
         }
 
         #[test]
         pub fn test7() {
-            let s:Vec<u8> = "ó".encode_utf16().flat_map(|x| x.to_be_bytes()).collect();
+            let s: Vec<u8> = "ó".encode_utf16().flat_map(|x| x.to_be_bytes()).collect();
             let out = CharState::new().utf16_compute(s.as_slice()).output();
             assert_eq!(out, 1)
         }
@@ -126,13 +134,30 @@ mod test {
         #[test]
         pub fn test8() {
             let out = CharState::new()
-                .utf16_compute("ó".encode_utf16().flat_map(|x| x.to_be_bytes()).collect::<Vec<u8>>().as_slice())
-                .utf16_compute("ñ".encode_utf16().flat_map(|x| x.to_be_bytes()).collect::<Vec<u8>>().as_slice())
-                .utf16_compute("assdfas".encode_utf16().flat_map(|x| x.to_be_bytes()).collect::<Vec<u8>>().as_slice())
+                .utf16_compute(
+                    "ó".encode_utf16()
+                        .flat_map(|x| x.to_be_bytes())
+                        .collect::<Vec<u8>>()
+                        .as_slice(),
+                )
+                .utf16_compute(
+                    "ñ".encode_utf16()
+                        .flat_map(|x| x.to_be_bytes())
+                        .collect::<Vec<u8>>()
+                        .as_slice(),
+                )
+                .utf16_compute(
+                    "assdfas"
+                        .encode_utf16()
+                        .flat_map(|x| x.to_be_bytes())
+                        .collect::<Vec<u8>>()
+                        .as_slice(),
+                )
                 .output();
             assert_eq!(out, 9)
         }
     }
+
     mod utf8 {
         use std::fs::File;
         use std::io::{BufReader, Read};

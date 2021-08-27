@@ -13,6 +13,7 @@ pub struct MaxLengthState {
     linebreak: LineBreak,
     char_state: CharState,
 }
+
 impl Default for MaxLengthState {
     fn default() -> Self {
         MaxLengthState::new(LineBreak::default())
@@ -35,11 +36,9 @@ impl PartialState for MaxLengthState {
     type Output = usize;
     fn output(&self) -> Self::Output {
         let char_state_output = self.char_state.output();
-        let maxlength = max(self.max_length_found, char_state_output);
+        max(self.max_length_found, char_state_output)
         // let line_count = self.line_count;
         // let character_count = char_state_output + self.char_count;
-
-        maxlength
     }
 }
 
@@ -190,6 +189,7 @@ mod test {
             assert_eq!(out, 445)
         }
     }
+
     mod utf8 {
         use std::fs::File;
         use std::io::{BufReader, Read};

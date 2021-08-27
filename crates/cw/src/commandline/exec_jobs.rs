@@ -3,7 +3,6 @@ use std::io::Write;
 use std::io::{BufReader, BufWriter};
 use std::result::Result::Ok;
 
-use clap::Values;
 use colored::Colorize;
 use threads_pool::ThreadPool;
 
@@ -13,9 +12,12 @@ use libcw::Stats;
 const TOTAL: &str = "total";
 
 /// Multithread cw. Parses each file using a [threadpool](threads_pool::ThreadPool)
-pub fn multithread(files: Values, parser: Parser, threads: usize) -> ! {
+pub fn multithread<'a, I>(files: I, parser: Parser, threads: usize) -> !
+where
+    I: Iterator<Item = &'a str> + Sized,
+{
     // One thread for stdout
-    let size = files.len();
+    let (size, _) = files.size_hint();
     let pool = ThreadPool::new(threads);
     let (sender, reciver) = std::sync::mpsc::channel();
 
@@ -106,8 +108,11 @@ pub fn singlethread_stdin(parser: Parser) -> ! {
 }
 
 /// cw single thread for FILE(s) input
-pub fn singlethread_files(files: Values, parser: Parser) -> ! {
-    let size = files.len();
+pub fn singlethread_files<'a, I>(files: I, parser: Parser) -> !
+where
+    I: Iterator<Item = &'a str> + Sized,
+{
+    let (size, _) = files.size_hint();
     let init = (0, Stats::default());
 
     let exit_code = {

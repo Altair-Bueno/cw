@@ -9,7 +9,7 @@ const STR_UTF16: &str = "UTF16";
 /// Represents a set of supported encodings for a [Parser](crate::Parser).
 /// Currently, cw only works with UTF8/ASCII (default) encoding, but support
 /// will be increased in the future
-#[derive(Copy, Clone,Debug)]
+#[derive(Copy, Clone, Debug)]
 pub enum Encoding {
     /// UTF-8 encoded text. It's the default setting for parsers
     UTF8,
@@ -26,6 +26,7 @@ impl Display for Encoding {
         write!(f, "{}", w)
     }
 }
+
 impl Default for Encoding {
     fn default() -> Self {
         Encoding::UTF8

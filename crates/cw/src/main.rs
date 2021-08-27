@@ -22,8 +22,7 @@ mod commandline;
 fn main() {
     // Load clap for commandline utilities
     let yaml = load_yaml!("../resources/cmdline-clap.yaml");
-    let app = App::from(yaml)
-        .setting(AppSettings::ColoredHelp);
+    let app = App::from(yaml).setting(AppSettings::ColoredHelp);
     let matches = app.get_matches();
 
     // Files to proccess

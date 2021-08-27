@@ -1,0 +1,12 @@
+resources/utf8/Gabriel.txt
+resources/utf8/Lorem_big.txt
+resources/utf8/arabic.txt
+resources/utf8/empty.txt
+resources/utf8/french.txt
+resources/utf8/sample1.txt
+resources/utf8/sample2.txt
+resources/utf8/sample3.txt
+resources/utf8/small.txt
+resources/utf8/spanish.txt
+resources/utf8/weird.txt
+resources/utf8/world192.txt

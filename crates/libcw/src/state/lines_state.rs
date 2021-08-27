@@ -1,9 +1,10 @@
-use crate::config::LineBreak;
-use crate::state::traits::{compute::Compute, partial_state::PartialState};
 use std::fmt::Debug;
 
+use crate::config::LineBreak;
+use crate::state::traits::{compute::Compute, partial_state::PartialState};
+
 /// number of lines
-#[derive(Copy, Clone,Debug)]
+#[derive(Copy, Clone, Debug)]
 pub struct LinesState {
     linescount: usize,
     linebreak: LineBreak,
@@ -22,7 +23,6 @@ impl LinesState {
             linebreak,
         }
     }
-
 }
 
 impl PartialState for LinesState {
@@ -31,8 +31,9 @@ impl PartialState for LinesState {
         self.linescount
     }
 }
+
 impl Compute for LinesState {
-    fn utf8_compute(self,tape:&[u8]) -> Self {
+    fn utf8_compute(self, tape: &[u8]) -> Self {
         let b = self.linebreak.get_separator();
         let line_breaks = tape.iter().filter(|x| **x == b).count();
 
@@ -41,13 +42,17 @@ impl Compute for LinesState {
             ..self
         }
     }
-    fn utf16_compute(self,tape:&[u8]) -> Self {
+    fn utf16_compute(self, tape: &[u8]) -> Self {
         let b = self.linebreak.get_separator();
         let mut temp = true;
-        let line_breaks = tape.iter().filter(|_| {
-            temp = !temp;
-            temp
-        }).filter(|x| **x == b).count();
+        let line_breaks = tape
+            .iter()
+            .filter(|_| {
+                temp = !temp;
+                temp
+            })
+            .filter(|x| **x == b)
+            .count();
         LinesState {
             linescount: line_breaks + self.linescount,
             ..self
@@ -64,65 +69,109 @@ mod test {
 
         #[test]
         pub fn test1() {
-            let line = "hello world".encode_utf16().flat_map(u16::to_be_bytes).collect::<Vec<u8>>();
+            let line = "hello world"
+                .encode_utf16()
+                .flat_map(u16::to_be_bytes)
+                .collect::<Vec<u8>>();
             let out = LinesState::new(LineBreak::LF);
             let line = line.as_slice();
             let out = out.utf16_compute(line);
-            let out =out.output();
+            let out = out.output();
             assert_eq!(out, 0)
         }
 
         #[test]
         pub fn test2() {
-            let line = "".encode_utf16().flat_map(u16::to_be_bytes).collect::<Vec<u8>>();
-            let out = LinesState::new(LineBreak::LF).utf16_compute(line.as_slice()).output();
+            let line = ""
+                .encode_utf16()
+                .flat_map(u16::to_be_bytes)
+                .collect::<Vec<u8>>();
+            let out = LinesState::new(LineBreak::LF)
+                .utf16_compute(line.as_slice())
+                .output();
             assert_eq!(out, 0)
         }
 
         #[test]
         pub fn test3() {
-            let line = "\n".encode_utf16().flat_map(u16::to_be_bytes).collect::<Vec<u8>>();
-            let out = LinesState::new(LineBreak::LF).utf16_compute(line.as_slice()).output();
+            let line = "\n"
+                .encode_utf16()
+                .flat_map(u16::to_be_bytes)
+                .collect::<Vec<u8>>();
+            let out = LinesState::new(LineBreak::LF)
+                .utf16_compute(line.as_slice())
+                .output();
             assert_eq!(out, 1)
         }
 
         #[test]
         pub fn test4() {
-            let line = "hello\n".encode_utf16().flat_map(u16::to_be_bytes).collect::<Vec<u8>>();
-            let out = LinesState::new(LineBreak::LF).utf16_compute(line.as_slice()).output();
+            let line = "hello\n"
+                .encode_utf16()
+                .flat_map(u16::to_be_bytes)
+                .collect::<Vec<u8>>();
+            let out = LinesState::new(LineBreak::LF)
+                .utf16_compute(line.as_slice())
+                .output();
             assert_eq!(out, 1)
         }
 
         #[test]
         pub fn test5() {
-            let line = "hello\nworld".encode_utf16().flat_map(u16::to_be_bytes).collect::<Vec<u8>>();
-            let out = LinesState::new(LineBreak::LF).utf16_compute(line.as_slice()).output();
+            let line = "hello\nworld"
+                .encode_utf16()
+                .flat_map(u16::to_be_bytes)
+                .collect::<Vec<u8>>();
+            let out = LinesState::new(LineBreak::LF)
+                .utf16_compute(line.as_slice())
+                .output();
             assert_eq!(out, 1)
         }
 
         #[test]
         pub fn test6() {
-            let line = "\nworld".encode_utf16().flat_map(u16::to_be_bytes).collect::<Vec<u8>>();
-            let out = LinesState::new(LineBreak::LF).utf16_compute(line.as_slice()).output();
+            let line = "\nworld"
+                .encode_utf16()
+                .flat_map(u16::to_be_bytes)
+                .collect::<Vec<u8>>();
+            let out = LinesState::new(LineBreak::LF)
+                .utf16_compute(line.as_slice())
+                .output();
             assert_eq!(out, 1)
         }
 
         #[test]
         pub fn test7() {
-            let line = "\nèô,sdfa".encode_utf16()
+            let line = "\nèô,sdfa"
+                .encode_utf16()
                 //.inspect(|x| println!("{:#x}",x))
-                .flat_map(u16::to_be_bytes).collect::<Vec<u8>>();
+                .flat_map(u16::to_be_bytes)
+                .collect::<Vec<u8>>();
             //line.iter().for_each(|x| println!("{:#02x}",x));
-            let out = LinesState::new(LineBreak::LF).utf16_compute(line.as_slice()).output();
+            let out = LinesState::new(LineBreak::LF)
+                .utf16_compute(line.as_slice())
+                .output();
             assert_eq!(out, 1)
         }
 
         #[test]
         pub fn test8() {
-            let s1 = "helloworld".encode_utf16().flat_map(u16::to_be_bytes).collect::<Vec<u8>>();
-            let s2 = "jksajksfjas a jkasjf da \n".encode_utf16().flat_map(u16::to_be_bytes).collect::<Vec<u8>>();
-            let s3 = "\nsajisffajsjdfasf".encode_utf16().flat_map(u16::to_be_bytes).collect::<Vec<u8>>();
-            let s4 = "hasisdaoasfo".encode_utf16().flat_map(u16::to_be_bytes).collect::<Vec<u8>>();
+            let s1 = "helloworld"
+                .encode_utf16()
+                .flat_map(u16::to_be_bytes)
+                .collect::<Vec<u8>>();
+            let s2 = "jksajksfjas a jkasjf da \n"
+                .encode_utf16()
+                .flat_map(u16::to_be_bytes)
+                .collect::<Vec<u8>>();
+            let s3 = "\nsajisffajsjdfasf"
+                .encode_utf16()
+                .flat_map(u16::to_be_bytes)
+                .collect::<Vec<u8>>();
+            let s4 = "hasisdaoasfo"
+                .encode_utf16()
+                .flat_map(u16::to_be_bytes)
+                .collect::<Vec<u8>>();
             let out = LinesState::new(LineBreak::LF)
                 .utf16_compute(s1.as_slice())
                 .utf16_compute(s2.as_slice())
@@ -132,6 +181,7 @@ mod test {
             assert_eq!(out, 2)
         }
     }
+
     mod utf8 {
         use std::fs::File;
         use std::io::{BufReader, Read};
