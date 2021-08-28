@@ -1,15 +1,16 @@
-name: Build Windows
+name: Build macOS
 on:
   push:
     branches:
       - master
   workflow_dispatch:
 env:
-  RUSTFLAGS: '-C target-feature=+crt-static'
+    MACOSX_DEPLOYMENT_TARGET: 10.7
+    TARGET: x86_64-apple-darwin
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
       - name: Build
@@ -17,6 +18,6 @@ jobs:
       - name: Upload results
         uses: actions/upload-artifact@v2
         with:
-          name: cw_windows
+          name: cw_macos_x64
           path: |
-            target/release/cw.exe
+            target/release/cw

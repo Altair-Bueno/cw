@@ -1,22 +1,23 @@
-name: Build Windows
+name: Build macOS Apple Silicon
 on:
   push:
     branches:
       - master
   workflow_dispatch:
 env:
-  RUSTFLAGS: '-C target-feature=+crt-static'
+  MACOSX_DEPLOYMENT_TARGET: 11.0
+  TARGET: aarch64-apple-darwin
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
       - name: Build
-        run: cargo build --release
+        run: cargo build --release --target $TARGET
       - name: Upload results
         uses: actions/upload-artifact@v2
         with:
-          name: cw_windows
+          name: cw_macos_aarch64
           path: |
-            target/release/cw.exe
+            target/release/cw
