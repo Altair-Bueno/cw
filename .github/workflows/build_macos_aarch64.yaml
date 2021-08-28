@@ -22,4 +22,4 @@ jobs:
         with:
           name: cw_macos_aarch64
           path: |
-            target/$TARGET/release/cw
+            target/aarch64-apple-darwin/release/cw

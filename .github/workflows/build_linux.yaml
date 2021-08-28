@@ -21,4 +21,4 @@ jobs:
         with:
           name: cw_linux
           path: |
-            target/$TARGET/release/cw
+            target/x86_64-unknown-linux-musl/release/cw
