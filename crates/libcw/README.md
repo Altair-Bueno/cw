@@ -1,9 +1,16 @@
 <!-- cargo-sync-readme start -->
 
 libcw is library designed to count words fast on any arch. It has **zero
-dependencies** and compiles to blazing fast machine code
-that outperforms `GNU's coreutils wc` engine on most situations, while
-providing more features on Rust's safer & simpler code.
+dependencies** and compiles to blazing fast machine code that
+outperforms `GNU's coreutils wc` engine on most situations, while providing more
+features on Rust's safer & simpler code.
+
+To use `libcw` on your project, add this to your `Cargo.toml` file
+
+```toml
+[dependencies]
+ libcw = { git="https://github.com/Altair-Bueno/cw" }
+```
 
 To use `libcw` on your project, add this to your `Cargo.toml` file
 
@@ -14,6 +21,7 @@ To use `libcw` on your project, add this to your `Cargo.toml` file
 
 
 # Features
+
 - Platform agnostic
 - Fast performance
 - 100% Rust safe `std` code
@@ -21,10 +29,11 @@ To use `libcw` on your project, add this to your `Cargo.toml` file
 - Selected encoding is used everywhere, even on `max line length`
 
 # Usage
-To count words, you need some kind of [BufRead](std::io::BufRead) instance,
-from which a Parser will read. To get started, set up your [Parser](crate::Parser)
-instance with the desired configuration and call the `compute` method to
-obtain the results
+
+To count words, you need some kind of [BufRead](std::io::BufRead) instance, from
+which a Parser will read. To get started, set up your [Parser](crate::Parser)
+instance with the desired configuration and call the `compute` method to obtain
+the results
 
 ```rust
 let parser = Parser::new(
@@ -38,7 +47,9 @@ let stats_from_read = parser.proccess(read);
 ```
 
 # Performance
-See this repo [BENCH.md](https://github.com/Altair-Bueno/cw/blob/master/BENCH.md)
+
+See this
+repo [BENCH.md](https://github.com/Altair-Bueno/cw/blob/master/BENCH.md)
 to learn more about this crate's performance
 
 <!-- cargo-sync-readme end -->

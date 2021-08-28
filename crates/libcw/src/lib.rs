@@ -51,6 +51,7 @@
 
 pub use parser::Parser;
 pub use stats::Stats;
+
 pub mod config;
 mod parser;
 mod state;

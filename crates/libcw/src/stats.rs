@@ -37,6 +37,7 @@ pub struct Stats {
     legth: Option<usize>,
     //colums: Colums,
 }
+
 impl Default for Stats {
     /// Default Stats for blank (`[]`) input is defined as:
     /// - 0 lines
@@ -54,6 +55,7 @@ impl Default for Stats {
         }
     }
 }
+
 impl Display for Stats {
     /// Displays the contained stats using this format
     /// ```text
@@ -62,16 +64,16 @@ impl Display for Stats {
     /// If any value is missing (eg words is None), then said value and its
     /// right tab will be missing
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-
         self.lines.map(|x| write!(f, "{}\t", x)).unwrap_or(Ok(()))?;
         self.words.map(|x| write!(f, "{}\t", x)).unwrap_or(Ok(()))?;
-        self.characters.map(|x| write!(f, "{}\t", x)).unwrap_or(Ok(()))?;
+        self.characters
+            .map(|x| write!(f, "{}\t", x))
+            .unwrap_or(Ok(()))?;
         self.bytes.map(|x| write!(f, "{}\t", x)).unwrap_or(Ok(()))?;
         self.legth.map(|x| write!(f, "{}\t", x)).unwrap_or(Ok(()))?;
         Ok(())
     }
 }
-
 
 impl Stats {
     /// Creates a new Stats struct with the given information. This method

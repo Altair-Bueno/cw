@@ -15,7 +15,7 @@ pub mod max_length;
 pub mod traits;
 pub mod words_state;
 
-#[derive(Copy, Clone,Debug)]
+#[derive(Copy, Clone, Debug)]
 pub struct State {
     lines_state: Option<LinesState>,
     words_state: Option<WordsState>,
@@ -23,6 +23,7 @@ pub struct State {
     bytes_state: Option<BytesState>,
     max_length_state: Option<MaxLengthState>,
 }
+
 impl Default for State {
     fn default() -> Self {
         State {
@@ -47,6 +48,7 @@ impl PartialState for State {
         Stats::new(lines, words, characters, bytes, len)
     }
 }
+
 impl Compute for State {
     fn utf8_compute(self, tape: &[u8]) -> Self {
         State {
@@ -105,14 +107,24 @@ impl Iterator for State {
         Some(*self)
     }
 }
+
 impl Display for State {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        self.lines_state.map(|_| write!(f, "l\t")).unwrap_or(Ok(()))?;
-        self.words_state.map(|_| write!(f,"w\t")).unwrap_or(Ok(()))?;
-        self.char_state.map(|_| write!(f,"c\t")).unwrap_or(Ok(()))?;
-        self.bytes_state.map(|_| write!(f,"b\t")).unwrap_or(Ok(()))?;
-        self.max_length_state.map(|_| write!(f,"L\t")).unwrap_or(Ok(()))?;
-
+        self.lines_state
+            .map(|_| write!(f, "l\t"))
+            .unwrap_or(Ok(()))?;
+        self.words_state
+            .map(|_| write!(f, "w\t"))
+            .unwrap_or(Ok(()))?;
+        self.char_state
+            .map(|_| write!(f, "c\t"))
+            .unwrap_or(Ok(()))?;
+        self.bytes_state
+            .map(|_| write!(f, "b\t"))
+            .unwrap_or(Ok(()))?;
+        self.max_length_state
+            .map(|_| write!(f, "L\t"))
+            .unwrap_or(Ok(()))?;
 
         /*
         if let Some(x) = self.lines_state {

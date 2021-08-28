@@ -39,6 +39,7 @@ fn lorem() {
     );
     assert_eq!(out, expected)
 }
+
 #[test]
 #[ignore]
 fn world() {
@@ -52,6 +53,7 @@ fn world() {
     );
     assert_eq!(out, expected)
 }
+
 #[test]
 fn s1() {
     let out = proccess_file_test("resources/utf16/sample1.txt");
@@ -65,18 +67,21 @@ fn s2() {
     let expected = Stats::new(Some(12), Some(423), Some(2859), Some(5720), Some(635));
     assert_eq!(out, expected)
 }
+
 #[test]
 fn s3() {
     let out = proccess_file_test("resources/utf16/sample3.txt");
     let expected = Stats::new(Some(20), Some(546), Some(3541), Some(7084), Some(818));
     assert_eq!(out, expected)
 }
+
 #[test]
 fn small() {
     let out = proccess_file_test("resources/utf16/small.txt");
     let expected = Stats::new(Some(1), Some(3), Some(18), Some(38), Some(17));
     assert_eq!(out, expected)
 }
+
 #[test]
 fn empty() {
     let out = proccess_file_test("resources/utf16/empty.txt");
@@ -108,4 +113,3 @@ fn french() {
     let expected = Stats::new(Some(0), Some(10), Some(58), Some(118), Some(58));
     assert_eq!(out, expected)
 }
-
