@@ -15,7 +15,7 @@ jobs:
       - name: Build
         run: |
           rustup target add $TARGET
-          cargo build --release
+          cargo build --release --target $TARGET
       - name: Upload results
         uses: actions/upload-artifact@v2
         with:

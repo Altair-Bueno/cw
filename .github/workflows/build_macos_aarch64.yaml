@@ -10,7 +10,7 @@ env:
 
 jobs:
   build:
-    runs-on: macos-latest
+    runs-on: macos-11
     steps:
       - uses: actions/checkout@v2
       - name: Build
@@ -22,4 +22,4 @@ jobs:
         with:
           name: cw_macos_aarch64
           path: |
-            target/release/cw
+            target/aarch64-apple-darwin/release/cw
