@@ -12,6 +12,14 @@ To use `libcw` on your project, add this to your `Cargo.toml` file
  libcw = { git="https://github.com/Altair-Bueno/cw" }
 ```
 
+To use `libcw` on your project, add this to your `Cargo.toml` file
+
+```toml
+[dependencies]
+ libcw = { git="https://github.com/Altair-Bueno/cw" }
+```
+
+
 # Features
 
 - Platform agnostic
