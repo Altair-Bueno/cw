@@ -1,22 +1,24 @@
-name: Build Windows
+name: Build linux
 on:
   push:
     branches:
       - master
   workflow_dispatch:
 env:
-  RUSTFLAGS: '-C target-feature=+crt-static'
+  TARGET: x86_64-unknown-linux-musl
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Build
-        run: cargo build --release
+        run: |
+          rustup target add $TARGET
+          cargo build --release
       - name: Upload results
         uses: actions/upload-artifact@v2
         with:
-          name: cw_windows
+          name: cw_linux
           path: |
-            target/release/cw.exe
+            target/release/cw
