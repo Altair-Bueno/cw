@@ -1,13 +1,14 @@
 name: Build release artifacts
 on:
-  release:
-    types:
-      - published 
-      - unpublished 
-      - created 
-      - edited 
-      - prereleased
-      - released
+  push: [ master ]
+  # release:
+  #   types:
+  #     - published 
+  #     - unpublished 
+  #     - created 
+  #     - edited 
+  #     - prereleased
+  #     - released
 jobs:
   build-linux:
     strategy:
