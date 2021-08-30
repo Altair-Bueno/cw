@@ -4,19 +4,85 @@ on:
     branches:
       - master
 jobs:
-  build:
+  build-linux:
     strategy:
       matrix:
         target:
           # Linux
           - "x86_64-unknown-linux-gnu"
-          # macOS Apple Silicon
-          - "aarch64-apple-darwin"
-          # macOS Intel
-          - "x86_64-apple-darwin"
-          # Windows Intel x64
-          - "x86_64-pc-windows-gnu"
+          - "aarch64-unknown-linux-gnu"
     runs-on: ubuntu-latest
+    env:
+      TARGET: ${{ matrix.target }}
+      MACOSX_DEPLOYMENT_TARGET: 11.0
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key: ${{ matrix.target }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Set up target ${{ matrix.target }}
+        uses: actions-rs/toolchain@v1
+        with:
+            toolchain: stable
+            target: ${{ matrix.target }}
+
+      - name: Build binary for target ${{ matrix.target }}
+        run: cargo build --release --target ${{ matrix.target }}
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: cw-${{ matrix.target }}
+          path: target/${{ matrix.target }}/release/cw
+  build-windows:
+    strategy:
+      matrix:
+        target:
+          - "aarch64-pc-windows-msvc"
+          - "x86_64-pc-windows-msvc"
+    runs-on: windows-latest
+    env:
+      TARGET: ${{ matrix.target }}
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key: ${{ matrix.target }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Set up target ${{ matrix.target }}
+        uses: actions-rs/toolchain@v1
+        with:
+            toolchain: stable
+            target: ${{ matrix.target }}
+
+      - name: Build binary for target ${{ matrix.target }}
+        run: cargo build --release --target ${{ matrix.target }}
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: cw-${{ matrix.target }}
+          path: target/${{ matrix.target }}/release/cw
+  build-macos:
+    strategy:
+      matrix:
+        target:
+          - "aarch64-apple-darwin"
+          - "x86_64-apple-darwin"
+    runs-on: macos-11
     env:
       TARGET: ${{ matrix.target }}
       MACOSX_DEPLOYMENT_TARGET: 11.0
