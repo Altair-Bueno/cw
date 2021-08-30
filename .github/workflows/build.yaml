@@ -9,13 +9,14 @@ jobs:
       matrix:
         target:
           # Linux
-          - "x86_64-unknown-linux-musl"
+          - "x86_64-unknown-linux-gnu"
+          #- "x86_64-unknown-linux-musl"
           # macOS Apple Silicon
           #- "aarch64-apple-darwin"
           # macOS Intel
           #- "x86_64-apple-darwin"
           # Windows Intel x64
-          #- "x86_64-pc-windows-gnu"
+          - "x86_64-pc-windows-gnu"
     runs-on: ubuntu-latest
     env:
       TARGET: ${{ matrix.target }}
@@ -39,9 +40,9 @@ jobs:
       - name: Set up target ${{ matrix.target }}
         run: |
           rustup toolchain install stable-${{ matrix.target }}
-          rustup target add $TARGET
+          rustup target add ${{ matrix.target }}
       - name: Build binary for target ${{ matrix.target }}
-        run: cargo build --release --target "$TARGET"
+        run: cargo build --release --target ${{ matrix.target }}
       - uses: actions/upload-artifact@v2
         with:
           name: cw-${{ matrix.target }}
