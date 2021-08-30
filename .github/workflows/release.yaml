@@ -1,8 +1,5 @@
 name: Build release artifacts
-on:
-  create:
-    tags:
-      - "v*"
+on: [ release ]
 jobs:
   build-linux:
     strategy:
