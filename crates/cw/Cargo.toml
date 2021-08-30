@@ -27,3 +27,8 @@ features = ["yaml", "color", "vec_map", "wrap_help"]
 version = "2.33.3"
 default-features = false
 features = ["yaml", "color", "vec_map", "wrap_help"]
+
+[target.x86_64-pc-windows-gnu]
+rustflags = [
+  "-C", "target-feature=+crt-static",
+]

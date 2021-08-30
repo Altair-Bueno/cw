@@ -1,10 +1,8 @@
 name: Build release artifacts
-
 on:
   push:
     branches:
       - master
-
 jobs:
   build:
     strategy:
@@ -17,12 +15,11 @@ jobs:
           # macOS Intel
           - "x86_64-apple-darwin"
           # Windows Intel x64
-          # - "x86_64-pc-windows-gnu"
+          - "x86_64-pc-windows-gnu"
     runs-on: ubuntu-latest
     env:
       TARGET: ${{ matrix.target }}
       MACOSX_DEPLOYMENT_TARGET: 11.0
-      # RUSTFLAGS: ${{ matrix.target == 'x86_64-pc-windows-gnu' && '-C target-feature=+crt-static' }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/cache@v2
@@ -33,13 +30,16 @@ jobs:
             ~/.cargo/registry/cache/
             ~/.cargo/git/db/
             target/
-          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
-      - name: Set up MinGW
-        with:
-          platform: x64
-        uses: egor-tensin/setup-mingw@v2
+          key: ${{ matrix.target }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+      # - if: ${{ matrix.target == 'x86_64-pc-windows-gnu' }}
+      #   name: Set up MinGW
+      #   uses: egor-tensin/setup-mingw@v2
+      #   with:
+      #     platform: x64
       - name: Set up target ${{ matrix.target }}
-        run: rustup target add $TARGET
+        run: |
+          rustup toolchain install stable-${{ matrix.target }}
+          rustup target add $TARGET
       - name: Build binary for target ${{ matrix.target }}
         run: cargo build --release --target "$TARGET"
       - uses: actions/upload-artifact@v2
