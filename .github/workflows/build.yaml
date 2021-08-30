@@ -1,0 +1,46 @@
+name: Build release artifacts
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        target:
+          # Linux
+          - "x86_64-unknown-linux-musl"
+          # macOS Apple Silicon
+          - "aarch64-apple-darwin"
+          # macOS Intel
+          - "x86_64-apple-darwin"
+          # Windows Intel x64
+          # - "x86_64-pc-windows-gnu"
+    runs-on: ubuntu-latest
+    env:
+      TARGET: ${{ env.target }}
+      MACOSX_DEPLOYMENT_TARGET: 11.0
+      # RUSTFLAGS: ${{ env.target == 'x86_64-pc-windows-gnu' && '-C target-feature=+crt-static' }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+      - name: Set up MinGW
+        with:
+          platform: x64
+        uses: egor-tensin/setup-mingw@v2
+      - name: Build binary for target ${{ env.target }}
+        run: cargo build --release --target "$TARGET"
+      - uses: actions/upload-artifact@v2
+        with:
+          name: cw-${{ env.target }}
+          path: target/${{ env.target }}/release/cw
