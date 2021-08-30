@@ -112,3 +112,20 @@ jobs:
         with:
           name: cw-${{ matrix.target }}
           path: target/${{ matrix.target }}/release/cw
+
+  create-release:
+    needs: [ build-linux , build-macos , build-windows ]
+    runs-on: ubuntu-latest
+    env:
+      download: ~/actions-download
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          path: ${{ matrix.download }}
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          files: |
+            ${{ matrix.download }}/*
+
