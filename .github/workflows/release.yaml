@@ -1,5 +1,13 @@
 name: Build release artifacts
-on: [ release ]
+on:
+  release:
+    types:
+      - published 
+      - unpublished 
+      - created 
+      - edited 
+      - prereleased
+      - released
 jobs:
   build-linux:
     strategy:
