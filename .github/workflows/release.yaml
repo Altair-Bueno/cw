@@ -1,6 +1,8 @@
 name: Build release artifacts
 on:
-  push: [ master ]
+  push:
+    branches:
+      - master
   # release:
   #   types:
   #     - published 
