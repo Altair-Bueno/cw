@@ -49,10 +49,16 @@
 
 #![warn(missing_docs)]
 
+#[cfg(not(feature = "tokio"))]
 pub use parser::Parser;
+#[cfg(feature = "tokio")]
+pub use crate::tokio::parser::Parser;
 pub use stats::Stats;
 
 pub mod config;
+#[cfg(not(feature = "tokio"))]
 mod parser;
 mod state;
 mod stats;
+#[cfg(feature = "tokio")]
+mod tokio;

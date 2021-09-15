@@ -13,3 +13,16 @@ categories = ["filesystem", "text-processing"]
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+
+[dependencies.tokio]
+version = "1.11.0"
+features = ["io-util"]
+optional = true
+
+[dev-dependencies.tokio]
+version = "1.11.0"
+features = ["io-util","fs", "macros","rt","rt-multi-thread"]
+
+[[example]]
+name = "async_count_from_file"
+required-features = ["tokio"]
