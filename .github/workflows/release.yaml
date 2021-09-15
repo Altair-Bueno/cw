@@ -15,7 +15,7 @@ on:
   #     - released
 jobs:
   build:
-    name: Build for ${{ matrix.os }}
+    name: Build for ${{ matrix.target }}
     strategy:
       matrix:
         include:
