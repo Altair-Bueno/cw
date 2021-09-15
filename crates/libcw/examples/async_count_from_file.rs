@@ -10,7 +10,7 @@ use libcw::Parser;
 /// cargo run --package libcw --features="tokio"  --example async_count_from_file
 /// ```
 ///
-/// you can find the example under `target/release/examples/count_from_file`
+/// you can find the example under `target/release/examples/async_count_from_file`
 #[tokio::main]
 pub async fn main() -> std::io::Result<()> {
     // Creates a parser with UTF8 encoding and LF linebreaks that returns
