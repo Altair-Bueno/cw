@@ -1,3 +1,10 @@
+## libcw 1.1.0 15/09/2021
+
+- Added `tokio` support: Use the feature `tokio` to enable async `io` operations
+on a `Parser` instance
+
+---
+
 ## libcw 1.0.1 23/08/2021
 
 - Added beta support for UTF16 encoding
