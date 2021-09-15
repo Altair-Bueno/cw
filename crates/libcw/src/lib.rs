@@ -11,7 +11,7 @@
 //! ```
 //!
 //!
-//! # Features
+//! # Spotlights
 //! - Platform agnostic
 //! - Fast performance
 //! - 100% Rust safe `std` code
@@ -46,7 +46,13 @@
 //! # Performance
 //! See this repo [BENCH.md](https://github.com/Altair-Bueno/cw/blob/master/BENCH.md)
 //! to learn more about this crate's performance
-
+//!
+//! # Feature flags
+//! Althought this crate is designed for minimal size and high throughput, a set
+//! of features is provided for crate compatibility
+//!
+//! - `tokio`: Enables async [Parser proccess](crate::Parser::proccess()) for
+//! the tokio runtime
 #![warn(missing_docs)]
 
 pub use parser::Parser;
