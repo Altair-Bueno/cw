@@ -69,3 +69,4 @@ jobs:
           file: target/${{ matrix.target }}/release/${{ env.TARGET_NAME }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ github.ref }}
+          overwrite: true
