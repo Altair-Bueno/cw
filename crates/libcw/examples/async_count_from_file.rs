@@ -11,6 +11,7 @@ use libcw::Parser;
 /// ```
 ///
 /// you can find the example under `target/release/examples/async_count_from_file`
+#[cfg(feature = "tokio")]
 #[tokio::main]
 pub async fn main() -> std::io::Result<()> {
     // Creates a parser with UTF8 encoding and LF linebreaks that returns
@@ -30,4 +31,8 @@ pub async fn main() -> std::io::Result<()> {
     }
     println!("Took {} ms", start.elapsed().as_millis());
     Ok(())
+}
+#[cfg(not(feature = "tokio"))]
+pub fn main() {
+    println!("Invalid feature")
 }

@@ -24,7 +24,7 @@
 //! instance with the desired configuration and call the `compute` method to
 //! obtain the results
 //!
-//! ```no_run
+//! ```ignore
 //! # use libcw::Parser;
 //! # use libcw::config::{Encoding, LineBreak};
 //! # use std::io::BufReader;
