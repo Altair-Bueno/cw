@@ -10,7 +10,8 @@ use libcw::Stats;
 const TOTAL: &str = "total";
 
 pub async fn process_files(v:Vec<&str>, parser: Parser) -> ! {
-    // Remove allocate using vectors
+    // TODO Remove vectors. They allocate memory on the heap that may lead to
+    // cache miss
     let size = v.len();
     let mut buff_stderr = tokio::io::BufWriter::new(tokio::io::stderr());
     let mut buff_stdout = tokio::io::BufWriter::new(tokio::io::stdout());

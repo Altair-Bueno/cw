@@ -12,23 +12,41 @@
 //!
 //! To learn more about this proyect, visit it's [GitHub repo](https://github.com/Altair-Bueno/cw)
 //!
-use clap::{load_yaml, App, AppSettings};
+use clap::{load_yaml, App, AppSettings, Values};
 
 use commandline::exec_jobs::*;
 use commandline::util::parser_from_clap;
+use libcw::Parser;
 
 mod commandline;
 
-#[tokio::main(flavor = "current_thread")]
-async fn main() {
+//#[tokio::main(flavor = "current_thread")]
+fn main() {
     // Load clap for commandline utilities
     let yaml = load_yaml!("../resources/cmdline-clap.yaml");
     let app = App::from(yaml).setting(AppSettings::ColoredHelp);
     let matches = app.get_matches();
     let parser = parser_from_clap(&matches);
-
     // Files to proccess
     let files = matches.values_of("FILES");
+    if matches.is_present("multithread") {
+        multiple_threads_flavour(files,parser)
+    } else {
+        current_thread_flavour(files,parser)
+    }
+}
+
+#[tokio::main(flavor="current_thread")]
+async fn current_thread_flavour(files:Option<Values>,parser:Parser) -> ! {
+    if let Some(values) = files {
+        let v: Vec<&str> = values.collect();
+        process_files(v, parser).await
+    } else {
+        proccess_stdin(parser).await
+    }
+}
+#[tokio::main]
+async fn multiple_threads_flavour(files:Option<Values>,parser:Parser) -> ! {
     if let Some(values) = files {
         let v: Vec<&str> = values.collect();
         process_files(v, parser).await

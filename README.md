@@ -48,9 +48,15 @@ The same functionality you'll expect from GNU wc, but with some extras. To see
 the full list of options, type `cw -h` or `cw --help`:
 
 ## `tokio`
-cw uses the high-performant library [`tokio`](https://tokio.rs/) for 
+cw uses the high-performant library [`tokio`](https://tokio.rs/) for IO
 concurrency. This allows `cw` to parse a file while the operating system is 
 loading another one.
+
+You can use the `--multithread` flag to force the multithread runtime flavour 
+from tokio. This is usefull when you want `cw` to use all CPU cores for heavy 
+workloads
+
+> Bonus: `alias cm='cw --multithread'` for *count multithread*
 
 ## Different encodings and Linebreaks
 

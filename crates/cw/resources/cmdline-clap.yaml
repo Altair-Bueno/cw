@@ -1,10 +1,8 @@
 name: cw
 version: "2.0.0"
-author: Altair Bueno
+author: Altair Bueno <https://github.com/Altair-Bueno/cw>
 about: |
   cw, a rip of wc. Lines, words, character and byte count with column stats.
-
-  Prints each file stats on a separate line, and a total line if multiple files are provided
 args:
   - FILES:
       help: List of input files to analize. Uses stdin if no file is provided
@@ -48,12 +46,12 @@ args:
       required: false
       takes_value: false
 
-#  - threads:
-#      help: Number of threads to use. If no file is provided multithreading is turned off
-#      short: t
-#      long: threads
-#      required: false
-#      takes_value: true
+  - multithread:
+      help: Use multithread runtime
+#      short:
+      long: multithread
+      required: false
+      takes_value: false
 
   - break:
       help: Linebreak to use. Defaults to LF
