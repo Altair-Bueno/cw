@@ -1,6 +1,6 @@
 [package]
 name = "cw"
-version = "1.0.1"
+version = "2.0.0"
 authors = ["Altair Bueno"]
 edition = "2018"
 license = "MIT"
@@ -13,9 +13,17 @@ categories = ["command-line-utilities", "filesystem", "text-processing"]
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-threads_pool = "^0.2.0"
 colored = "2.0.0"
-libcw = { path = "../libcw" }
+
+[dependencies.tokio]
+version = "1.11.0"
+features = ["rt","io-util","macros","sync","fs","io-std","parking_lot"]
+
+[dependencies.libcw]
+path = "../libcw"
+version = "1.1.0"
+features = ["tokio"]
+
 
 [dependencies.clap]
 version = "2.33.3"

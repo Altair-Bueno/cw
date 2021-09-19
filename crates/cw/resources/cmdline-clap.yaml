@@ -1,5 +1,5 @@
 name: cw
-version: "1.0.1"
+version: "2.0.0"
 author: Altair Bueno
 about: |
   cw, a rip of wc. Lines, words, character and byte count with column stats.
@@ -48,12 +48,12 @@ args:
       required: false
       takes_value: false
 
-  - threads:
-      help: Number of threads to use. If no file is provided multithreading is turned off
-      short: t
-      long: threads
-      required: false
-      takes_value: true
+#  - threads:
+#      help: Number of threads to use. If no file is provided multithreading is turned off
+#      short: t
+#      long: threads
+#      required: false
+#      takes_value: true
 
   - break:
       help: Linebreak to use. Defaults to LF

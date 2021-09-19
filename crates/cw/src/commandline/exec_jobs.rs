@@ -1,170 +1,89 @@
-use std::fs::File;
-use std::io::Write;
-use std::io::{BufReader, BufWriter};
 use std::result::Result::Ok;
+use std::iter::Iterator;
 
+use tokio::io::AsyncWriteExt;
 use colored::Colorize;
-use threads_pool::ThreadPool;
 
 use libcw::Parser;
 use libcw::Stats;
 
 const TOTAL: &str = "total";
 
-/// Multithread cw. Parses each file using a [threadpool](threads_pool::ThreadPool)
-pub fn multithread<'a, I>(files: I, parser: Parser, threads: usize) -> !
-where
-    I: Iterator<Item = &'a str> + Sized,
-{
-    // One thread for stdout
-    let (size, _) = files.size_hint();
-    let pool = ThreadPool::new(threads);
-    let (sender, reciver) = std::sync::mpsc::channel();
+pub async fn process_files(v:Vec<&str>, parser: Parser) -> ! {
+    // Remove allocate using vectors
+    let size = v.len();
+    let mut buff_stderr = tokio::io::BufWriter::new(tokio::io::stderr());
+    let mut buff_stdout = tokio::io::BufWriter::new(tokio::io::stdout());
+    let s = format!("{} {}",parser.to_string().as_str().blue(),"File(s)\n".blue());
+    let _ = buff_stdout.write(s.as_bytes()).await;
+    let mut tasks = Vec::with_capacity(size);
 
-    // TODO use static references instead to avoid copy
-    for f in files {
-        let copy = sender.clone();
-        let fclone = f.to_string();
-
-        let _e = pool.execute(move || {
-            let stats = from_file(fclone.as_str(), &parser);
-            let _r = copy.send((fclone, stats));
-            // eprintln!("{:?}",_r)
+    for next in v.iter() {
+        let path = next.to_string();
+        let parser = parser.clone();
+        let handle = tokio::spawn(async move {
+            let file = tokio::fs::File::open(&path).await?;
+            let buff = tokio::io::BufReader::new(file);
+            parser.proccess(buff).await
         });
-        //eprintln!("{:?}",_e)
+        tasks.push(handle)
     }
-    let exit_code = {
-        let stdout = std::io::stdout();
-        let stderr = std::io::stderr();
-        let lock_stdout = stdout.lock();
-        let lock_stderr = stderr.lock();
-        let mut buff_stdout = BufWriter::new(lock_stdout);
-        let mut buff_stderr = BufWriter::new(lock_stderr);
-
-        let _ = write!(
-            buff_stdout,
-            "{}",
-            format!("{} File(s)\n", parser).as_str().blue()
-        );
-        let _ = buff_stdout.flush();
-
-        let (code, acc) = (0..size).into_iter().zip(reciver.iter()).fold(
-            (0, Stats::default()),
-            |(code, acc), (_, (file, result))| match result {
-                Ok(stats) => {
-                    let _ = writeln!(buff_stdout, "{}{}", stats, file);
-                    (code, acc.combine(stats))
-                }
-                Err(err) => {
-                    let _ = writeln!(buff_stderr, "{}: {}", file, err);
-                    (code + 1, acc)
-                }
-            },
-        );
-
-        if size > 1 {
-            let _ = writeln!(
-                buff_stdout,
-                "{}{}",
-                acc.to_string().as_str().green(),
-                TOTAL.green()
-            );
+    let (code,merged) = {
+        let mut code = 0;
+        let mut stats = Stats::default();
+        for (task,file) in tasks.into_iter().zip(v) {
+            match task.await {
+                Ok(Ok(x)) => {
+                    let s = format!("{}{}\n", x, file);
+                    let _ = buff_stdout.write(s.as_bytes()).await;
+                    stats = stats.combine(x);
+                },
+                Ok(Err(err)) => {
+                    let s = format!("{}: {}\n", file, err);
+                    let _ = buff_stderr.write(s.as_bytes()).await;
+                    code +=1;
+                },
+                // Althought it should always recive a result from `tokio`, i
+                // prefer to handle this error
+                #[cfg(not(debug_assertions))]
+                _ => {},
+                #[cfg(debug_assertions)]
+                some => {
+                    let s = format!("{:?}",some);
+                    let _ = buff_stderr.write(s.as_bytes()).await;
+                },
+            }
         }
-        code
-    }; // Drop locks and flush buffers
-    std::process::exit(exit_code)
+        (code,stats)
+    };
+
+    if size > 1 {
+        // Total files
+        let s = format!(
+            "{}{}\n",
+            merged.to_string().as_str().green(),
+            TOTAL.green()
+        );
+        let _ = buff_stdout.write(s.as_bytes()).await;
+    }
+    let _ = buff_stdout.flush().await;
+    let _ = buff_stderr.flush().await;
+    std::process::exit(code)
 }
 
-/// cw singlethread for STDIN
-pub fn singlethread_stdin(parser: Parser) -> ! {
-    let stats_stdio = from_stdin(&parser);
-    let exit_code = {
-        let stdout = std::io::stdout();
-        let stderr = std::io::stderr();
-        let lock_stdout = stdout.lock();
-        let lock_stderr = stderr.lock();
-        let mut buff_stdout = BufWriter::new(lock_stdout);
-        let mut buff_stderr = BufWriter::new(lock_stderr);
-        let _ = write!(
-            buff_stdout,
-            "{}",
-            format!("{} File(s)\n", parser).as_str().blue()
-        );
-        let _ = buff_stdout.flush();
+pub async fn proccess_stdin(parser:Parser) -> ! {
+    let stdin = tokio::io::BufReader::new(tokio::io::stdin());
 
-        let code = match stats_stdio {
-            Ok(stats) => {
-                let _ = writeln!(buff_stdout, "{}", stats);
-                0
-            }
-            Err(err) => {
-                let _ = writeln!(buff_stderr, "{}", err);
-                1
-            }
-        };
-        code
-    }; // Drop locks and flush buffers
-    std::process::exit(exit_code);
-}
-
-/// cw single thread for FILE(s) input
-pub fn singlethread_files<'a, I>(files: I, parser: Parser) -> !
-where
-    I: Iterator<Item = &'a str> + Sized,
-{
-    let (size, _) = files.size_hint();
-    let init = (0, Stats::default());
-
-    let exit_code = {
-        let stdout = std::io::stdout();
-        let stderr = std::io::stderr();
-        let lock_stdout = stdout.lock();
-        let lock_stderr = stderr.lock();
-        let mut buff_stdout = BufWriter::new(lock_stdout);
-        let mut buff_stderr = BufWriter::new(lock_stderr);
-        let _ = write!(
-            buff_stdout,
-            "{}",
-            format!("{} File(s)\n", parser).as_str().blue()
-        );
-        let _ = buff_stdout.flush();
-
-        let (code, merged) = files.fold(init, |(code, acc), file| match from_file(file, &parser) {
-            Ok(stats) => {
-                let _ = writeln!(buff_stdout, "{}{}", stats, file);
-                (code, acc.combine(stats))
-            }
-            Err(err) => {
-                let _ = writeln!(buff_stderr, "{}: {}", file, err);
-                (code + 1, acc)
-            }
-        });
-
-        if size > 1 {
-            // Total files
-            let _ = writeln!(
-                buff_stdout,
-                "{}{}",
-                merged.to_string().as_str().green(),
-                TOTAL.green()
-            );
+    let code = match parser.proccess(stdin).await {
+        Ok(stats) => {
+            println!("{}",parser.to_string().as_str().blue());
+            println!("{}stdin", stats);
+            0
         }
-        code
-    }; // Drop locks and flush buffers
-    std::process::exit(exit_code)
-}
-
-// Convenience functions
-#[inline(always)]
-fn from_file(f: &str, mode: &Parser) -> std::io::Result<Stats> {
-    let file = File::open(f)?;
-    let reader = BufReader::new(file);
-    mode.proccess(reader)
-}
-
-#[inline(always)]
-fn from_stdin(mode: &Parser) -> std::io::Result<Stats> {
-    let reader = BufReader::new(std::io::stdin());
-
-    mode.proccess(reader)
+        Err(err) => {
+            eprintln!("{}", err);
+            1
+        }
+    };
+    std::process::exit(code)
 }
