@@ -57,7 +57,8 @@ pub async fn process_files(v:Vec<&str>, parser: Parser) -> ! {
         }
         (code,stats)
     };
-
+    let _ = buff_stdout.flush().await;
+    let _ = buff_stderr.flush().await;
     if size > 1 {
         // Total files
         let s = format!(
@@ -68,7 +69,6 @@ pub async fn process_files(v:Vec<&str>, parser: Parser) -> ! {
         let _ = buff_stdout.write(s.as_bytes()).await;
     }
     let _ = buff_stdout.flush().await;
-    let _ = buff_stderr.flush().await;
     std::process::exit(code)
 }
 
