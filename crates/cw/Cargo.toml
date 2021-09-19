@@ -17,7 +17,7 @@ colored = "2.0.0"
 
 [dependencies.tokio]
 version = "1.11.0"
-features = ["rt","io-util","macros","sync","fs","io-std","parking_lot"]
+features = ["rt", "rt-multi-thread","io-util","macros","sync","fs","io-std","parking_lot"]
 
 [dependencies.libcw]
 path = "../libcw"
