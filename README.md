@@ -1,16 +1,22 @@
 # cw
+<!-- cargo-sync-readme start -->
 
 cw (*count words*) is a faster alternative to classic GNU wc, written on pure
-Rust. It provides the same tools as wc, but with some extras, such as
-multithreading and multiple encoding support. cw also provides its core
-functionality as a library called [`libcw`](crates/libcw/README.md) that can
-target any arch with no platform-specific code. The Rust compiler leverages
-great performance with stupidly simple source code
+Rust. It provides the same tools as wc, but with a more friendly interface
+and multiple encoding support. cw also provides its core
+functionality as a library called `libcw` that can target any arch with no
+platform-specific code. The Rust compiler leverages great performance with
+stupidly simple source code
 
 cw diferenciates itself from other wc clones by providing great defaults. cw
 will **always** count characters using the provided encoding, and thus, always
 providing the right count. Other word counters will provide, for example, wrong
 max line length on UTF-8 encoded text
+
+To learn more about this proyect, visit it's [GitHub repo](https://github.com/Altair-Bueno/cw)
+
+
+<!-- cargo-sync-readme end -->
 
 ![img.png](.github/readme/img.png)
 
@@ -41,11 +47,16 @@ cargo uninstall cw
 The same functionality you'll expect from GNU wc, but with some extras. To see
 the full list of options, type `cw -h` or `cw --help`:
 
-## Multithreading
+## `tokio`
+cw uses the high-performant library [`tokio`](https://tokio.rs/) for IO
+concurrency. This allows `cw` to parse a file while the operating system is 
+loading another one.
 
-When provided multiple files, cw can process them sequentially or in parallel by
-providing the `-t <n>` option. It will use `n` additional threads to process all
-files
+You can use the `--multithread` flag to force the multithread runtime flavour 
+from tokio. This is usefull when you want `cw` to use all CPU cores for heavy 
+workloads
+
+> Bonus: `alias cm='cw --multithread'` for *count multithread*
 
 ## Different encodings and Linebreaks
 

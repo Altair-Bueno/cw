@@ -12,21 +12,6 @@ use std::option::Option::Some;
 /// - Number of bytes
 /// - Max line legth
 ///
-/// # Example
-/// ```
-/// use libcw::{Stats, Parser};
-/// use libcw::config::{Encoding, LineBreak};
-/// use std::io::BufRead;
-///
-/// let parser = Parser::new(
-///     Encoding::UTF8,
-///     LineBreak::LF,
-///     true,true,true,true,true
-/// );
-/// let tape = b"Hello world";
-/// let stats = parser.proccess(&tape[..]).unwrap();
-/// assert_eq!(stats,Stats::new(Some(0),Some(2),Some(11),Some(11),Some(11)));
-/// ```
 ///
 #[derive(Debug, Eq, PartialEq)]
 pub struct Stats {

@@ -6,4 +6,4 @@ This is free software: you are free to change and redistribute it.
 There is NO WARRANTY, to the extent permitted by law.
 
 Written by Paul Rubin and David MacKenzie.
-cw version: cw 1.0.0
+cw version: cw 2.0.0
