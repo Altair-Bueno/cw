@@ -1,6 +1,6 @@
 //! cw (*count words*) is a faster alternative to classic GNU wc, written on pure
-//! Rust. It provides the same tools as wc, but with some extras, such as
-//! multithreading and multiple encoding support. cw also provides its core
+//! Rust. It provides the same tools as wc, but with a more friendly interface
+//! and multiple encoding support. cw also provides its core
 //! functionality as a library called `libcw` that can target any arch with no
 //! platform-specific code. The Rust compiler leverages great performance with
 //! stupidly simple source code
