@@ -38,15 +38,15 @@ fn main() {
 
 #[tokio::main(flavor="current_thread")]
 async fn current_thread_flavour(files:Option<Values>,parser:Parser) -> ! {
-    if let Some(values) = files {
-        let v: Vec<&str> = values.collect();
-        process_files(v, parser).await
-    } else {
-        proccess_stdin(parser).await
-    }
+    run(files,parser).await
 }
+
 #[tokio::main]
 async fn multiple_threads_flavour(files:Option<Values>,parser:Parser) -> ! {
+    run(files,parser).await
+}
+
+async fn run<'a>(files:Option<Values<'a>>,parser:Parser) -> ! {
     if let Some(values) = files {
         let v: Vec<&str> = values.collect();
         process_files(v, parser).await
