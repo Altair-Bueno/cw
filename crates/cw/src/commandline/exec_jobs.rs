@@ -22,17 +22,19 @@ pub async fn process_files(v:Vec<&str>, parser: Parser) -> ! {
 
     tokio::spawn(async move {
         for e in cloned_vec {
-            let cloned_s = s.clone();
-            tokio::spawn(async move {
-                let _ = match tokio::fs::File::open(e).await {
+            let handle = tokio::spawn(async move {
+                match tokio::fs::File::open(e).await {
                     Ok(file) => {
                         let reader = tokio::io::BufReader::new(file);
-                        let res = parser.proccess(reader).await;
-                        cloned_s.send(res).await
+                        parser.proccess(reader).await
                     }
-                    Err(err) => cloned_s.send(Err(err)).await
-                };
+                    Err(err) => Err(err)
+                }
             });
+            let send_result = s.send(handle).await;
+            if send_result.is_err() {
+                break
+            }
         }
     });
 
@@ -48,13 +50,19 @@ pub async fn process_files(v:Vec<&str>, parser: Parser) -> ! {
         let mut code = 0;
         let mut stats = Stats::default();
         while let Some(next) = r.recv().await {
+            let next = next.await;
             // Unwrap here is safe
             let file = iter.next().unwrap();
             match next {
-                Ok(x) => {
+                Ok(Ok(x)) => {
                     let s = format!("{}{}\n", x, file);
                     let _ = buff_stdout.write(s.as_bytes()).await;
                     stats = stats.combine(x);
+                }
+                Ok(Err(err)) => {
+                    let s = format!("{}: {}\n", file, err);
+                    let _ = buff_stderr.write(s.as_bytes()).await;
+                    code += 1;
                 }
                 Err(err) => {
                     let s = format!("{}: {}\n", file, err);
@@ -65,6 +73,7 @@ pub async fn process_files(v:Vec<&str>, parser: Parser) -> ! {
         }
         (code,stats)
     };
+    let _ = buff_stderr.flush().await;
     if size > 1 {
         // Total files
         let s = format!(
@@ -75,7 +84,6 @@ pub async fn process_files(v:Vec<&str>, parser: Parser) -> ! {
         let _ = buff_stdout.write(s.as_bytes()).await;
     }
     let _ = buff_stdout.flush().await;
-    let _ = buff_stderr.flush().await;
     std::process::exit(code)
 }
 
