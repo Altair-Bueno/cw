@@ -75,6 +75,7 @@ pub async fn process_files(v: Vec<&str>, parser: Parser) -> ! {
         }
         (code, stats)
     };
+    let _ = buff_stdout.flush().await;
     let _ = buff_stderr.flush().await;
     if size > 1 {
         // Total files
