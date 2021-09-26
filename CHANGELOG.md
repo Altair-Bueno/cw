@@ -1,3 +1,10 @@
+## cw 2.1.0 26/09/2021
+
+- fix: #18
+- new: #16
+
+---
+
 ## cw 2.0.0 19/09/2021
 
 This release uses the removes the thread pool executor we were using and 

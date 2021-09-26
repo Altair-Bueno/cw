@@ -11,6 +11,14 @@ args:
       takes_value: true
       index: 1
 
+  - from-stdin:
+      help: Reads the input files to analize from stdin instead
+      long: from-stdin
+      required: false
+      multiple: false
+      takes_value: false
+      conflicts_with: FILES
+
   - lines:
       help: Counts line jumps
       short: l

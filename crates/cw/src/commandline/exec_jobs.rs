@@ -1,4 +1,3 @@
-use std::iter::Iterator;
 use std::result::Result::Ok;
 
 use colored::Colorize;
@@ -7,22 +6,21 @@ use tokio::io::AsyncWriteExt;
 use libcw::Parser;
 use libcw::Stats;
 use std::option::Option::Some;
+use tokio_stream::StreamExt;
 
 const TOTAL: &str = "total";
 const MAX_FILE_DESCRIPTORS: usize = 512;
 
-pub async fn process_files(v: Vec<&str>, parser: Parser) -> ! {
-    // TODO Remove vectors. They allocate memory on the heap that may lead to
-    // cache miss
-    let size = v.len();
-
+pub async fn process_files<S>(mut list: S, parser: Parser) -> !
+where
+    S: tokio_stream::Stream<Item = std::io::Result<String>> + Unpin + Send + Sync + 'static
+{
     let (s, mut r) = tokio::sync::mpsc::channel(MAX_FILE_DESCRIPTORS);
-    let cloned_vec = v.iter().map(ToString::to_string).collect::<Vec<String>>();
-
     tokio::spawn(async move {
-        for e in cloned_vec {
+        while let Some(Ok(next)) = list.next().await {
+            let cloned_string = next.clone();
             let handle = tokio::spawn(async move {
-                match tokio::fs::File::open(e).await {
+                match tokio::fs::File::open(cloned_string).await {
                     Ok(file) => {
                         let reader = tokio::io::BufReader::new(file);
                         parser.proccess(reader).await
@@ -30,8 +28,7 @@ pub async fn process_files(v: Vec<&str>, parser: Parser) -> ! {
                     Err(err) => Err(err),
                 }
             });
-            let send_result = s.send(handle).await;
-            if send_result.is_err() {
+            if let Err(_) = s.send((handle,next)).await {
                 break;
             }
         }
@@ -47,41 +44,38 @@ pub async fn process_files(v: Vec<&str>, parser: Parser) -> ! {
     );
     let _ = buff_stdout.write(s.as_bytes()).await;
 
-    let (code, merged) = {
-        let mut iter = v.iter();
-        let mut code = 0;
-        let mut stats = Stats::default();
-        while let Some(next) = r.recv().await {
-            let next = next.await;
-            // Unwrap here is safe
-            let file = iter.next().unwrap();
-            match next {
-                Ok(Ok(x)) => {
-                    let s = format!("{}{}\n", x, file);
-                    let _ = buff_stdout.write(s.as_bytes()).await;
-                    stats = stats.combine(x);
-                }
-                Ok(Err(err)) => {
-                    let s = format!("{}: {}\n", file, err);
-                    let _ = buff_stderr.write(s.as_bytes()).await;
-                    code += 1;
-                }
-                Err(err) => {
-                    let s = format!("{}: {}\n", file, err);
-                    let _ = buff_stderr.write(s.as_bytes()).await;
-                    code += 1;
-                }
+    let mut code = 0;
+    let mut merged = Stats::default();
+    let mut canary:u8 = 0x2;
+    while let Some ((handle,file)) = r.recv().await{
+        canary = canary >> 1;
+        match handle.await {
+            Ok(Ok(x)) => {
+                let s = format!("{}{}\n", x, file);
+                let _ = buff_stdout.write(s.as_bytes()).await;
+                merged = merged.combine(x);
+            }
+            Ok(Err(err)) => {
+                let s = format!("{}: {}\n", file, err);
+                let _ = buff_stderr.write(s.as_bytes()).await;
+                code += 1;
+            }
+            Err(err) => {
+                let s = format!("{}: {}\n", file, err);
+                let _ = buff_stderr.write(s.as_bytes()).await;
+                code += 1;
             }
         }
-        (code, stats)
-    };
+    }
+    let _ = buff_stdout.flush().await;
     let _ = buff_stderr.flush().await;
-    if size > 1 {
+    if canary == 0 {
         // Total files
         let s = format!("{}{}\n", merged.to_string().as_str().green(), TOTAL.green());
         let _ = buff_stdout.write(s.as_bytes()).await;
+        let _ = buff_stdout.flush().await;
+
     }
-    let _ = buff_stdout.flush().await;
     std::process::exit(code)
 }
 
