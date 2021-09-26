@@ -12,15 +12,15 @@
 //!
 //! To learn more about this proyect, visit it's [GitHub repo](https://github.com/Altair-Bueno/cw)
 //!
-use clap::{load_yaml, App, AppSettings, Values};
+use clap::{load_yaml, App, AppSettings, ArgMatches};
 
 use commandline::exec_jobs::*;
 use commandline::util::parser_from_clap;
 use libcw::Parser;
+use tokio::io::AsyncBufReadExt;
 
 mod commandline;
 
-//#[tokio::main(flavor = "current_thread")]
 fn main() {
     // Load clap for commandline utilities
     let yaml = load_yaml!("../resources/cmdline-clap.yaml");
@@ -28,28 +28,35 @@ fn main() {
     let matches = app.get_matches();
     let parser = parser_from_clap(&matches);
     // Files to proccess
-    let files = matches.values_of("FILES");
     if matches.is_present("multithread") {
-        multiple_threads_flavour(files,parser)
+        multiple_threads_flavour(matches,parser)
     } else {
-        current_thread_flavour(files,parser)
+        current_thread_flavour(matches,parser)
     }
 }
 
 #[tokio::main(flavor="current_thread")]
-async fn current_thread_flavour(files:Option<Values>,parser:Parser) -> ! {
-    run(files,parser).await
+async fn current_thread_flavour(matches:ArgMatches,parser:Parser) -> ! {
+    run(matches,parser).await
 }
 
 #[tokio::main]
-async fn multiple_threads_flavour(files:Option<Values>,parser:Parser) -> ! {
-    run(files,parser).await
+async fn multiple_threads_flavour(matches:ArgMatches,parser:Parser) -> ! {
+    run(matches,parser).await
 }
 
-async fn run<'a>(files:Option<Values<'a>>,parser:Parser) -> ! {
-    if let Some(values) = files {
-        let v: Vec<&str> = values.collect();
-        process_files(v, parser).await
+async fn run(matches:ArgMatches<'_>,parser:Parser) -> ! {
+    if let Some(values) = matches.values_of("FILES") {
+        let vec = values
+            .map(ToString::to_string)
+            .map(Ok).collect::<Vec<std::io::Result<String>>>();
+        let stream = tokio_stream::iter(vec);
+        process_files(stream, parser).await
+    } else if matches.is_present("from-stdin") {
+        let stdin = tokio::io::stdin();
+        let buf = tokio::io::BufReader::new(stdin);
+        let lines = tokio_stream::wrappers::LinesStream::new(buf.lines());
+        process_files(lines,parser).await
     } else {
         proccess_stdin(parser).await
     }
