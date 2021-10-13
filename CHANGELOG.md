@@ -1,3 +1,7 @@
+## cw 2.1.1 & libcw 1.1.1
+
+Updated dependencies
+
 ## cw 2.1.0 26/09/2021
 
 - fix: #18
