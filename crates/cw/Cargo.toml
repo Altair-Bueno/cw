@@ -1,6 +1,6 @@
 [package]
 name = "cw"
-version = "2.1.0"
+version = "2.1.1"
 authors = ["Altair Bueno"]
 edition = "2018"
 license = "MIT"
@@ -15,16 +15,25 @@ build = "build.rs"
 
 [dependencies]
 colored = "2.0.0"
-tokio-stream = { version = "0.1.7" , features = ["io-util"] }
-#tokio-util = { version = "0.6.8", features = ["io"]}
 
 [dependencies.tokio]
 version = "1.11.0"
-features = ["full"]#["rt", "rt-multi-thread","io-util","macros","sync","fs","io-std","parking_lot"]
+features = [
+  "rt",
+  "rt-multi-thread",
+  "io-util",
+  "io-std",
+  "macros",
+  "fs"
+]
+
+[dependencies.tokio-stream]
+version = "0.1.7"
+features = ["io-util"]
 
 [dependencies.libcw]
 path = "../libcw"
-version = "1.1.0"
+version = "1.1.1"
 features = ["tokio"]
 
 [dependencies.clap]
