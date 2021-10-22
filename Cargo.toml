@@ -1,11 +1,11 @@
 [workspace]
-
+resolver = "2"
 members = [
     "crates/cw",
     "crates/libcw"
 ]
 
 [profile.release]
-lto = true
+lto = "fat"
 panic = 'abort'
 codegen-units = 1
