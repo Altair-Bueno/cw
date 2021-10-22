@@ -1,6 +1,16 @@
+## cw 3.0.0/libcw 2.0.0
+
+- Upgraded rustc edition to 2021!
+- Updated dependencies
+- Added feature to use `mimalloc` as cw's allocator instead
+
+---
+
 ## cw 2.1.1 & libcw 1.1.1
 
 Updated dependencies
+
+---
 
 ## cw 2.1.0 26/09/2021
 

@@ -21,6 +21,11 @@ use tokio::io::AsyncBufReadExt;
 
 mod commandline;
 
+
+#[cfg_attr(feature = "mimalloc",global_allocator)]
+#[cfg(feature = "mimalloc")]
+static GLOBAL: mimalloc::MiMalloc = mimalloc::MiMalloc;
+
 fn main() {
     // Load clap for commandline utilities
     let yaml = load_yaml!("../resources/cmdline-clap.yaml");

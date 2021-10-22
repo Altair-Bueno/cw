@@ -1,8 +1,8 @@
 [package]
 name = "libcw"
-version = "1.1.1"
+version = "2.0.0"
 authors = ["Altair Bueno"]
-edition = "2018"
+edition = "2021"
 license = "MIT"
 readme = "README.md"
 description = "cw core library for fast and reliable count"

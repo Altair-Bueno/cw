@@ -42,7 +42,7 @@ Run this from the commandline
 cargo uninstall cw
 ```
 
-# Features
+# Options
 
 The same functionality you'll expect from GNU wc, but with some extras. To see
 the full list of options, type `cw -h` or `cw --help`:
@@ -63,6 +63,17 @@ workloads
 By default, cw will search for UTF-8 encoded text, with LF (`U+000A`) line
 breaks. Note that this crate **does not** validate any input. It asumes it's
 encoded correctly, althought invalid encoded input is safely managed
+
+# Features
+
+To use any of these features, add them to the `--features "..."` list. For 
+example:
+
+```bash
+cargo install --git https://github.com/Altair-Bueno/cw.git --features "mimalloc"
+```
+
+- `mimalloc`: Uses [mimalloc](https://github.com/microsoft/mimalloc) instead
 
 # Performance
 
