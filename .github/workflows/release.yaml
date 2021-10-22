@@ -3,16 +3,6 @@ on:
   push:
     tags:
       - '*'
-    branches:
-      - master
-  # release:
-  #   types:
-  #     - published 
-  #     - unpublished 
-  #     - created 
-  #     - edited 
-  #     - prereleased
-  #     - released
 jobs:
   build:
     name: Build for ${{ matrix.target }}
