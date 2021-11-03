@@ -1,6 +1,6 @@
 [package]
 name = "libcw"
-version = "2.0.0"
+version = "2.0.1"
 authors = ["Altair Bueno"]
 edition = "2021"
 license = "MIT"

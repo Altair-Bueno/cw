@@ -1,3 +1,9 @@
+## cw 3.0.1/libcw 2.0.1
+
+- Updated dependencies
+
+---
+
 ## cw 3.0.0/libcw 2.0.0
 
 - Upgraded rustc edition to 2021!
