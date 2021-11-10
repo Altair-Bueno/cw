@@ -1,3 +1,9 @@
+## cw 3.0.2
+
+- fix: https://github.com/Altair-Bueno/cw/issues/15
+
+---
+
 ## cw 3.0.1/libcw 2.0.1
 
 - Updated dependencies

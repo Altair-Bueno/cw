@@ -26,31 +26,32 @@ mod commandline;
 #[cfg(feature = "mimalloc")]
 static GLOBAL: mimalloc::MiMalloc = mimalloc::MiMalloc;
 
-fn main() {
+fn main() -> ! {
     // Load clap for commandline utilities
     let yaml = load_yaml!("../resources/cmdline-clap.yaml");
     let app = App::from(yaml).setting(AppSettings::ColoredHelp);
     let matches = app.get_matches();
     let parser = parser_from_clap(&matches);
-    // Files to proccess
-    if matches.is_present("multithread") {
+    // Files to process
+    let code = if matches.is_present("multithread") {
         multiple_threads_flavour(matches,parser)
     } else {
         current_thread_flavour(matches,parser)
-    }
+    };
+    std::process::exit(code)
 }
 
 #[tokio::main(flavor="current_thread")]
-async fn current_thread_flavour(matches:ArgMatches,parser:Parser) -> ! {
+async fn current_thread_flavour(matches:ArgMatches,parser:Parser) -> i32 {
     run(matches,parser).await
 }
 
 #[tokio::main]
-async fn multiple_threads_flavour(matches:ArgMatches,parser:Parser) -> ! {
+async fn multiple_threads_flavour(matches:ArgMatches,parser:Parser) -> i32 {
     run(matches,parser).await
 }
 
-async fn run(matches:ArgMatches<'_>,parser:Parser) -> ! {
+async fn run(matches:ArgMatches<'_>,parser:Parser) -> i32 {
     if let Some(values) = matches.values_of("FILES") {
         let vec = values
             .map(ToString::to_string)
@@ -63,6 +64,6 @@ async fn run(matches:ArgMatches<'_>,parser:Parser) -> ! {
         let lines = tokio_stream::wrappers::LinesStream::new(buf.lines());
         process_files(lines,parser).await
     } else {
-        proccess_stdin(parser).await
+        process_stdin(parser).await
     }
 }
