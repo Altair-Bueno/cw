@@ -5,12 +5,12 @@
 //! platform-specific code. The Rust compiler leverages great performance with
 //! stupidly simple source code
 //!
-//! cw diferenciates itself from other wc clones by providing great defaults. cw
+//! cw differentiates itself from other wc clones by providing great defaults. cw
 //! will **always** count characters using the provided encoding, and thus, always
 //! providing the right count. Other word counters will provide, for example, wrong
 //! max line length on UTF-8 encoded text
 //!
-//! To learn more about this proyect, visit it's [GitHub repo](https://github.com/Altair-Bueno/cw)
+//! To learn more about this project, visit it's [GitHub repo](https://github.com/Altair-Bueno/cw)
 //!
 use clap::{load_yaml, App, AppSettings, ArgMatches};
 
