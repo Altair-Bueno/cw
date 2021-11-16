@@ -1,9 +1,8 @@
-use clap::Shell;
-use clap::App;
-use clap::load_yaml;
 use clap::crate_name;
+use clap::load_yaml;
+use clap::App;
+use clap::Shell;
 use std::env;
-
 
 fn main() {
     let dir = env::var_os("SHELL_COMPLETIONS_DIR")
@@ -22,5 +21,4 @@ fn main() {
     app.gen_completions(crate_name!(), Shell::Bash, &outdir);
     app.gen_completions(crate_name!(), Shell::PowerShell, &outdir);
     app.gen_completions(crate_name!(), Shell::Fish, &outdir);
-
 }

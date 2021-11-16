@@ -1,9 +1,9 @@
-use crate::{Parser, Stats};
 use crate::config::Encoding;
-use std::io::BufRead;
 use crate::parser::BUFFER_SIZE;
-use crate::state::traits::partial_state::PartialState;
 use crate::state::traits::compute::Compute;
+use crate::state::traits::partial_state::PartialState;
+use crate::{Parser, Stats};
+use std::io::BufRead;
 
 impl Parser {
     /// The proccess method takes in a [BufRead](std::io::BufRead) instance
@@ -34,7 +34,10 @@ impl Parser {
     }
 
     /// Runs over the tape at max speed reading utf8 encoded text
-    pub(crate) fn utf8_proccess<R: BufRead + Sized>(&self, mut reader: R) -> std::io::Result<Stats> {
+    pub(crate) fn utf8_proccess<R: BufRead + Sized>(
+        &self,
+        mut reader: R,
+    ) -> std::io::Result<Stats> {
         let mut state = self.initial_state;
         let mut buff = [0; BUFFER_SIZE];
         loop {
@@ -47,7 +50,10 @@ impl Parser {
     }
 
     /// Decides endianess and computes tape
-    pub(crate) fn utf16_proccess<R: BufRead + Sized>(&self, mut reader: R) -> std::io::Result<Stats> {
+    pub(crate) fn utf16_proccess<R: BufRead + Sized>(
+        &self,
+        mut reader: R,
+    ) -> std::io::Result<Stats> {
         // TODO utf16 encoding on beta. Some test did not pass
         let buff = reader.fill_buf()?;
         if buff.len() < 2 {
@@ -81,7 +87,10 @@ impl Parser {
             }
         }
     }
-    pub(crate) fn utf16_proccess_be<R: BufRead + Sized>(&self, mut reader: R) -> std::io::Result<Stats> {
+    pub(crate) fn utf16_proccess_be<R: BufRead + Sized>(
+        &self,
+        mut reader: R,
+    ) -> std::io::Result<Stats> {
         let mut state = self.initial_state;
         let mut buff = [0; BUFFER_SIZE];
 
@@ -106,7 +115,10 @@ impl Parser {
             }
         }
     }
-    pub(crate) fn utf16_process_le<R: BufRead + Sized>(&self, mut reader: R) -> std::io::Result<Stats> {
+    pub(crate) fn utf16_process_le<R: BufRead + Sized>(
+        &self,
+        mut reader: R,
+    ) -> std::io::Result<Stats> {
         let mut state = self.initial_state;
         let mut buff = [0; BUFFER_SIZE];
 

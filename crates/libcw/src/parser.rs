@@ -9,7 +9,6 @@ use crate::state::max_length::MaxLengthState;
 use crate::state::words_state::WordsState;
 use crate::state::State;
 
-
 #[cfg(not(feature = "tokio"))]
 pub mod features_none;
 #[cfg(feature = "tokio")]

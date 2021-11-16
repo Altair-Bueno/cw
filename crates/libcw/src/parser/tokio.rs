@@ -1,9 +1,9 @@
 use crate::config::Encoding;
+use crate::parser::BUFFER_SIZE;
 use crate::state::traits::{compute::Compute, partial_state::PartialState};
 use crate::stats::Stats;
-use tokio::io::{AsyncBufRead, AsyncReadExt, AsyncBufReadExt};
 use crate::Parser;
-use crate::parser::BUFFER_SIZE;
+use tokio::io::{AsyncBufRead, AsyncBufReadExt, AsyncReadExt};
 
 impl Parser {
     /// The proccess method takes in a [BufRead](tokio::io::BufRead) instance
@@ -28,8 +28,8 @@ impl Parser {
     /// # }
     /// ```
     pub async fn proccess<R>(&self, reader: R) -> std::io::Result<Stats>
-        where
-            R : AsyncReadExt + AsyncBufRead + Sized + Unpin
+    where
+        R: AsyncReadExt + AsyncBufRead + Sized + Unpin,
     {
         match self.encoding {
             Encoding::UTF8 => self.utf8_proccess(reader).await,
@@ -39,8 +39,8 @@ impl Parser {
 
     /// Runs over the tape at max speed reading utf8 encoded text
     pub(crate) async fn utf8_proccess<R>(&self, mut reader: R) -> std::io::Result<Stats>
-        where
-            R : AsyncReadExt + AsyncBufRead + Sized + Unpin
+    where
+        R: AsyncReadExt + AsyncBufRead + Sized + Unpin,
     {
         let mut state = self.initial_state;
         let mut buff = [0; BUFFER_SIZE];
@@ -55,8 +55,8 @@ impl Parser {
 
     /// Decides endianess and computes tape
     pub(crate) async fn utf16_proccess<R>(&self, mut reader: R) -> std::io::Result<Stats>
-        where
-            R : AsyncReadExt + AsyncBufRead + Sized + Unpin
+    where
+        R: AsyncReadExt + AsyncBufRead + Sized + Unpin,
     {
         // TODO utf16 encoding on beta. Some test did not pass
         let buff = reader.fill_buf().await?;
@@ -76,8 +76,7 @@ impl Parser {
 
                 reader.consume(2);
 
-                self
-                    .utf16_process_le(reader)
+                self.utf16_process_le(reader)
                     .await
                     .map(|x| x.combine(stats))
             } else if first == 0xFE && second == 0xFF {
@@ -97,8 +96,8 @@ impl Parser {
         }
     }
     pub(crate) async fn utf16_proccess_be<R>(&self, mut reader: R) -> std::io::Result<Stats>
-        where
-            R : AsyncReadExt + AsyncBufRead + Sized + Unpin
+    where
+        R: AsyncReadExt + AsyncBufRead + Sized + Unpin,
     {
         let mut state = self.initial_state;
         let mut buff = [0; BUFFER_SIZE];
@@ -125,8 +124,8 @@ impl Parser {
         }
     }
     pub(crate) async fn utf16_process_le<R>(&self, mut reader: R) -> std::io::Result<Stats>
-        where
-            R : AsyncReadExt + AsyncBufRead + Sized + Unpin
+    where
+        R: AsyncReadExt + AsyncBufRead + Sized + Unpin,
     {
         let mut state = self.initial_state;
         let mut buff = [0; BUFFER_SIZE];
@@ -157,4 +156,3 @@ impl Parser {
         }
     }
 }
-

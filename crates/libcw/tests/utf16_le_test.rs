@@ -1,5 +1,5 @@
 #[cfg(not(feature = "tokio"))]
-mod test{
+mod test {
     use std::fs::File;
     use std::io::BufReader;
 

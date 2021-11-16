@@ -13,13 +13,13 @@ const MAX_FILE_DESCRIPTORS: usize = 1024;
 
 pub async fn process_files<S>(mut list: S, parser: Parser) -> i32
 where
-    S: tokio_stream::Stream<Item = std::io::Result<String>> + Unpin + Send + Sync + 'static
+    S: tokio_stream::Stream<Item = std::io::Result<String>> + Unpin + Send + Sync + 'static,
 {
     let (s, mut r) = tokio::sync::mpsc::channel(MAX_FILE_DESCRIPTORS);
-    let parser_clone = parser.clone();
+    let parser_clone = parser;
     tokio::spawn(async move {
         while let Some(Ok(path)) = list.next().await {
-            let parser_clone = parser_clone.clone();
+            let parser_clone = parser_clone;
             let closure = async move {
                 let file = tokio::fs::File::open(&path).await;
                 let response = match file {
@@ -45,16 +45,16 @@ where
 
     let mut code = 0;
     let mut merged = Stats::default();
-    let mut canary:u8 = 0x2;
-    while let Some (handle) = r.recv().await {
-        if let Ok((path,result)) = handle.await {
-            canary = canary >> 1;
+    let mut canary: u8 = 0x2;
+    while let Some(handle) = r.recv().await {
+        if let Ok((path, result)) = handle.await {
+            canary >>= 1;
             match result {
                 Ok(x) => {
                     let s = format!("{}{}\n", x, path);
                     let _ = buff_stdout.write(s.as_bytes()).await;
                     merged = merged.combine(x);
-                },
+                }
                 Err(err) => {
                     let s = format!("{}: {}\n", path, err);
                     let _ = buff_stderr.write(s.as_bytes()).await;
