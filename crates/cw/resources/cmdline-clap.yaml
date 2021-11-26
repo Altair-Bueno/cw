@@ -1,5 +1,5 @@
 name: cw
-version: "3.0.2"
+version: "3.0.3"
 author: Altair Bueno <https://github.com/Altair-Bueno/cw>
 about: |
   cw, a rip of wc. Lines, words, character and byte count with column stats.

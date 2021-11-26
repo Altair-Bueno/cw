@@ -23,7 +23,12 @@ where
             let closure = async move {
                 let file = tokio::fs::File::open(&path).await;
                 let response = match file {
-                    Ok(file) => parser_clone.proccess(tokio::io::BufReader::new(file)).await,
+                    Ok(file) => {
+                        let mut buffer = tokio::io::BufReader::new(file);
+                        let response = parser_clone.proccess(&mut buffer).await;
+                        let _ = buffer.flush().await;
+                        response
+                    },
                     Err(err) => Err(err),
                 };
                 (path, response)
