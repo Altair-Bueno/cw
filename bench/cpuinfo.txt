@@ -5,7 +5,7 @@ model		: 85
 model name	: Intel(R) Xeon(R) Platinum 8272CL CPU @ 2.60GHz
 stepping	: 7
 microcode	: 0xffffffff
-cpu MHz		: 2593.907
+cpu MHz		: 2593.906
 cache size	: 36608 KB
 physical id	: 0
 siblings	: 2
@@ -32,7 +32,7 @@ model		: 85
 model name	: Intel(R) Xeon(R) Platinum 8272CL CPU @ 2.60GHz
 stepping	: 7
 microcode	: 0xffffffff
-cpu MHz		: 2593.907
+cpu MHz		: 2593.906
 cache size	: 36608 KB
 physical id	: 0
 siblings	: 2
