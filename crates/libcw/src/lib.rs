@@ -38,7 +38,7 @@
 //!     true,true,true,true,true
 //! );
 //! let read = BufReader::new(File::open("foo.txt")?);
-//! let stats_from_read = parser.proccess(read);
+//! let stats_from_read = parser.process(read);
 //! # Ok(())
 //! # }
 //! ```
@@ -48,7 +48,7 @@
 //! to learn more about this crate's performance
 //!
 //! # Feature flags
-//! Althought this crate is designed for minimal size and high throughput, a set
+//! Although this crate is designed for minimal size and high throughput, a set
 //! of features is provided for crate compatibility
 //!
 //! - `tokio`: Enables async [Parser proccess](crate::Parser::proccess()) for

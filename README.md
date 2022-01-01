@@ -22,7 +22,7 @@ To learn more about this project, visit it's [GitHub repo](https://github.com/Al
 
 # Build and install cw from source (recommended)
 
-Because cw is written entiretly on Rust, is as simple as using `cargo`. If you
+Because cw is written entirely on Rust, is as simple as using `cargo`. If you
 already have
 installed [`cargo`](https://doc.rust-lang.org/cargo/getting-started/installation.html)
 on your system, run the following from the commandline:
@@ -53,7 +53,7 @@ concurrency. This allows `cw` to parse a file while the operating system is
 loading another one.
 
 You can use the `--multithread` flag to force the multithread runtime flavour 
-from tokio. This is usefull when you want `cw` to use all CPU cores for heavy 
+from tokio. This is useful when you want `cw` to use all CPU cores for heavy 
 workloads
 
 > Bonus: `alias cm='cw --multithread'` for *count multithread*
@@ -62,7 +62,7 @@ workloads
 
 By default, cw will search for UTF-8 encoded text, with LF (`U+000A`) line
 breaks. Note that this crate **does not** validate any input. It asumes it's
-encoded correctly, althought invalid encoded input is safely managed
+encoded correctly, although invalid encoded input is safely managed
 
 # Features
 
@@ -81,7 +81,7 @@ See [BENCH.md](BENCH.md)
 
 # Wishlist
 
-- Full unicode support (eg proccess Z҉͈͓͈͎a̘͈̠̭l̨̯g̶̬͇̭o̝̹̗͎̙
+- Full unicode support (eg process Z҉͈͓͈͎a̘͈̠̭l̨̯g̶̬͇̭o̝̹̗͎̙
   ͟t͖̙̟̹͇̥̝͡e̥͘x͚̺̭̻͘t͉͔̩̲̘ correctly)
 - UTF-16 encoding
 - Auto-detect file encoding

@@ -6,7 +6,7 @@ use crate::{Parser, Stats};
 use std::io::BufRead;
 
 impl Parser {
-    /// The proccess method takes in a [BufRead](std::io::BufRead) instance
+    /// The process method takes in a [BufRead](std::io::BufRead) instance
     /// that is read for yielding results. If the BufRead instance cannot be
     /// read this will yield the corresponding error
     /// ```no_run
@@ -22,22 +22,19 @@ impl Parser {
     ///     true,true,true,true,true
     /// );
     /// let read = BufReader::new(File::open("foo.txt")?);
-    /// let stats_from_read = parser.proccess(read);
+    /// let stats_from_read = parser.process(read);
     /// # Ok(())
     /// # }
     /// ```
-    pub fn proccess<R: BufRead + Sized>(&self, reader: R) -> std::io::Result<Stats> {
+    pub fn process<R: BufRead + Sized>(&self, reader: R) -> std::io::Result<Stats> {
         match self.encoding {
-            Encoding::UTF8 => self.utf8_proccess(reader),
-            Encoding::UTF16 => self.utf16_proccess(reader),
+            Encoding::UTF8 => self.utf8_process(reader),
+            Encoding::UTF16 => self.utf16_process(reader),
         }
     }
 
     /// Runs over the tape at max speed reading utf8 encoded text
-    pub(crate) fn utf8_proccess<R: BufRead + Sized>(
-        &self,
-        mut reader: R,
-    ) -> std::io::Result<Stats> {
+    pub(crate) fn utf8_process<R: BufRead + Sized>(&self, mut reader: R) -> std::io::Result<Stats> {
         let mut state = self.initial_state;
         let mut buff = [0; BUFFER_SIZE];
         loop {
@@ -50,14 +47,14 @@ impl Parser {
     }
 
     /// Decides endianess and computes tape
-    pub(crate) fn utf16_proccess<R: BufRead + Sized>(
+    pub(crate) fn utf16_process<R: BufRead + Sized>(
         &self,
         mut reader: R,
     ) -> std::io::Result<Stats> {
         // TODO utf16 encoding on beta. Some test did not pass
         let buff = reader.fill_buf()?;
         if buff.len() < 2 {
-            // Not enought
+            // Not enough
             let mut out = self.initial_state.output();
             out.set_bytes(Some(buff.len()));
             Ok(out)
@@ -80,14 +77,14 @@ impl Parser {
 
                 reader.consume(2);
 
-                self.utf16_proccess_be(reader).map(|x| x.combine(stats))
+                self.utf16_process_be(reader).map(|x| x.combine(stats))
             } else {
                 // Assumed big endian
-                self.utf16_proccess_be(reader)
+                self.utf16_process_be(reader)
             }
         }
     }
-    pub(crate) fn utf16_proccess_be<R: BufRead + Sized>(
+    pub(crate) fn utf16_process_be<R: BufRead + Sized>(
         &self,
         mut reader: R,
     ) -> std::io::Result<Stats> {
@@ -110,7 +107,7 @@ impl Parser {
             if read == 0 {
                 return Ok(state.output());
             } else {
-                // Tape wont change. Non mutable call
+                // Tape won't change. Non-mutable call
                 state = state.utf16_compute(&buff[start..(read + 1)]);
             }
         }
@@ -148,7 +145,7 @@ impl Parser {
             if read == 0 {
                 return Ok(state.output());
             } else {
-                // Tape won't change. Non mutable call
+                // Tape won't change. Non-mutable call
                 state = state.utf16_compute(&buff[start..(read + 1)]);
             }
         }

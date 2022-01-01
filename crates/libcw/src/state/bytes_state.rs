@@ -4,7 +4,7 @@ use crate::state::traits::{compute::Compute, partial_state::PartialState};
 /// store partial reads over a divided tape
 #[derive(Default, Debug, Copy, Clone)]
 pub struct BytesState {
-    bytecount: usize,
+    byte_count: usize,
 }
 
 impl BytesState {
@@ -14,7 +14,7 @@ impl BytesState {
     }
     fn count(self, tape: &[u8]) -> Self {
         BytesState {
-            bytecount: self.bytecount + tape.len(),
+            byte_count: self.byte_count + tape.len(),
         }
     }
 }
@@ -22,7 +22,7 @@ impl BytesState {
 impl PartialState for BytesState {
     type Output = usize;
     fn output(&self) -> Self::Output {
-        self.bytecount
+        self.byte_count
     }
 }
 
@@ -134,7 +134,7 @@ mod test {
         }
 
         // Test on files
-        fn proccess_file_test(f: &str) -> usize {
+        fn process_file_test(f: &str) -> usize {
             let mut reader = BufReader::new(File::open(f).unwrap());
 
             let mut state = BytesState::new();
@@ -150,66 +150,66 @@ mod test {
 
         #[test]
         fn gabriel() {
-            let out = proccess_file_test("resources/utf8/Gabriel.txt");
+            let out = process_file_test("resources/utf8/Gabriel.txt");
             let expected = 2700;
             assert_eq!(out, expected)
         }
 
         #[test]
         fn lorem() {
-            let out = proccess_file_test("resources/utf8/Lorem_big.txt");
+            let out = process_file_test("resources/utf8/Lorem_big.txt");
             assert_eq!(out, 751539)
         }
 
         #[test]
         fn s1() {
-            let out = proccess_file_test("resources/utf8/sample1.txt");
+            let out = process_file_test("resources/utf8/sample1.txt");
             assert_eq!(out, 607)
         }
 
         #[test]
         fn s2() {
-            let out = proccess_file_test("resources/utf8/sample2.txt");
+            let out = process_file_test("resources/utf8/sample2.txt");
             assert_eq!(out, 2859)
         }
 
         #[test]
         fn s3() {
-            let out = proccess_file_test("resources/utf8/sample3.txt");
+            let out = process_file_test("resources/utf8/sample3.txt");
             assert_eq!(out, 3541)
         }
 
         #[test]
         fn small() {
-            let out = proccess_file_test("resources/utf8/small.txt");
+            let out = process_file_test("resources/utf8/small.txt");
             assert_eq!(out, 18)
         }
 
         #[test]
         fn empty() {
-            let out = proccess_file_test("resources/utf8/empty.txt");
+            let out = process_file_test("resources/utf8/empty.txt");
             assert_eq!(out, 0)
         }
 
         #[test]
         fn arabic() {
-            // - Legth isn't 0
+            // - Length isn't 0
             // - test weird
-            let out = proccess_file_test("resources/utf8/arabic.txt");
+            let out = process_file_test("resources/utf8/arabic.txt");
             let expected = 105;
             assert_eq!(out, expected)
         }
 
         #[test]
         fn spanish() {
-            let out = proccess_file_test("resources/utf8/spanish.txt");
+            let out = process_file_test("resources/utf8/spanish.txt");
             let expected = 22;
             assert_eq!(out, expected)
         }
 
         #[test]
         fn french() {
-            let out = proccess_file_test("resources/utf8/french.txt");
+            let out = process_file_test("resources/utf8/french.txt");
             assert_eq!(out, 61)
         }
     }

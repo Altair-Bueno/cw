@@ -2,15 +2,15 @@ use std::cmp::max;
 use std::fmt::{Display, Formatter};
 use std::option::Option::Some;
 
-/// Represents a set of stats. Is used as an output value for [Parser's proccess](crate::Parser::proccess)
+/// Represents a set of stats. Is used as an output value for [Parser's process](crate::Parser::process)
 /// method
 ///
-/// # Suported stats list
+/// # Supported stats list
 /// - Number of lines
 /// - Number of words
 /// - Number of characters
 /// - Number of bytes
-/// - Max line legth
+/// - Max line length
 ///
 ///
 #[derive(Debug, Eq, PartialEq)]
@@ -19,8 +19,8 @@ pub struct Stats {
     words: Option<usize>,
     characters: Option<usize>,
     bytes: Option<usize>,
-    legth: Option<usize>,
-    //colums: Colums,
+    length: Option<usize>,
+    //columns: Columns,
 }
 
 impl Default for Stats {
@@ -29,14 +29,14 @@ impl Default for Stats {
     /// - 0 words
     /// - 0 characters
     /// - 0 bytes
-    /// - max legth 0
+    /// - max length 0
     fn default() -> Self {
         Stats {
             lines: Some(0),
             words: Some(0),
             characters: Some(0),
             bytes: Some(0),
-            legth: Some(0),
+            length: Some(0),
         }
     }
 }
@@ -49,38 +49,41 @@ impl Display for Stats {
     /// If any value is missing (eg words is None), then said value and its
     /// right tab will be missing
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        self.lines.map(|x| write!(f, "{}\t", x)).unwrap_or(Ok(()))?;
-        self.words.map(|x| write!(f, "{}\t", x)).unwrap_or(Ok(()))?;
-        self.characters
+        let list = [
+            self.lines,
+            self.words,
+            self.characters,
+            self.bytes,
+            self.length,
+        ];
+        list.into_iter()
+            .flatten()
             .map(|x| write!(f, "{}\t", x))
-            .unwrap_or(Ok(()))?;
-        self.bytes.map(|x| write!(f, "{}\t", x)).unwrap_or(Ok(()))?;
-        self.legth.map(|x| write!(f, "{}\t", x)).unwrap_or(Ok(()))?;
-        Ok(())
+            .fold(Ok(()), |acc, n| acc.and(n))
     }
 }
 
 impl Stats {
-    /// Creates a new Stats struct with the given information. This method
-    /// is provided as a convenience for writing tests and should't be called
+    /// Creates a new `Stats` struct with the given information. This method
+    /// is provided as a convenience for writing tests and shouldn't be called
     /// unless there is a good reason for it
     pub fn new(
         lines: Option<usize>,
         words: Option<usize>,
         characters: Option<usize>,
         bytes: Option<usize>,
-        legth: Option<usize>,
+        length: Option<usize>,
     ) -> Stats {
         Stats {
             lines,
             words,
             characters,
             bytes,
-            legth,
+            length,
         }
     }
 
-    /// Combines two stats. Usefull for providing some combined results. If
+    /// Combines two stats. Useful for providing some combined results. If
     /// any of the combined stats has a missing value, the result will **also**
     /// have a missing value
     /// ```
@@ -101,35 +104,35 @@ impl Stats {
             words: combine_using(self.words, s.words, std::ops::Add::add),
             characters: combine_using(self.characters, s.characters, std::ops::Add::add),
             bytes: combine_using(self.bytes, s.bytes, std::ops::Add::add),
-            legth: combine_using(self.legth, s.legth, max),
+            length: combine_using(self.length, s.length, max),
         }
     }
 
-    /// Returns the number of lines contained on this stats, if available
+    /// Returns the number of lines contained on these stats, if available
     pub fn lines(&self) -> Option<usize> {
         self.lines
     }
 
-    /// Returns the number of words contained on this stats, if available
+    /// Returns the number of words contained on these stats, if available
     pub fn words(&self) -> Option<usize> {
         self.words
     }
 
-    /// Returns the number of characters contained on this stats, if available
+    /// Returns the number of characters contained on these stats, if available
     pub fn characters(&self) -> Option<usize> {
         self.characters
     }
 
-    /// Returns the number of bytes contained on this stats, if available
+    /// Returns the number of bytes contained on these stats, if available
     pub fn bytes(&self) -> Option<usize> {
         self.bytes
     }
 
     /// Returns the number max number of sequential characters between two line
-    /// breaks (including start and end of file) contained on this stats, if
+    /// breaks (including start and end of file) contained on these stats, if
     /// available
-    pub fn legth(&self) -> Option<usize> {
-        self.legth
+    pub fn length(&self) -> Option<usize> {
+        self.length
     }
 
     /// Changes the stored line count for these stats
@@ -149,7 +152,7 @@ impl Stats {
         self.bytes = bytes;
     }
     /// Changes the stored byte count for these stats
-    pub fn set_legth(&mut self, legth: Option<usize>) {
-        self.legth = legth;
+    pub fn set_length(&mut self, legth: Option<usize>) {
+        self.length = legth;
     }
 }

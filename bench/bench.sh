@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Simple bash script that runs some benchmars using hyperfine
+# Simple bash script that runs some benchmarks using hyperfine
 # USAGE
 # ./bench.sh "path/to/files"
 

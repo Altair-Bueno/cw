@@ -23,10 +23,10 @@ fn main() -> std::io::Result<()> {
     let _ = args.next();
     let start = std::time::Instant::now();
 
-    // Process each file recived as argument
+    // Process each file received as argument
     for f in args {
-        let buffreader = BufReader::new(File::open(f)?);
-        let stats = parser.proccess(buffreader)?;
+        let buf_reader = BufReader::new(File::open(f)?);
+        let stats = parser.process(buf_reader)?;
         println!("{}", stats)
     }
     println!("Took {} ms", start.elapsed().as_millis());

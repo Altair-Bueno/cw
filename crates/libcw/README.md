@@ -34,7 +34,7 @@ let parser = Parser::new(
     true,true,true,true,true
 );
 let read = BufReader::new(File::open("foo.txt")?);
-let stats_from_read = parser.proccess(read);
+let stats_from_read = parser.process(read);
 ```
 
 # Performance
@@ -42,10 +42,10 @@ See this repo [BENCH.md](https://github.com/Altair-Bueno/cw/blob/master/BENCH.md
 to learn more about this crate's performance
 
 # Feature flags
-Althought this crate is designed for minimal size and high throughput, a set
+Although this crate is designed for minimal size and high throughput, a set
 of features is provided for crate compatibility
 
-- `tokio`: Enables async [Parser proccess](crate::Parser::proccess\(\)) for
+- `tokio`: Enables async [Parser process](crate::Parser::proccess\(\)) for
 the tokio runtime
 
 <!-- cargo-sync-readme end -->

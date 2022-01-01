@@ -48,7 +48,7 @@ impl Compute for MaxLengthState {
         tape.split_inclusive(|x| *x == b).fold(self, |state, next| {
             let on_line = next.last().map(|x| *x != b).unwrap_or(true);
             let count_chars_state = state.char_state.utf8_compute(next);
-            // Count lines if its the end of the line. Update character
+            // Count lines if it's the end of the line. Update character
             // count in the end
             if on_line {
                 // No linebreak detected. Still same line as before
@@ -74,7 +74,7 @@ impl Compute for MaxLengthState {
         tape.split_inclusive(|x| *x == b).fold(self, |state, next| {
             let on_line = next.last().map(|x| *x != b).unwrap_or(true);
             let count_chars_state = state.char_state.utf16_compute(next);
-            // Count lines if its the end of the line. Update character
+            // Count lines if it's the end of the line. Update character
             // count in the end
             if on_line {
                 // No linebreak detected. Still same line as before

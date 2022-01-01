@@ -17,7 +17,7 @@ pub mod tokio;
 const BUFFER_SIZE: usize = 16 * 1024; // 8KB
 
 /// Parser is libcw's main component. It provides abstractions over the
-/// different counters contained inside this crate. It has an easy to use
+/// different counters contained inside this crate. It has an easy-to-use
 /// interface API that results on a [Stats](crate::Stats) instance with the
 /// yielded results
 ///
@@ -42,7 +42,7 @@ const BUFFER_SIZE: usize = 16 * 1024; // 8KB
 ///     true,true,true,true,true
 /// );
 /// let read = BufReader::new(File::open("foo.txt")?);
-/// let stats_from_read = parser.proccess(read);
+/// let stats_from_read = parser.process(read);
 /// # Ok(())
 /// # }
 /// ```
@@ -61,7 +61,11 @@ impl Display for Parser {
     /// l\tw\tc\tb\tL\t
     /// ```
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}{} {}",self.initial_state, self.encoding, self.linebreak)
+        write!(
+            f,
+            "{}{} {}",
+            self.initial_state, self.encoding, self.linebreak
+        )
     }
 }
 
@@ -73,7 +77,7 @@ impl Parser {
     /// macro for sharing one single instance across different threads. Setting
     /// a Parser correctly is important: You only pay for what you need, meaning
     /// It'll only compute for the stats you asked for and thus taking the least
-    /// amout of time to return
+    /// amount of time to return
     pub fn new(
         encoding: Encoding,
         linebreak: LineBreak,

@@ -22,11 +22,11 @@ pub async fn main() -> std::io::Result<()> {
     let _ = args.next();
     let start = std::time::Instant::now();
 
-    // Process each file recived as argument
+    // Process each file received as argument
     for f in args {
         let file = tokio::fs::File::open(f).await?;
-        let buffreader = tokio::io::BufReader::new(file);
-        let stats = parser.proccess(buffreader).await?;
+        let buf_reader = tokio::io::BufReader::new(file);
+        let stats = parser.process(buf_reader).await?;
         println!("{}", stats)
     }
     println!("Took {} ms", start.elapsed().as_millis());

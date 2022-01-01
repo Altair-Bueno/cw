@@ -10,7 +10,7 @@ const STR_LF: &str = "LF";
 /// Currently, it supports:
 #[derive(Clone, Copy, Debug)]
 pub enum LineBreak {
-    /// Cariage return. Often used on old Macintosh systems
+    /// Carriage return. Often used on old Macintosh systems
     /// - Unicode code: U+000D
     /// - Default: No
     CR,

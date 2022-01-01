@@ -25,10 +25,10 @@ where
                 let response = match file {
                     Ok(file) => {
                         let mut buffer = tokio::io::BufReader::new(file);
-                        let response = parser_clone.proccess(&mut buffer).await;
+                        let response = parser_clone.process(&mut buffer).await;
                         let _ = buffer.flush().await;
                         response
-                    },
+                    }
                     Err(err) => Err(err),
                 };
                 (path, response)
@@ -82,7 +82,7 @@ where
 pub async fn process_stdin(parser: Parser) -> i32 {
     let stdin = tokio::io::BufReader::new(tokio::io::stdin());
 
-    let code = match parser.proccess(stdin).await {
+    let code = match parser.process(stdin).await {
         Ok(stats) => {
             println!("{}", parser.to_string().as_str().blue());
             println!("{}stdin", stats);
