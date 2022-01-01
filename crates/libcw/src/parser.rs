@@ -61,8 +61,7 @@ impl Display for Parser {
     /// l\tw\tc\tb\tL\t
     /// ```
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        self.initial_state.fmt(f)?;
-        write!(f, "{} {}", self.encoding, self.linebreak)
+        write!(f, "{}{} {}",self.initial_state, self.encoding, self.linebreak)
     }
 }
 
