@@ -22,7 +22,7 @@ default-features=false
 optional = true
 
 [dependencies.tokio]
-version = "1.11.0"
+version = "1.15.0"
 features = [
   "rt",
   "rt-multi-thread",
@@ -33,7 +33,7 @@ features = [
 ]
 
 [dependencies.tokio-stream]
-version = "0.1.7"
+version = "0.1.8"
 features = ["io-util"]
 
 [dependencies.libcw]
