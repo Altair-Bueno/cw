@@ -12,53 +12,64 @@
 //!
 //! To learn more about this project, visit it's [GitHub repo](https://github.com/Altair-Bueno/cw)
 //!
-use clap::{load_yaml, App, AppSettings, ArgMatches};
+use clap::Parser;
 
-use commandline::exec_jobs::*;
-use commandline::util::parser_from_clap;
-use libcw::Parser;
+use config::Config;
+use exec_jobs::*;
+use libcw::Parser as CwParser;
 use tokio::io::AsyncBufReadExt;
 
-mod commandline;
+mod config;
+mod exec_jobs;
 
 #[cfg_attr(feature = "mimalloc", global_allocator)]
 #[cfg(feature = "mimalloc")]
 static GLOBAL: mimalloc::MiMalloc = mimalloc::MiMalloc;
 
-fn main() -> ! {
-    // Load clap for commandline utilities
-    let yaml = load_yaml!("../resources/cmdline-clap.yaml");
-    let app = App::from(yaml).setting(AppSettings::ColoredHelp);
-    let matches = app.get_matches();
-    let parser = parser_from_clap(&matches);
-    // Files to process
-    let code = if matches.is_present("multithread") {
-        multiple_threads_flavour(matches, parser)
+fn config_to_parser(config: &Config) -> CwParser {
+    let Config {
+        lines,
+        characters,
+        words,
+        bytes,
+        line_length,
+        newline,
+        encoding,
+        ..
+    } = config;
+    let is_custom = [lines, characters, words, bytes, line_length].contains(&&true);
+
+    if is_custom {
+        CwParser::new(
+            *encoding,
+            *newline,
+            *lines,
+            *words,
+            *characters,
+            *bytes,
+            *line_length,
+        )
     } else {
-        current_thread_flavour(matches, parser)
-    };
-    std::process::exit(code)
+        CwParser::new(*encoding, *newline, true, true, false, true, false)
+    }
 }
 
 #[tokio::main(flavor = "current_thread")]
-async fn current_thread_flavour(matches: ArgMatches, parser: Parser) -> i32 {
-    run(matches, parser).await
+async fn current_thread_flavour(config: Config, parser: CwParser) -> i32 {
+    run(config, parser).await
 }
 
 #[tokio::main]
-async fn multiple_threads_flavour(matches: ArgMatches, parser: Parser) -> i32 {
-    run(matches, parser).await
+async fn multiple_threads_flavour(config: Config, parser: CwParser) -> i32 {
+    run(config, parser).await
 }
 
-async fn run(matches: ArgMatches<'_>, parser: Parser) -> i32 {
-    if let Some(values) = matches.values_of("FILES") {
-        let vec = values
-            .map(ToString::to_string)
-            .map(Ok)
-            .collect::<Vec<std::io::Result<String>>>();
-        let stream = tokio_stream::iter(vec);
+async fn run(config: Config, parser: CwParser) -> i32 {
+    if !config.files.is_empty() {
+        let iterable = config.files.into_iter().map(Ok);
+        let stream = tokio_stream::iter(iterable);
         process_files(stream, parser).await
-    } else if matches.is_present("from-stdin") {
+    } else if config.from_stdin {
         let stdin = tokio::io::stdin();
         let buf = tokio::io::BufReader::new(stdin);
         let lines = tokio_stream::wrappers::LinesStream::new(buf.lines());
@@ -66,4 +77,15 @@ async fn run(matches: ArgMatches<'_>, parser: Parser) -> i32 {
     } else {
         process_stdin(parser).await
     }
+}
+
+fn main() -> ! {
+    let config: Config = Config::parse();
+    let parser = config_to_parser(&config);
+    let out_code = if config.multithread {
+        multiple_threads_flavour(config, parser)
+    } else {
+        current_thread_flavour(config, parser)
+    };
+    std::process::exit(out_code)
 }
