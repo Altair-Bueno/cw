@@ -1,19 +1,38 @@
+use std::option::Option::Some;
 use std::result::Result::Ok;
 
 use colored::Colorize;
-use tokio::io::AsyncWriteExt;
+use tokio::io::{AsyncBufReadExt, AsyncWriteExt};
+use tokio_stream::StreamExt;
 
 use libcw::Parser;
 use libcw::Stats;
-use std::option::Option::Some;
-use tokio_stream::StreamExt;
+use crate::Config;
 
 const TOTAL: &str = "total";
 const MAX_FILE_DESCRIPTORS: usize = 1024;
 
-pub async fn process_files<S>(mut list: S, parser: Parser) -> i32
-where
-    S: tokio_stream::Stream<Item = std::io::Result<String>> + Unpin + Send + Sync + 'static,
+/// Selects the right async runner depending on the arguments provided
+pub async fn run(config: Config, parser: Parser) -> i32 {
+    if !config.files.is_empty() {
+        let iterable = config.files.into_iter().map(Ok);
+        let stream = tokio_stream::iter(iterable);
+        run_files(stream, parser).await
+    } else if config.from_stdin {
+        let stdin = tokio::io::stdin();
+        let buf = tokio::io::BufReader::new(stdin);
+        let lines = tokio_stream::wrappers::LinesStream::new(buf.lines());
+        run_files(lines, parser).await
+    } else {
+        run_stdio(parser).await
+    }
+}
+
+
+/// Async runner for files
+async fn run_files<S>(mut list: S, parser: Parser) -> i32
+    where
+        S: tokio_stream::Stream<Item=std::io::Result<String>> + Unpin + Send + Sync + 'static,
 {
     let (s, mut r) = tokio::sync::mpsc::channel(MAX_FILE_DESCRIPTORS);
     let parser_clone = parser;
@@ -79,7 +98,8 @@ where
     code
 }
 
-pub async fn process_stdin(parser: Parser) -> i32 {
+/// Async runner for stdio
+async fn run_stdio(parser: Parser) -> i32 {
     let stdin = tokio::io::BufReader::new(tokio::io::stdin());
 
     let code = match parser.process(stdin).await {

@@ -51,7 +51,7 @@
 //! Although this crate is designed for minimal size and high throughput, a set
 //! of features is provided for crate compatibility
 //!
-//! - `tokio`: Enables async [Parser proccess](crate::Parser::proccess()) for
+//! - `tokio`: Enables async [Parser process](crate::Parser::process()) for
 //! the tokio runtime
 #![warn(missing_docs)]
 

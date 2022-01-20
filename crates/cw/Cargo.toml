@@ -1,7 +1,7 @@
 [package]
 name = "cw"
-version = "3.0.3"
-authors = ["Altair Bueno"]
+version = "3.1.0"
+authors = ["Altair Bueno <https://github.com/Altair-Bueno>"]
 edition = "2021"
 license = "MIT"
 description = "A rip off wc. Lines, words, character and byte count with column stats"
@@ -22,7 +22,7 @@ default-features=false
 optional = true
 
 [dependencies.tokio]
-version = "1.11.0"
+version = "1.15.0"
 features = [
   "rt",
   "rt-multi-thread",
@@ -33,7 +33,7 @@ features = [
 ]
 
 [dependencies.tokio-stream]
-version = "0.1.7"
+version = "0.1.8"
 features = ["io-util"]
 
 [dependencies.libcw]
@@ -41,11 +41,26 @@ path = "../libcw"
 features = ["tokio"]
 
 [dependencies.clap]
-version = "2.33.3"
+version = "3.0.8"
 default-features = false
-features = ["yaml", "color", "vec_map", "wrap_help"]
+features = [
+  "std",
+  "color",
+  "suggestions",
+  "derive",
+  "wrap_help"
+]
+
+[build-dependencies.clap_complete]
+version = "3.0.4"
 
 [build-dependencies.clap]
-version = "2.33.3"
+version = "3.0.8"
 default-features = false
-features = ["yaml", "color", "vec_map", "wrap_help"]
+features = [
+  "std",
+  "color",
+  "suggestions",
+  "derive",
+  "wrap_help"
+]
