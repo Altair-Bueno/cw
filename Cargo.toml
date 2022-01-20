@@ -6,6 +6,8 @@ members = [
 ]
 
 [profile.release]
+opt-level = 2
+debug = false
 lto = "fat"
 panic = 'abort'
 codegen-units = 1
