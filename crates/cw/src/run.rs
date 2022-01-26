@@ -60,11 +60,9 @@ async fn run_files<S>(mut list: S, parser: Parser) -> i32
     // stdio buffers
     let mut buff_stderr = tokio::io::BufWriter::new(tokio::io::stderr());
     let mut buff_stdout = tokio::io::BufWriter::new(tokio::io::stdout());
-    let s = format!(
-        "{} {}",
-        parser.to_string().as_str().blue(),
-        "File(s)\n".blue()
-    );
+    let parser_string_blue = parser.to_string().as_str().blue();
+    let files_blue = "File(s)\n".blue();
+    let s = format!("{parser_string_blue} {files_blue}");
     let _ = buff_stdout.write(s.as_bytes()).await;
 
     let mut code = 0;
@@ -75,12 +73,12 @@ async fn run_files<S>(mut list: S, parser: Parser) -> i32
             canary >>= 1;
             match result {
                 Ok(x) => {
-                    let s = format!("{}{}\n", x, path);
+                    let s = format!("{x}{path}\n");
                     let _ = buff_stdout.write(s.as_bytes()).await;
                     merged = merged.combine(x);
                 }
                 Err(err) => {
-                    let s = format!("{}: {}\n", path, err);
+                    let s = format!("{path}: {err}\n");
                     let _ = buff_stderr.write(s.as_bytes()).await;
                     code += 1;
                 }
@@ -91,7 +89,9 @@ async fn run_files<S>(mut list: S, parser: Parser) -> i32
     let _ = buff_stderr.flush().await;
     if canary == 0 {
         // Total files
-        let s = format!("{}{}\n", merged.to_string().as_str().green(), TOTAL.green());
+        let merged_string_green = merged.to_string().as_str().green();
+        let total_string_green = TOTAL.green();
+        let s = format!("{merged_string_green}{total_string_green}\n");
         let _ = buff_stdout.write(s.as_bytes()).await;
         let _ = buff_stdout.flush().await;
     }
@@ -102,16 +102,15 @@ async fn run_files<S>(mut list: S, parser: Parser) -> i32
 async fn run_stdio(parser: Parser) -> i32 {
     let stdin = tokio::io::BufReader::new(tokio::io::stdin());
 
-    let code = match parser.process(stdin).await {
+    match parser.process(stdin).await {
         Ok(stats) => {
-            println!("{}", parser.to_string().as_str().blue());
-            println!("{}stdin", stats);
+            let formated_parser =parser.to_string().as_str().blue();
+            println!("{formated_parser}\n{stats}stdin");
             0
         }
         Err(err) => {
-            eprintln!("{}", err);
+            eprintln!("{err}");
             1
         }
-    };
-    code
+    }
 }
