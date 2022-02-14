@@ -15,12 +15,19 @@ categories = ["filesystem", "text-processing"]
 [features]
 default=[]
 
+[lib]
+name = "libcw"
+crate-type = ["cdylib","staticlib","rlib"]
+
 [dependencies]
 
 [dependencies.tokio]
 version = "1.15.0"
 features = ["io-util"]
 optional = true
+
+[build-dependencies]
+cbindgen = "0.20.0"
 
 [dev-dependencies.tokio]
 version = "1.11.0"

@@ -10,6 +10,7 @@ const STR_UTF16: &str = "UTF16";
 /// Currently, cw only works with UTF8/ASCII (default) encoding, but support
 /// will be increased in the future
 #[derive(Copy, Clone, Debug)]
+#[repr(C)]
 pub enum Encoding {
     /// UTF-8 encoded text. It's the default setting for parsers
     UTF8,

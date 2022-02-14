@@ -9,6 +9,7 @@ const STR_LF: &str = "LF";
 /// Represents a set of supported line breaks for a [Parser](crate::Parser).
 /// Currently, it supports:
 #[derive(Clone, Copy, Debug)]
+#[repr(C)]
 pub enum LineBreak {
     /// Carriage return. Often used on old Macintosh systems
     /// - Unicode code: U+000D
