@@ -1,5 +1,9 @@
 //! Contains ABI definitions that allow Libcw to be called from The C
 //! Programming Language
+//!
+//! # Warning
+//!
+//! This module is only available if the feature `tokio` is disabled
 use std::ffi::CStr;
 use crate::{Parser, Stats as LibStats};
 use std::fs::File;
