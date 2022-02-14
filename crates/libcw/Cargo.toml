@@ -17,9 +17,7 @@ default=[]
 
 [lib]
 name = "libcw"
-crate-type = ["cdylib","staticlib"]      # Creates dynamic lib
-# crate-type = ["staticlib"] # Creates static lib
-
+crate-type = ["cdylib","staticlib","rlib"]
 
 [dependencies]
 
