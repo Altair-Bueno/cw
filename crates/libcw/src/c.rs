@@ -206,7 +206,6 @@ pub unsafe extern "C" fn process_slice(parser:*const Parser, ptr:*const c_uchar,
 ///
 /// - Code -1: Parser is null
 /// - Code -2: Stats is null
-/// - Code -3: The received string is not a valid Rust String Slice (see [str](std::str))
 /// - Code -5: The parser couldn't read the string
 #[no_mangle]
 pub unsafe extern "C" fn process_string(parser:*const Parser,ptr:*const c_char,out:*mut Stats) -> c_char {
@@ -214,12 +213,8 @@ pub unsafe extern "C" fn process_string(parser:*const Parser,ptr:*const c_char,o
     if out.is_null() {return -2};
 
     let c_str = CStr::from_ptr(ptr);
-    let result = c_str.to_str();
-    if result.is_err() {return -3};
 
-    let string = result.unwrap();
-
-    let result = (*parser).process(string.as_bytes());
+    let result = (*parser).process(c_str.to_bytes());
     if result.is_err() {return -5};
     *out = result.unwrap().into();
     0

@@ -225,7 +225,6 @@ char process_slice(const struct Parser *parser,
  *
  * - Code -1: Parser is null
  * - Code -2: Stats is null
- * - Code -3: The received string is not a valid Rust String Slice (see [str](std::str))
  * - Code -5: The parser couldn't read the string
  */
 char process_string(const struct Parser *parser,
