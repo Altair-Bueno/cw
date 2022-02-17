@@ -28,11 +28,18 @@ installed [`cargo`](https://doc.rust-lang.org/cargo/getting-started/installation
 on your system, run the following from the commandline:
 
 ```bash
-cargo install --git https://github.com/Altair-Bueno/cw.git
+git clone https://github.com/Altair-Bueno/cw.git
+cd cw
+cargo install --path crates/cw
 ```
 
 > Warning: This will install cw on `$HOME/.cargo/bin`. Ensure this location is
 > on your shell's `$PATH` variable by running `echo $PATH | grep '.cargo/bin'`
+
+## Competitions
+
+Shell competitions for Zsh, Bash, Fish, Elvish and PowerShell can be found under
+`target/release/build/cw-*/out`
 
 # Uninstalling
 
