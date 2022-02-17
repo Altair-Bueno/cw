@@ -1,6 +1,6 @@
 [package]
 name = "libcw"
-version = "3.0.1"
+version = "3.0.2"
 authors = ["Altair Bueno"]
 edition = "2021"
 license = "MIT"
@@ -22,7 +22,7 @@ crate-type = ["cdylib","staticlib","rlib"]
 [dependencies]
 
 [dependencies.tokio]
-version = "1.15.0"
+version = "1.17.0"
 features = ["io-util"]
 optional = true
 
@@ -30,7 +30,7 @@ optional = true
 cbindgen = "0.20.0"
 
 [dev-dependencies.tokio]
-version = "1.11.0"
+version = "1.17.0"
 features = ["io-util","fs", "macros","rt","rt-multi-thread"]
 
 [[example]]
