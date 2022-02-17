@@ -72,7 +72,7 @@ pub unsafe extern "C" fn new_stats()->*mut Stats {
 /// The received pointer will point to `NULL`
 #[no_mangle]
 pub unsafe extern "C" fn destroy_stats(stats:*mut *mut Stats){
-    if (*stats).is_null() {return;}
+    if stats.is_null() || (*stats).is_null() {return;}
     let _ = Box::from_raw(*stats);
     let null = std::ptr::null_mut();
     *stats = null;
@@ -117,9 +117,9 @@ pub unsafe extern "C" fn new_parser(
 /// The received pointer will point to `NULL`
 #[no_mangle]
 pub unsafe extern "C" fn destroy_parser(parser: *mut *mut Parser) {
-    if (*parser).is_null() {return;}
+    if parser.is_null() ||(*parser).is_null() {return;}
     let _ = Box::from_raw(*parser);
-    let null:*mut Parser = std::ptr::null_mut();
+    let null= std::ptr::null_mut();
     *parser = null;
 }
 
