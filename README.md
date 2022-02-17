@@ -1,4 +1,5 @@
 # cw
+
 <!-- cargo-sync-readme start -->
 
 cw (*count words*) is a faster alternative to classic GNU wc, written on pure
@@ -23,9 +24,9 @@ To learn more about this project, visit it's [GitHub repo](https://github.com/Al
 # Build and install cw from source (recommended)
 
 Because cw is written entirely on Rust, is as simple as using `cargo`. If you
-already have
-installed [`cargo`](https://doc.rust-lang.org/cargo/getting-started/installation.html)
-on your system, run the following from the commandline:
+already have installed
+[`cargo`](https://doc.rust-lang.org/cargo/getting-started/installation.html) on
+your system, run the following from the commandline:
 
 ```bash
 git clone https://github.com/Altair-Bueno/cw.git
@@ -36,10 +37,17 @@ cargo install --path crates/cw
 > Warning: This will install cw on `$HOME/.cargo/bin`. Ensure this location is
 > on your shell's `$PATH` variable by running `echo $PATH | grep '.cargo/bin'`
 
-## Competitions
+## Completions
 
-Shell competitions for Zsh, Bash, Fish, Elvish and PowerShell can be found under
+Shell completions for Zsh, Bash, Fish, Elvish and PowerShell can be found under
 `target/release/build/cw-*/out`
+
+```bash
+# zsh shell
+cp target/release/build/cw-*/out/completions/zsh/* /usr/local/share/zsh/site-functions
+# Fish
+cp target/release/build/cw-*/put/completions/fish/* /usr/local/share/fish/completions
+```
 
 # Uninstalling
 
@@ -55,15 +63,16 @@ The same functionality you'll expect from GNU wc, but with some extras. To see
 the full list of options, type `cw -h` or `cw --help`:
 
 ## `tokio`
+
 cw uses the high-performant library [`tokio`](https://tokio.rs/) for IO
-concurrency. This allows `cw` to parse a file while the operating system is 
+concurrency. This allows `cw` to parse a file while the operating system is
 loading another one.
 
-You can use the `--multithread` flag to force the multithread runtime flavour 
-from tokio. This is useful when you want `cw` to use all CPU cores for heavy 
+You can use the `--multithread` flag to force the multithread runtime flavour
+from tokio. This is useful when you want `cw` to use all CPU cores for heavy
 workloads
 
-> Bonus: `alias cm='cw --multithread'` for *count multithread*
+> Bonus: `alias cm='cw --multithread'` for _count multithread_
 
 ## Different encodings and Linebreaks
 
@@ -73,7 +82,7 @@ encoded correctly, although invalid encoded input is safely managed
 
 # Features
 
-To use any of these features, add them to the `--features "..."` list. For 
+To use any of these features, add them to the `--features "..."` list. For
 example:
 
 ```bash
@@ -88,8 +97,7 @@ See [BENCH.md](BENCH.md)
 
 # Wishlist
 
-- Full unicode support (eg process Z҉͈͓͈͎a̘͈̠̭l̨̯g̶̬͇̭o̝̹̗͎̙
-  ͟t͖̙̟̹͇̥̝͡e̥͘x͚̺̭̻͘t͉͔̩̲̘ correctly)
+- Full Unicode support (eg process Z҉͈͓͈͎a̘͈̠̭l̨̯g̶̬͇̭o̝̹̗͎̙ ͟t͖̙̟̹͇̥̝͡e̥͘x͚̺̭̻͘t͉͔̩̲̘ correctly)
 - UTF-16 encoding
 - Auto-detect file encoding
 - Make cw faster
