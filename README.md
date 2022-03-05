@@ -29,9 +29,11 @@ already have installed
 your system, run the following from the commandline:
 
 ```bash
+# Ensure rust's toolchain is up-to-date
+rustup update stable
 git clone https://github.com/Altair-Bueno/cw.git
 cd cw
-cargo install --path crates/cw
+cargo install --locked --path crates/cw
 ```
 
 > Warning: This will install cw on `$HOME/.cargo/bin`. Ensure this location is
