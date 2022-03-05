@@ -21,7 +21,9 @@ To learn more about this project, visit it's [GitHub repo](https://github.com/Al
 
 ![img.png](.github/readme/img.png)
 
-# Build and install cw from source (recommended)
+# Install cw
+
+## Build and install cw from source (recommended)
 
 Because cw is written entirely on Rust, is as simple as using `cargo`. If you
 already have installed
@@ -39,7 +41,7 @@ cargo install --locked --path crates/cw
 > Warning: This will install cw on `$HOME/.cargo/bin`. Ensure this location is
 > on your shell's `$PATH` variable by running `echo $PATH | grep '.cargo/bin'`
 
-## Completions
+### Completions
 
 Shell completions for Zsh, Bash, Fish, Elvish and PowerShell can be found under
 `target/release/build/cw-*/out`
@@ -51,13 +53,13 @@ cp target/release/build/cw-*/out/completions/zsh/* /usr/local/share/zsh/site-fun
 cp target/release/build/cw-*/put/completions/fish/* /usr/local/share/fish/completions
 ```
 
-# Uninstalling
+## Pre compiled artifacts
 
-Run this from the commandline
-
-```bash
-cargo uninstall cw
-```
+1. Download the artifact that matches your OS and architecture from the 
+   [releases page](https://github.com/Altair-Bueno/cw/releases/latest)
+2. Unzip the archive
+3. Move the binary to the desired destination folder. Make sure that your 
+   shell's `PATH` includes said folder
 
 # Options
 
