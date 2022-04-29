@@ -1,24 +1,35 @@
-name: Test
+name: Unit tests
 on:
   push:
-    branches: [ dev ]
+    branches: [ dev, 'feat/*' ]
   pull_request:
-    branches: [ master ]
-  # Manually run this workflow
-  workflow_dispatch:
+    branches: [ '*' ]
 env:
   CARGO_TERM_COLOR: always
   RUST_BACKTRACE: 1
 jobs:
-  build:
+  test:
+    name: Test for ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ "ubuntu-latest" ]
+        os: [ "ubuntu-latest", 'windows-latest', 'macos-latest' ]
 
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - run: rustup update
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key: ${{ matrix.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
       - uses: actions/checkout@v2
+      - name: Set up rust
+        uses: actions-rs/toolchain@v1
+        with:
+            toolchain: stable
       - name: Test
         run: cargo test
