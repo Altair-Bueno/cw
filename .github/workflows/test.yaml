@@ -21,6 +21,8 @@ jobs:
         features: [ " ", "serde", "tokio" ]
 
     steps:
+      - name: Disable autocrlf
+        run: git config --global core.autocrlf false
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/cache@v2
         with:
