@@ -1,6 +1,8 @@
 use std::cmp::max;
 use std::fmt::{Display, Formatter};
 use std::option::Option::Some;
+#[cfg(feature = "serde")]
+use serde::{Serialize};
 
 /// Represents a set of stats. Is used as an output value for [Parser's process](crate::Parser::process)
 /// method
@@ -14,11 +16,17 @@ use std::option::Option::Some;
 ///
 ///
 #[derive(Debug, Eq, PartialEq)]
+#[cfg_attr(feature = "serde",derive(Serialize))]
 pub struct Stats {
+    #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
     lines: Option<usize>,
+    #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
     words: Option<usize>,
+    #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
     characters: Option<usize>,
+    #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
     bytes: Option<usize>,
+    #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
     length: Option<usize>,
     //columns: Columns,
 }
@@ -154,5 +162,20 @@ impl Stats {
     /// Changes the stored byte count for these stats
     pub fn set_length(&mut self, legth: Option<usize>) {
         self.length = legth;
+    }
+}
+
+#[cfg(all(test,feature = "serde"))]
+mod serde_test {
+    use crate::Stats;
+
+    #[test]
+    pub fn example_stats_generates_expected_json() {
+        let stats = Stats::new(Some(0),Some(10),None,None,None);
+        let expected = r#"{"lines":0,"words":10}"#;
+
+        let json = serde_json::to_string(&stats).unwrap();
+
+        assert_eq!(expected,json)
     }
 }

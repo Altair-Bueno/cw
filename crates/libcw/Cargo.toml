@@ -1,6 +1,6 @@
 [package]
 name = "libcw"
-version = "3.1.0"
+version = "3.1.1"
 authors = ["Altair Bueno"]
 edition = "2021"
 license = "MIT"
@@ -25,6 +25,14 @@ crate-type = ["rlib","staticlib"]
 version = "1.17.0"
 features = ["io-util"]
 optional = true
+
+[dependencies.serde]
+version = "1.0"
+features = ["derive"]
+optional = true
+
+[dev-dependencies]
+serde_json = "1.0.79"
 
 [build-dependencies]
 cbindgen = "0.20.0"
