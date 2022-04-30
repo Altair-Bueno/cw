@@ -15,7 +15,7 @@ use serde::{Serialize};
 /// - Max line length
 ///
 ///
-#[derive(Debug, Eq, PartialEq)]
+#[derive(Debug, Eq, PartialEq, Clone)]
 #[cfg_attr(feature = "serde",derive(Serialize))]
 pub struct Stats {
     #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
