@@ -1,6 +1,6 @@
 [package]
 name = "cw"
-version = "3.2.0"
+version = "3.3.0"
 authors = ["Altair Bueno <https://github.com/Altair-Bueno>"]
 edition = "2021"
 license = "MIT"
