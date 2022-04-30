@@ -9,13 +9,20 @@ env:
   RUST_BACKTRACE: 1
 jobs:
   test:
-    name: Test for ${{ matrix.os }}
+    name: |
+      name: cargo unit test
+      os: ${{ matrix.os }}
+      features: ${{ matrix.features }}
+
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [ "ubuntu-latest", 'windows-latest', 'macos-latest' ]
+        features: [ " ", "serde", "tokio" ]
 
     steps:
+      - name: Disable autocrlf
+        run: git config --global core.autocrlf false
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/cache@v2
         with:
@@ -32,4 +39,4 @@ jobs:
         with:
             toolchain: stable
       - name: Test
-        run: cargo test
+        run: cargo test "--features=${{ matrix.features }}"
