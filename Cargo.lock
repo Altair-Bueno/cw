@@ -12,6 +12,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "async-trait"
+version = "0.1.53"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ed6aa3524a2dfcf9fe180c51eae2b58738348d819517ceadf95789c51fff7600"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn",
+]
+
+[[package]]
 name = "atty"
 version = "0.2.14"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -141,11 +152,14 @@ dependencies = [
 name = "cw"
 version = "3.2.0"
 dependencies = [
+ "async-trait",
  "clap 3.1.5",
  "clap_complete",
  "colored",
  "libcw",
  "mimalloc",
+ "serde",
+ "serde_json",
  "tokio",
  "tokio-stream",
 ]
@@ -234,7 +248,7 @@ checksum = "1bf2e165bb3457c8e098ea76f3e3bc9db55f87aa90d52d0e6be741470916aaa4"
 
 [[package]]
 name = "libcw"
-version = "3.1.1"
+version = "3.2.0"
 dependencies = [
  "cbindgen",
  "serde",

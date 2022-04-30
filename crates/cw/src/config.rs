@@ -63,6 +63,12 @@ pub struct Config {
     #[clap(short, long, default_value_t)]
     pub encoding: Encoding,
 
+    /// JSON output
+    ///
+    /// Print results on JavaScript Object Notation
+    #[clap(long)]
+    pub json: bool,
+
     /// List of input files to analyze
     ///
     /// If no file is provided, cw will default to stdin input. Conflicts with

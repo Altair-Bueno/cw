@@ -15,6 +15,8 @@ build = "build.rs"
 
 [dependencies]
 colored = "2.0.0"
+async-trait = "0.1.53"
+serde_json = "1.0.79"
 
 [dependencies.mimalloc]
 version = "0.1.28"
@@ -38,7 +40,7 @@ features = ["io-util"]
 
 [dependencies.libcw]
 path = "../libcw"
-features = ["tokio"]
+features = ["tokio","serde"]
 
 [dependencies.clap]
 version = "3.1.0"
@@ -50,6 +52,10 @@ features = [
   "derive",
   "wrap_help"
 ]
+
+[dependencies.serde]
+version = "1.0"
+features = ["derive"]
 
 [build-dependencies.clap_complete]
 version = "3.1.0"
