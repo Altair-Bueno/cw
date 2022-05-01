@@ -6,26 +6,32 @@ use crate::Parser;
 use tokio::io::{AsyncBufRead, AsyncBufReadExt, AsyncReadExt};
 
 impl Parser {
-    /// The process method takes in a [BufRead](tokio::io::BufRead) instance
-    /// that is read for yielding results. If the BufRead instance cannot be
-    /// read this will yield the corresponding error
-    /// ```ignore
-    /// # use libcw::Parser;
-    /// # use libcw::config::{Encoding, LineBreak};
-    /// use tokio::io::BufReader;
-    /// use tokio::fs::File;
+    /// `process` exhausts a [`AsyncReadExt`](tokio::io::AsyncReadExt) object and returns
+    /// the resulting [`Stats`](crate::Stats)
     ///
-    /// # use std::io;
-    /// # fn main() -> io::Result<()> {
-    /// let parser = Parser::new(
-    ///     Encoding::UTF8,
-    ///     LineBreak::LF,
-    ///     true,true,true,true,true
-    /// );
-    /// let read = BufReader::new(File::open("foo.txt").await?);
-    /// let stats_from_read = parser.proccess(read).await;
-    /// # Ok(())
-    /// # }
+    /// # Errors
+    ///
+    /// Any error returned by the [`AsyncReadExt`](tokio::io::AsyncReadExt) object will be
+    /// returned to the caller
+    ///
+    /// # Features
+    ///
+    /// If the `tokio` feature is disabled, the exposed API will be blocking
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// use libcw::Parser;
+    /// use libcw::config::{Encoding, LineBreak};
+    ///
+    /// #[tokio::main]
+    /// async fn main() {
+    ///     let parser = Parser::default();
+    ///     let data = b"Some large byte stream";
+    ///     let stats = parser.process(data.as_slice()).await.unwrap();
+    ///
+    ///     assert_eq!(Some(data.len()),stats.bytes())
+    /// }
     /// ```
     pub async fn process<R>(&self, reader: R) -> std::io::Result<Stats>
     where

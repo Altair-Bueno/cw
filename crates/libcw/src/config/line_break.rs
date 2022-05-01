@@ -6,8 +6,7 @@ use crate::config::LineBreak::*;
 const STR_CR: &str = "CR";
 const STR_LF: &str = "LF";
 
-/// Represents a set of supported line breaks for a [Parser](crate::Parser).
-/// Currently, it supports:
+/// Represents a set of supported line breaks for [`Parser`](crate::Parser).
 #[derive(Clone, Copy, Debug)]
 #[repr(C)]
 pub enum LineBreak {
