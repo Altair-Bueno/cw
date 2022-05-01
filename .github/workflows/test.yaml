@@ -1,7 +1,7 @@
 name: Unit tests
 on:
   push:
-    branches: [ dev, 'feat/*' ]
+    branches: [ dev, 'feat/*', 'doc/*' ]
   pull_request:
     branches: [ '*' ]
 env:
