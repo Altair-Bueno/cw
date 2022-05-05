@@ -4,17 +4,16 @@ use std::option::Option::Some;
 #[cfg(feature = "serde")]
 use serde::{Serialize};
 
-/// Represents a set of stats. Is used as an output value for [Parser's process](crate::Parser::process)
-/// method
+/// Represents a set of stats. Is used as an output value for
+/// [Parser's process](crate::Parser::process) method
 ///
 /// # Supported stats list
+///
 /// - Number of lines
 /// - Number of words
 /// - Number of characters
 /// - Number of bytes
 /// - Max line length
-///
-///
 #[derive(Debug, Eq, PartialEq, Clone)]
 #[cfg_attr(feature = "serde",derive(Serialize))]
 pub struct Stats {
@@ -72,9 +71,7 @@ impl Display for Stats {
 }
 
 impl Stats {
-    /// Creates a new `Stats` struct with the given information. This method
-    /// is provided as a convenience for writing tests and shouldn't be called
-    /// unless there is a good reason for it
+    /// Creates a new `Stats` struct with the given stats.
     pub fn new(
         lines: Option<usize>,
         words: Option<usize>,

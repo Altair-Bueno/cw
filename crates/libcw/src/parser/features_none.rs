@@ -6,25 +6,29 @@ use crate::{Parser, Stats};
 use std::io::BufRead;
 
 impl Parser {
-    /// The process method takes in a [BufRead](std::io::BufRead) instance
-    /// that is read for yielding results. If the BufRead instance cannot be
-    /// read this will yield the corresponding error
-    /// ```no_run
-    /// # use libcw::Parser;
-    /// # use libcw::config::{Encoding, LineBreak};
-    /// # use std::io::BufReader;
-    /// # use std::fs::File;
-    /// # use std::io;
-    /// # fn main() -> io::Result<()> {
-    /// let parser = Parser::new(
-    ///     Encoding::UTF8,
-    ///     LineBreak::LF,
-    ///     true,true,true,true,true
-    /// );
-    /// let read = BufReader::new(File::open("foo.txt")?);
-    /// let stats_from_read = parser.process(read);
-    /// # Ok(())
-    /// # }
+    /// `process` exhausts a [`BufRead`](std::io::BufRead) object and returns
+    /// the resulting [`Stats`](crate::Stats)
+    ///
+    /// # Errors
+    ///
+    /// Any error returned by the [`BufRead`](std::io::BufRead) object will be
+    /// returned to the caller
+    ///
+    /// # Features
+    ///
+    /// If the `tokio` feature is enabled, the exposed API will be asynchronous
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// use libcw::Parser;
+    /// use libcw::config::{Encoding, LineBreak};
+    ///
+    /// let parser = Parser::default();
+    /// let data = b"Some large byte stream";
+    /// let stats = parser.process(data.as_slice()).unwrap();
+    ///
+    /// assert_eq!(Some(data.len()),stats.bytes())
     /// ```
     pub fn process<R: BufRead + Sized>(&self, reader: R) -> std::io::Result<Stats> {
         match self.encoding {

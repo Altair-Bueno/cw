@@ -6,13 +6,11 @@ use crate::config::Encoding::*;
 const STR_UTF8: &str = "UTF8";
 const STR_UTF16: &str = "UTF16";
 
-/// Represents a set of supported encodings for a [Parser](crate::Parser).
-/// Currently, cw only works with UTF8/ASCII (default) encoding, but support
-/// will be increased in the future
+/// Represents a set of supported encodings for a [`Parser`](crate::Parser).
 #[derive(Copy, Clone, Debug)]
 #[repr(C)]
 pub enum Encoding {
-    /// UTF-8 encoded text. It's the default setting for parsers
+    /// UTF-8 encoded text, the default setting for [`Parser`](crate::Parser)
     UTF8,
     /// UTF-16 encoded text
     UTF16,

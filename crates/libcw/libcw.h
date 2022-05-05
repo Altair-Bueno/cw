@@ -6,13 +6,11 @@
 #include <stdlib.h>
 
 /**
- * Represents a set of supported encodings for a [Parser](crate::Parser).
- * Currently, cw only works with UTF8/ASCII (default) encoding, but support
- * will be increased in the future
+ * Represents a set of supported encodings for a [`Parser`](crate::Parser).
  */
 typedef enum Encoding {
   /**
-   * UTF-8 encoded text. It's the default setting for parsers
+   * UTF-8 encoded text, the default setting for [`Parser`](crate::Parser)
    */
   UTF8,
   /**
@@ -22,8 +20,7 @@ typedef enum Encoding {
 } Encoding;
 
 /**
- * Represents a set of supported line breaks for a [Parser](crate::Parser).
- * Currently, it supports:
+ * Represents a set of supported line breaks for [`Parser`](crate::Parser).
  */
 typedef enum LineBreak {
   /**
@@ -43,35 +40,10 @@ typedef enum LineBreak {
 
 /**
  * Parser is libcw's main component. It provides abstractions over the
- * different counters contained inside this crate. It has an easy-to-use
- * interface API that results on a [Stats](crate::Stats) instance with the
- * yielded results
+ * different counters contained inside this crate. To learn more how to use
+ * `Parser` read [`Parser::process`](crate::Parser::process)
  *
- * # Default search configuration
- *
- * - lines
- * - words
- * - bytes
- *
- * # Example
- *
- * ```ignore
- * # use libcw::Parser;
- * # use libcw::config::{Encoding, LineBreak};
- * # use std::io::BufReader;
- * # use std::fs::File;
- * # use std::io;
- * # fn main() -> io::Result<()> {
- * let parser = Parser::new(
- *     Encoding::UTF8,
- *     LineBreak::LF,
- *     true,true,true,true,true
- * );
- * let read = BufReader::new(File::open("foo.txt")?);
- * let stats_from_read = parser.process(read);
- * # Ok(())
- * # }
- * ```
+ * The default `Parser` configuration will count **lines**, **words** and **characters**
  */
 typedef struct Parser Parser;
 

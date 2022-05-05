@@ -1,4 +1,4 @@
-//! Contains configuration enums for creating [Parser](crate::Parser) instances.
+//! Contains configuration enums for [`Parser`](crate::Parser)
 
 pub use encoding::Encoding;
 pub use line_break::LineBreak;

@@ -17,35 +17,10 @@ pub mod tokio;
 const BUFFER_SIZE: usize = 16 * 1024; // 8KB
 
 /// Parser is libcw's main component. It provides abstractions over the
-/// different counters contained inside this crate. It has an easy-to-use
-/// interface API that results on a [Stats](crate::Stats) instance with the
-/// yielded results
+/// different counters contained inside this crate. To learn more how to use
+/// `Parser` read [`Parser::process`](crate::Parser::process)
 ///
-/// # Default search configuration
-///
-/// - lines
-/// - words
-/// - bytes
-///
-/// # Example
-///
-/// ```ignore
-/// # use libcw::Parser;
-/// # use libcw::config::{Encoding, LineBreak};
-/// # use std::io::BufReader;
-/// # use std::fs::File;
-/// # use std::io;
-/// # fn main() -> io::Result<()> {
-/// let parser = Parser::new(
-///     Encoding::UTF8,
-///     LineBreak::LF,
-///     true,true,true,true,true
-/// );
-/// let read = BufReader::new(File::open("foo.txt")?);
-/// let stats_from_read = parser.process(read);
-/// # Ok(())
-/// # }
-/// ```
+/// The default `Parser` configuration will count **lines**, **words** and **characters**
 #[derive(Default, Copy, Clone, Debug)]
 pub struct Parser {
     initial_state: State,
