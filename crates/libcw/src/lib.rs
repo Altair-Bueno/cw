@@ -31,6 +31,7 @@
 //!
 //! - `tokio`: Enables async [Parser process](crate::Parser::process()) for
 //! the tokio runtime
+//! - `serde`: Enables serde serialization of [Stats](crate::Stats)
 #![warn(missing_docs)]
 
 pub use parser::Parser;

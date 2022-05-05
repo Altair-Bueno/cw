@@ -21,21 +21,7 @@ To use `libcw` on your project, add this to your `Cargo.toml` file
 - Selected encoding is used everywhere, even on `max line length`
 
 # Usage
-To count words, you need some kind of [BufRead](std::io::BufRead) instance,
-from which a Parser will read. To get started, set up your [Parser](crate::Parser)
-instance with the desired configuration and call the `compute` method to
-obtain the results
-
-```rust
-let parser = Parser::new(
-    Encoding::UTF8,
-    LineBreak::LF,
-    // lines, words, chars, bytes, max-line-length
-    true,true,true,true,true
-);
-let read = BufReader::new(File::open("foo.txt")?);
-let stats_from_read = parser.process(read);
-```
+`libcw`'s API is exposed through the [`Parser`](crate::Parser) module
 
 # Performance
 See this repo [BENCH.md](https://github.com/Altair-Bueno/cw/blob/master/BENCH.md)
@@ -47,6 +33,7 @@ of features is provided for crate compatibility
 
 - `tokio`: Enables async [Parser process](crate::Parser::process\(\)) for
 the tokio runtime
+- `serde`: Enables serde serialization of [Stats](crate::Stats)
 
 <!-- cargo-sync-readme end -->
 

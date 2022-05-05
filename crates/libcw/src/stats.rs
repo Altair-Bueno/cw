@@ -71,9 +71,7 @@ impl Display for Stats {
 }
 
 impl Stats {
-    /// Creates a new `Stats` struct with the given information. This method
-    /// is provided as a convenience for writing tests and shouldn't be called
-    /// unless there is a good reason for it
+    /// Creates a new `Stats` struct with the given stats.
     pub fn new(
         lines: Option<usize>,
         words: Option<usize>,
