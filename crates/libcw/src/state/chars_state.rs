@@ -71,237 +71,47 @@ impl Compute for CharState {
 
 #[cfg(test)]
 mod test {
-    mod utf16 {
-        use crate::state::chars_state::CharState;
-        use crate::state::traits::compute::Compute;
-        use crate::state::traits::partial_state::PartialState;
+    use rstest::*;
+    use speculoos::assert_that;
 
-        #[test]
-        pub fn test1() {
-            let s: Vec<u8> = "hello world"
-                .encode_utf16()
-                .flat_map(|x| x.to_be_bytes())
-                .collect();
-            let out = CharState::new().utf16_compute(s.as_slice()).output();
-            assert_eq!(out, 11)
-        }
+    use crate::state::chars_state::CharState;
+    use crate::state::traits::compute::Compute;
+    use crate::state::traits::partial_state::PartialState;
 
-        #[test]
-        pub fn test2() {
-            let s: Vec<u8> = "".encode_utf16().flat_map(|x| x.to_be_bytes()).collect();
-            let out = CharState::new().utf16_compute(s.as_slice()).output();
-            assert_eq!(out, 0)
-        }
-
-        #[test]
-        pub fn test3() {
-            let s: Vec<u8> = "a".encode_utf16().flat_map(|x| x.to_be_bytes()).collect();
-            let out = CharState::new().utf16_compute(s.as_slice()).output();
-            assert_eq!(out, 1)
-        }
-
-        #[test]
-        pub fn test4() {
-            let s: Vec<u8> = "as".encode_utf16().flat_map(|x| x.to_be_bytes()).collect();
-            let out = CharState::new().utf16_compute(s.as_slice()).output();
-            assert_eq!(out, 2)
-        }
-
-        #[test]
-        pub fn test5() {
-            let s: Vec<u8> = "asfasfweefa sdf asfas"
-                .encode_utf16()
-                .flat_map(|x| x.to_be_bytes())
-                .collect();
-            let out = CharState::new().utf16_compute(s.as_slice()).output();
-            assert_eq!(out, 21)
-        }
-
-        #[test]
-        pub fn test6() {
-            let s: Vec<u8> = "ñ".encode_utf16().flat_map(|x| x.to_be_bytes()).collect();
-            let out = CharState::new().utf16_compute(s.as_slice()).output();
-            assert_eq!(out, 1)
-        }
-
-        #[test]
-        pub fn test7() {
-            let s: Vec<u8> = "ó".encode_utf16().flat_map(|x| x.to_be_bytes()).collect();
-            let out = CharState::new().utf16_compute(s.as_slice()).output();
-            assert_eq!(out, 1)
-        }
-
-        #[test]
-        pub fn test8() {
-            let out = CharState::new()
-                .utf16_compute(
-                    "ó".encode_utf16()
-                        .flat_map(|x| x.to_be_bytes())
-                        .collect::<Vec<u8>>()
-                        .as_slice(),
-                )
-                .utf16_compute(
-                    "ñ".encode_utf16()
-                        .flat_map(|x| x.to_be_bytes())
-                        .collect::<Vec<u8>>()
-                        .as_slice(),
-                )
-                .utf16_compute(
-                    "assdfas"
-                        .encode_utf16()
-                        .flat_map(|x| x.to_be_bytes())
-                        .collect::<Vec<u8>>()
-                        .as_slice(),
-                )
-                .output();
-            assert_eq!(out, 9)
-        }
+    #[fixture]
+    fn char_state() -> CharState {
+        CharState::new()
     }
 
-    mod utf8 {
-        use std::fs::File;
-        use std::io::{BufReader, Read};
+    #[rstest]
+    #[case("", 0)]
+    #[case(" ", 1)]
+    #[case("ñ", 1)]
+    #[case("/", 1)]
+    #[case("hello", 5)]
+    #[case("ñó", 2)]
+    #[trace]
+    fn utf8_contains_the_expected_amount_of_characters(char_state: CharState, #[case] string: &str, #[case] expected: usize) {
+        let utf8_encoded = string.as_bytes();
 
-        use crate::state::chars_state::CharState;
-        use crate::state::traits::{compute::Compute, partial_state::PartialState};
+        let obtained = char_state.utf8_compute(utf8_encoded).output();
 
-        #[test]
-        pub fn test1() {
-            let s = "hello world".as_bytes();
-            let out = CharState::new().utf8_compute(s).output();
-            assert_eq!(out, 11)
-        }
+        assert_that!(obtained).is_equal_to(expected)
+    }
 
-        #[test]
-        pub fn test2() {
-            let s = "".as_bytes();
-            let out = CharState::new().utf8_compute(s).output();
-            assert_eq!(out, 0)
-        }
+    #[rstest]
+    #[case("", 0)]
+    #[case(" ", 1)]
+    #[case("ñ", 1)]
+    #[case("/", 1)]
+    #[case("hello", 5)]
+    #[case("ñó", 2)]
+    #[trace]
+    fn utf16be_contains_the_expected_amount_of_characters(char_state: CharState, #[case] string: &str, #[case] expected: usize) {
+        let utf16_encoded: Vec<_> = string.encode_utf16().flat_map(|x| x.to_be_bytes()).collect();
 
-        #[test]
-        pub fn test3() {
-            let s = "a".as_bytes();
-            let out = CharState::new().utf8_compute(s).output();
-            assert_eq!(out, 1)
-        }
+        let obtained = char_state.utf16_compute(utf16_encoded.as_slice()).output();
 
-        #[test]
-        pub fn test4() {
-            let s = "as".as_bytes();
-            let out = CharState::new().utf8_compute(s).output();
-            assert_eq!(out, 2)
-        }
-
-        #[test]
-        pub fn test5() {
-            let s = "asfasfweefa sdf asfas".as_bytes();
-            let out = CharState::new().utf8_compute(s).output();
-            assert_eq!(out, 21)
-        }
-
-        #[test]
-        pub fn test6() {
-            let s = "ñ".as_bytes();
-            let out = CharState::new().utf8_compute(s).output();
-            assert_eq!(out, 1)
-        }
-
-        #[test]
-        pub fn test7() {
-            let s = "ó".as_bytes();
-            let out = CharState::new().utf8_compute(s).output();
-            assert_eq!(out, 1)
-        }
-
-        #[test]
-        pub fn test8() {
-            let out = CharState::new()
-                .utf8_compute("ó".as_bytes())
-                .utf8_compute("ñ".as_bytes())
-                .utf8_compute("assdfas".as_bytes())
-                .output();
-            assert_eq!(out, 9)
-        }
-
-        // Test on files
-        fn process_file_test(f: &str) -> usize {
-            let mut reader = BufReader::new(File::open(f).unwrap());
-
-            let mut state = CharState::new();
-            let mut buff = [0; 1024];
-            loop {
-                let read = reader.read(&mut buff).unwrap();
-                if read == 0 {
-                    return state.output();
-                }
-                state = state.utf8_compute(&buff[0..read]);
-            }
-        }
-
-        #[test]
-        fn gabriel() {
-            let out = process_file_test("resources/utf8/Gabriel.txt");
-            let expected = 2694;
-            assert_eq!(out, expected)
-        }
-
-        #[test]
-        fn lorem() {
-            let out = process_file_test("resources/utf8/Lorem_big.txt");
-            assert_eq!(out, 751539)
-        }
-
-        #[test]
-        fn s1() {
-            let out = process_file_test("resources/utf8/sample1.txt");
-            assert_eq!(out, 607)
-        }
-
-        #[test]
-        fn s2() {
-            let out = process_file_test("resources/utf8/sample2.txt");
-            assert_eq!(out, 2859)
-        }
-
-        #[test]
-        fn s3() {
-            let out = process_file_test("resources/utf8/sample3.txt");
-            assert_eq!(out, 3541)
-        }
-
-        #[test]
-        fn small() {
-            let out = process_file_test("resources/utf8/small.txt");
-            assert_eq!(out, 18)
-        }
-
-        #[test]
-        fn empty() {
-            let out = process_file_test("resources/utf8/empty.txt");
-            assert_eq!(out, 0)
-        }
-
-        #[test]
-        fn arabic() {
-            // - Length isn't 0
-            // - test weird
-            let out = process_file_test("resources/utf8/arabic.txt");
-            let expected = 58;
-            assert_eq!(out, expected)
-        }
-
-        #[test]
-        fn spanish() {
-            let out = process_file_test("resources/utf8/spanish.txt");
-            let expected = 19;
-            assert_eq!(out, expected)
-        }
-
-        #[test]
-        fn french() {
-            let out = process_file_test("resources/utf8/french.txt");
-            assert_eq!(out, 58)
-        }
+        assert_that!(obtained).is_equal_to(expected)
     }
 }
