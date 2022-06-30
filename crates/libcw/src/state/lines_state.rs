@@ -62,279 +62,80 @@ impl Compute for LinesState {
 
 #[cfg(test)]
 mod test {
-    mod utf16 {
-        use crate::config::LineBreak;
-        use crate::state::lines_state::LinesState;
-        use crate::state::traits::{compute::Compute, partial_state::PartialState};
+    use rstest::*;
+    use speculoos::assert_that;
 
-        #[test]
-        pub fn test1() {
-            let line = "hello world"
-                .encode_utf16()
-                .flat_map(u16::to_be_bytes)
-                .collect::<Vec<u8>>();
-            let out = LinesState::new(LineBreak::LF);
-            let line = line.as_slice();
-            let out = out.utf16_compute(line);
-            let out = out.output();
-            assert_eq!(out, 0)
-        }
+    use crate::config::LineBreak;
+    use crate::state::lines_state::LinesState;
+    use crate::state::traits::compute::Compute;
+    use crate::state::traits::partial_state::PartialState;
 
-        #[test]
-        pub fn test2() {
-            let line = ""
-                .encode_utf16()
-                .flat_map(u16::to_be_bytes)
-                .collect::<Vec<u8>>();
-            let out = LinesState::new(LineBreak::LF)
-                .utf16_compute(line.as_slice())
-                .output();
-            assert_eq!(out, 0)
-        }
-
-        #[test]
-        pub fn test3() {
-            let line = "\n"
-                .encode_utf16()
-                .flat_map(u16::to_be_bytes)
-                .collect::<Vec<u8>>();
-            let out = LinesState::new(LineBreak::LF)
-                .utf16_compute(line.as_slice())
-                .output();
-            assert_eq!(out, 1)
-        }
-
-        #[test]
-        pub fn test4() {
-            let line = "hello\n"
-                .encode_utf16()
-                .flat_map(u16::to_be_bytes)
-                .collect::<Vec<u8>>();
-            let out = LinesState::new(LineBreak::LF)
-                .utf16_compute(line.as_slice())
-                .output();
-            assert_eq!(out, 1)
-        }
-
-        #[test]
-        pub fn test5() {
-            let line = "hello\nworld"
-                .encode_utf16()
-                .flat_map(u16::to_be_bytes)
-                .collect::<Vec<u8>>();
-            let out = LinesState::new(LineBreak::LF)
-                .utf16_compute(line.as_slice())
-                .output();
-            assert_eq!(out, 1)
-        }
-
-        #[test]
-        pub fn test6() {
-            let line = "\nworld"
-                .encode_utf16()
-                .flat_map(u16::to_be_bytes)
-                .collect::<Vec<u8>>();
-            let out = LinesState::new(LineBreak::LF)
-                .utf16_compute(line.as_slice())
-                .output();
-            assert_eq!(out, 1)
-        }
-
-        #[test]
-        pub fn test7() {
-            let line = "\nèô,sdfa"
-                .encode_utf16()
-                //.inspect(|x| println!("{:#x}",x))
-                .flat_map(u16::to_be_bytes)
-                .collect::<Vec<u8>>();
-            //line.iter().for_each(|x| println!("{:#02x}",x));
-            let out = LinesState::new(LineBreak::LF)
-                .utf16_compute(line.as_slice())
-                .output();
-            assert_eq!(out, 1)
-        }
-
-        #[test]
-        pub fn test8() {
-            let s1 = "helloworld"
-                .encode_utf16()
-                .flat_map(u16::to_be_bytes)
-                .collect::<Vec<u8>>();
-            let s2 = "jksajksfjas a jkasjf da \n"
-                .encode_utf16()
-                .flat_map(u16::to_be_bytes)
-                .collect::<Vec<u8>>();
-            let s3 = "\nsajisffajsjdfasf"
-                .encode_utf16()
-                .flat_map(u16::to_be_bytes)
-                .collect::<Vec<u8>>();
-            let s4 = "hasisdaoasfo"
-                .encode_utf16()
-                .flat_map(u16::to_be_bytes)
-                .collect::<Vec<u8>>();
-            let out = LinesState::new(LineBreak::LF)
-                .utf16_compute(s1.as_slice())
-                .utf16_compute(s2.as_slice())
-                .utf16_compute(s3.as_slice())
-                .utf16_compute(s4.as_slice())
-                .output();
-            assert_eq!(out, 2)
-        }
+    #[fixture]
+    fn lines_state(#[default(LineBreak::LF)] linebreak: LineBreak) -> LinesState {
+        LinesState::new(linebreak)
     }
 
-    mod utf8 {
-        use std::fs::File;
-        use std::io::{BufReader, Read};
+    #[rstest]
+    #[case("", 0)]
+    #[case("Hello world", 0)]
+    #[case("This is some \n long text", 1)]
+    #[case("\n", 1)]
+    #[case("\n\n", 2)]
+    #[case(" \n", 1)]
+    #[trace]
+    fn utf8_lf_contains_the_expected_amount_of_line_breaks(lines_state: LinesState, #[case] string: &str, #[case] expected: usize) {
+        let utf8_encoded = string.as_bytes();
 
-        use crate::config::LineBreak;
-        use crate::state::lines_state::LinesState;
-        use crate::state::traits::{compute::Compute, partial_state::PartialState};
+        let obtained = lines_state.utf8_compute(utf8_encoded).output();
 
-        #[test]
-        pub fn test1() {
-            let line = "hello world".as_bytes();
-            let out = LinesState::new(LineBreak::LF).utf8_compute(line).output();
-            assert_eq!(out, 0)
-        }
+        assert_that!(obtained).is_equal_to(expected)
+    }
 
-        #[test]
-        pub fn test2() {
-            let line = "".as_bytes();
-            let out = LinesState::new(LineBreak::LF).utf8_compute(line).output();
-            assert_eq!(out, 0)
-        }
+    #[rstest]
+    #[case("", 0)]
+    #[case("Hello world", 0)]
+    #[case("This is some \n long text", 1)]
+    #[case("\n", 1)]
+    #[case("\n\n", 2)]
+    #[case(" \n", 1)]
+    #[trace]
+    fn utf16be_lf_contains_the_expected_amount_of_line_breaks(lines_state: LinesState, #[case] string: &str, #[case] expected: usize) {
+        let utf16_encoded: Vec<_> = string.encode_utf16().flat_map(|x| x.to_be_bytes()).collect();
 
-        #[test]
-        pub fn test3() {
-            let line = "\n".as_bytes();
-            let out = LinesState::new(LineBreak::LF).utf8_compute(line).output();
-            assert_eq!(out, 1)
-        }
+        let obtained = lines_state.utf8_compute(utf16_encoded.as_slice()).output();
 
-        #[test]
-        pub fn test4() {
-            let line = "hello\n".as_bytes();
-            let out = LinesState::new(LineBreak::LF).utf8_compute(line).output();
-            assert_eq!(out, 1)
-        }
+        assert_that!(obtained).is_equal_to(expected)
+    }
 
-        #[test]
-        pub fn test5() {
-            let line = "hello\nworld".as_bytes();
-            let out = LinesState::new(LineBreak::LF).utf8_compute(line).output();
-            assert_eq!(out, 1)
-        }
+    #[rstest]
+    #[case("", 0)]
+    #[case("Hello world\r", 1)]
+    #[case("This is some \n long text", 0)]
+    #[case("\r", 1)]
+    #[case("\r\n", 1)]
+    #[case(" \r", 1)]
+    #[trace]
+    fn utf8_cr_contains_the_expected_amount_of_line_breaks(#[with(LineBreak::CR)] lines_state: LinesState, #[case] string: &str, #[case] expected: usize) {
+        let utf8_encoded = string.as_bytes();
 
-        #[test]
-        pub fn test6() {
-            let line = "\nworld".as_bytes();
-            let out = LinesState::new(LineBreak::LF).utf8_compute(line).output();
-            assert_eq!(out, 1)
-        }
+        let obtained = lines_state.utf8_compute(utf8_encoded).output();
 
-        #[test]
-        pub fn test7() {
-            let line = "\nèô,sdfa".as_bytes();
-            let out = LinesState::new(LineBreak::LF).utf8_compute(line).output();
-            assert_eq!(out, 1)
-        }
+        assert_that!(obtained).is_equal_to(expected)
+    }
 
-        #[test]
-        pub fn test8() {
-            let out = LinesState::new(LineBreak::LF)
-                .utf8_compute("helloworld".as_bytes())
-                .utf8_compute("jksajksfjas a jkasjf da \n".as_bytes())
-                .utf8_compute("\nsajisffajsjdfasf".as_bytes())
-                .utf8_compute("hasisdaoasfo".as_bytes())
-                .output();
-            assert_eq!(out, 2)
-        }
+    #[rstest]
+    #[case("", 0)]
+    #[case("Hello world\r", 1)]
+    #[case("This is some \n long text", 0)]
+    #[case("\r", 1)]
+    #[case("\r\n", 1)]
+    #[case(" \r", 1)]
+    #[trace]
+    fn utf16be_cr_contains_the_expected_amount_of_line_breaks(#[with(LineBreak::CR)] lines_state: LinesState, #[case] string: &str, #[case] expected: usize) {
+        let utf16_encoded: Vec<_> = string.encode_utf16().flat_map(|x| x.to_be_bytes()).collect();
 
-        // Test on files
-        fn process_file_test(f: &str) -> usize {
-            let mut reader = BufReader::new(File::open(f).unwrap());
+        let obtained = lines_state.utf8_compute(utf16_encoded.as_slice()).output();
 
-            let mut state = LinesState::new(LineBreak::LF);
-            let mut buff = [0; 1024];
-            loop {
-                let read = reader.read(&mut buff).unwrap();
-                if read == 0 {
-                    return state.output();
-                }
-                state = state.utf8_compute(&buff[0..read]);
-            }
-        }
-
-        #[test]
-        fn gabriel() {
-            let out = process_file_test("resources/utf8/Gabriel.txt");
-            let expected = 57;
-            assert_eq!(out, expected)
-        }
-
-        #[test]
-        fn lorem() {
-            let out = process_file_test("resources/utf8/Lorem_big.txt");
-            assert_eq!(out, 1996)
-        }
-
-        #[test]
-        #[ignore]
-        fn world192() {
-            let out = process_file_test("resources/utf8/world192.txt");
-            assert_eq!(out, 65119)
-        }
-
-        #[test]
-        fn s1() {
-            let out = process_file_test("resources/utf8/sample1.txt");
-            assert_eq!(out, 3)
-        }
-
-        #[test]
-        fn s2() {
-            let out = process_file_test("resources/utf8/sample2.txt");
-            assert_eq!(out, 12)
-        }
-
-        #[test]
-        fn s3() {
-            let out = process_file_test("resources/utf8/sample3.txt");
-            assert_eq!(out, 20)
-        }
-
-        #[test]
-        fn small() {
-            let out = process_file_test("resources/utf8/small.txt");
-            assert_eq!(out, 1)
-        }
-
-        #[test]
-        fn empty() {
-            let out = process_file_test("resources/utf8/empty.txt");
-            assert_eq!(out, 0)
-        }
-
-        #[test]
-        fn arabic() {
-            // - Length isn't 0
-            // - test weird
-            let out = process_file_test("resources/utf8/arabic.txt");
-            let expected = 0;
-            assert_eq!(out, expected)
-        }
-
-        #[test]
-        fn spanish() {
-            let out = process_file_test("resources/utf8/spanish.txt");
-            let expected = 1;
-            assert_eq!(out, expected)
-        }
-
-        #[test]
-        fn french() {
-            let out = process_file_test("resources/utf8/french.txt");
-            assert_eq!(out, 0)
-        }
+        assert_that!(obtained).is_equal_to(expected)
     }
 }

@@ -1,8 +1,9 @@
 use std::cmp::max;
 use std::fmt::{Display, Formatter};
 use std::option::Option::Some;
+
 #[cfg(feature = "serde")]
-use serde::{Serialize};
+use serde::Serialize;
 
 /// Represents a set of stats. Is used as an output value for
 /// [Parser's process](crate::Parser::process) method
@@ -162,17 +163,20 @@ impl Stats {
     }
 }
 
-#[cfg(all(test,feature = "serde"))]
+#[cfg(all(test, feature = "serde"))]
 mod serde_test {
+    use rstest::*;
+    use speculoos::assert_that;
+
     use crate::Stats;
 
-    #[test]
-    pub fn example_stats_generates_expected_json() {
-        let stats = Stats::new(Some(0),Some(10),None,None,None);
-        let expected = r#"{"lines":0,"words":10}"#;
+    #[rstest]
+    fn stats_generates_the_expected_json_output() {
+        let expected = r#"{"lines":0,"words":10}"#.to_owned();
+        let stats = Stats::new(Some(0), Some(10), None, None, None);
 
-        let json = serde_json::to_string(&stats).unwrap();
+        let obtained = serde_json::to_string(&stats).unwrap();
 
-        assert_eq!(expected,json)
+        assert_that!(obtained).is_equal_to(expected)
     }
 }

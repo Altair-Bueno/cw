@@ -98,238 +98,76 @@ impl Compute for MaxLengthState {
 
 #[cfg(test)]
 mod test {
-    mod utf16 {
-        use crate::config::LineBreak;
-        use crate::state::max_length::MaxLengthState;
-        use crate::state::traits::compute::Compute;
-        use crate::state::traits::partial_state::PartialState;
+    use rstest::*;
+    use speculoos::assert_that;
 
-        #[test]
-        pub fn test1() {
-            let line = ""
-                .encode_utf16()
-                .flat_map(u16::to_be_bytes)
-                .collect::<Vec<u8>>();
-            let out = MaxLengthState::new(LineBreak::LF)
-                .utf16_compute(line.as_slice())
-                .output();
-            assert_eq!(out, 0)
-        }
+    use crate::config::LineBreak;
+    use crate::state::max_length::MaxLengthState;
+    use crate::state::traits::compute::Compute;
+    use crate::state::traits::partial_state::PartialState;
 
-        #[test]
-        pub fn test2() {
-            let line = "hello\n"
-                .encode_utf16()
-                .flat_map(u16::to_be_bytes)
-                .collect::<Vec<u8>>();
-            let out = MaxLengthState::new(LineBreak::LF)
-                .utf16_compute(line.as_slice())
-                .output();
-            assert_eq!(out, 5)
-        }
-
-        #[test]
-        pub fn test3() {
-            let line = "hello\nworld"
-                .encode_utf16()
-                .flat_map(u16::to_be_bytes)
-                .collect::<Vec<u8>>();
-            let out = MaxLengthState::new(LineBreak::LF)
-                .utf16_compute(line.as_slice())
-                .output();
-            assert_eq!(out, 5)
-        }
-
-        #[test]
-        pub fn test4() {
-            let line = "hello\nworldjsafs\n"
-                .encode_utf16()
-                .flat_map(u16::to_be_bytes)
-                .collect::<Vec<u8>>();
-            let out = MaxLengthState::new(LineBreak::LF)
-                .utf16_compute(line.as_slice())
-                .output();
-            assert_eq!(out, 10)
-        }
-
-        #[test]
-        pub fn test5() {
-            let line = "hello\nworldjsafs\nshjksafhjkasfjhkfajshdjhksdfa"
-                .encode_utf16()
-                .flat_map(u16::to_be_bytes)
-                .collect::<Vec<u8>>();
-            let out = MaxLengthState::new(LineBreak::LF)
-                .utf16_compute(line.as_slice())
-                .output();
-            assert_eq!(out, 29)
-        }
-
-        #[test]
-        pub fn test6() {
-            let s1 = "hskjaskl a jadsjfjsdjk a asda dsfksa ."
-                .encode_utf16()
-                .flat_map(u16::to_be_bytes)
-                .collect::<Vec<u8>>();
-            let s2 = "jkhsajkjafsdjkafsjkafsd"
-                .encode_utf16()
-                .flat_map(u16::to_be_bytes)
-                .collect::<Vec<u8>>();
-            let s3 = "iassfdaafsd\n"
-                .encode_utf16()
-                .flat_map(u16::to_be_bytes)
-                .collect::<Vec<u8>>();
-            let s4 = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-                .encode_utf16().flat_map(u16::to_be_bytes).collect::<Vec<u8>>();
-            let out = MaxLengthState::new(LineBreak::LF)
-                .utf16_compute(s1.as_slice())
-                .utf16_compute(s2.as_slice())
-                .utf16_compute(s3.as_slice())
-                .utf16_compute(s4.as_slice())
-                .output();
-            assert_eq!(out, 445)
-        }
+    #[fixture]
+    fn max_length_state(#[default(LineBreak::LF)] linebreak: LineBreak) -> MaxLengthState {
+        MaxLengthState::new(linebreak)
     }
 
-    mod utf8 {
-        use std::fs::File;
-        use std::io::{BufReader, Read};
+    #[rstest]
+    #[case("", 0)]
+    #[case("Hello world", 11)]
+    #[case("H\nello", 4)]
+    #[case("Hello\n wor", 5)]
+    #[case("One\ntwo\t\nanother", 7)]
+    #[trace]
+    fn utf8_lf_has_the_expected_max_length(max_length_state: MaxLengthState, #[case] string: &str, #[case] expected: usize) {
+        let utf8_encoded = string.as_bytes();
 
-        use crate::config::LineBreak;
-        use crate::state::max_length::MaxLengthState;
-        use crate::state::traits::{compute::Compute, partial_state::PartialState};
+        let obtained = max_length_state.utf8_compute(utf8_encoded).output();
 
-        #[test]
-        pub fn test1() {
-            let line = "".as_bytes();
-            let out = MaxLengthState::new(LineBreak::LF)
-                .utf8_compute(line)
-                .output();
-            assert_eq!(out, 0)
-        }
+        assert_that!(obtained).is_equal_to(expected)
+    }
 
-        #[test]
-        pub fn test2() {
-            let line = "hello\n".as_bytes();
-            let out = MaxLengthState::new(LineBreak::LF)
-                .utf8_compute(line)
-                .output();
-            assert_eq!(out, 5)
-        }
+    #[rstest]
+    #[case("", 0)]
+    #[case("Hello world", 11)]
+    #[case("H\nello", 4)]
+    #[case("Hello\n wor", 5)]
+    #[case("One\ntwo\t\nanother", 7)]
+    #[trace]
+    fn utf16be_lf_has_the_expected_max_length(max_length_state: MaxLengthState, #[case] string: &str, #[case] expected: usize) {
+        let utf16_encoded: Vec<_> = string.encode_utf16().flat_map(|x| x.to_be_bytes()).collect();
 
-        #[test]
-        pub fn test3() {
-            let line = "hello\nworld".as_bytes();
-            let out = MaxLengthState::new(LineBreak::LF)
-                .utf8_compute(line)
-                .output();
-            assert_eq!(out, 5)
-        }
+        let obtained = max_length_state.utf16_compute(utf16_encoded.as_slice()).output();
 
-        #[test]
-        pub fn test4() {
-            let line = "hello\nworldjsafs\n".as_bytes();
-            let out = MaxLengthState::new(LineBreak::LF)
-                .utf8_compute(line)
-                .output();
-            assert_eq!(out, 10)
-        }
+        assert_that!(obtained).is_equal_to(expected)
+    }
 
-        #[test]
-        pub fn test5() {
-            let line = "hello\nworldjsafs\nshjksafhjkasfjhkfajshdjhksdfa".as_bytes();
-            let out = MaxLengthState::new(LineBreak::LF)
-                .utf8_compute(line)
-                .output();
-            assert_eq!(out, 29)
-        }
+    #[rstest]
+    #[case("", 0)]
+    #[case("Hello world", 11)]
+    #[case("H\rello", 4)]
+    #[case("Hello\r wor", 5)]
+    #[case("One\rtwo\t\ranother", 7)]
+    #[trace]
+    fn utf8_cr_has_the_expected_max_length(#[with(LineBreak::CR)] max_length_state: MaxLengthState, #[case] string: &str, #[case] expected: usize) {
+        let utf8_encoded = string.as_bytes();
 
-        #[test]
-        pub fn test6() {
-            let out = MaxLengthState::new(LineBreak::LF)
-                .utf8_compute("hskjaskl a jadsjfjsdjk a asda dsfksa .".as_bytes())
-                .utf8_compute("jkhsajkjafsdjkafsjkafsd".as_bytes())
-                .utf8_compute("iassfdaafsd\n".as_bytes())
-                .utf8_compute("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.".as_bytes())
-                .output();
-            assert_eq!(out, 445)
-        }
+        let obtained = max_length_state.utf8_compute(utf8_encoded).output();
 
-        // Test on files
-        fn proccess_file_test(f: &str) -> usize {
-            let mut reader = BufReader::new(File::open(f).unwrap());
+        assert_that!(obtained).is_equal_to(expected)
+    }
 
-            let mut state = MaxLengthState::new(LineBreak::LF);
-            let mut buff = [0; 1024];
-            loop {
-                let read = reader.read(&mut buff).unwrap();
-                if read == 0 {
-                    return state.output();
-                }
-                state = state.utf8_compute(&buff[0..read]);
-            }
-        }
+    #[rstest]
+    #[case("", 0)]
+    #[case("Hello world", 11)]
+    #[case("H\rello", 4)]
+    #[case("Hello\r wor", 5)]
+    #[case("One\rtwo\t\ranother", 7)]
+    #[trace]
+    fn utf16be_cr_has_the_expected_max_length(#[with(LineBreak::CR)] max_length_state: MaxLengthState, #[case] string: &str, #[case] expected: usize) {
+        let utf16_encoded: Vec<_> = string.encode_utf16().flat_map(|x| x.to_be_bytes()).collect();
 
-        #[test]
-        fn gabriel() {
-            let out = proccess_file_test("resources/utf8/Gabriel.txt");
-            let expected = 580;
-            assert_eq!(out, expected)
-        }
+        let obtained = max_length_state.utf16_compute(utf16_encoded.as_slice()).output();
 
-        #[test]
-        fn lorem() {
-            let out = proccess_file_test("resources/utf8/Lorem_big.txt");
-            assert_eq!(out, 1142)
-        }
-
-        #[test]
-        #[ignore]
-        fn world() {
-            let out = proccess_file_test("resources/utf8/world192.txt");
-            assert_eq!(out, 81)
-        }
-
-        #[test]
-        fn s1() {
-            let out = proccess_file_test("resources/utf8/sample1.txt");
-            assert_eq!(out, 346)
-        }
-
-        #[test]
-        fn s2() {
-            let out = proccess_file_test("resources/utf8/sample2.txt");
-            assert_eq!(out, 635)
-        }
-
-        #[test]
-        fn s3() {
-            let out = proccess_file_test("resources/utf8/sample3.txt");
-            assert_eq!(out, 818)
-        }
-
-        #[test]
-        fn small() {
-            let out = proccess_file_test("resources/utf8/small.txt");
-            assert_eq!(out, 17)
-        }
-
-        #[test]
-        fn empty() {
-            let out = proccess_file_test("resources/utf8/empty.txt");
-            assert_eq!(out, 0)
-        }
-
-        #[test]
-        fn spanish() {
-            let out = proccess_file_test("resources/utf8/spanish.txt");
-            let expected = 18;
-            assert_eq!(out, expected)
-        }
-
-        #[test]
-        fn french() {
-            let out = proccess_file_test("resources/utf8/french.txt");
-            assert_eq!(out, 58)
-        }
+        assert_that!(obtained).is_equal_to(expected)
     }
 }
