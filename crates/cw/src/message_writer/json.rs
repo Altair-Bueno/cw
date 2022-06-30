@@ -8,11 +8,35 @@ use libcw::Stats;
 
 use crate::message_writer::{Message, MessageWriter};
 
-#[derive(Serialize)]
+#[derive(Serialize, Debug)]
 pub struct JsonMessageWriter {
     total: Stats,
     errors: i32,
-    summary: HashMap<String, Stats>,
+    summary: HashMap<String, Either<Stats, String>>,
+}
+
+#[derive(Serialize, Debug)]
+#[serde(untagged)]
+enum Either<L, R>
+    where
+        L: Serialize,
+        R: Serialize
+{
+    Left(L),
+    Right(R),
+}
+
+impl<L, R> From<Result<L, R>> for Either<L, R>
+    where
+        L: Serialize,
+        R: Serialize
+{
+    fn from(input: Result<L, R>) -> Self {
+        match input {
+            Ok(x) => Either::Left(x),
+            Err(x) => Either::Right(x),
+        }
+    }
 }
 
 impl JsonMessageWriter {
@@ -28,13 +52,15 @@ impl JsonMessageWriter {
 impl MessageWriter for JsonMessageWriter {
     async fn message_received(&mut self, message: Message) {
         let (path, result) = message;
-        match result {
-            Ok(x) => {
-                self.total = self.total.clone().combine(x.clone());
-                self.summary.insert(path, x);
-            }
+        match &result {
+            Ok(x) => self.total = self.total.clone().combine(x.clone()),
             Err(_) => self.errors += 1,
         }
+
+        let either = result
+            .map_err(|x| x.to_string())
+            .into();
+        self.summary.insert(path, either);
     }
 
     async fn terminate(&mut self) -> i32 {
