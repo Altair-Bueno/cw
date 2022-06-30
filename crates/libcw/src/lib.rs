@@ -34,8 +34,6 @@
 //! - `serde`: Enables serde serialization of [Stats](crate::Stats)
 #![warn(missing_docs)]
 
-extern crate core;
-
 pub use parser::Parser;
 pub use stats::Stats;
 
