@@ -2,7 +2,7 @@ use std::collections::HashMap;
 
 use async_trait::async_trait;
 use serde::Serialize;
-use tokio::io::{AsyncWriteExt, stdout};
+use tokio::io::{stdout, AsyncWriteExt};
 
 use libcw::Stats;
 
@@ -18,18 +18,18 @@ pub struct JsonMessageWriter {
 #[derive(Serialize, Debug)]
 #[serde(untagged)]
 enum Either<L, R>
-    where
-        L: Serialize,
-        R: Serialize
+where
+    L: Serialize,
+    R: Serialize,
 {
     Left(L),
     Right(R),
 }
 
 impl<L, R> From<Result<L, R>> for Either<L, R>
-    where
-        L: Serialize,
-        R: Serialize
+where
+    L: Serialize,
+    R: Serialize,
 {
     fn from(input: Result<L, R>) -> Self {
         match input {
@@ -44,7 +44,11 @@ impl JsonMessageWriter {
         let total = Stats::default();
         let summary = HashMap::new();
         let errors = 0;
-        Self { total, summary, errors }
+        Self {
+            total,
+            summary,
+            errors,
+        }
     }
 }
 
@@ -57,9 +61,7 @@ impl MessageWriter for JsonMessageWriter {
             Err(_) => self.errors += 1,
         }
 
-        let either = result
-            .map_err(|x| x.to_string())
-            .into();
+        let either = result.map_err(|x| x.to_string()).into();
         self.summary.insert(path, either);
     }
 

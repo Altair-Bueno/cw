@@ -83,7 +83,11 @@ mod test {
     #[case("\n\n", 2)]
     #[case(" \n", 1)]
     #[trace]
-    fn utf8_lf_contains_the_expected_amount_of_line_breaks(lines_state: LinesState, #[case] string: &str, #[case] expected: usize) {
+    fn utf8_lf_contains_the_expected_amount_of_line_breaks(
+        lines_state: LinesState,
+        #[case] string: &str,
+        #[case] expected: usize,
+    ) {
         let utf8_encoded = string.as_bytes();
 
         let obtained = lines_state.utf8_compute(utf8_encoded).output();
@@ -99,8 +103,15 @@ mod test {
     #[case("\n\n", 2)]
     #[case(" \n", 1)]
     #[trace]
-    fn utf16be_lf_contains_the_expected_amount_of_line_breaks(lines_state: LinesState, #[case] string: &str, #[case] expected: usize) {
-        let utf16_encoded: Vec<_> = string.encode_utf16().flat_map(|x| x.to_be_bytes()).collect();
+    fn utf16be_lf_contains_the_expected_amount_of_line_breaks(
+        lines_state: LinesState,
+        #[case] string: &str,
+        #[case] expected: usize,
+    ) {
+        let utf16_encoded: Vec<_> = string
+            .encode_utf16()
+            .flat_map(|x| x.to_be_bytes())
+            .collect();
 
         let obtained = lines_state.utf8_compute(utf16_encoded.as_slice()).output();
 
@@ -115,7 +126,11 @@ mod test {
     #[case("\r\n", 1)]
     #[case(" \r", 1)]
     #[trace]
-    fn utf8_cr_contains_the_expected_amount_of_line_breaks(#[with(LineBreak::CR)] lines_state: LinesState, #[case] string: &str, #[case] expected: usize) {
+    fn utf8_cr_contains_the_expected_amount_of_line_breaks(
+        #[with(LineBreak::CR)] lines_state: LinesState,
+        #[case] string: &str,
+        #[case] expected: usize,
+    ) {
         let utf8_encoded = string.as_bytes();
 
         let obtained = lines_state.utf8_compute(utf8_encoded).output();
@@ -131,8 +146,15 @@ mod test {
     #[case("\r\n", 1)]
     #[case(" \r", 1)]
     #[trace]
-    fn utf16be_cr_contains_the_expected_amount_of_line_breaks(#[with(LineBreak::CR)] lines_state: LinesState, #[case] string: &str, #[case] expected: usize) {
-        let utf16_encoded: Vec<_> = string.encode_utf16().flat_map(|x| x.to_be_bytes()).collect();
+    fn utf16be_cr_contains_the_expected_amount_of_line_breaks(
+        #[with(LineBreak::CR)] lines_state: LinesState,
+        #[case] string: &str,
+        #[case] expected: usize,
+    ) {
+        let utf16_encoded: Vec<_> = string
+            .encode_utf16()
+            .flat_map(|x| x.to_be_bytes())
+            .collect();
 
         let obtained = lines_state.utf8_compute(utf16_encoded.as_slice()).output();
 

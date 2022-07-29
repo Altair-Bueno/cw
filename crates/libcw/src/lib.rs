@@ -35,16 +35,16 @@
 #![warn(missing_docs)]
 
 static_assertions::assert_cfg!(
-    not(all(feature="tokio", feature="sync")),
+    not(all(feature = "tokio", feature = "sync")),
     "Must exclusively use `sync` or `tokio` features"
 );
 
 pub use parser::Parser;
 pub use stats::Stats;
 
+#[cfg(feature = "ffi")]
+pub mod c;
 pub mod config;
 mod parser;
 mod state;
 mod stats;
-#[cfg(feature = "ffi")]
-pub mod c;

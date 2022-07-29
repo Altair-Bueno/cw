@@ -21,8 +21,8 @@ use libcw::Parser as CwParser;
 use run::run;
 
 mod config;
-mod run;
 mod message_writer;
+mod run;
 
 #[cfg_attr(feature = "mimalloc", global_allocator)]
 #[cfg(feature = "mimalloc")]

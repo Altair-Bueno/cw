@@ -118,7 +118,11 @@ mod test {
     #[case("Hello\n wor", 5)]
     #[case("One\ntwo\t\nanother", 7)]
     #[trace]
-    fn utf8_lf_has_the_expected_max_length(max_length_state: MaxLengthState, #[case] string: &str, #[case] expected: usize) {
+    fn utf8_lf_has_the_expected_max_length(
+        max_length_state: MaxLengthState,
+        #[case] string: &str,
+        #[case] expected: usize,
+    ) {
         let utf8_encoded = string.as_bytes();
 
         let obtained = max_length_state.utf8_compute(utf8_encoded).output();
@@ -133,10 +137,19 @@ mod test {
     #[case("Hello\n wor", 5)]
     #[case("One\ntwo\t\nanother", 7)]
     #[trace]
-    fn utf16be_lf_has_the_expected_max_length(max_length_state: MaxLengthState, #[case] string: &str, #[case] expected: usize) {
-        let utf16_encoded: Vec<_> = string.encode_utf16().flat_map(|x| x.to_be_bytes()).collect();
+    fn utf16be_lf_has_the_expected_max_length(
+        max_length_state: MaxLengthState,
+        #[case] string: &str,
+        #[case] expected: usize,
+    ) {
+        let utf16_encoded: Vec<_> = string
+            .encode_utf16()
+            .flat_map(|x| x.to_be_bytes())
+            .collect();
 
-        let obtained = max_length_state.utf16_compute(utf16_encoded.as_slice()).output();
+        let obtained = max_length_state
+            .utf16_compute(utf16_encoded.as_slice())
+            .output();
 
         assert_that!(obtained).is_equal_to(expected)
     }
@@ -148,7 +161,11 @@ mod test {
     #[case("Hello\r wor", 5)]
     #[case("One\rtwo\t\ranother", 7)]
     #[trace]
-    fn utf8_cr_has_the_expected_max_length(#[with(LineBreak::CR)] max_length_state: MaxLengthState, #[case] string: &str, #[case] expected: usize) {
+    fn utf8_cr_has_the_expected_max_length(
+        #[with(LineBreak::CR)] max_length_state: MaxLengthState,
+        #[case] string: &str,
+        #[case] expected: usize,
+    ) {
         let utf8_encoded = string.as_bytes();
 
         let obtained = max_length_state.utf8_compute(utf8_encoded).output();
@@ -163,10 +180,19 @@ mod test {
     #[case("Hello\r wor", 5)]
     #[case("One\rtwo\t\ranother", 7)]
     #[trace]
-    fn utf16be_cr_has_the_expected_max_length(#[with(LineBreak::CR)] max_length_state: MaxLengthState, #[case] string: &str, #[case] expected: usize) {
-        let utf16_encoded: Vec<_> = string.encode_utf16().flat_map(|x| x.to_be_bytes()).collect();
+    fn utf16be_cr_has_the_expected_max_length(
+        #[with(LineBreak::CR)] max_length_state: MaxLengthState,
+        #[case] string: &str,
+        #[case] expected: usize,
+    ) {
+        let utf16_encoded: Vec<_> = string
+            .encode_utf16()
+            .flat_map(|x| x.to_be_bytes())
+            .collect();
 
-        let obtained = max_length_state.utf16_compute(utf16_encoded.as_slice()).output();
+        let obtained = max_length_state
+            .utf16_compute(utf16_encoded.as_slice())
+            .output();
 
         assert_that!(obtained).is_equal_to(expected)
     }

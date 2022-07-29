@@ -4,14 +4,13 @@
 //! # Warning
 //!
 //! This module is only available if the feature `tokio` is disabled
-use std::ffi::CStr;
+use crate::config::{Encoding, LineBreak};
 use crate::{Parser, Stats as LibStats};
+use std::ffi::CStr;
 use std::fs::File;
 use std::io::BufReader;
-use std::os::raw::{c_char, c_uchar};
 use std::os::raw::c_ulong;
-use crate::config::{Encoding, LineBreak};
-
+use std::os::raw::{c_char, c_uchar};
 
 /// ABI representation of [Stats](crate::Stats)
 ///
@@ -55,7 +54,7 @@ impl From<LibStats> for Stats {
 /// interface). To free up a Stats instance, use
 /// [destroy_stats](crate::c::destroy_stats)
 #[no_mangle]
-pub unsafe extern "C" fn new_stats()->*mut Stats {
+pub unsafe extern "C" fn new_stats() -> *mut Stats {
     let stats = Box::new(Default::default());
     Box::into_raw(stats)
 }
@@ -71,8 +70,10 @@ pub unsafe extern "C" fn new_stats()->*mut Stats {
 ///
 /// The received pointer will point to `NULL`
 #[no_mangle]
-pub unsafe extern "C" fn destroy_stats(stats:*mut *mut Stats){
-    if stats.is_null() || (*stats).is_null() {return;}
+pub unsafe extern "C" fn destroy_stats(stats: *mut *mut Stats) {
+    if stats.is_null() || (*stats).is_null() {
+        return;
+    }
     let _ = Box::from_raw(*stats);
     let null = std::ptr::null_mut();
     *stats = null;
@@ -92,13 +93,13 @@ pub unsafe extern "C" fn destroy_stats(stats:*mut *mut Stats){
 /// [destroy_parser](crate::c::destroy_parser)
 #[no_mangle]
 pub unsafe extern "C" fn new_parser(
-    encoding:Encoding,
-    linebreak:LineBreak,
-    lines:bool,
-    words:bool,
-    chars:bool,
-    bytes:bool,
-    max_length:bool,
+    encoding: Encoding,
+    linebreak: LineBreak,
+    lines: bool,
+    words: bool,
+    chars: bool,
+    bytes: bool,
+    max_length: bool,
 ) -> *mut Parser {
     let parser = Parser::new(encoding, linebreak, lines, words, chars, bytes, max_length);
     let allocated_parser = Box::new(parser);
@@ -117,9 +118,11 @@ pub unsafe extern "C" fn new_parser(
 /// The received pointer will point to `NULL`
 #[no_mangle]
 pub unsafe extern "C" fn destroy_parser(parser: *mut *mut Parser) {
-    if parser.is_null() ||(*parser).is_null() {return;}
+    if parser.is_null() || (*parser).is_null() {
+        return;
+    }
     let _ = Box::from_raw(*parser);
-    let null= std::ptr::null_mut();
+    let null = std::ptr::null_mut();
     *parser = null;
 }
 
@@ -142,22 +145,36 @@ pub unsafe extern "C" fn destroy_parser(parser: *mut *mut Parser) {
 /// - Code -4: The file couldn't be opened
 /// - Code -5: The parser couldn't read the file
 #[no_mangle]
-pub unsafe extern "C" fn process_file(parser: *const Parser, path:*const c_char,out:*mut Stats) -> c_char {
-    if parser.is_null() {return -1};
-    if out.is_null() {return -2};
+pub unsafe extern "C" fn process_file(
+    parser: *const Parser,
+    path: *const c_char,
+    out: *mut Stats,
+) -> c_char {
+    if parser.is_null() {
+        return -1;
+    };
+    if out.is_null() {
+        return -2;
+    };
 
     let cstr = CStr::from_ptr(path);
     let result = cstr.to_str();
-    if result.is_err() {return -3};
+    if result.is_err() {
+        return -3;
+    };
 
     let str = result.unwrap();
     let result = File::open(str);
-    if result.is_err() {return -4};
+    if result.is_err() {
+        return -4;
+    };
 
     let file = result.unwrap();
     let reader = BufReader::new(file);
     let result = (*parser).process(reader);
-    if result.is_err() {return -5};
+    if result.is_err() {
+        return -5;
+    };
 
     *out = result.unwrap().into();
     0
@@ -181,13 +198,24 @@ pub unsafe extern "C" fn process_file(parser: *const Parser, path:*const c_char,
 /// - Code -2: Stats is null
 /// - Code -5: The parser couldn't read the slice
 #[no_mangle]
-pub unsafe extern "C" fn process_slice(parser:*const Parser, ptr:*const c_uchar,size:c_ulong,out:*mut Stats) -> c_char {
-    if parser.is_null() {return -1};
-    if out.is_null() {return -2};
+pub unsafe extern "C" fn process_slice(
+    parser: *const Parser,
+    ptr: *const c_uchar,
+    size: c_ulong,
+    out: *mut Stats,
+) -> c_char {
+    if parser.is_null() {
+        return -1;
+    };
+    if out.is_null() {
+        return -2;
+    };
 
-    let slice = std::slice::from_raw_parts(ptr,size as usize);
+    let slice = std::slice::from_raw_parts(ptr, size as usize);
     let result = (*parser).process(slice);
-    if result.is_err() {return -5};
+    if result.is_err() {
+        return -5;
+    };
     *out = result.unwrap().into();
     0
 }
@@ -208,15 +236,24 @@ pub unsafe extern "C" fn process_slice(parser:*const Parser, ptr:*const c_uchar,
 /// - Code -2: Stats is null
 /// - Code -5: The parser couldn't read the string
 #[no_mangle]
-pub unsafe extern "C" fn process_string(parser:*const Parser,ptr:*const c_char,out:*mut Stats) -> c_char {
-    if parser.is_null() {return -1};
-    if out.is_null() {return -2};
+pub unsafe extern "C" fn process_string(
+    parser: *const Parser,
+    ptr: *const c_char,
+    out: *mut Stats,
+) -> c_char {
+    if parser.is_null() {
+        return -1;
+    };
+    if out.is_null() {
+        return -2;
+    };
 
     let c_str = CStr::from_ptr(ptr);
 
     let result = (*parser).process(c_str.to_bytes());
-    if result.is_err() {return -5};
+    if result.is_err() {
+        return -5;
+    };
     *out = result.unwrap().into();
     0
 }
-

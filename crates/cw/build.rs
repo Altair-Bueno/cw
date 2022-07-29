@@ -5,9 +5,9 @@ use clap_complete::{generate_to, Shell};
 
 include!("src/config.rs");
 
-const BIN_NAME:&str = env!("CARGO_PKG_NAME");
+const BIN_NAME: &str = env!("CARGO_PKG_NAME");
 
-const SHELL_LIST:&[Shell] = &[
+const SHELL_LIST: &[Shell] = &[
     Shell::Bash,
     Shell::Elvish,
     Shell::Fish,
@@ -16,7 +16,7 @@ const SHELL_LIST:&[Shell] = &[
 ];
 
 fn main() {
-    let mut command :Command = Config::command();
+    let mut command: Command = Config::command();
     let target_dir = env::var("OUT_DIR").unwrap();
     for shell in SHELL_LIST {
         let out_dir = format!("{target_dir}/completions/{shell}");

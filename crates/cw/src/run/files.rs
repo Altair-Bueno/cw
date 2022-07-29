@@ -13,9 +13,9 @@ pub async fn run_files<InputStream, MessageWriterObject>(
     parser: Parser,
     output_writer: &mut Box<MessageWriterObject>,
 ) -> i32
-    where
-        InputStream: Stream<Item=std::io::Result<String>> + Unpin + Send + Sync + 'static,
-        MessageWriterObject: MessageWriter + Send + Sync + ?Sized,
+where
+    InputStream: Stream<Item = std::io::Result<String>> + Unpin + Send + Sync + 'static,
+    MessageWriterObject: MessageWriter + Send + Sync + ?Sized,
 {
     let (sender, mut receiver) = tokio::sync::mpsc::channel(MAX_CONCURRENT_FILE_DESCRIPTORS);
 
@@ -48,4 +48,3 @@ async fn process_path(parser: Parser, path: String) -> (String, std::io::Result<
     let response = closure(parser, &path).await;
     (path, response)
 }
-

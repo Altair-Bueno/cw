@@ -4,19 +4,24 @@ use tokio::io::AsyncBufReadExt;
 
 use libcw::Parser;
 
-use crate::Config;
 use crate::message_writer::default::DefaultMessageWriter;
 use crate::message_writer::json::JsonMessageWriter;
 use crate::message_writer::MessageWriter;
 use crate::run::files::run_files;
 use crate::run::stdio::run_stdio;
+use crate::Config;
 
-mod stdio;
 mod files;
+mod stdio;
 
 /// Selects the right async runner depending on the arguments provided
 pub async fn run(config: Config, parser: Parser) -> i32 {
-    let Config { json, files, from_stdin, .. } = config;
+    let Config {
+        json,
+        files,
+        from_stdin,
+        ..
+    } = config;
 
     let mut output_writer: Box<dyn MessageWriter + Send + Sync> = match json {
         true => Box::new(JsonMessageWriter::init()),

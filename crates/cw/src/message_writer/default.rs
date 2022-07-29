@@ -1,6 +1,6 @@
 use async_trait::async_trait;
 use colored::Colorize;
-use tokio::io::{AsyncWriteExt, BufWriter, Stderr, stderr, Stdout, stdout};
+use tokio::io::{stderr, stdout, AsyncWriteExt, BufWriter, Stderr, Stdout};
 
 use libcw::{Parser, Stats};
 
@@ -30,7 +30,13 @@ impl DefaultMessageWriter {
         let total = Stats::default();
         let error_count = 0;
 
-        Self { canary, stdout, stderr, total, error_count }
+        Self {
+            canary,
+            stdout,
+            stderr,
+            total,
+            error_count,
+        }
     }
 }
 
@@ -54,7 +60,13 @@ impl MessageWriter for DefaultMessageWriter {
     }
 
     async fn terminate(&mut self) -> i32 {
-        let DefaultMessageWriter { stdout, stderr, total, canary, .. } = self;
+        let DefaultMessageWriter {
+            stdout,
+            stderr,
+            total,
+            canary,
+            ..
+        } = self;
 
         let _ = stdout.flush().await;
         let _ = stderr.flush().await;

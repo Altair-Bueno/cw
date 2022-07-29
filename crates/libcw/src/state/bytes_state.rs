@@ -46,7 +46,9 @@ mod test {
     use crate::state::traits::partial_state::PartialState;
 
     #[fixture]
-    pub fn bytes_state() -> BytesState { BytesState::new() }
+    pub fn bytes_state() -> BytesState {
+        BytesState::new()
+    }
 
     #[rstest]
     #[case("", 0)]
@@ -55,7 +57,11 @@ mod test {
     #[case("\r", 1)]
     #[case("❤", 3)]
     #[trace]
-    fn utf8_has_the_expected_bytesize(bytes_state: BytesState, #[case] string: &str, #[case] expected: usize) {
+    fn utf8_has_the_expected_bytesize(
+        bytes_state: BytesState,
+        #[case] string: &str,
+        #[case] expected: usize,
+    ) {
         let utf8_encoded = string.as_bytes();
 
         let obtained = bytes_state.utf8_compute(utf8_encoded).output();
@@ -70,8 +76,15 @@ mod test {
     #[case("\r", 2)]
     #[case("❤", 2)]
     #[trace]
-    fn utf16be_has_the_expected_bytesize(bytes_state: BytesState, #[case] string: &str, #[case] expected: usize) {
-        let utf8_encoded: Vec<_> = string.encode_utf16().flat_map(|x| x.to_be_bytes()).collect();
+    fn utf16be_has_the_expected_bytesize(
+        bytes_state: BytesState,
+        #[case] string: &str,
+        #[case] expected: usize,
+    ) {
+        let utf8_encoded: Vec<_> = string
+            .encode_utf16()
+            .flat_map(|x| x.to_be_bytes())
+            .collect();
 
         let obtained = bytes_state.utf8_compute(utf8_encoded.as_slice()).output();
 

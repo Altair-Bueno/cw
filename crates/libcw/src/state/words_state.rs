@@ -80,7 +80,11 @@ mod test {
     #[case("Hello\nworld ", 2)]
     #[case("Hello\rworld ", 2)]
     #[trace]
-    fn utf8_contains_the_expected_amount_of_words(words_state: WordsState, #[case] string: &str, #[case] expected: usize) {
+    fn utf8_contains_the_expected_amount_of_words(
+        words_state: WordsState,
+        #[case] string: &str,
+        #[case] expected: usize,
+    ) {
         let utf8_encoded = string.as_bytes();
 
         let obtained = words_state.utf8_compute(utf8_encoded).output();
@@ -98,8 +102,15 @@ mod test {
     #[case("Hello\nworld ", 2)]
     #[case("Hello\rworld ", 2)]
     #[trace]
-    fn utf16be_contains_the_expected_amount_of_words(words_state: WordsState, #[case] string: &str, #[case] expected: usize) {
-        let utf16_encoded: Vec<_> = string.encode_utf16().flat_map(|x| x.to_be_bytes()).collect();
+    fn utf16be_contains_the_expected_amount_of_words(
+        words_state: WordsState,
+        #[case] string: &str,
+        #[case] expected: usize,
+    ) {
+        let utf16_encoded: Vec<_> = string
+            .encode_utf16()
+            .flat_map(|x| x.to_be_bytes())
+            .collect();
 
         let obtained = words_state.utf16_compute(utf16_encoded.as_slice()).output();
 
