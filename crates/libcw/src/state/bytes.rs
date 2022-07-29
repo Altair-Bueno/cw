@@ -1,4 +1,4 @@
-use crate::state::traits::{compute::Compute, partial_state::PartialState};
+use crate::traits::{compute::Compute, partial_state::PartialState};
 
 /// Represents a partial state that can be used as a middle structure to
 /// store partial reads over a divided tape
@@ -41,9 +41,9 @@ mod test {
     use rstest::*;
     use speculoos::assert_that;
 
-    use crate::state::bytes_state::BytesState;
-    use crate::state::traits::compute::Compute;
-    use crate::state::traits::partial_state::PartialState;
+    use crate::state::bytes::BytesState;
+    use crate::traits::compute::Compute;
+    use crate::traits::partial_state::PartialState;
 
     #[fixture]
     pub fn bytes_state() -> BytesState {

@@ -1,19 +1,18 @@
 use std::fmt::{Display, Formatter};
 
-use crate::state::bytes_state::BytesState;
-use crate::state::chars_state::CharState;
-use crate::state::lines_state::LinesState;
+use crate::state::bytes::BytesState;
+use crate::state::chars::CharState;
+use crate::state::lines::LinesState;
 use crate::state::max_length::MaxLengthState;
-use crate::state::traits::{compute::Compute, partial_state::PartialState};
-use crate::state::words_state::WordsState;
+use crate::state::words::WordsState;
 use crate::Stats;
+use crate::traits::{compute::Compute, partial_state::PartialState};
 
-pub mod bytes_state;
-pub mod chars_state;
-pub mod lines_state;
+pub mod bytes;
+pub mod chars;
+pub mod lines;
 pub mod max_length;
-pub mod traits;
-pub mod words_state;
+pub mod words;
 
 #[derive(Copy, Clone, Debug)]
 pub struct State {

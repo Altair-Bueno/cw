@@ -1,8 +1,8 @@
 use std::cmp::max;
 
 use crate::config::LineBreak;
-use crate::state::chars_state::CharState;
-use crate::state::traits::{compute::Compute, partial_state::PartialState};
+use crate::state::chars::CharState;
+use crate::traits::{compute::Compute, partial_state::PartialState};
 
 /// Max length
 #[derive(Default, Debug, Copy, Clone)]
@@ -97,8 +97,8 @@ mod test {
 
     use crate::config::LineBreak;
     use crate::state::max_length::MaxLengthState;
-    use crate::state::traits::compute::Compute;
-    use crate::state::traits::partial_state::PartialState;
+    use crate::traits::compute::Compute;
+    use crate::traits::partial_state::PartialState;
 
     #[fixture]
     fn max_length_state(#[default(LineBreak::LF)] linebreak: LineBreak) -> MaxLengthState {

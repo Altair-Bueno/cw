@@ -1,7 +1,7 @@
 use std::fmt::Debug;
 
 use crate::config::LineBreak;
-use crate::state::traits::{compute::Compute, partial_state::PartialState};
+use crate::traits::{compute::Compute, partial_state::PartialState};
 
 /// number of lines
 #[derive(Default, Debug, Copy, Clone)]
@@ -60,9 +60,9 @@ mod test {
     use speculoos::assert_that;
 
     use crate::config::LineBreak;
-    use crate::state::lines_state::LinesState;
-    use crate::state::traits::compute::Compute;
-    use crate::state::traits::partial_state::PartialState;
+    use crate::state::lines::LinesState;
+    use crate::traits::compute::Compute;
+    use crate::traits::partial_state::PartialState;
 
     #[fixture]
     fn lines_state(#[default(LineBreak::LF)] linebreak: LineBreak) -> LinesState {

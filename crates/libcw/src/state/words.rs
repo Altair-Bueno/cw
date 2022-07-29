@@ -1,4 +1,4 @@
-use crate::state::traits::{compute::Compute, partial_state::PartialState};
+use crate::traits::{compute::Compute, partial_state::PartialState};
 
 // Number of words
 #[derive(Copy, Clone, Default, Debug)]
@@ -61,9 +61,9 @@ mod test {
     use rstest::*;
     use speculoos::assert_that;
 
-    use crate::state::traits::compute::Compute;
-    use crate::state::traits::partial_state::PartialState;
-    use crate::state::words_state::WordsState;
+    use crate::state::words::WordsState;
+    use crate::traits::compute::Compute;
+    use crate::traits::partial_state::PartialState;
 
     #[fixture]
     fn words_state() -> WordsState {

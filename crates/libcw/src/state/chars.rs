@@ -1,4 +1,4 @@
-use crate::state::traits::{compute::Compute, partial_state::PartialState};
+use crate::traits::{compute::Compute, partial_state::PartialState};
 
 #[derive(Copy, Clone, Debug, Default)]
 pub struct CharState {
@@ -74,9 +74,9 @@ mod test {
     use rstest::*;
     use speculoos::assert_that;
 
-    use crate::state::chars_state::CharState;
-    use crate::state::traits::compute::Compute;
-    use crate::state::traits::partial_state::PartialState;
+    use crate::state::chars::CharState;
+    use crate::traits::compute::Compute;
+    use crate::traits::partial_state::PartialState;
 
     #[fixture]
     fn char_state() -> CharState {
