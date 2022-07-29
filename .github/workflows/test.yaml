@@ -8,7 +8,7 @@ env:
   CARGO_TERM_COLOR: always
   RUST_BACKTRACE: 1
 jobs:
-  test:
+  libcwtest:
     name: |
       name: cargo unit test
       os: ${{ matrix.os }}
@@ -18,7 +18,7 @@ jobs:
     strategy:
       matrix:
         os: [ "ubuntu-latest", 'windows-latest', 'macos-latest' ]
-        features: [ " ", "serde", "async", "sync" ]
+        features: [ " ", "serde", "tokio", "sync" ]
 
     steps:
       - name: Disable autocrlf
@@ -40,3 +40,4 @@ jobs:
             toolchain: stable
       - name: Test
         run: cargo test "--features=${{ matrix.features }}"
+        working-directory: crates/libcw
