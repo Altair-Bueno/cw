@@ -5,3 +5,5 @@
 cw.iml
 # Debugging
 *.svg
+# vscode
+**/.vscode

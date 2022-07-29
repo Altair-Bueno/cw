@@ -34,6 +34,11 @@
 //! - `serde`: Enables serde serialization of [Stats](crate::Stats)
 #![warn(missing_docs)]
 
+static_assertions::assert_cfg!(
+    not(all(feature="sync", feature="async")),
+    "Must exclusively use `sync` or `async` features"
+);
+
 pub use parser::Parser;
 pub use stats::Stats;
 
@@ -41,5 +46,5 @@ pub mod config;
 mod parser;
 mod state;
 mod stats;
-#[cfg(not(feature = "tokio"))]
+#[cfg(feature = "sync")]
 pub mod c;
