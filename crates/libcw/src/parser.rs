@@ -125,10 +125,6 @@ impl Parser {
     /// Any error returned by the [`AsyncReadExt`](tokio::io::AsyncReadExt) object will be
     /// returned to the caller
     ///
-    /// # Features
-    ///
-    /// If the `tokio` feature is disabled, the exposed API will be blocking
-    ///
     /// # Example
     ///
     /// ```rust
@@ -162,10 +158,6 @@ impl Parser {
     ///
     /// Any error returned by the [`BufRead`](std::io::BufRead) object will be
     /// returned to the caller
-    ///
-    /// # Features
-    ///
-    /// If the `tokio` feature is enabled, the exposed API will be asynchronous
     ///
     /// # Example
     ///
