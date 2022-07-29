@@ -7,11 +7,11 @@
 //!
 //! ```toml
 //! [dependencies]
-//!  libcw = { git="https://github.com/Altair-Bueno/cw" }
+//! libcw = { git="https://github.com/Altair-Bueno/cw" }
 //! ```
 //!
-//!
 //! # Spotlights
+//! 
 //! - Platform agnostic
 //! - Fast performance
 //! - 100% Rust safe `std` code
@@ -19,13 +19,16 @@
 //! - Selected encoding is used everywhere, even on `max line length`
 //!
 //! # Usage
+//! 
 //! `libcw`'s API is exposed through the [`Parser`](crate::Parser) module
 //!
 //! # Performance
+//! 
 //! See this repo [BENCH.md](https://github.com/Altair-Bueno/cw/blob/master/BENCH.md)
 //! to learn more about this crate's performance
 //!
 //! # Feature flags
+//! 
 //! Although this crate is designed for minimal size and high throughput, a set
 //! of features is provided for crate compatibility
 //!
