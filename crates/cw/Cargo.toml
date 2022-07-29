@@ -10,6 +10,7 @@ repository = "https://github.com/Altair-Bueno/cw"
 keywords = ["wc", "cw", "word", "line", "character", "UTF8", "UTF16", "count"]
 categories = ["command-line-utilities", "filesystem", "text-processing"]
 build = "build.rs"
+resolver="2"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
