@@ -21,7 +21,7 @@ impl BytesState {
 
 impl PartialState for BytesState {
     type Output = usize;
-    fn output(&self) -> Self::Output {
+    fn output(self) -> Self::Output {
         self.byte_count
     }
 }

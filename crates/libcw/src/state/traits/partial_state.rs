@@ -3,5 +3,5 @@
 /// partial byte counter state into a final (usize) value
 pub trait PartialState {
     type Output;
-    fn output(&self) -> Self::Output;
+    fn output(self) -> Self::Output;
 }

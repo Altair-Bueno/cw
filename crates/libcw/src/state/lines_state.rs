@@ -27,7 +27,7 @@ impl LinesState {
 
 impl PartialState for LinesState {
     type Output = usize;
-    fn output(&self) -> Self::Output {
+    fn output(self) -> Self::Output {
         self.line_count
     }
 }

@@ -54,7 +54,7 @@ impl CharState {
 impl PartialState for CharState {
     type Output = usize;
 
-    fn output(&self) -> Self::Output {
+    fn output(self) -> Self::Output {
         self.num_chars
     }
 }

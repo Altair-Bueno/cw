@@ -34,7 +34,7 @@ impl WordsState {
 
 impl PartialState for WordsState {
     type Output = usize;
-    fn output(&self) -> Self::Output {
+    fn output(self) -> Self::Output {
         let remaining = if self.onword { 1 } else { 0 };
         self.wordcount + remaining
     }

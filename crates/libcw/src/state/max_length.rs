@@ -34,7 +34,7 @@ impl MaxLengthState {
 
 impl PartialState for MaxLengthState {
     type Output = usize;
-    fn output(&self) -> Self::Output {
+    fn output(self) -> Self::Output {
         let char_state_output = self.char_state.output();
         max(self.max_length_found, char_state_output)
         // let line_count = self.line_count;

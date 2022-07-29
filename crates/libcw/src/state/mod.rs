@@ -39,7 +39,7 @@ impl Default for State {
 impl PartialState for State {
     type Output = Stats;
 
-    fn output(&self) -> Self::Output {
+    fn output(self) -> Self::Output {
         let lines = self.lines_state.map(|x| x.output());
         let words = self.words_state.map(|x| x.output());
         let characters = self.char_state.map(|x| x.output());
