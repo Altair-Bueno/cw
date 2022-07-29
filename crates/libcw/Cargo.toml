@@ -15,7 +15,6 @@ resolver="2"
 
 [features]
 default=[]
-async=["tokio"]
 sync=["maybe-async/is_sync"]
 
 [lib]
@@ -55,7 +54,11 @@ features = ["io-util", "fs", "macros", "rt", "rt-multi-thread"]
 
 [[example]]
 name = "async_count_from_file"
-required-features = ["async"]
+required-features = ["tokio"]
+
+[[example]]
+name = "count_from_file"
+required-features = ["sync"]
 
 [[bench]]
 name = "parser"

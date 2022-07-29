@@ -35,8 +35,8 @@
 #![warn(missing_docs)]
 
 static_assertions::assert_cfg!(
-    not(all(feature="sync", feature="async")),
-    "Must exclusively use `sync` or `async` features"
+    not(all(feature="tokio", feature="sync")),
+    "Must exclusively use `sync` or `tokio` features"
 );
 
 pub use parser::Parser;

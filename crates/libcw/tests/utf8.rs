@@ -35,7 +35,7 @@ mod tokio {
     }
 }
 
-#[cfg(not(feature = "tokio"))]
+#[cfg(feature = "sync")]
 mod blocking {
     use std::fs::File;
     use std::io::BufReader;

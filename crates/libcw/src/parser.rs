@@ -9,14 +9,14 @@ use crate::state::max_length::MaxLengthState;
 use crate::state::words_state::WordsState;
 use crate::state::State;
 
-#[cfg(any(feature = "sync", feature = "async"))]
+#[cfg(any(feature = "sync", feature = "tokio"))]
 use crate::{
     state::traits::{compute::Compute, partial_state::PartialState},
     stats::Stats,
 };
 
 cfg_if::cfg_if! {
-if #[cfg(feature="async")] {
+if #[cfg(feature="tokio")] {
     use tokio::io::{AsyncBufRead, AsyncBufReadExt, AsyncReadExt};
 
     trait Reader: AsyncReadExt + AsyncBufRead + Sized + Unpin {}
@@ -115,7 +115,7 @@ impl Parser {
     }
 }
 
-#[cfg(any(feature = "async", feature = "sync"))]
+#[cfg(any(feature = "tokio", feature = "sync"))]
 impl Parser {
     /// `process` exhausts a [`AsyncReadExt`](tokio::io::AsyncReadExt) object and returns
     /// the resulting [`Stats`](crate::Stats)
@@ -180,7 +180,7 @@ impl Parser {
     /// assert_eq!(Some(data.len()),stats.bytes())
     /// ```
     #[maybe_async::sync_impl]
-    pub fn process<R: BufRead + Sized>(&self, reader: R) -> std::io::Result<Stats> {
+    pub fn process<R: std::io::BufRead + Sized>(&self, reader: R) -> std::io::Result<Stats> {
         match self.encoding {
             Encoding::UTF8 => self.utf8_process(reader),
             Encoding::UTF16 => self.utf16_process(reader),
