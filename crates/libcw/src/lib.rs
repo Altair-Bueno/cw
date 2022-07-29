@@ -29,6 +29,7 @@
 //! Although this crate is designed for minimal size and high throughput, a set
 //! of features is provided for crate compatibility
 //!
+//! - `sync`: Enables blocking [Parser process](crate::Parser::process())
 //! - `tokio`: Enables async [Parser process](crate::Parser::process()) for
 //! the tokio runtime
 //! - `serde`: Enables serde serialization of [Stats](crate::Stats)

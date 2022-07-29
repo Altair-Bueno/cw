@@ -20,6 +20,7 @@ ffi=["sync"]
 
 [lib]
 name = "libcw"
+path="src/lib.rs"
 crate-type = ["rlib","staticlib"]
 
 [dependencies]
