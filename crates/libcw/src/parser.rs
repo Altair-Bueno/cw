@@ -9,11 +9,34 @@ use crate::state::max_length::MaxLengthState;
 use crate::state::words_state::WordsState;
 use crate::state::State;
 
-#[cfg(not(feature = "tokio"))]
-pub mod features_none;
-#[cfg(feature = "tokio")]
-pub mod tokio;
+#[cfg(any(feature = "sync", feature = "tokio"))]
+use crate::{
+    state::traits::{compute::Compute, partial_state::PartialState},
+    stats::Stats,
+};
 
+cfg_if::cfg_if! {
+if #[cfg(feature="tokio")] {
+    use tokio::io::{AsyncBufRead, AsyncBufReadExt, AsyncReadExt};
+
+    trait Reader: AsyncReadExt + AsyncBufRead + Sized + Unpin {}
+
+    impl<T> Reader for T
+    where T: AsyncReadExt + AsyncBufRead + Sized + Unpin
+    {}
+
+} else if #[cfg(feature="sync")] {
+    use std::io::BufRead;
+
+    trait Reader: BufRead {}
+
+    impl<T> Reader for T
+    where T: BufRead
+    {}
+}
+}
+
+#[allow(unused)]
 const BUFFER_SIZE: usize = 16 * 1024; // 8KB
 
 /// Parser is libcw's main component. It provides abstractions over the
@@ -88,6 +111,203 @@ impl Parser {
             initial_state,
             encoding,
             linebreak,
+        }
+    }
+}
+
+#[cfg(any(feature = "tokio", feature = "sync"))]
+impl Parser {
+    /// `process` exhausts a [`AsyncReadExt`](tokio::io::AsyncReadExt) object and returns
+    /// the resulting [`Stats`](crate::Stats)
+    ///
+    /// # Errors
+    ///
+    /// Any error returned by the [`AsyncReadExt`](tokio::io::AsyncReadExt) object will be
+    /// returned to the caller
+    ///
+    /// # Features
+    ///
+    /// If the `tokio` feature is disabled, the exposed API will be blocking
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// use libcw::Parser;
+    /// use libcw::config::{Encoding, LineBreak};
+    ///
+    /// #[tokio::main]
+    /// async fn main() {
+    ///     let parser = Parser::default();
+    ///     let data = b"Some large byte stream";
+    ///     let stats = parser.process(data.as_slice()).await.unwrap();
+    ///
+    ///     assert_eq!(Some(data.len()),stats.bytes())
+    /// }
+    /// ```
+    #[maybe_async::async_impl]
+    pub async fn process<R>(&self, reader: R) -> std::io::Result<Stats>
+    where
+        R: AsyncReadExt + AsyncBufRead + Sized + Unpin,
+    {
+        match self.encoding {
+            Encoding::UTF8 => self.utf8_process(reader).await,
+            Encoding::UTF16 => self.utf16_process(reader).await,
+        }
+    }
+
+    /// `process` exhausts a [`BufRead`](std::io::BufRead) object and returns
+    /// the resulting [`Stats`](crate::Stats)
+    ///
+    /// # Errors
+    ///
+    /// Any error returned by the [`BufRead`](std::io::BufRead) object will be
+    /// returned to the caller
+    ///
+    /// # Features
+    ///
+    /// If the `tokio` feature is enabled, the exposed API will be asynchronous
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// use libcw::Parser;
+    /// use libcw::config::{Encoding, LineBreak};
+    ///
+    /// let parser = Parser::default();
+    /// let data = b"Some large byte stream";
+    /// let stats = parser.process(data.as_slice()).unwrap();
+    ///
+    /// assert_eq!(Some(data.len()),stats.bytes())
+    /// ```
+    #[maybe_async::sync_impl]
+    pub fn process<R: std::io::BufRead + Sized>(&self, reader: R) -> std::io::Result<Stats> {
+        match self.encoding {
+            Encoding::UTF8 => self.utf8_process(reader),
+            Encoding::UTF16 => self.utf16_process(reader),
+        }
+    }
+
+    /// Runs over the tape at max speed reading utf8 encoded text
+    #[maybe_async::maybe_async]
+    async fn utf8_process<R>(&self, mut reader: R) -> std::io::Result<Stats>
+    where
+        R: Reader,
+    {
+        let mut state = self.initial_state;
+        let mut buff = [0; BUFFER_SIZE];
+        loop {
+            let read = reader.read(&mut buff).await?;
+            if read == 0 {
+                return Ok(state.output());
+            }
+            state = state.utf8_compute(&buff[0..read]);
+        }
+    }
+
+    /// Decides endianess and computes tape
+    #[maybe_async::maybe_async]
+    async fn utf16_process<R>(&self, mut reader: R) -> std::io::Result<Stats>
+    where
+        R: Reader,
+    {
+        // TODO utf16 encoding on beta. Some test did not pass
+        let buff = reader.fill_buf().await?;
+        if buff.len() < 2 {
+            // Not enough
+            let mut out = self.initial_state.output();
+            out.set_bytes(Some(buff.len()));
+            Ok(out)
+        } else {
+            let first = buff[0];
+            let second = buff[1];
+
+            if first == 0xFF && second == 0xFE {
+                // Little endian
+                let mut stats = self.initial_state.output();
+                stats.set_bytes(Some(2));
+
+                reader.consume(2);
+
+                self.utf16_process_le(reader)
+                    .await
+                    .map(|x| x.combine(stats))
+            } else if first == 0xFE && second == 0xFF {
+                // Big endian
+                let mut stats = self.initial_state.output();
+                stats.set_bytes(Some(2));
+
+                reader.consume(2);
+
+                self.utf16_process_be(reader)
+                    .await
+                    .map(|x| x.combine(stats))
+            } else {
+                // Assumed big endian
+                self.utf16_process_be(reader).await
+            }
+        }
+    }
+
+    #[maybe_async::maybe_async]
+    async fn utf16_process_be<R>(&self, mut reader: R) -> std::io::Result<Stats>
+    where
+        R: Reader,
+    {
+        let mut state = self.initial_state;
+        let mut buff = [0; BUFFER_SIZE];
+
+        let mut read = 0;
+        loop {
+            let start = if read % 2 != 0 {
+                // Put last one the first
+                buff[0] = buff[read];
+                0
+            } else {
+                // Ignore the first element
+                1
+            };
+            // [_,Some,Some,Some,Some...,BUFFER_SIZE]
+            read = reader.read(&mut buff[1..BUFFER_SIZE]).await?;
+
+            if read == 0 {
+                return Ok(state.output());
+            } else {
+                // Tape wont change. Non mutable call
+                state = state.utf16_compute(&buff[start..(read + 1)]);
+            }
+        }
+    }
+    #[maybe_async::maybe_async]
+    async fn utf16_process_le<R>(&self, mut reader: R) -> std::io::Result<Stats>
+    where
+        R: Reader,
+    {
+        let mut state = self.initial_state;
+        let mut buff = [0; BUFFER_SIZE];
+
+        let mut read = 0;
+        loop {
+            let start = if read % 2 != 0 {
+                // Put last one the first
+                buff[0] = buff[read];
+                0
+            } else {
+                // Ignore the first element
+                1
+            };
+            // [_,Some,Some,Some,Some...,BUFFER_SIZE]
+            read = reader.read(&mut buff[1..BUFFER_SIZE]).await?;
+
+            for index in ((start + 1)..(read + 1)).step_by(2) {
+                buff.swap(index, index - 1)
+            }
+
+            if read == 0 {
+                return Ok(state.output());
+            } else {
+                // Tape won't change. Non mutable call
+                state = state.utf16_compute(&buff[start..(read + 1)]);
+            }
         }
     }
 }

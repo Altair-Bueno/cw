@@ -9,27 +9,36 @@ description = "cw core library for fast and reliable count"
 repository = "https://github.com/Altair-Bueno/cw"
 keywords = ["wc", "cw", "word", "line", "character", "UTF8", "UTF16", "count"]
 categories = ["filesystem", "text-processing"]
+resolver="2"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [features]
 default=[]
+sync=["maybe-async/is_sync"]
+ffi=["sync"]
 
 [lib]
 name = "libcw"
 crate-type = ["rlib","staticlib"]
 
 [dependencies]
+maybe-async = "0.2.6"
+cfg-if = "1.0.0"
+static_assertions = "1.1.0"
 
 [dependencies.tokio]
 version = "1.17.0"
 features = ["io-util"]
-optional = true
+optional=true
 
 [dependencies.serde]
 version = "1.0"
 features = ["derive"]
 optional = true
+
+[build-dependencies]
+cbindgen = "0.24.3"
 
 [dev-dependencies]
 serde_json = "1.0.79"
@@ -40,10 +49,6 @@ speculoos = "0.9"
 version = "0.3"
 features = ["html_reports"]
 
-
-[build-dependencies]
-cbindgen = "0.20.0"
-
 [dev-dependencies.tokio]
 version = "1.17.0"
 features = ["io-util", "fs", "macros", "rt", "rt-multi-thread"]
@@ -52,7 +57,11 @@ features = ["io-util", "fs", "macros", "rt", "rt-multi-thread"]
 name = "async_count_from_file"
 required-features = ["tokio"]
 
+[[example]]
+name = "count_from_file"
+required-features = ["sync"]
+
 [[bench]]
 name = "parser"
 harness = false
-required-features = []
+required-features = ["sync"]

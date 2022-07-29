@@ -1,9 +1,6 @@
 [workspace]
 resolver = "2"
-members = [
-    "crates/cw",
-    "crates/libcw"
-]
+members = [ "crates/*" ]
 
 [profile.release]
 opt-level = 2

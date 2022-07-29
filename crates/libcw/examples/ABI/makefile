@@ -10,7 +10,7 @@ run:
 	./a.out
 
 cargo_build: make_dirs
-	cd $(CARGO_LIBCW_FOLDER);cargo build --release
+	cd $(CARGO_LIBCW_FOLDER);cargo build -p=libcw --release --features=ffi
 	cd $(CARGO_LIBCW_FOLDER);cp *.h examples/ABI/lib
 	cd $(CARGO_ROOT_FOLDER);cp target/release/liblibcw.a crates/libcw/examples/ABI/lib/libcw.a
 
