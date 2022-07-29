@@ -16,6 +16,7 @@ resolver="2"
 [features]
 default=[]
 sync=["maybe-async/is_sync"]
+ffi=["sync"]
 
 [lib]
 name = "libcw"

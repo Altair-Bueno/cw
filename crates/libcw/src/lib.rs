@@ -46,5 +46,5 @@ pub mod config;
 mod parser;
 mod state;
 mod stats;
-#[cfg(feature = "sync")]
+#[cfg(feature = "ffi")]
 pub mod c;
