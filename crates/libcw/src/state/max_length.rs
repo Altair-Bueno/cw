@@ -5,19 +5,13 @@ use crate::state::chars_state::CharState;
 use crate::state::traits::{compute::Compute, partial_state::PartialState};
 
 /// Max length
-#[derive(Debug, Copy, Clone)]
+#[derive(Default, Debug, Copy, Clone)]
 pub struct MaxLengthState {
     max_length_found: usize,
     //line_count: usize,
     //char_count:usize,
     linebreak: LineBreak,
     char_state: CharState,
-}
-
-impl Default for MaxLengthState {
-    fn default() -> Self {
-        MaxLengthState::new(LineBreak::default())
-    }
 }
 
 impl MaxLengthState {

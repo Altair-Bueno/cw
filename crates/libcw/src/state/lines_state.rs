@@ -4,16 +4,10 @@ use crate::config::LineBreak;
 use crate::state::traits::{compute::Compute, partial_state::PartialState};
 
 /// number of lines
-#[derive(Copy, Clone, Debug)]
+#[derive(Default, Debug, Copy, Clone)]
 pub struct LinesState {
     line_count: usize,
     linebreak: LineBreak,
-}
-
-impl Default for LinesState {
-    fn default() -> Self {
-        LinesState::new(LineBreak::default())
-    }
 }
 
 impl LinesState {
