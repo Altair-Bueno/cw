@@ -1,2 +1,0 @@
-This is an example of using
-C and Rust on the same program
