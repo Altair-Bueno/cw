@@ -1,36 +1,48 @@
-use crate::eater::Eater;
-use tokio::io::{AsyncBufReadExt, AsyncBufRead};
+use libcw::counter::{Collapse, Counter};
+use std::path::Path;
+use tokio::{
+    fs::File,
+    io::{AsyncBufRead, AsyncBufReadExt, BufReader},
+};
+use tokio_stream::{wrappers::LinesStream, Stream};
 
-
-pub async fn eat_async_reader<'t, 'e, 'r,  R, COLLAPSABLE>(
-    _eater: &'e mut dyn Eater<&'t [u8], COLLAPSABLE>,
+pub async fn count_bufreader<R, C, S, O, F>(
     mut reader: R,
-) -> std::io::Result<()>
+    counter: C,
+    mut state: S,
+    collapsable: F,
+) -> std::io::Result<F>
 where
-    R: AsyncBufRead + Sized + Unpin + 'r,
-    'r:'t
+    R: AsyncBufRead + Unpin,
+    C: Counter<State = S, Output = O>,
+    S: 'static,
+    F: 'static,
+    O: Collapse<F>,
 {
     let mut amount = 0;
-
     loop {
         reader.consume(amount);
-        let buffer: &[u8] = reader.fill_buf().await?;
-        amount = buffer.len();
-        
-        if amount == 0 {
-            return Ok(());
-        } else {
+        let buff = reader.fill_buf().await?;
+        amount = buff.len();
 
+        if amount == 0 {
+            return Ok(counter.terminate(state).collapse(collapsable));
+        } else {
+            state = counter.parse(buff, state);
         }
     }
 }
-/*
-pub async fn foooo() -> std::io::Result<()> {
-    let counter = libcw::counter::byte::ByteCounter::new().layer(tower::layer::util::Identity::new());
-    let state: libcw::counter::byte::ByteCounterServiceState<()> = Default::default();
-    let mut eater = crate::eater::AbstractEater::new(state, counter);
-    let reader = tokio::io::BufReader::new(tokio::fs::File::open("Cargo.lock").await?);
-    eat_async_reader(&mut eater as &mut dyn Eater<_,anymap::AnyMap>, reader).await?;
-    Ok(())
+
+pub async fn path_to_bufread(path: impl AsRef<Path>) -> std::io::Result<impl AsyncBufRead> {
+    let file = File::open(path).await?;
+    Ok(BufReader::new(file))
 }
-*/
+
+pub async fn stdin_to_bufread() -> impl AsyncBufRead {
+    BufReader::new(tokio::io::stdin())
+}
+
+pub async fn stdin_linestream() -> impl Stream<Item = std::io::Result<String>> {
+    let stdin = BufReader::new(tokio::io::stdin());
+    LinesStream::new(stdin.lines())
+}

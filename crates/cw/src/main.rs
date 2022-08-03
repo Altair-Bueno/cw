@@ -20,7 +20,6 @@ use clap::Parser;
 use config::Config;
 
 mod config;
-mod eater;
 mod run;
 mod util;
 use run::run;
