@@ -20,7 +20,7 @@ pub struct LineCounterServiceOutput<S> {
 #[derive(Debug, Default, Clone)]
 pub struct Lines(usize);
 
-#[cfg(feature="anymap")]
+#[cfg(feature = "anymap")]
 impl<S> Collapse<anymap::AnyMap> for LineCounterServiceOutput<S>
 where
     S: Collapse<anymap::AnyMap>,

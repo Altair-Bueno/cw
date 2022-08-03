@@ -20,7 +20,7 @@ pub struct ByteCounterServiceOutput<S> {
 #[derive(Debug, Default, Clone)]
 pub struct Bytes(usize);
 
-#[cfg(feature="anymap")]
+#[cfg(feature = "anymap")]
 impl<S> Collapse<anymap::AnyMap> for ByteCounterServiceOutput<S>
 where
     S: Collapse<anymap::AnyMap>,

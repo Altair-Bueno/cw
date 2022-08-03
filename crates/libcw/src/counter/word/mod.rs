@@ -1,6 +1,6 @@
-#[cfg(feature="tower")]
+#[cfg(feature = "tower")]
 mod service;
-#[cfg(feature="tower")]
+#[cfg(feature = "tower")]
 pub use service::*;
 
 use super::Counter;
@@ -21,7 +21,7 @@ pub struct WordCounterState {
 
 #[derive(Clone)]
 pub struct WordCounter {
-    reductor: fn(WordCounterState, & u8) -> WordCounterState,
+    reductor: fn(WordCounterState, &u8) -> WordCounterState,
 }
 
 impl Debug for WordCounter {
@@ -38,7 +38,6 @@ impl Default for WordCounter {
         Self::new()
     }
 }
-
 
 impl WordCounter {
     pub fn new() -> Self {
@@ -59,7 +58,6 @@ impl Counter<&[u8]> for WordCounter {
         state.count
     }
 }
-
 
 fn collapse_utf8(state: WordCounterState, char: &u8) -> WordCounterState {
     let is_separator = match char {

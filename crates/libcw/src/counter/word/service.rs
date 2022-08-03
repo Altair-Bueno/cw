@@ -20,7 +20,7 @@ pub struct WordCounterServiceOutput<S> {
 #[derive(Debug, Default, Clone)]
 pub struct Words(usize);
 
-#[cfg(feature="anymap")]
+#[cfg(feature = "anymap")]
 impl<S> Collapse<anymap::AnyMap> for WordCounterServiceOutput<S>
 where
     S: Collapse<anymap::AnyMap>,

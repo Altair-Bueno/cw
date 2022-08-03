@@ -17,7 +17,7 @@ resolver="2"
 default=[]
 tower = ["tower-layer"]
 ffi = []
-full = ["anymap", "tower", "serde"]
+full = ["anymap", "tower", "serde", "clap"]
 
 [lib]
 name = "libcw"
@@ -28,6 +28,15 @@ crate-type = ["rlib","staticlib"]
 #cfg-if = "1.0.0"
 bytecount = "0.6.3"
 enum-utils = "0.1.2"
+
+[dependencies.clap]
+version = "3"
+default-features = false
+optional = true
+features = [
+  "std",
+  "derive",
+]
 
 [dependencies.anymap]
 version = "0.12.1"

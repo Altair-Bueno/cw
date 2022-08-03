@@ -11,7 +11,7 @@ fn __foo() {
     .layer(ByteCounter::new())
     .layer(LineCounter::new(config::LineBreak::LF))
     .service(Identity::new());
-    
+
     let result = service.parse(&[10, 20], Default::default());
     let _foo = service.terminate(result).collapse(AnyMap::new());
 }

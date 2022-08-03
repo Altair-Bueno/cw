@@ -1,4 +1,3 @@
-
 pub mod byte;
 pub mod line;
 pub mod word;
@@ -15,7 +14,7 @@ pub trait Collapse<Collapsable> {
     fn collapse(self, colapsable: Collapsable) -> Collapsable;
 }
 
-#[cfg(feature="tower")]
+#[cfg(feature = "tower")]
 impl<ANY> Counter<ANY> for tower_layer::Identity {
     type State = ();
 
@@ -30,7 +29,7 @@ impl<ANY> Counter<ANY> for tower_layer::Identity {
     }
 }
 
-#[cfg(feature="anymap")]
+#[cfg(feature = "anymap")]
 impl Collapse<anymap::AnyMap> for () {
     fn collapse(self, colapsable: anymap::AnyMap) -> anymap::AnyMap {
         colapsable

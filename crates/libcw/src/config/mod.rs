@@ -1,9 +1,12 @@
+#[cfg(feature = "clap")]
+use clap::ValueEnum;
 use enum_utils::FromStr;
-use std::fmt::{Display};
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
+use std::fmt::Display;
 
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
+#[cfg_attr(feature = "clap", derive(ValueEnum))]
 #[derive(Debug, Clone, Copy, Default, FromStr)]
 pub enum Encoding {
     #[default]
@@ -24,13 +27,13 @@ impl Display for Encoding {
 }
 
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
+#[cfg_attr(feature = "clap", derive(ValueEnum))]
 #[derive(Debug, Clone, Copy, Default, FromStr)]
 pub enum LineBreak {
     #[default]
     LF,
     CR,
 }
-
 
 impl Display for LineBreak {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
@@ -41,7 +44,6 @@ impl Display for LineBreak {
         write!(f, "{e}")
     }
 }
-
 
 impl From<LineBreak> for u8 {
     fn from(b: LineBreak) -> Self {

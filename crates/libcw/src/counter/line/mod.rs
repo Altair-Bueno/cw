@@ -1,6 +1,6 @@
-#[cfg(feature="tower")]
+#[cfg(feature = "tower")]
 mod service;
-#[cfg(feature="tower")]
+#[cfg(feature = "tower")]
 pub use service::*;
 
 use crate::config::LineBreak;
