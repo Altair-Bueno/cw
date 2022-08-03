@@ -4,7 +4,7 @@ use tokio::{
     fs::File,
     io::{AsyncBufRead, AsyncBufReadExt, BufReader},
 };
-use tokio_stream::{wrappers::LinesStream, Stream, StreamExt};
+use tokio_stream::{wrappers::LinesStream, Stream};
 
 pub async fn count_bufreader<R, C, S, O, F>(
     mut reader: R,

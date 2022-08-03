@@ -13,8 +13,6 @@
 //! To learn more about this project, visit it's [GitHub repo](https://github.com/Altair-Bueno/cw)
 //!
 
-use std::process::ExitCode;
-
 use clap::Parser;
 
 use config::Config;

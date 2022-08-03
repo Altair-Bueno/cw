@@ -1,20 +1,20 @@
 use anymap::AnyMap;
 use libcw::counter::{Collapse, Counter};
-use tokio_stream::{Stream, StreamExt};
+use tokio_stream::Stream;
 
-use crate::{print::Printer, util};
+use crate::print::Printer;
 
 pub async fn count_files<F, C, S, O>(
-    files: F, 
-    counter: C,
-    state: S,
-    printer: &mut Box<dyn Printer + Send + Sync>,
+    _files: F,
+    _counter: C,
+    _state: S,
+    _printer: &mut Box<dyn Printer + Send + Sync>,
 ) -> std::io::Result<()>
 where
     C: Counter<State = S, Output = O>,
     S: 'static + Clone,
     O: Collapse<AnyMap>,
-    F: Stream<Item = String> + Unpin, 
+    F: Stream<Item = String> + Unpin,
 {
     /*
     let mut stream = stdin(counter, state)

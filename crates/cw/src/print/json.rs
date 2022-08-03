@@ -48,7 +48,7 @@ impl Printer for JsonPrinter {
         let (path, result) = message;
         match &result {
             Ok(x) => self.total = self.total.clone() + x.clone(),
-            Err(_) => {},
+            Err(_) => {}
         }
 
         let either = result.map_err(|x| x.to_string()).into();

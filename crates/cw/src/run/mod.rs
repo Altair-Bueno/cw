@@ -1,5 +1,5 @@
-mod stdin;
 mod files;
+mod stdin;
 use crate::print::JsonPrinter;
 use eyre::Result;
 use libcw::counter::byte::ByteCounter;
@@ -37,7 +37,7 @@ pub async fn run(config: Config) -> Result<()> {
     if from_stdin {
         // File list provided by stdin
         //TODO
-        let files = util::stdin_to_path_stream().await;
+        let _files = util::stdin_to_path_stream().await;
         todo!()
     } else if files.is_empty() {
         // Process stdin
