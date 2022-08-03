@@ -18,7 +18,7 @@ jobs:
     strategy:
       matrix:
         os: [ "ubuntu-latest", 'windows-latest', 'macos-latest' ]
-        features: [ " ", "serde", "tokio", "sync" ]
+        features: [ " ", "anymap", "serde", "clap", "tower" ]
 
     steps:
       - name: Disable autocrlf
