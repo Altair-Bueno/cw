@@ -37,15 +37,15 @@ pub struct WordCounterService<S> {
     counter: WordCounter,
 }
 
-impl<'t, S> Counter<&'t [u8]> for WordCounterService<S>
+impl<S> Counter for WordCounterService<S>
 where
-    S: Counter<&'t [u8]>,
+    S: Counter,
 {
     type State = WordCounterServiceState<S::State>;
 
     type Output = WordCounterServiceOutput<S::Output>;
 
-    fn parse(&self, input: &'t [u8], state: Self::State) -> Self::State {
+    fn parse(&self, input: &[u8], state: Self::State) -> Self::State {
         WordCounterServiceState {
             inner: self.inner.parse(input, state.inner),
             state: self.counter.parse(input, state.state),

@@ -25,7 +25,7 @@ impl ByteCounter {
     }
 }
 
-impl Counter<&[u8]> for ByteCounter {
+impl Counter for ByteCounter {
     type State = ByteCounterState;
     type Output = usize;
 

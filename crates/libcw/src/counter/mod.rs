@@ -2,11 +2,11 @@ pub mod byte;
 pub mod line;
 pub mod word;
 
-pub trait Counter<Input> {
+pub trait Counter {
     type State: 'static;
     type Output;
 
-    fn parse(&self, input: Input, state: Self::State) -> Self::State;
+    fn parse(&self, input: &[u8], state: Self::State) -> Self::State;
     fn terminate(&self, state: Self::State) -> Self::Output;
 }
 
@@ -15,12 +15,12 @@ pub trait Collapse<Collapsable> {
 }
 
 #[cfg(feature = "tower")]
-impl<ANY> Counter<ANY> for tower_layer::Identity {
+impl Counter for tower_layer::Identity {
     type State = ();
 
     type Output = ();
 
-    fn parse(&self, _: ANY, _: Self::State) -> Self::State {
+    fn parse(&self, _: &[u8], _: Self::State) -> Self::State {
         
     }
 

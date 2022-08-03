@@ -37,15 +37,15 @@ pub struct ByteCounterService<S> {
     counter: ByteCounter,
 }
 
-impl<'t, S> Counter<&'t [u8]> for ByteCounterService<S>
+impl<S> Counter for ByteCounterService<S>
 where
-    S: Counter<&'t [u8]>,
+    S: Counter,
 {
     type State = ByteCounterServiceState<S::State>;
 
     type Output = ByteCounterServiceOutput<S::Output>;
 
-    fn parse(&self, input: &'t [u8], state: Self::State) -> Self::State {
+    fn parse(&self, input: &[u8], state: Self::State) -> Self::State {
         ByteCounterServiceState {
             inner: self.inner.parse(input, state.inner),
             state: self.counter.parse(input, state.state),

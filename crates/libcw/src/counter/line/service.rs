@@ -37,15 +37,15 @@ pub struct LineCounterService<S> {
     counter: LineCounter,
 }
 
-impl<'t, S> Counter<&'t [u8]> for LineCounterService<S>
+impl<S> Counter for LineCounterService<S>
 where
-    S: Counter<&'t [u8]>,
+    S: Counter,
 {
     type State = LineCounterServiceState<S::State>;
 
     type Output = LineCounterServiceOutput<S::Output>;
 
-    fn parse(&self, input: &'t [u8], state: Self::State) -> Self::State {
+    fn parse(&self, input: &[u8], state: Self::State) -> Self::State {
         LineCounterServiceState {
             inner: self.inner.parse(input, state.inner),
             state: self.counter.parse(input, state.state),

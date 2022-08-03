@@ -46,7 +46,7 @@ impl WordCounter {
     }
 }
 
-impl Counter<&[u8]> for WordCounter {
+impl Counter for WordCounter {
     type State = WordCounterState;
     type Output = usize;
 

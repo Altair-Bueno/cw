@@ -24,7 +24,7 @@ impl LineCounter {
     }
 }
 
-impl Counter<&[u8]> for LineCounter {
+impl Counter for LineCounter {
     type State = LineCounterState;
     type Output = usize;
 
