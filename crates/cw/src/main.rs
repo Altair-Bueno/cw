@@ -20,12 +20,12 @@ use clap::Parser;
 use config::Config;
 
 mod config;
-mod run;
-mod util;
 mod print;
+mod run;
 mod stats;
-use run::run;
+mod util;
 use eyre::Result;
+use run::run;
 
 #[cfg_attr(feature = "mimalloc", global_allocator)]
 #[cfg(feature = "mimalloc")]

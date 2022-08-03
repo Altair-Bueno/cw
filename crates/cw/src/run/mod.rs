@@ -1,17 +1,16 @@
+mod stdin;
+mod files;
 use crate::print::JsonPrinter;
-use crate::stats::Stats;
-use anymap::AnyMap;
 use eyre::Result;
+use libcw::counter::byte::ByteCounter;
 use libcw::counter::line::LineCounter;
 use libcw::counter::word::WordCounter;
-use libcw::counter::Collapse;
-use libcw::counter::{byte::ByteCounter, Counter};
-use tokio_stream::Stream;
-use tokio_stream::StreamExt;
 use tower::{layer::util::Identity, ServiceBuilder};
 
-use crate::print::{self, Printer};
+use crate::print::Printer;
 use crate::{config::Config, util};
+
+use stdin::count_stdin;
 
 pub async fn run(config: Config) -> Result<()> {
     let counter = ServiceBuilder::new()
@@ -37,19 +36,12 @@ pub async fn run(config: Config) -> Result<()> {
     printer.begin().await;
     if from_stdin {
         // File list provided by stdin
-        let files = util::stdin_to_path_stream().await;
         //TODO
+        let files = util::stdin_to_path_stream().await;
         todo!()
     } else if files.is_empty() {
         // Process stdin
-        let mut stream = stdin(counter, state)
-            .await
-            .map(|x| x.map(TryFrom::try_from).map(Result::unwrap))
-            .map(|x| ("STDIN".to_owned(), x));
-
-        while let Some(message) = stream.next().await {
-            printer.print(message).await;
-        }
+        count_stdin(counter, state, printer.as_mut()).await?;
     } else {
         // File list provided as arguments
         tokio_stream::iter(files.into_iter());
@@ -59,17 +51,4 @@ pub async fn run(config: Config) -> Result<()> {
 
     printer.terminate().await;
     Ok(())
-}
-
-async fn stdin<C, S, O>(counter: C, state: S) -> impl Stream<Item = std::io::Result<AnyMap>>
-where
-    C: Counter<State = S, Output = O>,
-    S: 'static,
-    O: Collapse<AnyMap>,
-{
-    let collapsable = AnyMap::new();
-    let reader = util::stdin_to_bufread().await;
-    let result = util::count_bufreader(reader, counter, state, collapsable).await;
-
-    tokio_stream::iter([result].into_iter())
 }

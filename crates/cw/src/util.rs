@@ -49,4 +49,3 @@ pub async fn stdin_to_path_stream() -> impl Stream<Item = std::io::Result<String
     let stdin = BufReader::new(tokio::io::stdin());
     LinesStream::new(stdin.lines())
 }
-

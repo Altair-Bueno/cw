@@ -11,4 +11,3 @@ pub trait Printer {
     async fn print(&mut self, message: Message);
     async fn terminate(&mut self);
 }
-

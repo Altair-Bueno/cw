@@ -3,7 +3,6 @@ use std::collections::HashMap;
 use crate::stats::Stats;
 use serde::Serialize;
 use tokio::io::{stdout, AsyncWriteExt};
-use tokio_stream::Stream;
 
 use super::{Message, Printer};
 
@@ -34,7 +33,6 @@ where
 #[derive(Serialize, Debug, Default)]
 pub struct JsonPrinter {
     total: Stats,
-    errors: i32,
     summary: HashMap<String, Either<Stats, String>>,
 }
 impl JsonPrinter {
@@ -50,7 +48,7 @@ impl Printer for JsonPrinter {
         let (path, result) = message;
         match &result {
             Ok(x) => self.total = self.total.clone() + x.clone(),
-            Err(_) => self.errors += 1,
+            Err(_) => {},
         }
 
         let either = result.map_err(|x| x.to_string()).into();

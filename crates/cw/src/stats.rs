@@ -33,9 +33,12 @@ impl TryFrom<AnyMap> for Stats {
             let words = value.get::<Words>()?.clone();
             let bytes = value.get::<Bytes>()?.clone();
 
-            Some(Stats {lines, words, bytes})
+            Some(Stats {
+                lines,
+                words,
+                bytes,
+            })
         }
         inner(value).ok_or(())
     }
 }
-
