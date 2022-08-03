@@ -1,21 +1,42 @@
-use super::Counter;
+mod service;
 
-#[derive(Debug, Default)]
+use super::Counter;
+pub use service::*;
+use std::fmt::Debug;
+
+#[derive(Debug, Default, Clone)]
 enum Location {
     #[default]
     WhiteSpace,
     Character,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Default, Clone)]
 pub struct WordCounterState {
     location: Location,
     count: usize,
 }
 
+#[derive(Clone)]
 pub struct WordCounter {
-    reductor: fn(WordCounterState, &u8) -> WordCounterState,
+    reductor: fn(WordCounterState, & u8) -> WordCounterState,
 }
+
+impl Debug for WordCounter {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let reductor = "<FUNCTION>";
+        f.debug_struct("WordCounter")
+            .field("reductor", &reductor)
+            .finish()
+    }
+}
+
+impl Default for WordCounter {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 
 impl WordCounter {
     pub fn new() -> Self {
@@ -36,6 +57,7 @@ impl Counter<&[u8]> for WordCounter {
         state.count
     }
 }
+
 
 fn collapse_utf8(state: WordCounterState, char: &u8) -> WordCounterState {
     let is_separator = match char {

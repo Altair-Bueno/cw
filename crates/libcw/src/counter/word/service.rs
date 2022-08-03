@@ -3,68 +3,68 @@ use tower_layer::Layer;
 use crate::counter::Collapse;
 use crate::counter::Counter;
 
-use super::{ByteCounter, ByteCounterState};
+use super::*;
 use anymap::AnyMap;
 
 #[derive(Debug, Default, Clone)]
-pub struct ByteCounterServiceState<S> {
+pub struct WordCounterServiceState<S> {
     inner: S,
-    state: ByteCounterState,
+    state: WordCounterState,
 }
 
 #[derive(Debug, Default, Clone)]
-pub struct ByteCounterServiceOutput<S> {
+pub struct WordCounterServiceOutput<S> {
     inner: S,
     output: usize,
 }
 
 #[derive(Debug, Default, Clone)]
-pub struct Bytes(usize);
+pub struct Words(usize);
 
-impl<S> Collapse<AnyMap> for ByteCounterServiceOutput<S>
+impl<S> Collapse<AnyMap> for WordCounterServiceOutput<S>
 where
     S: Collapse<AnyMap>,
 {
     fn collapse(self, mut colapsable: AnyMap) -> AnyMap {
-        colapsable.insert(Bytes(self.output));
+        colapsable.insert(Words(self.output));
         self.inner.collapse(colapsable)
     }
 }
 
 #[derive(Debug, Default, Clone)]
-pub struct ByteCounterService<S> {
+pub struct WordCounterService<S> {
     inner: S,
-    counter: ByteCounter,
+    counter: WordCounter,
 }
 
-impl<'t, S> Counter<&'t [u8]> for ByteCounterService<S>
+impl<'t, S> Counter<&'t [u8]> for WordCounterService<S>
 where
     S: Counter<&'t [u8]>,
 {
-    type State = ByteCounterServiceState<S::State>;
+    type State = WordCounterServiceState<S::State>;
 
-    type Output = ByteCounterServiceOutput<S::Output>;
+    type Output = WordCounterServiceOutput<S::Output>;
 
     fn parse(&self, input: &'t [u8], state: Self::State) -> Self::State {
-        ByteCounterServiceState {
+        WordCounterServiceState {
             inner: self.inner.parse(input, state.inner),
             state: self.counter.parse(input, state.state),
         }
     }
 
     fn terminate(&self, state: Self::State) -> Self::Output {
-        ByteCounterServiceOutput {
+        WordCounterServiceOutput {
             inner: self.inner.terminate(state.inner),
             output: self.counter.terminate(state.state),
         }
     }
 }
 
-impl<S> Layer<S> for ByteCounter {
-    type Service = ByteCounterService<S>;
+impl<S> Layer<S> for WordCounter {
+    type Service = WordCounterService<S>;
 
     fn layer(&self, inner: S) -> Self::Service {
-        ByteCounterService {
+        WordCounterService {
             inner,
             counter: self.clone(),
         }

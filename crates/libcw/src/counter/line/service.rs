@@ -18,6 +18,7 @@ pub struct LineCounterServiceOutput<S> {
     output: usize,
 }
 
+#[derive(Debug, Default, Clone)]
 pub struct Lines(usize);
 
 impl<S> Collapse<AnyMap> for LineCounterServiceOutput<S>
