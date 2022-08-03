@@ -15,7 +15,7 @@ resolver="2"
 
 [features]
 default=[]
-sync=["maybe-async/is_sync"]
+sync=[]
 ffi=["sync"]
 
 [lib]
@@ -24,14 +24,13 @@ path="src/lib.rs"
 crate-type = ["rlib","staticlib"]
 
 [dependencies]
-maybe-async = "0.2.6"
-cfg-if = "1.0.0"
-static_assertions = "1.1.0"
-
-[dependencies.tokio]
-version = "1.17.0"
-features = ["io-util"]
-optional=true
+#cfg-if = "1.0.0"
+#static_assertions = "1.1.0"
+bytecount = "0.6.3"
+enum-utils = "0.1.2"
+tower-layer = "0.3.1"
+anymap = "0.12.1"
+tower = {version= "0.4.13", features=["full"]}
 
 [dependencies.serde]
 version = "1.0"
@@ -53,16 +52,4 @@ features = ["html_reports"]
 [dev-dependencies.tokio]
 version = "1.17.0"
 features = ["io-util", "fs", "macros", "rt", "rt-multi-thread"]
-
-[[example]]
-name = "async_count_from_file"
-required-features = ["tokio"]
-
-[[example]]
-name = "count_from_file"
-required-features = ["sync"]
-
-[[bench]]
-name = "parser"
-harness = false
-required-features = ["sync"]
+ 
