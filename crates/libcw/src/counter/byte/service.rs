@@ -23,7 +23,6 @@ pub struct ByteCounterServiceOutput<S> {
 #[derive(Debug, Default, Clone)]
 pub struct Bytes(pub usize);
 
-
 impl Deref for Bytes {
     type Target = usize;
 
@@ -31,7 +30,6 @@ impl Deref for Bytes {
         &self.0
     }
 }
-
 
 #[cfg(feature = "anymap")]
 impl<S> Collapse<anymap::AnyMap> for ByteCounterServiceOutput<S>

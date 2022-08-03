@@ -31,7 +31,6 @@ impl Deref for Words {
     }
 }
 
-
 #[cfg(feature = "anymap")]
 impl<S> Collapse<anymap::AnyMap> for WordCounterServiceOutput<S>
 where
