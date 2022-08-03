@@ -21,11 +21,11 @@ impl<ANY> Counter<ANY> for tower_layer::Identity {
     type Output = ();
 
     fn parse(&self, _: ANY, _: Self::State) -> Self::State {
-        ()
+        
     }
 
     fn terminate(&self, _: Self::State) -> Self::Output {
-        ()
+        
     }
 }
 

@@ -1,9 +1,9 @@
 use crate::eater::Eater;
-use tokio::io::{AsyncReadExt, AsyncBufReadExt, AsyncRead, AsyncBufRead};
-use tower::Layer;
+use tokio::io::{AsyncBufReadExt, AsyncBufRead};
+
 
 pub async fn eat_async_reader<'t, 'e, 'r,  R, COLLAPSABLE>(
-    eater: &'e mut dyn Eater<&'t [u8], COLLAPSABLE>,
+    _eater: &'e mut dyn Eater<&'t [u8], COLLAPSABLE>,
     mut reader: R,
 ) -> std::io::Result<()>
 where

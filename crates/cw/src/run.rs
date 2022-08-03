@@ -5,8 +5,8 @@ use tower::{layer::util::Identity, ServiceBuilder};
 
 use crate::config::Config;
 
-pub async fn run(config: Config) -> u8 {
-    let counter = ServiceBuilder::new()
+pub async fn run(_config: Config) -> u8 {
+    let _counter = ServiceBuilder::new()
         .layer(ByteCounter::new())
         .layer(LineCounter::new(Default::default()))
         .layer(WordCounter::new())
