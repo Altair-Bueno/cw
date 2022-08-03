@@ -1,7 +1,9 @@
+#[cfg(feature="tower")]
 mod service;
+#[cfg(feature="tower")]
+pub use service::*;
 
 use crate::config::LineBreak;
-pub use service::*;
 
 use super::Counter;
 use bytecount::count;

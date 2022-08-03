@@ -1,5 +1,3 @@
-use anymap::AnyMap;
-use tower_layer::Identity;
 
 pub mod byte;
 pub mod line;
@@ -17,7 +15,8 @@ pub trait Collapse<Collapsable> {
     fn collapse(self, colapsable: Collapsable) -> Collapsable;
 }
 
-impl<ANY> Counter<ANY> for Identity {
+#[cfg(feature="tower")]
+impl<ANY> Counter<ANY> for tower_layer::Identity {
     type State = ();
 
     type Output = ();
@@ -31,8 +30,9 @@ impl<ANY> Counter<ANY> for Identity {
     }
 }
 
-impl Collapse<AnyMap> for () {
-    fn collapse(self, colapsable: AnyMap) -> AnyMap {
+#[cfg(feature="anymap")]
+impl Collapse<anymap::AnyMap> for () {
+    fn collapse(self, colapsable: anymap::AnyMap) -> anymap::AnyMap {
         colapsable
     }
 }

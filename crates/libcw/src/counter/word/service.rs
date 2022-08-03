@@ -4,7 +4,6 @@ use crate::counter::Collapse;
 use crate::counter::Counter;
 
 use super::*;
-use anymap::AnyMap;
 
 #[derive(Debug, Default, Clone)]
 pub struct WordCounterServiceState<S> {
@@ -21,11 +20,12 @@ pub struct WordCounterServiceOutput<S> {
 #[derive(Debug, Default, Clone)]
 pub struct Words(usize);
 
-impl<S> Collapse<AnyMap> for WordCounterServiceOutput<S>
+#[cfg(feature="anymap")]
+impl<S> Collapse<anymap::AnyMap> for WordCounterServiceOutput<S>
 where
-    S: Collapse<AnyMap>,
+    S: Collapse<anymap::AnyMap>,
 {
-    fn collapse(self, mut colapsable: AnyMap) -> AnyMap {
+    fn collapse(self, mut colapsable: anymap::AnyMap) -> anymap::AnyMap {
         colapsable.insert(Words(self.output));
         self.inner.collapse(colapsable)
     }

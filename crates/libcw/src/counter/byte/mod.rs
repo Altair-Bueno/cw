@@ -1,7 +1,9 @@
+#[cfg(feature="tower")]
 mod service;
+#[cfg(feature="tower")]
+pub use service::*;
 
 use super::Counter;
-pub use service::*;
 
 #[derive(Debug, Default, Clone)]
 pub struct ByteCounterState {

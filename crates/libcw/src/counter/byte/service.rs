@@ -4,7 +4,6 @@ use crate::counter::Collapse;
 use crate::counter::Counter;
 
 use super::{ByteCounter, ByteCounterState};
-use anymap::AnyMap;
 
 #[derive(Debug, Default, Clone)]
 pub struct ByteCounterServiceState<S> {
@@ -21,11 +20,12 @@ pub struct ByteCounterServiceOutput<S> {
 #[derive(Debug, Default, Clone)]
 pub struct Bytes(usize);
 
-impl<S> Collapse<AnyMap> for ByteCounterServiceOutput<S>
+#[cfg(feature="anymap")]
+impl<S> Collapse<anymap::AnyMap> for ByteCounterServiceOutput<S>
 where
-    S: Collapse<AnyMap>,
+    S: Collapse<anymap::AnyMap>,
 {
-    fn collapse(self, mut colapsable: AnyMap) -> AnyMap {
+    fn collapse(self, mut colapsable: anymap::AnyMap) -> anymap::AnyMap {
         colapsable.insert(Bytes(self.output));
         self.inner.collapse(colapsable)
     }

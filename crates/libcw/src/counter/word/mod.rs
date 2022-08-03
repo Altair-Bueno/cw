@@ -1,7 +1,9 @@
+#[cfg(feature="tower")]
 mod service;
+#[cfg(feature="tower")]
+pub use service::*;
 
 use super::Counter;
-pub use service::*;
 use std::fmt::Debug;
 
 #[derive(Debug, Default, Clone)]

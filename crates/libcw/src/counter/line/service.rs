@@ -4,7 +4,6 @@ use crate::counter::Collapse;
 use crate::counter::Counter;
 
 use super::*;
-use anymap::AnyMap;
 
 #[derive(Debug, Default, Clone)]
 pub struct LineCounterServiceState<S> {
@@ -21,11 +20,12 @@ pub struct LineCounterServiceOutput<S> {
 #[derive(Debug, Default, Clone)]
 pub struct Lines(usize);
 
-impl<S> Collapse<AnyMap> for LineCounterServiceOutput<S>
+#[cfg(feature="anymap")]
+impl<S> Collapse<anymap::AnyMap> for LineCounterServiceOutput<S>
 where
-    S: Collapse<AnyMap>,
+    S: Collapse<anymap::AnyMap>,
 {
-    fn collapse(self, mut colapsable: AnyMap) -> AnyMap {
+    fn collapse(self, mut colapsable: anymap::AnyMap) -> anymap::AnyMap {
         colapsable.insert(Lines(self.output));
         self.inner.collapse(colapsable)
     }
