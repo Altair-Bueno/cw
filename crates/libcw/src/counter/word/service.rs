@@ -1,3 +1,5 @@
+use std::ops::Deref;
+
 use tower_layer::Layer;
 
 use crate::counter::Collapse;
@@ -19,7 +21,16 @@ pub struct WordCounterServiceOutput<S> {
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Default, Clone)]
-pub struct Words(usize);
+pub struct Words(pub usize);
+
+impl Deref for Words {
+    type Target = usize;
+
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+
 
 #[cfg(feature = "anymap")]
 impl<S> Collapse<anymap::AnyMap> for WordCounterServiceOutput<S>

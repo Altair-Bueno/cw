@@ -1,3 +1,5 @@
+use std::ops::Deref;
+
 use tower_layer::Layer;
 
 use crate::counter::Collapse;
@@ -19,7 +21,17 @@ pub struct ByteCounterServiceOutput<S> {
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Default, Clone)]
-pub struct Bytes(usize);
+pub struct Bytes(pub usize);
+
+
+impl Deref for Bytes {
+    type Target = usize;
+
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+
 
 #[cfg(feature = "anymap")]
 impl<S> Collapse<anymap::AnyMap> for ByteCounterServiceOutput<S>
