@@ -20,13 +20,9 @@ impl Counter for tower_layer::Identity {
 
     type Output = ();
 
-    fn parse(&self, _: &[u8], _: Self::State) -> Self::State {
-        
-    }
+    fn parse(&self, _: &[u8], _: Self::State) -> Self::State {}
 
-    fn terminate(&self, _: Self::State) -> Self::Output {
-        
-    }
+    fn terminate(&self, _: Self::State) -> Self::Output {}
 }
 
 #[cfg(feature = "anymap")]

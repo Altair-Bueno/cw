@@ -17,6 +17,7 @@ pub struct LineCounterServiceOutput<S> {
     output: usize,
 }
 
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Default, Clone)]
 pub struct Lines(usize);
 
