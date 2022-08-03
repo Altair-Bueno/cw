@@ -22,23 +22,26 @@ use config::Config;
 mod config;
 mod run;
 mod util;
+mod print;
+mod stats;
 use run::run;
+use eyre::Result;
 
 #[cfg_attr(feature = "mimalloc", global_allocator)]
 #[cfg(feature = "mimalloc")]
 static GLOBAL: mimalloc::MiMalloc = mimalloc::MiMalloc;
 
 #[tokio::main(flavor = "current_thread")]
-async fn current_thread_flavour(config: Config) -> u8 {
+async fn current_thread_flavour(config: Config) -> Result<()> {
     run(config).await
 }
 
 #[tokio::main]
-async fn multiple_threads_flavour(config: Config) -> u8 {
+async fn multiple_threads_flavour(config: Config) -> Result<()> {
     run(config).await
 }
 
-fn main() -> ExitCode {
+fn main() -> Result<()> {
     let config: Config = Config::parse();
 
     if config.multithread {
@@ -46,5 +49,4 @@ fn main() -> ExitCode {
     } else {
         current_thread_flavour(config)
     }
-    .into()
 }

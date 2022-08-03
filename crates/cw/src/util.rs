@@ -4,7 +4,7 @@ use tokio::{
     fs::File,
     io::{AsyncBufRead, AsyncBufReadExt, BufReader},
 };
-use tokio_stream::{wrappers::LinesStream, Stream};
+use tokio_stream::{wrappers::LinesStream, Stream, StreamExt};
 
 pub async fn count_bufreader<R, C, S, O, F>(
     mut reader: R,
@@ -33,16 +33,20 @@ where
     }
 }
 
+#[inline]
 pub async fn path_to_bufread(path: impl AsRef<Path>) -> std::io::Result<impl AsyncBufRead> {
     let file = File::open(path).await?;
     Ok(BufReader::new(file))
 }
 
+#[inline]
 pub async fn stdin_to_bufread() -> impl AsyncBufRead {
     BufReader::new(tokio::io::stdin())
 }
 
-pub async fn stdin_linestream() -> impl Stream<Item = std::io::Result<String>> {
+#[inline]
+pub async fn stdin_to_path_stream() -> impl Stream<Item = std::io::Result<String>> {
     let stdin = BufReader::new(tokio::io::stdin());
     LinesStream::new(stdin.lines())
 }
+
