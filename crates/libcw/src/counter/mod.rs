@@ -25,9 +25,9 @@ impl Counter for tower_layer::Identity {
     fn terminate(&self, _: Self::State) -> Self::Output {}
 }
 
-#[cfg(feature = "anymap")]
-impl Collapse<anymap::AnyMap> for () {
-    fn collapse(self, colapsable: anymap::AnyMap) -> anymap::AnyMap {
+impl<C> Collapse<C> for () {
+    fn collapse(self, colapsable: C) -> C {
         colapsable
     }
 }
+
