@@ -3,7 +3,8 @@ pub mod counter;
 #[cfg(feature="stats")]
 mod stats;
 #[cfg(feature="stats")]
-pub use stats::Stats;
+pub use stats::*;
+
 
 /*
 use anymap::AnyMap;

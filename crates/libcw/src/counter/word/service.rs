@@ -48,7 +48,7 @@ where
     S: Collapse<crate::Stats>,
 {
     fn collapse(self, mut colapsable: crate::Stats) -> crate::Stats {
-        colapsable.words = self.output;
+        colapsable.words = Some(self.output);
         colapsable
     }
 }

@@ -48,8 +48,8 @@ where
     S: Collapse<crate::Stats>,
 {
     fn collapse(self, mut colapsable: crate::Stats) -> crate::Stats {
-        colapsable.bytes = self.output;
-        colapsable
+        colapsable.bytes = Some(self.output);
+        self.inner.collapse(colapsable)
     }
 }
 

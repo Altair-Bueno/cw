@@ -1,20 +1,25 @@
+use derive_builder::Builder;
 use std::ops::{Add, AddAssign};
-#[derive(Debug, Clone, Copy, Default)]
+
+#[derive(Debug, Clone, Copy, Default, Builder)]
 #[cfg_attr(feature="serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Stats {
-    pub lines: usize,
-    pub words: usize,
-    pub bytes: usize,
+    #[builder(setter(into, strip_option), default)]
+    pub lines: Option<usize>,
+    #[builder(setter(into, strip_option), default)]
+    pub words: Option<usize>,
+    #[builder(setter(into, strip_option), default)]
+    pub bytes: Option<usize>,
 }
 impl Add for Stats {
     type Output = Stats;
 
     fn add(self, rhs: Self) -> Self::Output {
-        Stats {
-            lines: self.lines + rhs.lines,
-            words: self.words + rhs.words,
-            bytes: self.bytes + rhs.bytes,
-        }
+        let lines = self.lines.zip(rhs.lines).map(|(a,b)|a+b);
+        let words = self.words.zip(rhs.words).map(|(a,b)|a+b);
+        let bytes = self.bytes.zip(rhs.bytes).map(|(a,b)|a+b);
+
+        Self { lines, words, bytes }
     }
 }
 impl AddAssign for Stats {
