@@ -42,6 +42,17 @@ where
     }
 }
 
+#[cfg(feature = "stats")]
+impl<S> Collapse<crate::Stats> for WordCounterServiceOutput<S>
+where
+    S: Collapse<crate::Stats>,
+{
+    fn collapse(self, mut colapsable: crate::Stats) -> crate::Stats {
+        colapsable.words = self.output;
+        colapsable
+    }
+}
+
 #[derive(Debug, Default, Clone)]
 pub struct WordCounterService<S> {
     inner: S,

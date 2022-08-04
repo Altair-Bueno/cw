@@ -17,7 +17,8 @@ resolver="2"
 default=[]
 tower = ["tower-layer"]
 ffi = []
-full = ["anymap", "tower", "serde", "clap"]
+stats = ["serde"]
+full = ["anymap", "tower", "serde", "clap", "stats"]
 
 [lib]
 name = "libcw"

@@ -42,6 +42,17 @@ where
     }
 }
 
+#[cfg(feature = "stats")]
+impl<S> Collapse<crate::Stats> for ByteCounterServiceOutput<S>
+where
+    S: Collapse<crate::Stats>,
+{
+    fn collapse(self, mut colapsable: crate::Stats) -> crate::Stats {
+        colapsable.bytes = self.output;
+        colapsable
+    }
+}
+
 #[derive(Debug, Default, Clone)]
 pub struct ByteCounterService<S> {
     inner: S,

@@ -42,6 +42,17 @@ where
     }
 }
 
+#[cfg(feature = "stats")]
+impl<S> Collapse<crate::Stats> for LineCounterServiceOutput<S>
+where
+    S: Collapse<crate::Stats>,
+{
+    fn collapse(self, mut colapsable: crate::Stats) -> crate::Stats {
+        colapsable.lines = self.output;
+        colapsable
+    }
+}
+
 #[derive(Debug, Default, Clone)]
 pub struct LineCounterService<S> {
     inner: S,
