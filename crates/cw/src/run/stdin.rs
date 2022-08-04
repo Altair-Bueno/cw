@@ -1,6 +1,9 @@
-use libcw::{counter::{Collapse, Counter}, Stats};
+use libcw::{
+    counter::{Collapse, Counter},
+    Stats,
+};
 
-use crate::{print::{Printer}, util};
+use crate::{print::Printer, util};
 
 pub async fn count_stdin<C, S, O>(
     counter: C,
@@ -18,5 +21,5 @@ where
 
     printer.print(("STDIN".to_owned(), result)).await?;
 
-    printer.close().await    
+    printer.close().await
 }

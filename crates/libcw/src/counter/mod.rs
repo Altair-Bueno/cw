@@ -30,4 +30,3 @@ impl<C> Collapse<C> for () {
         colapsable
     }
 }
-

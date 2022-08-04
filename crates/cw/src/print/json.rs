@@ -57,12 +57,12 @@ impl Printer for JsonPrinter {
         self.summary.insert(path, either);
         Ok(())
     }
-    async fn close(&mut self) -> std::io::Result<()>{
+    async fn close(&mut self) -> std::io::Result<()> {
         /*
         As stated by Serde:
-            Serialization can fail if T's implementation of Serialize decides 
+            Serialization can fail if T's implementation of Serialize decides
             to fail, or if T contains a map with non-string keys.
-        
+
         It will be fine :)
         */
         let json = unsafe { serde_json::to_vec(self).unwrap_unchecked() };

@@ -5,7 +5,7 @@ use eyre::Result;
 use libcw::counter::byte::ByteCounter;
 use libcw::counter::line::LineCounter;
 use libcw::counter::word::WordCounter;
-use libcw::{Stats, StatsBuilder};
+use libcw::StatsBuilder;
 use tower::{layer::util::Identity, ServiceBuilder};
 
 use crate::print::Printer;
@@ -37,18 +37,17 @@ pub async fn run(config: Config) -> Result<()> {
         .unwrap();
     let state = Default::default();
 
-
-        // Setup printer
+    // Setup printer
     let printer: Box<dyn Printer + Send + Sync> = if json {
-        Box::new(JsonPrinter::new(stats.clone()))
+        Box::new(JsonPrinter::new(stats))
     } else {
         todo!()
     };
 
     // Hook up to service
-    let runner = if from_stdin {
+    if from_stdin {
         // File list provided by stdin
-        let files = util::stdin_to_path_stream().await;
+        let _files = util::stdin_to_path_stream().await;
         todo!()
     } else if files.is_empty() {
         // Process stdin
@@ -56,7 +55,7 @@ pub async fn run(config: Config) -> Result<()> {
         todo!()
     } else {
         // File list provided as arguments
-        let files = tokio_stream::iter(files.into_iter());
+        let _files = tokio_stream::iter(files.into_iter());
         //TODO
         todo!()
     };
