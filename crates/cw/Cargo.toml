@@ -45,7 +45,7 @@ features = ["io-util"]
 
 [dependencies.libcw]
 path = "../libcw"
-features = ["full"]
+features = ["tower", "serde", "clap", "stats"]
 
 [dependencies.clap]
 version = "3"

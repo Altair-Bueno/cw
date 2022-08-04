@@ -669,6 +669,7 @@ dependencies = [
  "cbindgen",
  "clap 3.2.15",
  "criterion",
+ "derive_builder",
  "enum-utils",
  "rstest",
  "serde",

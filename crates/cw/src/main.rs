@@ -20,7 +20,6 @@ use config::Config;
 mod config;
 mod print;
 mod run;
-mod stats;
 mod util;
 use eyre::Result;
 use run::run;

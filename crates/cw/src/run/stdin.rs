@@ -1,38 +1,22 @@
-use anymap::AnyMap;
-use libcw::counter::{Collapse, Counter};
-use tokio_stream::{Stream, StreamExt};
+use libcw::{counter::{Collapse, Counter}, Stats};
 
-use crate::{print::Printer, util};
+use crate::{print::{Printer}, util};
 
 pub async fn count_stdin<C, S, O>(
     counter: C,
+    stats: Stats,
     state: S,
-    printer: &mut dyn Printer,
+    mut printer: Box<dyn Printer>,
 ) -> std::io::Result<()>
 where
     C: Counter<State = S, Output = O>,
     S: 'static,
-    O: Collapse<AnyMap>,
+    O: Collapse<Stats>,
 {
-    let mut stream = stdin(counter, state)
-        .await
-        .map(|x| x.map(TryFrom::try_from).map(Result::unwrap))
-        .map(|x| ("STDIN".to_owned(), x));
-    while let Some(message) = stream.next().await {
-        printer.print(message).await;
-    }
-    Ok(())
-}
-
-async fn stdin<C, S, O>(counter: C, state: S) -> impl Stream<Item = std::io::Result<AnyMap>>
-where
-    C: Counter<State = S, Output = O>,
-    S: 'static,
-    O: Collapse<AnyMap>,
-{
-    let collapsable = AnyMap::new();
     let reader = util::stdin_to_bufread().await;
-    let result = util::count_bufreader(reader, counter, state, collapsable).await;
+    let result = util::count_bufreader(reader, counter, state, stats).await;
 
-    tokio_stream::iter([result].into_iter())
+    printer.print(("STDIN".to_owned(), result)).await?;
+
+    printer.close().await    
 }
