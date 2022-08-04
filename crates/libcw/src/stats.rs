@@ -1,5 +1,8 @@
 use derive_builder::Builder;
-use std::{ops::{Add, AddAssign}, fmt::{Display, Formatter}};
+use std::{
+    fmt::{Display, Formatter},
+    ops::{Add, AddAssign},
+};
 
 #[derive(Debug, Clone, Copy, Default, Builder)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
@@ -41,9 +44,7 @@ impl Display for Stats {
     /// right tab will be missing
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let list = [
-            self.lines,
-            self.words,
-            //self.characters,
+            self.lines, self.words, //self.characters,
             self.bytes,
             //self.length,
         ];
