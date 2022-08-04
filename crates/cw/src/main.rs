@@ -21,6 +21,7 @@ mod config;
 mod print;
 mod run;
 mod util;
+mod obelisk;
 use eyre::Result;
 use run::run;
 
