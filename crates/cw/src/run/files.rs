@@ -3,7 +3,7 @@ use libcw::{
     Stats,
 };
 use std::io::Result;
-use tokio::io::{AsyncBufRead, AsyncWriteExt};
+
 use tokio_stream::{Stream, StreamExt};
 
 use crate::{print::Printer, util};
@@ -24,7 +24,7 @@ where
 {
     while let Some(next) = files.next().await {
         let next = next?;
-        let result = get_result(next.as_str(), counter, stats.clone(), state.clone()).await;
+        let result = get_result(next.as_str(), counter, stats, state.clone()).await;
         printer.print((next, result)).await?;
     }
 

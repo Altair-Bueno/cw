@@ -37,12 +37,12 @@ impl Printer for StdoutPrinter {
         match result {
             Ok(x) => {
                 let s = format!("{x}{path}\n");
-                self.stdout.write(s.as_bytes()).await?;
+                let _ignore = self.stdout.write(s.as_bytes()).await?;
                 self.total += x;
             }
             Err(err) => {
                 let s = format!("{path}: {err}\n");
-                self.stderr.write(s.as_bytes()).await?;
+                let _ignore = self.stderr.write(s.as_bytes()).await?;
             }
         };
         Ok(())
@@ -62,7 +62,7 @@ impl Printer for StdoutPrinter {
         if *canary == 0 {
             // Total files
             let s = format!("{}{}\n", total.to_string().as_str().green(), TOTAL.green());
-            stdout.write(s.as_bytes()).await?;
+            let _ignore = stdout.write(s.as_bytes()).await?;
             stdout.flush().await?;
             stderr.flush().await?;
         }
