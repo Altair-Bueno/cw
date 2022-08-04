@@ -6,7 +6,7 @@ use libcw::{
 use crate::{print::Printer, util};
 
 pub async fn count_stdin<C, S, O>(
-    counter: C,
+    counter: &C,
     stats: Stats,
     state: S,
     mut printer: Box<dyn Printer>,

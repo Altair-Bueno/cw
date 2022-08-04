@@ -1,6 +1,6 @@
 mod files;
 mod stdin;
-use crate::print::JsonPrinter;
+use crate::print::{JsonPrinter, StdoutPrinter};
 use eyre::Result;
 use libcw::counter::byte::ByteCounter;
 use libcw::counter::line::LineCounter;
@@ -10,8 +10,10 @@ use tower::{layer::util::Identity, ServiceBuilder};
 
 use crate::print::Printer;
 use crate::{config::Config, util};
-
 use stdin::count_stdin;
+use tokio_stream::StreamExt;
+
+use self::files::count_files;
 
 pub async fn run(config: Config) -> Result<()> {
     let Config {
@@ -41,23 +43,21 @@ pub async fn run(config: Config) -> Result<()> {
     let printer: Box<dyn Printer + Send + Sync> = if json {
         Box::new(JsonPrinter::new(stats))
     } else {
-        todo!()
+        Box::new(StdoutPrinter::new(stats))
     };
 
     // Hook up to service
     if from_stdin {
         // File list provided by stdin
-        let _files = util::stdin_to_path_stream().await;
-        todo!()
+        let files = util::stdin_to_path_stream().await;
+        count_files(files, &counter, stats, state, printer).await?;
     } else if files.is_empty() {
         // Process stdin
-        count_stdin(counter, stats, state, printer).await?;
-        todo!()
+        count_stdin(&counter, stats, state, printer).await?;
     } else {
         // File list provided as arguments
-        let _files = tokio_stream::iter(files.into_iter());
-        //TODO
-        todo!()
+        let files = tokio_stream::iter(files.into_iter()).map(Ok);
+        count_files(files, &counter, stats, state, printer).await?;
     };
 
     Ok(())

@@ -8,7 +8,7 @@ use tokio_stream::{wrappers::LinesStream, Stream};
 
 pub async fn count_bufreader<R, C, S, O, F>(
     mut reader: R,
-    counter: C,
+    counter: &C,
     mut state: S,
     collapsable: F,
 ) -> std::io::Result<F>

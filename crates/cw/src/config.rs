@@ -33,6 +33,7 @@ pub struct Config {
     #[clap(short = 'L', long, verbatim_doc_comment)]
     pub line_length: bool,
 
+    /*
     /// Use multithreading
     ///
     /// cw ships with both tokio's async runtimes. By default, it cw will run
@@ -40,7 +41,7 @@ pub struct Config {
     /// more files at a time
     #[clap(long)]
     pub multithread: bool,
-
+    */
     /// Linebreak to use
     ///
     /// The kind of line break cw will search for. It can be LF '\n' or CR '\r'.

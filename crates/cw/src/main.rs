@@ -29,21 +29,8 @@ use run::run;
 static GLOBAL: mimalloc::MiMalloc = mimalloc::MiMalloc;
 
 #[tokio::main(flavor = "current_thread")]
-async fn current_thread_flavour(config: Config) -> Result<()> {
-    run(config).await
-}
-
-#[tokio::main]
-async fn multiple_threads_flavour(config: Config) -> Result<()> {
-    run(config).await
-}
-
-fn main() -> Result<()> {
+async fn main() -> Result<()> {
     let config: Config = Config::parse();
 
-    if config.multithread {
-        multiple_threads_flavour(config)
-    } else {
-        current_thread_flavour(config)
-    }
+    run(config).await
 }

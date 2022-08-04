@@ -1,7 +1,7 @@
 mod json;
-// mod stdout;
-// pub use stdout::*;
+mod stdout;
 pub use json::*;
+pub use stdout::*;
 
 use libcw::Stats;
 
