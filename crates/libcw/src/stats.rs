@@ -1,5 +1,5 @@
 use derive_builder::Builder;
-use std::ops::{Add, AddAssign};
+use std::{ops::{Add, AddAssign}, fmt::{Display, Formatter}};
 
 #[derive(Debug, Clone, Copy, Default, Builder)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
@@ -29,5 +29,27 @@ impl Add for Stats {
 impl AddAssign for Stats {
     fn add_assign(&mut self, rhs: Self) {
         *self = *self + rhs
+    }
+}
+
+impl Display for Stats {
+    /// Displays the contained stats using this format
+    /// ```text
+    /// lines\twords\tcharacters\tbytes\tlength\t
+    /// ```
+    /// If any value is missing (eg words is None), then said value and its
+    /// right tab will be missing
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        let list = [
+            self.lines,
+            self.words,
+            //self.characters,
+            self.bytes,
+            //self.length,
+        ];
+        list.into_iter()
+            .flatten()
+            .map(|x| write!(f, "{}\t", x))
+            .fold(Ok(()), |acc, n| acc.and(n))
     }
 }
