@@ -18,6 +18,9 @@ default=[]
 sync=["maybe-async/is_sync"]
 ffi=["sync"]
 
+runtime-dispatch-simd = ["bytecount/runtime-dispatch-simd"]
+generic-simd = ["bytecount/generic-simd"]
+
 [lib]
 name = "libcw"
 path="src/lib.rs"
@@ -27,6 +30,7 @@ crate-type = ["rlib","staticlib"]
 maybe-async = "0.2.6"
 cfg-if = "1.0.0"
 static_assertions = "1.1.0"
+bytecount = "0.6.3"
 
 [dependencies.tokio]
 version = "1.17.0"

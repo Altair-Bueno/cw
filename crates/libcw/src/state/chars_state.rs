@@ -31,24 +31,6 @@ impl CharState {
             1
         }
     }
-
-    fn utf8_decoder(n: u8) -> usize {
-        let three: u8 = 0b11110000;
-        let two: u8 = 0b11100000;
-        let one: u8 = 0b11000000;
-        if n & three == three {
-            // 11110uuu 10uuzzzz 10yyyyyy 10xxxxxx
-            3
-        } else if n & two == two {
-            // 1110zzzz 10yyyyyy 10xxxxxx
-            2
-        } else if n & one == one {
-            // 110yyyyy 10xxxxxx
-            1
-        } else {
-            0
-        }
-    }
 }
 
 impl PartialState for CharState {
@@ -61,7 +43,11 @@ impl PartialState for CharState {
 
 impl Compute for CharState {
     fn utf8_compute(self, tape: &[u8]) -> Self {
-        self.compute(tape, CharState::utf8_decoder)
+        let num_chars = bytecount::num_chars(tape) + self.num_chars;
+        Self {
+            num_chars,
+            ..self
+        }
     }
 
     fn utf16_compute(self, tape: &[u8]) -> Self {
