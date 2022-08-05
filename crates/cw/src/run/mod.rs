@@ -1,6 +1,7 @@
 mod files;
 mod stdin;
 use std::ops::Not;
+use std::path::PathBuf;
 
 use crate::print::{JsonPrinter, StdoutPrinter};
 use crate::statefull_counter::{Eat, StatsCounter};
@@ -83,14 +84,16 @@ pub async fn run(mut config: Config) -> Result<()> {
 
     if from_stdin {
         // File list provided by stdin
-        let files = util::stdin_to_path_stream().await;
+        let files = util::stdin_to_path_stream().await
+            .map(|x|x.map(|x| PathBuf::from(x)));
         count_files(files, eaters, stats, printer).await?;
     } else if files.is_empty() {
         // Process stdin
         count_stdin(eaters, stats, printer).await?;
     } else {
         // File list provided as arguments
-        let files = tokio_stream::iter(files.into_iter()).map(Ok);
+        let files = tokio_stream::iter(files.into_iter())
+            .map(Ok);
         count_files(files, eaters, stats, printer).await?;
     };
 

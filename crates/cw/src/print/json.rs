@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::{collections::HashMap, path::PathBuf};
 
 use libcw::Stats;
 use serde::Serialize;
@@ -33,7 +33,7 @@ where
 #[derive(Serialize, Debug, Default)]
 pub struct JsonPrinter {
     total: Stats,
-    summary: HashMap<String, Either<Stats, String>>,
+    summary: HashMap<PathBuf, Either<Stats, String>>,
 }
 impl JsonPrinter {
     pub fn new(stats: Stats) -> Self {

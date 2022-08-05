@@ -1,11 +1,13 @@
 mod json;
 mod stdout;
+use std::path::PathBuf;
+
 pub use json::*;
 pub use stdout::*;
 
 use libcw::Stats;
 
-pub type Message = (String, std::io::Result<Stats>);
+pub type Message = (PathBuf, std::io::Result<Stats>);
 
 #[async_trait::async_trait]
 pub trait Printer {

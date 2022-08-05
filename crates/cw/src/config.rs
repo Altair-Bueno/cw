@@ -1,3 +1,5 @@
+use std::path::PathBuf;
+
 use clap::{ArgGroup, Parser};
 use libcw::config::*;
 
@@ -67,5 +69,5 @@ pub struct Config {
     /// If no file is provided, cw will default to stdin input. Conflicts with
     /// `from-stdin` option
     #[clap()]
-    pub files: Vec<String>,
+    pub files: Vec<PathBuf>,
 }

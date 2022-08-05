@@ -35,11 +35,13 @@ impl Printer for StdoutPrinter {
         self.canary >>= 1;
         match result {
             Ok(x) => {
+                let path = path.to_string_lossy();
                 let s = format!("{x}{path}\n");
                 let _ignore = self.stdout.write(s.as_bytes()).await?;
                 self.total += x;
             }
             Err(err) => {
+                let path = path.to_string_lossy();
                 let s = format!("{path}: {err}\n");
                 let _ignore = self.stderr.write(s.as_bytes()).await?;
             }
