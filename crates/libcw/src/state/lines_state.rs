@@ -34,8 +34,8 @@ impl PartialState for LinesState {
 
 impl Compute for LinesState {
     fn utf8_compute(self, tape: &[u8]) -> Self {
-        let b = self.linebreak.get_separator();
-        let line_breaks = tape.iter().filter(|x| **x == b).count();
+        let needle = self.linebreak.get_separator();
+        let line_breaks = bytecount::count(tape, needle);
 
         LinesState {
             line_count: line_breaks + self.line_count,

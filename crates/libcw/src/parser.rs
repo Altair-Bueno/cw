@@ -113,6 +113,62 @@ impl Parser {
             linebreak,
         }
     }
+    /// Creates a new [ParserBuilder](crate::parser::ParserBuilder)
+    pub fn builder() -> ParserBuilder {
+        Default::default()
+    }
+}
+
+#[derive(Debug, Default, Clone)]
+pub struct ParserBuilder {
+    encoding: Encoding,
+    linebreak: LineBreak,
+    lines: bool,
+    words: bool,
+    chars: bool,
+    bytes: bool,
+    max_length: bool,
+}
+
+impl ParserBuilder {
+    pub fn lines(mut self) -> Self {
+        self.lines = true;
+        self
+    }
+    pub fn words(mut self) -> Self {
+        self.words = true;
+        self
+    }
+    pub fn chars(mut self) -> Self {
+        self.chars = true;
+        self
+    }
+    pub fn bytes(mut self) -> Self {
+        self.bytes = true;
+        self
+    }
+    pub fn max_length(mut self) -> Self {
+        self.max_length = true;
+        self
+    }
+    pub fn build(self) -> Parser {
+        let ParserBuilder {
+            encoding,
+            linebreak,
+            lines,
+            words,
+            chars,
+            bytes,
+            max_length,
+        } = self;
+        Parser::new(encoding, linebreak, lines, words, chars, bytes, max_length)
+    }
+}
+
+impl From<ParserBuilder> for Parser {
+    fn from(p: ParserBuilder) -> Self {
+        p.build()
+    }
 }
 
 #[cfg(any(feature = "tokio", feature = "sync"))]

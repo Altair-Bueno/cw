@@ -17,7 +17,7 @@ const SHELL_LIST: &[Shell] = &[
 
 fn main() {
     let mut command: Command = Config::command();
-    let target_dir = env::var("OUT_DIR").unwrap();
+    let target_dir = env::var("COMPLETIONS_DIR").unwrap_or(env::var("OUT_DIR").unwrap());
     for shell in SHELL_LIST {
         let out_dir = format!("{target_dir}/completions/{shell}");
         let _ = std::fs::create_dir_all(&out_dir);
