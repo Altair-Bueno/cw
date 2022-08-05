@@ -22,7 +22,7 @@ use tokio_stream::StreamExt;
 
 use self::files::count_files;
 
-fn setup(config: &Config) -> (Vec<Box<dyn Eat>>, Stats) {
+fn setup(config: &Config) -> (Vec<Box<dyn Eat + Send>>, Stats) {
     let mut stats = Stats::default();
     let mut eaters = Vec::with_capacity(10);
 

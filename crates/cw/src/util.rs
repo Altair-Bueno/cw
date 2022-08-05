@@ -10,7 +10,7 @@ use crate::statefull_counter::Eat;
 
 pub async fn count_bufreader<R>(
     mut reader: R,
-    eaters: &mut [Box<dyn Eat>],
+    mut eaters: Vec<Box<dyn Eat + Send>>,
     collapsable: Stats,
 ) -> std::io::Result<Stats>
 where
