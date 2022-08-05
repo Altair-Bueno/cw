@@ -1,19 +1,14 @@
-use derive_builder::Builder;
 use std::{
     fmt::{Display, Formatter},
     ops::{Add, AddAssign},
 };
 
-#[derive(Debug, Clone, Copy, Default, Builder)]
+#[derive(Debug, Clone, Copy, Default)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Stats {
-    #[builder(setter(into, strip_option), default)]
     pub lines: Option<usize>,
-    #[builder(setter(into, strip_option), default)]
     pub words: Option<usize>,
-    #[builder(setter(into, strip_option), default)]
     pub bytes: Option<usize>,
-    #[builder(setter(into, strip_option), default)]
     pub chars: Option<usize>,
 }
 impl Add for Stats {
