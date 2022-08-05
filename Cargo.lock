@@ -282,7 +282,7 @@ dependencies = [
 
 [[package]]
 name = "cw"
-version = "3.3.0"
+version = "4.0.0"
 dependencies = [
  "async-trait",
  "clap 3.2.15",
@@ -502,7 +502,7 @@ checksum = "349d5a591cd28b49e1d1037471617a32ddcda5731b99419008085f72d5a53836"
 
 [[package]]
 name = "libcw"
-version = "3.2.0"
+version = "4.0.0"
 dependencies = [
  "bytecount",
  "cbindgen",
