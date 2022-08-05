@@ -18,7 +18,7 @@ default=[]
 tower = ["tower-layer"]
 ffi = []
 stats = ["serde"]
-full = ["anymap", "tower", "serde", "clap", "stats"]
+full = ["tower", "serde", "clap", "stats"]
 
 [lib]
 name = "libcw"
@@ -39,10 +39,6 @@ features = [
   "std",
   "derive",
 ]
-
-[dependencies.anymap]
-version = "0.12.1"
-optional = true
 
 [dependencies.tower-layer]
 version = "0.3.1"

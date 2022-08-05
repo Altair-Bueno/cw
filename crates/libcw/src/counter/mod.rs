@@ -1,5 +1,8 @@
 pub mod byte;
+pub mod char;
 pub mod line;
+#[cfg(feature = "tower")]
+pub mod service;
 pub mod word;
 
 pub trait Counter {

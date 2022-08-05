@@ -13,6 +13,8 @@ pub struct Stats {
     pub words: Option<usize>,
     #[builder(setter(into, strip_option), default)]
     pub bytes: Option<usize>,
+    #[builder(setter(into, strip_option), default)]
+    pub chars: Option<usize>,
 }
 impl Add for Stats {
     type Output = Stats;
@@ -21,11 +23,13 @@ impl Add for Stats {
         let lines = self.lines.zip(rhs.lines).map(|(a, b)| a + b);
         let words = self.words.zip(rhs.words).map(|(a, b)| a + b);
         let bytes = self.bytes.zip(rhs.bytes).map(|(a, b)| a + b);
+        let chars = self.chars.zip(rhs.chars).map(|(a, b)| a + b);
 
         Self {
             lines,
             words,
             bytes,
+            chars,
         }
     }
 }
@@ -44,8 +48,7 @@ impl Display for Stats {
     /// right tab will be missing
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let list = [
-            self.lines, self.words, //self.characters,
-            self.bytes,
+            self.lines, self.words, self.chars, self.bytes,
             //self.length,
         ];
         list.into_iter()

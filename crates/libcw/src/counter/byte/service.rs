@@ -2,22 +2,11 @@ use std::ops::Deref;
 
 use tower_layer::Layer;
 
+use crate::counter::service::*;
 use crate::counter::Collapse;
 use crate::counter::Counter;
 
-use super::{ByteCounter, ByteCounterState};
-
-#[derive(Debug, Default, Clone)]
-pub struct ByteCounterServiceState<S> {
-    inner: S,
-    state: ByteCounterState,
-}
-
-#[derive(Debug, Default, Clone)]
-pub struct ByteCounterServiceOutput<S> {
-    inner: S,
-    output: usize,
-}
+use super::*;
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Default, Clone)]
@@ -31,64 +20,47 @@ impl Deref for Bytes {
     }
 }
 
-#[cfg(feature = "anymap")]
-impl<S> Collapse<anymap::AnyMap> for ByteCounterServiceOutput<S>
-where
-    S: Collapse<anymap::AnyMap>,
-{
-    fn collapse(self, mut colapsable: anymap::AnyMap) -> anymap::AnyMap {
-        colapsable.insert(Bytes(self.output));
-        self.inner.collapse(colapsable)
-    }
-}
-
 #[cfg(feature = "stats")]
-impl<S> Collapse<crate::Stats> for ByteCounterServiceOutput<S>
+impl<I> Collapse<crate::Stats> for CounterServiceOutput<Bytes, I>
 where
-    S: Collapse<crate::Stats>,
+    I: Collapse<crate::Stats>,
 {
     fn collapse(self, mut colapsable: crate::Stats) -> crate::Stats {
-        colapsable.bytes = Some(self.output);
+        colapsable.bytes = Some(*self.output);
         self.inner.collapse(colapsable)
     }
 }
 
-#[derive(Debug, Default, Clone)]
-pub struct ByteCounterService<S> {
-    inner: S,
-    counter: ByteCounter,
-}
-
-impl<S> Counter for ByteCounterService<S>
+impl<S> Counter for CounterService<ByteCounter, S>
 where
     S: Counter,
 {
-    type State = ByteCounterServiceState<S::State>;
+    type State = CounterServiceState<ByteCounterState, S::State>;
 
-    type Output = ByteCounterServiceOutput<S::Output>;
+    type Output = CounterServiceOutput<Bytes, S::Output>;
 
     fn parse(&self, input: &[u8], state: Self::State) -> Self::State {
-        ByteCounterServiceState {
+        Self::State {
             inner: self.inner.parse(input, state.inner),
             state: self.counter.parse(input, state.state),
         }
     }
 
     fn terminate(&self, state: Self::State) -> Self::Output {
-        ByteCounterServiceOutput {
+        Self::Output {
             inner: self.inner.terminate(state.inner),
-            output: self.counter.terminate(state.state),
+            output: Bytes(self.counter.terminate(state.state)),
         }
     }
 }
 
 impl<S> Layer<S> for ByteCounter {
-    type Service = ByteCounterService<S>;
+    type Service = CounterService<ByteCounter, S>;
 
     fn layer(&self, inner: S) -> Self::Service {
-        ByteCounterService {
-            inner,
+        Self::Service {
             counter: self.clone(),
+            inner,
         }
     }
 }

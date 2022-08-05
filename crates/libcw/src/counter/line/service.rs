@@ -2,22 +2,11 @@ use std::ops::Deref;
 
 use tower_layer::Layer;
 
+use crate::counter::service::*;
 use crate::counter::Collapse;
 use crate::counter::Counter;
 
 use super::*;
-
-#[derive(Debug, Default, Clone)]
-pub struct LineCounterServiceState<S> {
-    inner: S,
-    state: LineCounterState,
-}
-
-#[derive(Debug, Default, Clone)]
-pub struct LineCounterServiceOutput<S> {
-    inner: S,
-    output: usize,
-}
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Default, Clone)]
@@ -31,64 +20,47 @@ impl Deref for Lines {
     }
 }
 
-#[cfg(feature = "anymap")]
-impl<S> Collapse<anymap::AnyMap> for LineCounterServiceOutput<S>
-where
-    S: Collapse<anymap::AnyMap>,
-{
-    fn collapse(self, mut colapsable: anymap::AnyMap) -> anymap::AnyMap {
-        colapsable.insert(Lines(self.output));
-        self.inner.collapse(colapsable)
-    }
-}
-
 #[cfg(feature = "stats")]
-impl<S> Collapse<crate::Stats> for LineCounterServiceOutput<S>
+impl<I> Collapse<crate::Stats> for CounterServiceOutput<Lines, I>
 where
-    S: Collapse<crate::Stats>,
+    I: Collapse<crate::Stats>,
 {
     fn collapse(self, mut colapsable: crate::Stats) -> crate::Stats {
-        colapsable.lines = Some(self.output);
+        colapsable.lines = Some(*self.output);
         self.inner.collapse(colapsable)
     }
 }
 
-#[derive(Debug, Default, Clone)]
-pub struct LineCounterService<S> {
-    inner: S,
-    counter: LineCounter,
-}
-
-impl<S> Counter for LineCounterService<S>
+impl<S> Counter for CounterService<LineCounter, S>
 where
     S: Counter,
 {
-    type State = LineCounterServiceState<S::State>;
+    type State = CounterServiceState<LineCounterState, S::State>;
 
-    type Output = LineCounterServiceOutput<S::Output>;
+    type Output = CounterServiceOutput<Lines, S::Output>;
 
     fn parse(&self, input: &[u8], state: Self::State) -> Self::State {
-        LineCounterServiceState {
+        Self::State {
             inner: self.inner.parse(input, state.inner),
             state: self.counter.parse(input, state.state),
         }
     }
 
     fn terminate(&self, state: Self::State) -> Self::Output {
-        LineCounterServiceOutput {
+        Self::Output {
             inner: self.inner.terminate(state.inner),
-            output: self.counter.terminate(state.state),
+            output: Lines(self.counter.terminate(state.state)),
         }
     }
 }
 
 impl<S> Layer<S> for LineCounter {
-    type Service = LineCounterService<S>;
+    type Service = CounterService<LineCounter, S>;
 
     fn layer(&self, inner: S) -> Self::Service {
-        LineCounterService {
-            inner,
+        Self::Service {
             counter: self.clone(),
+            inner,
         }
     }
 }
