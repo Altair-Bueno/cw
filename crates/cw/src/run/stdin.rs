@@ -10,7 +10,7 @@ pub async fn count_stdin(
     let reader = util::stdin_to_bufread().await;
     let result = util::count_bufreader(reader, &mut eaters, stats).await;
 
-    printer.print(("STDIN".to_owned(), result)).await?;
+    printer.print(("".to_owned(), result)).await?;
 
     printer.close().await
 }

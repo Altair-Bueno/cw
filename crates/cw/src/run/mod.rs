@@ -1,5 +1,7 @@
 mod files;
 mod stdin;
+use std::ops::Not;
+
 use crate::print::{JsonPrinter, StdoutPrinter};
 use crate::statefull_counter::{Eat, StatsCounter};
 use eyre::Result;
@@ -50,7 +52,20 @@ fn setup(config: &Config) -> (Vec<Box<dyn Eat>>, Stats) {
     (eaters, stats)
 }
 
-pub async fn run(config: Config) -> Result<()> {
+pub async fn run(mut config: Config) -> Result<()> {
+    if [
+        config.lines,
+        config.characters,
+        config.bytes,
+        config.line_length,
+    ]
+    .iter()
+    .all(Not::not)
+    {
+        config.characters = true;
+        config.words = true;
+        config.lines = true;
+    }
     let (eaters, stats) = setup(&config);
     let Config {
         from_stdin,
@@ -66,7 +81,6 @@ pub async fn run(config: Config) -> Result<()> {
         Box::new(StdoutPrinter::new(stats))
     };
 
-    // Hook up to service
     if from_stdin {
         // File list provided by stdin
         let files = util::stdin_to_path_stream().await;
