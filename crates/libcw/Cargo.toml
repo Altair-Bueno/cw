@@ -20,6 +20,9 @@ ffi = []
 stats = ["serde"]
 full = ["tower", "serde", "clap", "stats"]
 
+runtime-dispatch-simd = ["bytecount/runtime-dispatch-simd"]
+generic-simd = ["bytecount/generic-simd"]
+
 [lib]
 name = "libcw"
 path="src/lib.rs"
