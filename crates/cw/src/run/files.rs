@@ -1,7 +1,4 @@
-use libcw::{
-    counter::{Collapse, Counter},
-    Stats,
-};
+use libcw::Stats;
 use std::io::Result;
 
 use tokio_stream::{Stream, StreamExt};

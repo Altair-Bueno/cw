@@ -1,8 +1,4 @@
-use dyn_clone::clone_box;
-use libcw::{
-    counter::{Collapse, Counter},
-    Stats,
-};
+use libcw::Stats;
 
 use crate::{print::Printer, statefull_counter::Eat, util};
 

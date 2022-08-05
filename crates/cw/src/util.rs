@@ -1,7 +1,4 @@
-use libcw::{
-    counter::{Collapse, Counter},
-    Stats,
-};
+use libcw::Stats;
 use std::path::Path;
 use tokio::{
     fs::File,

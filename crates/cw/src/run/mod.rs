@@ -3,14 +3,14 @@ mod stdin;
 use crate::print::{JsonPrinter, StdoutPrinter};
 use crate::statefull_counter::{Eat, StatsCounter};
 use eyre::Result;
-use libcw::counter::byte::{ByteCounter, ByteCounterState};
+use libcw::counter::byte::ByteCounter;
 use libcw::counter::char::CharCounter;
 use libcw::counter::line::LineCounter;
-use libcw::counter::service::{CounterService, CounterServiceState};
+
 use libcw::counter::word::WordCounter;
-use libcw::{counter, Stats, StatsBuilder};
+use libcw::Stats;
+use tower::layer::util::Identity;
 use tower::Layer;
-use tower::{layer::util::Identity, ServiceBuilder};
 
 use crate::print::Printer;
 use crate::{config::Config, util};
