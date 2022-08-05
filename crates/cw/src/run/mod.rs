@@ -1,11 +1,15 @@
 mod files;
 mod stdin;
 use crate::print::{JsonPrinter, StdoutPrinter};
+use crate::statefull_counter::{Eat, StatsCounter};
 use eyre::Result;
-use libcw::counter::byte::ByteCounter;
+use libcw::counter::byte::{ByteCounter, ByteCounterState};
+use libcw::counter::char::CharCounter;
 use libcw::counter::line::LineCounter;
+use libcw::counter::service::{CounterService, CounterServiceState};
 use libcw::counter::word::WordCounter;
-use libcw::StatsBuilder;
+use libcw::{counter, Stats, StatsBuilder};
+use tower::Layer;
 use tower::{layer::util::Identity, ServiceBuilder};
 
 use crate::print::Printer;
@@ -15,29 +19,45 @@ use tokio_stream::StreamExt;
 
 use self::files::count_files;
 
+fn setup(config: &Config) -> (Vec<Box<dyn Eat>>, Stats) {
+    let mut stats = Stats::default();
+    let mut eaters = Vec::with_capacity(10);
+
+    if config.bytes {
+        let counter = ByteCounter::new().layer(Identity::new());
+        eaters.push(Box::new(StatsCounter::new(counter, Default::default())) as _);
+        stats.bytes = Some(0);
+    }
+
+    if config.lines {
+        let counter = LineCounter::new(config.newline).layer(Identity::new());
+        eaters.push(Box::new(StatsCounter::new(counter, Default::default())) as _);
+        stats.lines = Some(0);
+    }
+
+    if config.words {
+        let counter = WordCounter::new().layer(Identity::new());
+        eaters.push(Box::new(StatsCounter::new(counter, Default::default())) as _);
+        stats.words = Some(0);
+    }
+
+    if config.characters {
+        let counter = CharCounter::new().layer(Identity::new());
+        eaters.push(Box::new(StatsCounter::new(counter, Default::default())) as _);
+        stats.chars = Some(0);
+    }
+
+    (eaters, stats)
+}
+
 pub async fn run(config: Config) -> Result<()> {
+    let (eaters, stats) = setup(&config);
     let Config {
         from_stdin,
         files,
         json,
         ..
     } = config;
-
-    // Setup middleware
-    let counter = ServiceBuilder::new()
-        .layer(ByteCounter::new())
-        .layer(LineCounter::new(Default::default()))
-        .layer(WordCounter::new())
-        .service(Identity::new());
-
-    let zero: usize = 0;
-    let stats = StatsBuilder::default()
-        .bytes(zero)
-        .lines(zero)
-        .words(zero)
-        .build()
-        .unwrap();
-    let state = Default::default();
 
     // Setup printer
     let printer: Box<dyn Printer + Send + Sync> = if json {
@@ -50,14 +70,14 @@ pub async fn run(config: Config) -> Result<()> {
     if from_stdin {
         // File list provided by stdin
         let files = util::stdin_to_path_stream().await;
-        count_files(files, &counter, stats, state, printer).await?;
+        count_files(files, eaters, stats, printer).await?;
     } else if files.is_empty() {
         // Process stdin
-        count_stdin(&counter, stats, state, printer).await?;
+        count_stdin(eaters, stats, printer).await?;
     } else {
         // File list provided as arguments
         let files = tokio_stream::iter(files.into_iter()).map(Ok);
-        count_files(files, &counter, stats, state, printer).await?;
+        count_files(files, eaters, stats, printer).await?;
     };
 
     Ok(())

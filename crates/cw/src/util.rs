@@ -1,4 +1,7 @@
-use libcw::counter::{Collapse, Counter};
+use libcw::{
+    counter::{Collapse, Counter},
+    Stats,
+};
 use std::path::Path;
 use tokio::{
     fs::File,
@@ -6,18 +9,15 @@ use tokio::{
 };
 use tokio_stream::{wrappers::LinesStream, Stream};
 
-pub async fn count_bufreader<R, C, S, O, F>(
+use crate::statefull_counter::Eat;
+
+pub async fn count_bufreader<R>(
     mut reader: R,
-    counter: &C,
-    mut state: S,
-    collapsable: F,
-) -> std::io::Result<F>
+    eaters: &mut [Box<dyn Eat>],
+    collapsable: Stats,
+) -> std::io::Result<Stats>
 where
     R: AsyncBufRead + Unpin,
-    C: Counter<State = S, Output = O>,
-    S: 'static,
-    F: 'static,
-    O: Collapse<F>,
 {
     let mut amount = 0;
     loop {
@@ -26,9 +26,14 @@ where
         amount = buff.len();
 
         if amount == 0 {
-            return Ok(counter.terminate(state).collapse(collapsable));
+            let obtained = eaters
+                .iter_mut()
+                .fold(collapsable, |acc, next| next.terminate(acc));
+            return Ok(obtained);
         } else {
-            state = counter.parse(buff, state);
+            for eater in eaters.iter_mut() {
+                eater.eat(buff)
+            }
         }
     }
 }

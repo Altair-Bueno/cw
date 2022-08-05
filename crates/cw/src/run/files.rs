@@ -6,25 +6,22 @@ use std::io::Result;
 
 use tokio_stream::{Stream, StreamExt};
 
-use crate::{print::Printer, util};
+use crate::{print::Printer, statefull_counter::Eat, util};
 
 /// Async runner for files
-pub async fn count_files<F, C, S, O>(
+pub async fn count_files<F>(
     mut files: F,
-    counter: &C,
+    eaters: Vec<Box<dyn Eat>>,
     stats: Stats,
-    state: S,
     mut printer: Box<dyn Printer>,
 ) -> std::io::Result<()>
 where
     F: Stream<Item = Result<String>> + Unpin,
-    C: Counter<State = S, Output = O>,
-    O: Collapse<Stats> + Clone,
-    S: Clone + 'static,
 {
     while let Some(next) = files.next().await {
+        let mut eaters: Vec<_> = eaters.iter().map(|x| dyn_clone::clone_box(&**x)).collect();
         let next = next?;
-        let result = get_result(next.as_str(), counter, stats, state.clone()).await;
+        let result = get_result(next.as_str(), &mut eaters, stats).await;
         printer.print((next, result)).await?;
     }
 
@@ -32,12 +29,7 @@ where
     Ok(())
 }
 
-async fn get_result<C, S, O>(next: &str, counter: &C, stats: Stats, state: S) -> Result<Stats>
-where
-    C: Counter<State = S, Output = O>,
-    O: Collapse<Stats> + Clone,
-    S: Clone + 'static,
-{
+async fn get_result(next: &str, eaters: &mut [Box<dyn Eat>], stats: Stats) -> Result<Stats> {
     let reader = util::path_to_bufread(next).await?;
-    util::count_bufreader(reader, counter, state, stats).await
+    util::count_bufreader(reader, eaters, stats).await
 }

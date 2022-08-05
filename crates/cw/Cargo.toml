@@ -22,6 +22,7 @@ tower = "0.4.13"
 anymap = "0.12.1"
 eyre = "0.6.8"
 derive_builder = "0.11.2"
+dyn-clone = "1.0.9"
 
 [dependencies.mimalloc]
 version = "0.1.28"

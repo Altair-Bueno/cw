@@ -20,8 +20,8 @@ use config::Config;
 mod config;
 mod print;
 mod run;
+mod statefull_counter;
 mod util;
-mod obelisk;
 use eyre::Result;
 use run::run;
 
