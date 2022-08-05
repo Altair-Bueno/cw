@@ -49,6 +49,6 @@ impl Display for Stats {
         list.into_iter()
             .flatten()
             .map(|x| write!(f, "{}\t", x))
-            .fold(Ok(()), |acc, n| acc.and(n))
+            .fold(Ok(()), Result::and)
     }
 }
