@@ -5,8 +5,7 @@ use tokio::io::{stderr, stdout, AsyncWriteExt, BufWriter, Stderr, Stdout};
 
 use super::{Message, Printer};
 
-const TOTAL: &str = "total";
-
+#[derive(Debug)]
 pub struct StdoutPrinter {
     canary: u8,
     stdout: BufWriter<Stdout>,
@@ -61,7 +60,7 @@ impl Printer for StdoutPrinter {
 
         if *canary == 0 {
             // Total files
-            let s = format!("{}{}\n", total.to_string().as_str().green(), TOTAL.green());
+            let s = format!("{}\n", total.to_string().as_str().bold().green());
             let _ignore = stdout.write(s.as_bytes()).await?;
             stdout.flush().await?;
             stderr.flush().await?;
