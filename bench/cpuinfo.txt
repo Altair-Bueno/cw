@@ -5,7 +5,7 @@ model		: 106
 model name	: Intel(R) Xeon(R) Platinum 8370C CPU @ 2.80GHz
 stepping	: 6
 microcode	: 0xffffffff
-cpu MHz		: 2793.437
+cpu MHz		: 2793.436
 cache size	: 49152 KB
 physical id	: 0
 siblings	: 2
@@ -32,7 +32,7 @@ model		: 106
 model name	: Intel(R) Xeon(R) Platinum 8370C CPU @ 2.80GHz
 stepping	: 6
 microcode	: 0xffffffff
-cpu MHz		: 2793.437
+cpu MHz		: 2793.436
 cache size	: 49152 KB
 physical id	: 0
 siblings	: 2
