@@ -1,3 +1,7 @@
+# Deprecated. Use [wz](https://github.com/Altair-Bueno/wz) instead!
+
+---
+
 # cw
 
 <!-- cargo-sync-readme start -->
